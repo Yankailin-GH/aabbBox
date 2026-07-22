@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="theme-color" content="#f6f7fb" />
+    <title>工具箱</title>
+    <link rel="stylesheet" href="./src/styles/base.css" />
+    <link rel="stylesheet" href="./src/styles/components.css" />
+    <link rel="stylesheet" href="./src/styles/home.css" />
+    <link rel="stylesheet" href="./src/tools/scoreboard/style.css" />
+  </head>
+  <body>
+    <noscript>
+      <p class="fallback-message">当前页面需要启用 JavaScript。</p>
+    </noscript>
+    <div id="app" v-cloak>
+      <main :class="['phone-shell', { 'tool-shell': currentPage !== 'home' }]">
+        <template v-if="currentPage === 'home'">
+          <header class="app-header">
+            <div class="status-row" aria-hidden="true">
+              <span>9:41</span>
+              <span class="status-icons">
+                <span class="signal-icon">
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                </span>
+                <span class="wifi-icon"></span>
+                <span class="battery-icon"></span>
+              </span>
+            </div>
+
+            <section class="topbar">
+              <div>
+                <p class="eyebrow">{{ greeting }}</p>
+                <h1>工具箱</h1>
+              </div>
+              <button class="icon-button" type="button" aria-label="消息">
+                <span class="bell-shape"></span>
+              </button>
+            </section>
+
+            <label class="search-field" for="tool-search">
+              <span class="search-icon" aria-hidden="true"></span>
+              <input
+                id="tool-search"
+                v-model.trim="keyword"
+                type="search"
+                inputmode="search"
+                autocomplete="off"
+                placeholder="搜索工具"
+              />
+            </label>
+          </header>
+
+          <section class="quick-row" aria-label="快捷入口">
+            <button
+              v-for="action in quickActions"
+              :key="action.label"
+              class="quick-action"
+              type="button"
+              @click="handleQuickAction(action)"
+            >
+              <span :class="['quick-icon', action.theme]">{{ action.icon }}</span>
+              <span>{{ action.label }}</span>
+            </button>
+          </section>
+
+          <section class="section-header">
+            <h2>常用工具</h2>
+            <button type="button" @click="setCategory('全部')">全部</button>
+          </section>
+
+          <nav class="category-tabs" aria-label="工具分类">
+            <button
+              v-for="category in categories"
+              :key="category"
+              :class="{ active: selectedCategory === category }"
+              type="button"
+              @click="setCategory(category)"
+            >
+              {{ category }}
+            </button>
+          </nav>
+
+          <section class="tool-grid" aria-live="polite">
+            <button
+              v-for="tool in filteredTools"
+              :key="tool.id"
+              class="tool-card"
+              type="button"
+              @click="openTool(tool)"
+            >
+              <span :class="['tool-icon', tool.theme]">{{ tool.icon }}</span>
+              <span class="tool-name">{{ tool.name }}</span>
+              <span class="tool-desc">{{ tool.desc }}</span>
+              <span v-if="tool.badge" class="tool-badge">{{ tool.badge }}</span>
+            </button>
+
+            <div v-if="filteredTools.length === 0" class="empty-state">
+              <span class="empty-icon">⌕</span>
+              <p>没有找到相关工具</p>
+            </div>
+          </section>
+
+          <section class="section-header recent-title">
+            <h2>最近使用</h2>
+            <button type="button" @click="clearRecent">清空</button>
+          </section>
+
+          <section class="recent-list">
+            <button
+              v-for="tool in recentTools"
+              :key="tool.id"
+              class="recent-item"
+              type="button"
+              @click="openTool(tool)"
+            >
+              <span :class="['mini-icon', tool.theme]">{{ tool.icon }}</span>
+              <span>{{ tool.name }}</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </button>
+            <p v-if="recentTools.length === 0" class="recent-empty">暂无记录</p>
+          </section>
+        </template>
+
+        <component
+          v-else-if="currentPage === 'tool'"
+          :is="currentToolComponent"
+          :tool="activeTool"
+          @go-home="goHome"
+        ></component>
+
+        <template v-else>
+          <header class="app-header tool-header">
+            <div class="status-row" aria-hidden="true">
+              <span>9:41</span>
+              <span class="status-icons">
+                <span class="signal-icon">
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                </span>
+                <span class="wifi-icon"></span>
+                <span class="battery-icon"></span>
+              </span>
+            </div>
+            <section class="tool-nav">
+              <button class="icon-button nav-back" type="button" aria-label="返回首页" @click="goHome">
+                <span class="back-icon"></span>
+              </button>
+              <div class="tool-title">
+                <p class="eyebrow">{{ placeholderTool.category }}</p>
+                <h1>{{ placeholderTool.name }}</h1>
+              </div>
+            </section>
+          </header>
+          <section class="placeholder-panel">
+            <span :class="['tool-icon', placeholderTool.theme]">{{ placeholderTool.icon }}</span>
+            <h2>{{ placeholderTool.name }}即将接入</h2>
+          </section>
+        </template>
+
+        <div class="home-indicator" aria-hidden="true"></div>
+      </main>
+
+      <transition name="toast">
+        <div v-if="toast" class="toast" role="status">{{ toast }}</div>
+      </transition>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script src="./src/tools/scoreboard/component.js"></script>
+    <script src="./src/tools/index.js"></script>
+    <script src="./src/main.js"></script>
+  </body>
+</html>

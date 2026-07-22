@@ -1,0 +1,244 @@
+.search-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  height: 44px;
+  margin-top: 16px;
+  padding: 0 14px;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 12px 28px rgba(31, 41, 55, 0.08);
+}
+
+.search-icon {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #7b8494;
+  border-radius: 50%;
+}
+
+.search-icon::after {
+  position: absolute;
+  right: -5px;
+  bottom: -4px;
+  width: 7px;
+  height: 2px;
+  background: #7b8494;
+  border-radius: 999px;
+  content: "";
+  transform: rotate(45deg);
+}
+
+.search-field input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text);
+  font-size: 16px;
+}
+
+.search-field input::placeholder {
+  color: #9aa3b2;
+}
+
+.quick-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  padding: 18px 0 4px;
+}
+
+.quick-action {
+  display: grid;
+  min-width: 0;
+  place-items: center;
+  gap: 8px;
+  min-height: 82px;
+  padding: 10px 4px;
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--text);
+  box-shadow: 0 12px 28px rgba(31, 41, 55, 0.08);
+}
+
+.quick-action span:last-child {
+  max-width: 100%;
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.category-tabs {
+  display: flex;
+  gap: 8px;
+  margin: 0 -16px;
+  padding: 0 16px 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.category-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.category-tabs button {
+  flex: 0 0 auto;
+  min-width: 58px;
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.74);
+  color: #566071;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.category-tabs button.active {
+  background: #111827;
+  color: #ffffff;
+}
+
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.tool-card {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  min-height: 132px;
+  align-content: start;
+  gap: 8px;
+  padding: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  text-align: left;
+  box-shadow: var(--shadow);
+}
+
+.tool-name {
+  max-width: 100%;
+  overflow: hidden;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tool-desc {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.tool-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  max-width: 58px;
+  overflow: hidden;
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: rgba(17, 24, 39, 0.08);
+  color: #344054;
+  font-size: 11px;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  display: grid;
+  min-height: 160px;
+  place-items: center;
+  align-content: center;
+  gap: 8px;
+  border: 1px dashed rgba(104, 112, 131, 0.3);
+  border-radius: var(--radius);
+  color: var(--muted);
+}
+
+.empty-icon {
+  font-size: 34px;
+  line-height: 1;
+}
+
+.recent-title {
+  padding-top: 22px;
+}
+
+.recent-list {
+  display: grid;
+  gap: 8px;
+  padding-bottom: 40px;
+}
+
+.recent-item {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) 12px;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 9px 12px 9px 9px;
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--text);
+  text-align: left;
+  box-shadow: 0 10px 24px rgba(31, 41, 55, 0.06);
+}
+
+.recent-item span:nth-child(2) {
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chevron {
+  width: 9px;
+  height: 9px;
+  border-top: 2px solid #a2aabd;
+  border-right: 2px solid #a2aabd;
+  transform: rotate(45deg);
+}
+
+.recent-empty {
+  min-height: 46px;
+  padding: 14px 0;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+}
+
+@media (max-width: 360px) {
+  .tool-card {
+    min-height: 126px;
+    padding: 12px;
+  }
+
+  .tool-name {
+    font-size: 15px;
+  }
+}

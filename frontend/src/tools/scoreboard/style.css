@@ -1,0 +1,343 @@
+.score-overview {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  padding: 18px 0 0;
+}
+
+.score-overview div {
+  min-width: 0;
+  min-height: 70px;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.74);
+  box-shadow: 0 12px 28px rgba(31, 41, 55, 0.08);
+}
+
+.score-overview span {
+  display: block;
+  overflow: hidden;
+  color: var(--text);
+  font-size: 20px;
+  font-weight: 850;
+  line-height: 1.1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.score-overview p {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.score-section {
+  display: grid;
+  gap: 10px;
+}
+
+.score-section .section-header {
+  padding-top: 20px;
+  padding-bottom: 0;
+}
+
+.score-panel,
+.score-input-panel,
+.add-player-panel {
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: var(--shadow);
+}
+
+.score-table-wrap {
+  width: 100%;
+  max-height: 352px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.score-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.score-table th,
+.score-table td {
+  height: 44px;
+  padding: 0 8px;
+  border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+  font-size: 14px;
+  font-weight: 700;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.score-table th:first-child,
+.score-table td:first-child {
+  width: 56px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.score-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.score-table thead th {
+  position: sticky;
+  z-index: 2;
+  background: rgba(248, 250, 252, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.score-table .name-row th {
+  top: 0;
+}
+
+.score-table .total-row th {
+  top: 44px;
+}
+
+.editable-score-name {
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.score {
+  color: var(--text);
+}
+
+.score.positive {
+  color: #ef4444;
+  font-weight: 850;
+}
+
+.score.negative {
+  color: #16a34a;
+  font-weight: 850;
+}
+
+.score-form-row {
+  display: grid;
+  grid-template-columns: minmax(76px, 1fr) 46px minmax(88px, 1.2fr);
+  align-items: center;
+  gap: 10px;
+  min-height: 58px;
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+}
+
+.score-form-row:last-child {
+  border-bottom: 0;
+}
+
+.score-form-row.auto-target {
+  background: rgba(239, 246, 255, 0.72);
+}
+
+.score-player-label {
+  display: grid;
+  min-width: 0;
+  gap: 2px;
+  font-size: 16px;
+  font-weight: 850;
+}
+
+.score-player-label span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.score-player-label small {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.score-toggle {
+  width: 46px;
+  height: 34px;
+  border-radius: var(--radius);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 850;
+}
+
+.score-toggle.win {
+  background: #ef4444;
+}
+
+.score-toggle.lose {
+  background: #16a34a;
+}
+
+.score-form-row input,
+.add-player-panel input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text);
+  font-size: 17px;
+}
+
+.score-form-row input {
+  text-align: right;
+}
+
+.score-form-row input:disabled {
+  color: #111827;
+  opacity: 1;
+}
+
+.score-form-row input::placeholder,
+.add-player-panel input::placeholder {
+  color: #9aa3b2;
+}
+
+.score-toggle:active,
+.submit-score-btn:active,
+.add-player-panel button:active {
+  transform: scale(0.98);
+}
+
+.submit-score-btn {
+  width: 100%;
+  min-height: 48px;
+  border-radius: var(--radius);
+  background: #111827;
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 850;
+  box-shadow: 0 16px 34px rgba(17, 24, 39, 0.18);
+}
+
+.add-player-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  min-height: 54px;
+  padding: 8px 10px 8px 14px;
+}
+
+.add-player-panel button {
+  min-width: 58px;
+  height: 36px;
+  border-radius: 999px;
+  background: #2765d8;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 850;
+}
+
+.score-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(17, 24, 39, 0.36);
+}
+
+.score-modal-box {
+  width: min(100%, 292px);
+  overflow: hidden;
+  border-radius: 14px;
+  background: rgba(249, 250, 252, 0.94);
+  text-align: center;
+  box-shadow: 0 24px 70px rgba(17, 24, 39, 0.28);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+}
+
+.score-modal-title {
+  padding: 20px 16px 6px;
+  font-size: 17px;
+  font-weight: 850;
+}
+
+.score-modal-message {
+  padding: 0 18px 18px;
+  color: #303746;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.score-modal-input-wrap {
+  padding: 2px 16px 18px;
+}
+
+.score-modal-input {
+  width: 100%;
+  height: 34px;
+  border: 1px solid rgba(17, 24, 39, 0.16);
+  border-radius: 6px;
+  outline: 0;
+  background: #ffffff;
+  color: var(--text);
+  font-size: 14px;
+  text-align: center;
+}
+
+.score-modal-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid rgba(17, 24, 39, 0.12);
+}
+
+.score-modal-actions button:only-child {
+  grid-column: 1 / -1;
+}
+
+.score-modal-actions button {
+  min-height: 46px;
+  border-right: 1px solid rgba(17, 24, 39, 0.12);
+  background: transparent;
+  color: #2765d8;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.score-modal-actions button:last-child {
+  border-right: 0;
+  font-weight: 850;
+}
+
+.score-modal-actions button.danger {
+  color: #ef4444;
+}
+
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.18s ease;
+}
+
+.modal-enter-active .score-modal-box,
+.modal-leave-active .score-modal-box {
+  transition: transform 0.18s ease;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
+
+.modal-enter-from .score-modal-box,
+.modal-leave-to .score-modal-box {
+  transform: scale(1.06);
+}
