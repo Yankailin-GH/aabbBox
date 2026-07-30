@@ -11,6 +11,12 @@
     <link rel="stylesheet" href="./src/styles/components.css" />
     <link rel="stylesheet" href="./src/styles/home.css" />
     <link rel="stylesheet" href="./src/tools/scoreboard/style.css" />
+    <link rel="stylesheet" href="./src/tools/lucky-wheel/style.css" />
+    <link rel="stylesheet" href="./src/tools/json-format/style.css" />
+    <link rel="stylesheet" href="./src/tools/random-generator/style.css" />
+    <link rel="stylesheet" href="./src/tools/image-compress/style.css" />
+    <link rel="stylesheet" href="./src/tools/mini-tools/style.css" />
+    <link rel="stylesheet" href="./src/tools/teleprompter/style.css" />
   </head>
   <body>
     <noscript>
@@ -20,27 +26,14 @@
       <main :class="['phone-shell', { 'tool-shell': currentPage !== 'home' }]">
         <template v-if="currentPage === 'home'">
           <header class="app-header">
-            <div class="status-row" aria-hidden="true">
-              <span>9:41</span>
-              <span class="status-icons">
-                <span class="signal-icon">
-                  <i></i>
-                  <i></i>
-                  <i></i>
-                  <i></i>
-                </span>
-                <span class="wifi-icon"></span>
-                <span class="battery-icon"></span>
-              </span>
-            </div>
-
             <section class="topbar">
               <div>
                 <p class="eyebrow">{{ greeting }}</p>
                 <h1>工具箱</h1>
               </div>
-              <button class="icon-button" type="button" aria-label="消息">
-                <span class="bell-shape"></span>
+              <button class="settings-button" type="button" aria-label="打开设置" @click="openSettings">
+                <span class="settings-icon" aria-hidden="true"></span>
+                <span>设置</span>
               </button>
             </section>
 
@@ -137,19 +130,6 @@
 
         <template v-else>
           <header class="app-header tool-header">
-            <div class="status-row" aria-hidden="true">
-              <span>9:41</span>
-              <span class="status-icons">
-                <span class="signal-icon">
-                  <i></i>
-                  <i></i>
-                  <i></i>
-                  <i></i>
-                </span>
-                <span class="wifi-icon"></span>
-                <span class="battery-icon"></span>
-              </span>
-            </div>
             <section class="tool-nav">
               <button class="icon-button nav-back" type="button" aria-label="返回首页" @click="goHome">
                 <span class="back-icon"></span>
@@ -172,10 +152,35 @@
       <transition name="toast">
         <div v-if="toast" class="toast" role="status">{{ toast }}</div>
       </transition>
+
+      <transition name="modal">
+        <div v-if="settingsOpen" class="settings-modal-overlay" @click.self="closeSettings">
+          <section class="settings-modal-box" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+            <div class="settings-modal-header">
+              <h2 id="settings-title">设置</h2>
+              <button class="settings-close" type="button" aria-label="关闭设置" @click="closeSettings"></button>
+            </div>
+            <button
+              :class="['settings-item', 'danger', { confirming: cacheConfirming }]"
+              type="button"
+              @click="clearAllCache"
+            >
+              <span>{{ cacheConfirming ? '再次点击确认' : '清理全部缓存' }}</span>
+              <small>最近使用、工具配置和本地数据</small>
+            </button>
+          </section>
+        </div>
+      </transition>
     </div>
 
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <script src="./src/tools/scoreboard/component.js"></script>
+    <script src="./src/tools/lucky-wheel/component.js"></script>
+    <script src="./src/tools/json-format/component.js"></script>
+    <script src="./src/tools/random-generator/component.js"></script>
+    <script src="./src/tools/image-compress/component.js"></script>
+    <script src="./src/tools/mini-tools/component.js"></script>
+    <script src="./src/tools/teleprompter/component.js"></script>
     <script src="./src/tools/index.js"></script>
     <script src="./src/main.js"></script>
   </body>

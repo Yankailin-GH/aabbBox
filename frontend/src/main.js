@@ -18,7 +18,10 @@
       const toast = ref("");
       const route = ref(getRoute());
       const recentIds = ref(loadRecentIds());
+      const settingsOpen = ref(false);
+      const cacheConfirming = ref(false);
       let toastTimer = 0;
+      let cacheConfirmTimer = 0;
 
       const greeting = computed(() => {
         const hour = new Date().getHours();
@@ -138,6 +141,44 @@
         showToast("已清空最近使用");
       }
 
+      function openSettings() {
+        cacheConfirming.value = false;
+        settingsOpen.value = true;
+      }
+
+      function closeSettings() {
+        cacheConfirming.value = false;
+        settingsOpen.value = false;
+        window.clearTimeout(cacheConfirmTimer);
+      }
+
+      function clearAllCache() {
+        if (!cacheConfirming.value) {
+          cacheConfirming.value = true;
+          window.clearTimeout(cacheConfirmTimer);
+          cacheConfirmTimer = window.setTimeout(() => {
+            cacheConfirming.value = false;
+          }, 2600);
+          showToast("再次点击确认清理");
+          return;
+        }
+
+        try {
+          localStorage.clear();
+          sessionStorage.clear();
+        } catch (error) {
+          cacheConfirming.value = false;
+          showToast("清理失败，请稍后重试");
+          return;
+        }
+
+        recentIds.value = [];
+        keyword.value = "";
+        selectedCategory.value = "全部";
+        closeSettings();
+        showToast("已清理全部缓存");
+      }
+
       function pushRecent(id) {
         recentIds.value = [id, ...recentIds.value.filter((item) => item !== id)].slice(0, 4);
         localStorage.setItem(recentStorageKey, JSON.stringify(recentIds.value));
@@ -169,12 +210,16 @@
 
       onBeforeUnmount(() => {
         window.removeEventListener("hashchange", syncRoute);
+        window.clearTimeout(cacheConfirmTimer);
       });
 
       return {
         activeTool,
+        cacheConfirming,
         categories,
+        clearAllCache,
         clearRecent,
+        closeSettings,
         currentPage,
         currentToolComponent,
         filteredTools,
@@ -182,12 +227,14 @@
         greeting,
         handleQuickAction,
         keyword,
+        openSettings,
         openTool,
         placeholderTool,
         quickActions,
         recentTools,
         selectedCategory,
         setCategory,
+        settingsOpen,
         toast,
       };
     },

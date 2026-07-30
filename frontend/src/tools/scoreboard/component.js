@@ -26,20 +26,6 @@
     template: `
       <section>
         <header class="app-header tool-header">
-          <div class="status-row" aria-hidden="true">
-            <span>9:41</span>
-            <span class="status-icons">
-              <span class="signal-icon">
-                <i></i>
-                <i></i>
-                <i></i>
-                <i></i>
-              </span>
-              <span class="wifi-icon"></span>
-              <span class="battery-icon"></span>
-            </span>
-          </div>
-
           <section class="tool-nav">
             <button class="icon-button nav-back" type="button" aria-label="返回首页" @click="goHome">
               <span class="back-icon"></span>

@@ -1,0 +1,246 @@
+.json-overview {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  padding: 18px 0 0;
+}
+
+.json-overview div,
+.json-summary div {
+  min-width: 0;
+  min-height: 66px;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.76);
+  box-shadow: 0 12px 28px rgba(31, 41, 55, 0.08);
+}
+
+.json-overview span,
+.json-summary span {
+  display: block;
+  overflow: hidden;
+  color: var(--text);
+  font-size: 19px;
+  font-weight: 850;
+  line-height: 1.12;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.json-overview p,
+.json-summary p {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.json-section {
+  display: grid;
+  gap: 10px;
+}
+
+.json-section .section-header {
+  padding-top: 20px;
+  padding-bottom: 0;
+}
+
+.json-editor {
+  width: 100%;
+  min-height: 190px;
+  resize: vertical;
+  padding: 13px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  border-radius: var(--radius);
+  outline: 0;
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--text);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.55;
+  box-shadow: var(--shadow);
+  white-space: pre-wrap;
+  tab-size: 2;
+}
+
+.json-editor::placeholder {
+  color: #9aa3b2;
+}
+
+.json-controls {
+  display: grid;
+  gap: 10px;
+  padding-top: 14px;
+}
+
+.json-indent-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+  padding: 4px;
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.74);
+  box-shadow: 0 12px 26px rgba(31, 41, 55, 0.08);
+}
+
+.json-indent-tabs button {
+  min-height: 34px;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 850;
+}
+
+.json-indent-tabs button.active {
+  background: #111827;
+  color: #ffffff;
+  box-shadow: 0 10px 20px rgba(17, 24, 39, 0.14);
+}
+
+.json-action-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.json-action-grid button {
+  min-width: 0;
+  min-height: 42px;
+  padding: 0 6px;
+  border-radius: var(--radius);
+  background: #111827;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 850;
+}
+
+.json-action-grid button:nth-child(2),
+.json-action-grid button:nth-child(5) {
+  background: rgba(255, 255, 255, 0.82);
+  color: #2765d8;
+}
+
+.json-action-grid button:nth-child(3),
+.json-action-grid button:nth-child(4) {
+  background: #2765d8;
+}
+
+.json-action-grid button:nth-child(6) {
+  background: #20a86b;
+}
+
+.json-indent-tabs button:active,
+.json-action-grid button:active {
+  transform: scale(0.98);
+}
+
+.json-notice {
+  display: grid;
+  gap: 5px;
+  margin-top: 14px;
+  padding: 12px 13px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(17, 24, 39, 0.08);
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 12px 28px rgba(31, 41, 55, 0.08);
+}
+
+.json-notice strong {
+  font-size: 14px;
+  font-weight: 850;
+}
+
+.json-notice p {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+.json-notice small {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.json-notice.success {
+  border-color: rgba(32, 168, 107, 0.18);
+  background: rgba(236, 253, 245, 0.82);
+}
+
+.json-notice.success strong {
+  color: #15803d;
+}
+
+.json-notice.error {
+  border-color: rgba(239, 68, 68, 0.18);
+  background: rgba(254, 242, 242, 0.88);
+}
+
+.json-notice.error strong {
+  color: #ef4444;
+}
+
+.json-error-marker {
+  display: grid;
+  gap: 7px;
+  margin-top: 10px;
+  padding: 12px 13px;
+  overflow: hidden;
+  border: 1px solid rgba(239, 68, 68, 0.18);
+  border-radius: var(--radius);
+  background: rgba(254, 242, 242, 0.92);
+  box-shadow: 0 12px 28px rgba(31, 41, 55, 0.08);
+}
+
+.json-error-marker div {
+  overflow: auto;
+  color: #374151;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 13px;
+  font-weight: 750;
+  line-height: 1.55;
+  white-space: pre;
+  -webkit-overflow-scrolling: touch;
+}
+
+.json-error-marker mark {
+  display: inline-block;
+  min-width: 12px;
+  padding: 0 3px;
+  border-radius: 4px;
+  background: #ef4444;
+  color: #ffffff;
+}
+
+.json-error-marker small {
+  color: #ef4444;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.json-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  padding-top: 14px;
+}
+
+.json-summary div {
+  min-height: 62px;
+  padding: 10px;
+}
+
+@media (max-width: 360px) {
+  .json-action-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .json-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
