@@ -405,6 +405,7 @@
 }
 
 @media (max-width: 360px) {
+
   .app-header,
   .category-tabs {
     margin-right: -12px;

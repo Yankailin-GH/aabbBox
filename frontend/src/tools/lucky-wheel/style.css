@@ -1,45 +1,79 @@
+/* ==========================================================================
+   Lucky Wheel Tool Styles - Multi-Style Architecture
+   Themes: Classic (原版经典), Cyber Neon (赛博霓虹), Golden Luxury (盛典华金), Macaron Pop (马卡龙潮玩)
+   ========================================================================== */
+
+.lucky-wheel-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  position: relative;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* --------------------------------------------------------------------------
+   View Tabs (抽奖 / 配置)
+   -------------------------------------------------------------------------- */
 .wheel-tabs {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 4px;
-  margin-top: 14px;
+  margin-top: 6px;
+  margin-bottom: 4px;
   padding: 4px;
-  border-radius: var(--radius);
+  border-radius: var(--radius, 10px);
   background: rgba(255, 255, 255, 0.74);
-  box-shadow: 0 12px 26px rgba(31, 41, 55, 0.08);
+  box-shadow: 0 6px 16px rgba(31, 41, 55, 0.05);
 }
 
 .wheel-tabs button {
-  min-height: 34px;
-  border-radius: 6px;
+  min-height: 36px;
+  border-radius: 8px;
   background: transparent;
-  color: var(--muted);
+  color: var(--muted, #687083);
   font-size: 14px;
-  font-weight: 850;
+  font-weight: 800;
+  transition: all 0.2s ease;
 }
 
 .wheel-tabs button.active {
   background: #111827;
   color: #ffffff;
-  box-shadow: 0 10px 20px rgba(17, 24, 39, 0.14);
+  box-shadow: 0 6px 16px rgba(17, 24, 39, 0.14);
 }
 
-.wheel-hero {
-  display: grid;
-  gap: 18px;
-  padding-top: 18px;
+/* --------------------------------------------------------------------------
+   First Screen Hero: 手机1屏展示转盘 (适配 iPhone 15 等机型)
+   -------------------------------------------------------------------------- */
+.wheel-hero.wheel-first-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 520px;
+  padding: 8px 0 16px;
+  position: relative;
+}
+
+@media (min-height: 750px) {
+  .wheel-hero.wheel-first-screen {
+    min-height: 560px;
+  }
 }
 
 .wheel-stage {
   display: grid;
   place-items: center;
-  padding: 18px 8px 8px;
+  padding: 8px;
+  position: relative;
+  width: 100%;
 }
 
 .wheel-wrap {
   position: relative;
   display: grid;
-  width: min(100%, 316px);
+  width: min(84vw, 306px);
+  max-width: 320px;
   aspect-ratio: 1;
   place-items: center;
   border-radius: 50%;
@@ -47,16 +81,17 @@
     radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.9) 0 16%, transparent 17%),
     conic-gradient(from -24deg, #ff9500, #ff2d55, #af52de, #007aff, #34c759, #ffcc00, #ff9500);
   box-shadow:
-    0 24px 46px rgba(31, 41, 55, 0.18),
-    inset 0 0 0 12px rgba(255, 255, 255, 0.76);
+    0 20px 42px rgba(31, 41, 55, 0.16),
+    inset 0 0 0 10px rgba(255, 255, 255, 0.76);
+  transition: all 0.3s ease;
 }
 
 .wheel-wrap::before {
   position: absolute;
-  inset: 12px;
+  inset: 10px;
   z-index: 1;
   border-radius: 50%;
-  box-shadow: inset 0 0 0 8px rgba(255, 255, 255, 0.88);
+  box-shadow: inset 0 0 0 7px rgba(255, 255, 255, 0.88);
   content: "";
   pointer-events: none;
 }
@@ -64,59 +99,697 @@
 .wheel-canvas {
   position: relative;
   z-index: 0;
-  width: calc(100% - 18px);
-  height: calc(100% - 18px);
+  width: calc(100% - 16px);
+  height: calc(100% - 16px);
   border-radius: 50%;
-  transition: transform 4s cubic-bezier(0.1, 0.9, 0.2, 1);
+  transition: transform 4.2s cubic-bezier(0.12, 0.88, 0.22, 1);
+  will-change: transform;
 }
 
 .wheel-canvas.no-transition {
   transition: none;
 }
 
+/* 经典指针 */
 .wheel-marker {
   position: absolute;
-  top: -3px;
+  top: -4px;
   left: 50%;
-  z-index: 3;
+  z-index: 5;
   width: 0;
   height: 0;
-  border-right: 13px solid transparent;
-  border-left: 13px solid transparent;
-  border-top: 26px solid #111827;
-  filter: drop-shadow(0 8px 12px rgba(17, 24, 39, 0.22));
+  border-right: 12px solid transparent;
+  border-left: 12px solid transparent;
+  border-top: 24px solid #111827;
+  filter: drop-shadow(0 6px 10px rgba(17, 24, 39, 0.22));
   transform: translateX(-50%);
+  pointer-events: none;
+  transition: transform 0.15s ease;
 }
 
+.wheel-marker.marker-bob {
+  animation: markerFlick 0.15s ease-in-out;
+}
+
+@keyframes markerFlick {
+  0% { transform: translateX(-50%) rotate(0deg); }
+  50% { transform: translateX(-50%) rotate(-8deg); }
+  100% { transform: translateX(-50%) rotate(0deg); }
+}
+
+/* 经典GO按钮 */
 .wheel-go {
   position: absolute;
   z-index: 4;
   display: grid;
-  width: 86px;
-  height: 86px;
+  width: 82px;
+  height: 82px;
   place-items: center;
-  border: 7px solid rgba(255, 255, 255, 0.94);
+  border: 6px solid rgba(255, 255, 255, 0.94);
   border-radius: 50%;
   background: linear-gradient(160deg, #ffffff, #f5f7fb);
   color: #111827;
   box-shadow:
-    0 18px 28px rgba(17, 24, 39, 0.18),
-    inset 0 -8px 18px rgba(31, 41, 55, 0.07);
+    0 16px 26px rgba(17, 24, 39, 0.18),
+    inset 0 -6px 14px rgba(31, 41, 55, 0.07);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
 }
 
 .wheel-go span {
   display: grid;
-  width: 58px;
-  height: 58px;
+  width: 56px;
+  height: 56px;
   place-items: center;
   border-radius: 50%;
   background: #111827;
   color: #ffffff;
-  font-size: 19px;
+  font-size: 18px;
   font-weight: 900;
   line-height: 1;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
+/* 下滑查看提示 */
+.wheel-scroll-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  margin-top: 14px;
+  color: var(--muted, #687083);
+  font-size: 11px;
+  font-weight: 750;
+  opacity: 0.75;
+  user-select: none;
+}
+
+.wheel-scroll-indicator .scroll-arrow {
+  font-size: 13px;
+  animation: floatArrow 1.5s infinite alternate ease-in-out;
+}
+
+@keyframes floatArrow {
+  0% { transform: translateY(0); opacity: 0.5; }
+  100% { transform: translateY(4px); opacity: 1; }
+}
+
+/* ==========================================================================
+   THEME 1: 赛博霓虹 (Cyber Neon)
+   ========================================================================== */
+[data-wheel-theme="cyber"] {
+  --text: #f0f6fc;
+  --muted: #8b949e;
+}
+
+[data-wheel-theme="cyber"] .tool-title h1,
+[data-wheel-theme="cyber"] .tool-title .eyebrow,
+[data-wheel-theme="cyber"] .section-header h2 {
+  color: #58a6ff;
+  text-shadow: 0 0 12px rgba(88, 166, 255, 0.4);
+}
+
+[data-wheel-theme="cyber"] .wheel-tabs {
+  background: rgba(22, 27, 34, 0.85);
+  border: 1px solid rgba(56, 139, 253, 0.25);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+[data-wheel-theme="cyber"] .wheel-tabs button {
+  color: #8b949e;
+}
+
+[data-wheel-theme="cyber"] .wheel-tabs button.active {
+  background: linear-gradient(135deg, #00d2ff, #00f2fe);
+  color: #030712;
+  font-weight: 900;
+  box-shadow: 0 0 16px rgba(0, 242, 254, 0.45);
+}
+
+[data-wheel-theme="cyber"] .wheel-wrap {
+  background:
+    radial-gradient(circle at 50% 50%, #0d1117 0%, #161b22 100%),
+    conic-gradient(from 0deg, #00f2fe, #4facfe, #000, #ff0844, #ffb199, #00f2fe);
+  box-shadow:
+    0 0 35px rgba(0, 242, 254, 0.35),
+    0 24px 50px rgba(0, 0, 0, 0.6),
+    inset 0 0 0 10px #0d1117,
+    inset 0 0 20px rgba(0, 242, 254, 0.5);
+  border: 2px solid #00f2fe;
+}
+
+[data-wheel-theme="cyber"] .wheel-wrap::before {
+  inset: 10px;
+  box-shadow: inset 0 0 0 4px #00f2fe, inset 0 0 15px rgba(0, 242, 254, 0.4);
+  border: 1px dashed rgba(255, 255, 255, 0.4);
+}
+
+[data-wheel-theme="cyber"] .wheel-marker {
+  border-top-color: #00f2fe;
+  filter: drop-shadow(0 0 10px #00f2fe) drop-shadow(0 4px 10px rgba(0, 0, 0, 0.8));
+}
+
+[data-wheel-theme="cyber"] .wheel-go {
+  background: radial-gradient(circle, #161b22 0%, #0d1117 100%);
+  border: 5px solid #00f2fe;
+  box-shadow:
+    0 0 22px rgba(0, 242, 254, 0.6),
+    inset 0 0 15px rgba(0, 242, 254, 0.3);
+}
+
+[data-wheel-theme="cyber"] .wheel-go span {
+  background: linear-gradient(135deg, #00f2fe, #4facfe);
+  color: #0d1117;
+  font-weight: 900;
+  box-shadow: 0 0 12px rgba(0, 242, 254, 0.7);
+}
+
+[data-wheel-theme="cyber"] .draw-prize-panel,
+[data-wheel-theme="cyber"] .history-panel,
+[data-wheel-theme="cyber"] .prize-form-panel,
+[data-wheel-theme="cyber"] .config-prize-list,
+[data-wheel-theme="cyber"] .preset-template-panel,
+[data-wheel-theme="cyber"] .theme-config-panel {
+  background: rgba(13, 17, 23, 0.88);
+  border: 1px solid rgba(56, 139, 253, 0.25);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(56, 139, 253, 0.05);
+}
+
+[data-wheel-theme="cyber"] .theme-config-card {
+  background: rgba(22, 27, 34, 0.9);
+}
+
+[data-wheel-theme="cyber"] .theme-config-card.active {
+  border-color: #00f2fe;
+  box-shadow: 0 0 16px rgba(0, 242, 254, 0.35);
+}
+
+[data-wheel-theme="cyber"] .theme-config-card.active .theme-card-badge {
+  background: #00f2fe;
+  color: #030712;
+}
+
+[data-wheel-theme="cyber"] .sound-toggle-row {
+  background: rgba(22, 27, 34, 0.8);
+  border-color: rgba(56, 139, 253, 0.2);
+}
+
+[data-wheel-theme="cyber"] .sound-toggle-btn {
+  background: #58a6ff;
+  color: #0d1117;
+}
+
+[data-wheel-theme="cyber"] .draw-prize-chip {
+  background: rgba(22, 27, 34, 0.9);
+  color: #f0f6fc;
+  box-shadow: inset 0 0 0 1px rgba(88, 166, 255, 0.25);
+}
+
+[data-wheel-theme="cyber"] .draw-history-list li {
+  border-bottom-color: rgba(56, 139, 253, 0.15);
+}
+
+[data-wheel-theme="cyber"] .history-name {
+  color: #f0f6fc;
+}
+
+[data-wheel-theme="cyber"] .history-index {
+  background: rgba(56, 139, 253, 0.18);
+  color: #58a6ff;
+}
+
+[data-wheel-theme="cyber"] .prize-form-field input,
+[data-wheel-theme="cyber"] .config-fields input,
+[data-wheel-theme="cyber"] .config-name-input {
+  background: rgba(22, 27, 34, 0.95);
+  color: #f0f6fc;
+  border: 1px solid rgba(56, 139, 253, 0.28);
+}
+
+[data-wheel-theme="cyber"] .prize-add-button {
+  background: linear-gradient(135deg, #00d2ff, #00f2fe);
+  color: #030712;
+  box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
+}
+
+/* ==========================================================================
+   THEME 2: 盛典华金 (Golden Luxury)
+   ========================================================================== */
+[data-wheel-theme="luxury"] .tool-title h1 {
+  color: #d97706;
+  background: linear-gradient(135deg, #b45309, #d97706, #f59e0b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-wheel-theme="luxury"] .wheel-tabs {
+  background: rgba(254, 243, 199, 0.7);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+[data-wheel-theme="luxury"] .wheel-tabs button.active {
+  background: linear-gradient(135deg, #d97706, #92400e);
+  color: #fffbeb;
+  box-shadow: 0 6px 16px rgba(180, 83, 9, 0.28);
+}
+
+/* 豪华轮盘跑马灯外圈 */
+.luxury-lights-ring {
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.luxury-light-dot {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #fef08a;
+  box-shadow: 0 0 8px #fef08a, 0 0 16px #eab308;
+  transform: translate(-50%, -50%);
+  transition: all 0.2s ease;
+}
+
+.luxury-light-dot.blink {
+  background: #f59e0b;
+  box-shadow: 0 0 4px #f59e0b;
+  opacity: 0.6;
+}
+
+[data-wheel-theme="luxury"] .wheel-wrap {
+  background:
+    radial-gradient(circle at 50% 50%, #fef3c7 0%, #fde68a 100%),
+    conic-gradient(from 0deg, #d97706, #f59e0b, #fbbf24, #fef08a, #f59e0b, #d97706);
+  border: 5px solid #b45309;
+  box-shadow:
+    0 25px 50px rgba(180, 83, 9, 0.3),
+    0 0 0 5px #fef3c7,
+    0 0 0 9px #d97706,
+    inset 0 0 0 9px #92400e,
+    inset 0 0 20px rgba(245, 158, 11, 0.6);
+}
+
+[data-wheel-theme="luxury"] .wheel-wrap::before {
+  inset: 7px;
+  box-shadow: inset 0 0 0 4px #fbbf24, inset 0 0 10px rgba(180, 83, 9, 0.4);
+  border: 2px dashed #78350f;
+}
+
+[data-wheel-theme="luxury"] .wheel-marker {
+  border-top-color: #b91c1c;
+  filter: drop-shadow(0 0 6px #ef4444) drop-shadow(0 6px 12px rgba(185, 28, 28, 0.4));
+}
+
+[data-wheel-theme="luxury"] .wheel-marker::after {
+  content: "";
+  position: absolute;
+  top: -22px;
+  left: -5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fef08a, #d97706);
+  box-shadow: 0 0 6px #fbbf24;
+}
+
+[data-wheel-theme="luxury"] .wheel-go {
+  background: radial-gradient(circle, #fffbeb 0%, #fde68a 70%, #d97706 100%);
+  border: 5px solid #92400e;
+  box-shadow:
+    0 12px 28px rgba(180, 83, 9, 0.35),
+    inset 0 0 10px #fef08a;
+}
+
+[data-wheel-theme="luxury"] .wheel-go span {
+  background: linear-gradient(135deg, #b91c1c, #991b1b);
+  color: #fef08a;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 10px rgba(153, 27, 27, 0.4);
+}
+
+[data-wheel-theme="luxury"] .draw-prize-panel,
+[data-wheel-theme="luxury"] .history-panel,
+[data-wheel-theme="luxury"] .prize-form-panel,
+[data-wheel-theme="luxury"] .config-prize-list,
+[data-wheel-theme="luxury"] .preset-template-panel,
+[data-wheel-theme="luxury"] .theme-config-panel {
+  background: rgba(255, 253, 245, 0.9);
+  border: 1px solid rgba(245, 158, 11, 0.28);
+  box-shadow: 0 12px 30px rgba(180, 83, 9, 0.08);
+}
+
+[data-wheel-theme="luxury"] .theme-config-card {
+  background: #fffbeb;
+}
+
+[data-wheel-theme="luxury"] .theme-config-card.active {
+  border-color: #d97706;
+  box-shadow: 0 6px 18px rgba(217, 119, 6, 0.25);
+}
+
+[data-wheel-theme="luxury"] .theme-config-card.active .theme-card-badge {
+  background: #d97706;
+  color: #ffffff;
+}
+
+[data-wheel-theme="luxury"] .sound-toggle-row {
+  background: #fffbeb;
+  border-color: rgba(245, 158, 11, 0.2);
+}
+
+[data-wheel-theme="luxury"] .sound-toggle-btn {
+  background: #d97706;
+  color: #fffbeb;
+}
+
+[data-wheel-theme="luxury"] .draw-prize-chip {
+  background: #fffbeb;
+  box-shadow: inset 0 0 0 1px rgba(245, 158, 11, 0.3);
+}
+
+[data-wheel-theme="luxury"] .prize-add-button {
+  background: linear-gradient(135deg, #d97706, #b45309);
+  color: #fffbeb;
+  box-shadow: 0 12px 26px rgba(180, 83, 9, 0.28);
+}
+
+/* ==========================================================================
+   THEME 3: 马卡龙潮玩 (Macaron Pop)
+   ========================================================================== */
+[data-wheel-theme="macaron"] .tool-title h1 {
+  color: #ec4899;
+  background: linear-gradient(135deg, #f43f5e, #ec4899, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-wheel-theme="macaron"] .wheel-tabs {
+  background: #fdf2f8;
+  border: 2px solid #fce7f3;
+  border-radius: 14px;
+}
+
+[data-wheel-theme="macaron"] .wheel-tabs button.active {
+  background: linear-gradient(135deg, #f472b6, #ec4899);
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(236, 72, 153, 0.25);
+  border-radius: 10px;
+}
+
+[data-wheel-theme="macaron"] .wheel-wrap {
+  background: conic-gradient(from -24deg, #fda4af, #f9a8d4, #c4b5fd, #93c5fd, #86efac, #fde047, #fda4af);
+  box-shadow:
+    0 20px 40px rgba(236, 72, 153, 0.18),
+    0 0 0 8px #ffffff,
+    0 0 0 14px #fbcfe8;
+}
+
+[data-wheel-theme="macaron"] .wheel-wrap::before {
+  inset: 7px;
+  box-shadow: inset 0 0 0 5px rgba(255, 255, 255, 0.95);
+  border: 2px dotted #f472b6;
+}
+
+[data-wheel-theme="macaron"] .wheel-marker {
+  border-top-color: #ec4899;
+  filter: drop-shadow(0 6px 10px rgba(236, 72, 153, 0.35));
+}
+
+[data-wheel-theme="macaron"] .wheel-go {
+  background: linear-gradient(145deg, #ffffff, #fdf2f8);
+  border: 5px solid #fbcfe8;
+  box-shadow: 0 12px 24px rgba(236, 72, 153, 0.2);
+}
+
+[data-wheel-theme="macaron"] .wheel-go span {
+  background: linear-gradient(135deg, #ec4899, #a855f7);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.35);
+}
+
+[data-wheel-theme="macaron"] .draw-prize-panel,
+[data-wheel-theme="macaron"] .history-panel,
+[data-wheel-theme="macaron"] .prize-form-panel,
+[data-wheel-theme="macaron"] .config-prize-list,
+[data-wheel-theme="macaron"] .preset-template-panel,
+[data-wheel-theme="macaron"] .theme-config-panel {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid #fce7f3;
+  border-radius: 16px;
+  box-shadow: 0 10px 24px rgba(236, 72, 153, 0.06);
+}
+
+[data-wheel-theme="macaron"] .theme-config-card {
+  background: #fdf2f8;
+}
+
+[data-wheel-theme="macaron"] .theme-config-card.active {
+  border-color: #ec4899;
+  box-shadow: 0 6px 18px rgba(236, 72, 153, 0.2);
+}
+
+[data-wheel-theme="macaron"] .theme-config-card.active .theme-card-badge {
+  background: #ec4899;
+  color: #ffffff;
+}
+
+[data-wheel-theme="macaron"] .sound-toggle-row {
+  background: #fdf2f8;
+  border-color: #fce7f3;
+}
+
+[data-wheel-theme="macaron"] .sound-toggle-btn {
+  background: linear-gradient(135deg, #ec4899, #8b5cf6);
+}
+
+[data-wheel-theme="macaron"] .draw-prize-chip {
+  background: #fdf2f8;
+  border-radius: 12px;
+  color: #831843;
+}
+
+[data-wheel-theme="macaron"] .prize-add-button {
+  background: linear-gradient(135deg, #ec4899, #8b5cf6);
+  border-radius: 12px;
+  box-shadow: 0 12px 24px rgba(236, 72, 153, 0.25);
+}
+
+/* --------------------------------------------------------------------------
+   Presets Template Quick Loader
+   -------------------------------------------------------------------------- */
+.preset-template-panel {
+  padding: 12px;
+  display: grid;
+  gap: 8px;
+  border-radius: var(--radius, 10px);
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  box-shadow: var(--shadow, 0 12px 26px rgba(31, 41, 55, 0.08));
+}
+
+.preset-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--muted, #687083);
+}
+
+.preset-chips-scroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding: 2px 0 6px;
+}
+
+.preset-chips-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.preset-chip-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 2px 6px rgba(17, 24, 39, 0.06);
+  border: 1px solid rgba(17, 24, 39, 0.08);
+  color: var(--text, #111827);
+  font-size: 12px;
+  font-weight: 750;
+  white-space: nowrap;
+  transition: all 0.18s ease;
+  flex-shrink: 0;
+}
+
+.preset-chip-btn:hover {
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(17, 24, 39, 0.12);
+  transform: translateY(-1px);
+}
+
+.preset-chip-btn:active {
+  transform: scale(0.96);
+}
+
+.preset-chip-btn .preset-icon {
+  font-size: 14px;
+}
+
+/* --------------------------------------------------------------------------
+   Theme & Sound Configuration Section in Config Tab
+   -------------------------------------------------------------------------- */
+.theme-config-panel {
+  display: grid;
+  gap: 12px;
+  padding: 12px;
+  border-radius: var(--radius, 10px);
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  box-shadow: var(--shadow, 0 12px 26px rgba(31, 41, 55, 0.08));
+}
+
+.theme-config-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.theme-config-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(248, 250, 252, 0.88);
+  border: 2px solid transparent;
+  box-shadow: 0 2px 8px rgba(17, 24, 39, 0.05);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.theme-config-card:hover {
+  background: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(17, 24, 39, 0.1);
+}
+
+.theme-config-card.active {
+  border-color: #111827;
+  background: #ffffff;
+  box-shadow: 0 6px 20px rgba(17, 24, 39, 0.15);
+}
+
+.theme-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.theme-card-preview {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.theme-card-badge {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: rgba(17, 24, 39, 0.08);
+  color: var(--muted, #687083);
+}
+
+.theme-config-card.active .theme-card-badge {
+  background: #111827;
+  color: #ffffff;
+}
+
+.theme-card-title {
+  font-size: 14px;
+  font-weight: 850;
+  color: var(--text, #111827);
+  margin-bottom: 3px;
+}
+
+.theme-card-desc {
+  font-size: 11px;
+  color: var(--muted, #687083);
+  line-height: 1.35;
+}
+
+.sound-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(248, 250, 252, 0.8);
+  border: 1px solid rgba(17, 24, 39, 0.06);
+  margin-top: 4px;
+}
+
+.sound-toggle-info {
+  display: grid;
+  gap: 2px;
+}
+
+.sound-toggle-info h4 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text, #111827);
+}
+
+.sound-toggle-info p {
+  margin: 0;
+  font-size: 11px;
+  color: var(--muted, #687083);
+}
+
+.sound-toggle-btn {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 800;
+  background: #111827;
+  color: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.sound-toggle-btn.muted {
+  background: rgba(17, 24, 39, 0.1);
+  color: var(--muted, #687083);
+}
+
+/* --------------------------------------------------------------------------
+   Probability Chip & Details
+   -------------------------------------------------------------------------- */
+.prize-prob-tag {
+  display: inline-block;
+  margin-left: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted, #687083);
+  opacity: 0.85;
+}
+
+/* --------------------------------------------------------------------------
+   Interactive States & Base Wheel Sections
+   -------------------------------------------------------------------------- */
 .wheel-go:active,
 .wheel-tabs button:active,
 .prize-add-button:active,
@@ -124,7 +797,7 @@
 .color-swatch:active,
 .config-actions button:active,
 .config-save-bar button:active {
-  transform: scale(0.98);
+  transform: scale(0.96);
 }
 
 .wheel-go:disabled,
@@ -147,8 +820,13 @@
   gap: 10px;
 }
 
+.wheel-history-section,
+.wheel-pool-section {
+  padding-top: 14px;
+}
+
 .wheel-section .section-header {
-  padding-top: 20px;
+  padding-top: 10px;
   padding-bottom: 0;
 }
 
@@ -157,9 +835,9 @@
 .prize-form-panel,
 .config-prize-list {
   border: 1px solid rgba(255, 255, 255, 0.76);
-  border-radius: var(--radius);
+  border-radius: var(--radius, 10px);
   background: rgba(255, 255, 255, 0.78);
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow, 0 12px 26px rgba(31, 41, 55, 0.08));
 }
 
 .draw-prize-panel {
@@ -183,11 +861,11 @@
   max-width: 100%;
   min-height: 34px;
   gap: 7px;
-  padding: 7px 10px;
+  padding: 7px 11px;
   border-radius: 999px;
   background: rgba(248, 250, 252, 0.9);
-  color: var(--text);
-  font-size: 14px;
+  color: var(--text, #111827);
+  font-size: 13px;
   font-weight: 800;
   box-shadow: inset 0 0 0 1px rgba(17, 24, 39, 0.06);
 }
@@ -200,9 +878,9 @@
 
 .wheel-empty {
   display: grid;
-  min-height: 48px;
+  min-height: 52px;
   place-items: center;
-  color: var(--muted);
+  color: var(--muted, #687083);
   font-size: 14px;
   font-weight: 800;
 }
@@ -235,14 +913,14 @@
   place-items: center;
   border-radius: 50%;
   background: rgba(17, 24, 39, 0.08);
-  color: var(--muted);
+  color: var(--muted, #687083);
   font-size: 12px;
   font-weight: 850;
 }
 
 .history-name {
   overflow: hidden;
-  color: var(--text);
+  color: var(--text, #111827);
   font-size: 14px;
   font-weight: 850;
   text-overflow: ellipsis;
@@ -250,7 +928,7 @@
 }
 
 .draw-history-list time {
-  color: var(--muted);
+  color: var(--muted, #687083);
   font-size: 12px;
   font-weight: 750;
   white-space: nowrap;
@@ -290,7 +968,7 @@
 
 .prize-form-field span,
 .config-fields span {
-  color: var(--muted);
+  color: var(--muted, #687083);
   font-size: 12px;
   font-weight: 800;
 }
@@ -303,7 +981,7 @@
   border: 0;
   outline: 0;
   background: rgba(248, 250, 252, 0.92);
-  color: var(--text);
+  color: var(--text, #111827);
   font-size: 15px;
   font-weight: 800;
 }
@@ -311,7 +989,7 @@
 .prize-form-field input,
 .config-fields input {
   height: 40px;
-  border-radius: var(--radius);
+  border-radius: var(--radius, 8px);
   padding: 0 10px;
 }
 
@@ -359,12 +1037,13 @@
 .prize-add-button {
   width: 100%;
   min-height: 46px;
-  border-radius: var(--radius);
+  border-radius: var(--radius, 10px);
   background: #111827;
   color: #ffffff;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 850;
   box-shadow: 0 16px 34px rgba(17, 24, 39, 0.18);
+  transition: all 0.2s ease;
 }
 
 .config-actions,
@@ -395,7 +1074,7 @@
 .config-actions button.secondary,
 .config-save-bar button.secondary {
   background: rgba(255, 255, 255, 0.74);
-  color: var(--muted);
+  color: var(--muted, #687083);
 }
 
 .config-save-bar {
@@ -450,7 +1129,7 @@
 .config-prize-info h3 {
   overflow: hidden;
   margin: 0;
-  color: var(--text);
+  color: var(--text, #111827);
   font-size: 15px;
   font-weight: 850;
   line-height: 1.2;
@@ -459,13 +1138,13 @@
 }
 
 .config-prize-info p {
-  color: var(--muted);
+  color: var(--muted, #687083);
   font-size: 12px;
   font-weight: 750;
 }
 
 .config-color-text {
-  color: var(--muted);
+  color: var(--muted, #687083);
   font-size: 12px;
   font-weight: 750;
   text-transform: uppercase;
@@ -507,71 +1186,126 @@
   border-radius: 5px;
 }
 
+/* --------------------------------------------------------------------------
+   Celebration Confetti Canvas & Rich Winner Modal
+   -------------------------------------------------------------------------- */
+.confetti-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 100;
+}
+
 .wheel-modal-overlay {
   position: fixed;
   inset: 0;
-  z-index: 20;
+  z-index: 90;
   display: grid;
   place-items: center;
   padding: 24px;
-  background: rgba(17, 24, 39, 0.36);
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .wheel-modal-box {
-  width: min(100%, 292px);
+  width: min(100%, 310px);
   overflow: hidden;
-  border-radius: 14px;
-  background: rgba(249, 250, 252, 0.95);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.96);
   text-align: center;
-  box-shadow: 0 24px 70px rgba(17, 24, 39, 0.28);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+  position: relative;
+  animation: modalPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modalPop {
+  0% { transform: scale(0.85); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.wheel-modal-banner {
+  padding: 22px 16px 8px;
+  position: relative;
+}
+
+.wheel-celebration-badge {
+  font-size: 38px;
+  display: inline-block;
+  animation: badgeBounce 1.2s infinite alternate ease-in-out;
+}
+
+@keyframes badgeBounce {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-6px) scale(1.1); }
 }
 
 .wheel-modal-title {
-  padding: 20px 16px 6px;
-  font-size: 17px;
-  font-weight: 850;
+  font-size: 18px;
+  font-weight: 900;
+  color: #111827;
+  margin-top: 4px;
 }
 
 .wheel-modal-message {
   padding: 0 18px 8px;
-  color: #303746;
+  color: #64748b;
   font-size: 13px;
   font-weight: 700;
   line-height: 1.45;
 }
 
+.wheel-modal-prize-card {
+  margin: 8px 18px 20px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(255, 241, 242, 0.8), rgba(254, 226, 226, 0.95));
+  border: 1px solid rgba(244, 63, 94, 0.3);
+  box-shadow: 0 8px 20px rgba(244, 63, 94, 0.15);
+}
+
 .wheel-modal-prize {
-  padding: 0 18px 20px;
-  color: #ff2d55;
-  font-size: 26px;
+  color: #e11d48;
+  font-size: 24px;
   font-weight: 900;
-  line-height: 1.16;
+  line-height: 1.2;
   word-break: break-word;
 }
 
 .wheel-modal-actions {
-  border-top: 1px solid rgba(17, 24, 39, 0.12);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid rgba(17, 24, 39, 0.08);
+}
+
+.wheel-modal-actions.single-action {
+  grid-template-columns: 1fr;
 }
 
 .wheel-modal-actions button {
   width: 100%;
-  min-height: 46px;
+  min-height: 48px;
   background: transparent;
-  color: #2765d8;
-  font-size: 17px;
+  color: #2563eb;
+  font-size: 15px;
   font-weight: 850;
+  transition: background 0.15s ease;
+}
+
+.wheel-modal-actions button:first-child:not(:only-child) {
+  border-right: 1px solid rgba(17, 24, 39, 0.08);
+  color: #64748b;
+}
+
+.wheel-modal-actions button:active {
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .modal-enter-active,
 .modal-leave-active {
-  transition: opacity 0.18s ease;
-}
-
-.modal-enter-active .wheel-modal-box,
-.modal-leave-active .wheel-modal-box {
-  transition: transform 0.18s ease;
+  transition: opacity 0.2s ease;
 }
 
 .modal-enter-from,
@@ -579,29 +1313,25 @@
   opacity: 0;
 }
 
-.modal-enter-from .wheel-modal-box,
-.modal-leave-to .wheel-modal-box {
-  transform: scale(1.06);
-}
-
 @media (max-width: 360px) {
   .wheel-wrap {
-    width: min(100%, 292px);
+    width: min(100%, 280px);
   }
 
   .wheel-go {
-    width: 78px;
-    height: 78px;
+    width: 74px;
+    height: 74px;
   }
 
   .wheel-go span {
-    width: 52px;
-    height: 52px;
-    font-size: 17px;
+    width: 48px;
+    height: 48px;
+    font-size: 16px;
   }
 
   .prize-form-grid,
-  .config-fields {
+  .config-fields,
+  .theme-config-grid {
     grid-template-columns: 1fr;
   }
 }
