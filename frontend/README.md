@@ -1,6 +1,6 @@
 # AABB Toolbox H5
 
-移动端 H5 工具箱，使用 HTML、CSS 和 Vue 3 构建。当前已接入打牌计分板、幸运转盘、JSON 格式化、随机生成、图片压缩、提词器等工具。
+移动端 H5 工具箱，使用 HTML、CSS 和 Vue 3 构建。当前已接入打牌计分板、幸运转盘、星核防线游戏、JSON 格式化、随机生成、图片压缩、提词器等工具。
 
 ## 本地预览
 
@@ -38,6 +38,9 @@ frontend/
         component.js
         style.css
       teleprompter/
+        component.js
+        style.css
+      core-breach-game/
         component.js
         style.css
 ```

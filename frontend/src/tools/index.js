@@ -24,6 +24,18 @@
       enabled: true,
     },
     {
+      id: "core-breach-game",
+      name: "星核防线",
+      desc: "横屏塔防游戏",
+      category: "游戏",
+      icon: "星核",
+      theme: "theme-indigo",
+      badge: "New",
+      url: "#/tools/core-breach-game",
+      component: global.CoreBreachGameTool,
+      enabled: true,
+    },
+    {
       id: "aabb-box",
       name: "AABB 盒子",
       desc: "碰撞框计算",

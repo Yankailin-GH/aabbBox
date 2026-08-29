@@ -1,0 +1,232 @@
+.game-hero-panel {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+  padding: 18px;
+  border: 1px solid rgba(0, 243, 255, 0.18);
+  border-radius: var(--radius);
+  background:
+    radial-gradient(circle at 18% 0%, rgba(0, 243, 255, 0.18), transparent 32%),
+    linear-gradient(135deg, rgba(7, 10, 20, 0.94), rgba(16, 28, 64, 0.92));
+  color: #f0f6fc;
+  box-shadow: 0 18px 44px rgba(31, 41, 55, 0.16);
+}
+
+.game-logo-mark {
+  display: grid;
+  width: 58px;
+  height: 58px;
+  place-items: center;
+  border: 1px solid rgba(0, 243, 255, 0.5);
+  border-radius: 14px;
+  background: linear-gradient(135deg, #00f3ff, #bc13fe);
+  color: #05070c;
+  font-size: 18px;
+  font-weight: 950;
+  letter-spacing: 1px;
+  box-shadow: 0 0 22px rgba(0, 243, 255, 0.36);
+}
+
+.game-hero-panel h2 {
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.game-hero-panel p,
+.game-tip-panel p {
+  color: rgba(240, 246, 252, 0.76);
+  font-size: 13px;
+  font-weight: 720;
+  line-height: 1.55;
+}
+
+.game-hero-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(105px, 1fr));
+  gap: 8px;
+  padding-top: 4px;
+}
+
+.game-hero-actions button,
+.game-fullbar button {
+  min-height: 44px;
+  border-radius: var(--radius);
+  background: #00f3ff;
+  color: #05070c;
+  font-size: 13px;
+  font-weight: 900;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px;
+  white-space: nowrap;
+}
+
+.game-hero-actions button:nth-child(2) {
+  background: linear-gradient(135deg, rgba(0, 243, 255, 0.2), rgba(188, 19, 254, 0.25));
+  border: 1px solid rgba(0, 243, 255, 0.4);
+  color: #00f3ff;
+}
+
+.game-hero-actions button:nth-child(3) {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+.game-section {
+  display: grid;
+  gap: 10px;
+}
+
+.game-section .section-header {
+  padding-top: 20px;
+  padding-bottom: 0;
+}
+
+.game-preview-placeholder,
+.game-preview-shell,
+.game-tip-panel {
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: var(--shadow);
+}
+
+.game-preview-placeholder {
+  display: grid;
+  min-height: 190px;
+  place-items: center;
+  gap: 6px;
+  padding: 20px;
+  text-align: center;
+}
+
+.game-preview-placeholder span {
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.game-preview-placeholder p {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 760;
+}
+
+.game-preview-shell {
+  position: relative;
+  background: #070a14;
+}
+
+.game-preview-frame {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 860px;
+  height: 540px;
+  border: 0;
+  transform-origin: top center;
+}
+
+.game-tip-panel {
+  display: grid;
+  gap: 6px;
+  margin-top: 14px;
+  padding: 12px 13px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(39, 101, 216, 0.1), transparent 36%),
+    rgba(255, 255, 255, 0.78);
+}
+
+.game-tip-panel strong {
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.game-tip-panel p {
+  color: var(--muted);
+}
+
+.game-fullscreen-shell {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  width: 100dvw;
+  height: 100dvh;
+  background: #070a14;
+  overscroll-behavior: none;
+  touch-action: none;
+}
+
+.game-full-frame {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #070a14;
+  display: block;
+}
+
+.game-fullbar {
+  position: fixed;
+  top: max(env(safe-area-inset-top, 0px), 8px);
+  right: max(env(safe-area-inset-right, 0px), 8px);
+  z-index: 10;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(56px, auto));
+  gap: 6px;
+  opacity: 0.25;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.game-fullbar:hover,
+.game-fullbar:focus-within,
+.game-fullbar:active {
+  opacity: 0.95;
+}
+
+.game-fullbar button {
+  min-height: 40px;
+  padding: 0 10px;
+  background: rgba(7, 10, 20, 0.75);
+  color: #00f3ff;
+  border: 1px solid rgba(0, 243, 255, 0.4);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  cursor: pointer;
+}
+
+.game-hero-actions button:active,
+.game-fullbar button:active {
+  transform: scale(0.96);
+}
+
+@media (orientation: portrait) {
+  .game-fullscreen-shell.landscape {
+    width: 100vw;
+    height: 100vh;
+    width: 100dvw;
+    height: 100dvh;
+    transform: none;
+    transform-origin: top left;
+  }
+
+  .game-fullscreen-shell.landscape .game-fullbar {
+    top: max(env(safe-area-inset-top, 0px), 8px);
+    right: max(env(safe-area-inset-right, 0px), 8px);
+  }
+}
+
+@media (max-width: 360px) {
+  .game-hero-actions {
+    grid-template-columns: 1fr;
+  }
+}
