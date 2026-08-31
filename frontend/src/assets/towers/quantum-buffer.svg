@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" fill="none">
+  <defs>
+    <linearGradient id="frame" x1="48" y1="181" x2="190" y2="55" gradientUnits="userSpaceOnUse"><stop stop-color="#1b1605"/><stop offset=".55" stop-color="#68521a"/><stop offset="1" stop-color="#25344b"/></linearGradient>
+    <radialGradient id="gold"><stop stop-color="#fffbe2"/><stop offset=".35" stop-color="#ffe889"/><stop offset=".72" stop-color="#ffd02e"/><stop offset="1" stop-color="#ffd02e" stop-opacity=".08"/></radialGradient>
+    <filter id="signal" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <ellipse cx="120" cy="195" rx="77" ry="18" fill="#02060d" opacity=".72"/>
+  <path d="m43 179 28-34h98l28 34-27 19H70l-27-19Z" fill="url(#frame)" stroke="#ffd02e" stroke-width="4"/>
+  <path d="M73 165h94l12 19H61l12-19Z" fill="#1a1b1b" stroke="#d9b843" stroke-width="2"/>
+  <path d="m120 35 46 82-46 33-46-33 46-82Z" fill="#ffd02e" fill-opacity=".18" stroke="#ffe889" stroke-width="4" filter="url(#signal)"/>
+  <path d="m120 54 25 61-25 18-25-18 25-61Z" fill="url(#gold)" filter="url(#signal)"/>
+  <circle cx="120" cy="114" r="13" fill="#fffbe2" stroke="#ffd02e" stroke-width="3"/>
+  <path d="M36 105c31-28 55-36 84-36m84 36c-31-28-55-36-84-36" stroke="#ffd02e" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+  <path d="M49 125c25-18 46-24 71-24m71 24c-25-18-46-24-71-24" stroke="#ffe889" stroke-width="2" stroke-linecap="round" opacity=".65"/>
+  <path d="M75 188h25m40 0h25" stroke="#ffe889" stroke-width="3" stroke-linecap="round"/>
+</svg>

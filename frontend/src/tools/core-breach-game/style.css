@@ -48,8 +48,7 @@
   padding-top: 4px;
 }
 
-.game-hero-actions button,
-.game-fullbar button {
+.game-hero-actions button {
   min-height: 44px;
   border-radius: var(--radius);
   background: #00f3ff;
@@ -172,40 +171,7 @@
   display: block;
 }
 
-.game-fullbar {
-  position: fixed;
-  top: max(env(safe-area-inset-top, 0px), 8px);
-  right: max(env(safe-area-inset-right, 0px), 8px);
-  z-index: 10;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(56px, auto));
-  gap: 6px;
-  opacity: 0.25;
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
-.game-fullbar:hover,
-.game-fullbar:focus-within,
-.game-fullbar:active {
-  opacity: 0.95;
-}
-
-.game-fullbar button {
-  min-height: 40px;
-  padding: 0 10px;
-  background: rgba(7, 10, 20, 0.75);
-  color: #00f3ff;
-  border: 1px solid rgba(0, 243, 255, 0.4);
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 700;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  cursor: pointer;
-}
-
-.game-hero-actions button:active,
-.game-fullbar button:active {
+.game-hero-actions button:active {
   transform: scale(0.96);
 }
 
@@ -219,10 +185,6 @@
     transform-origin: top left;
   }
 
-  .game-fullscreen-shell.landscape .game-fullbar {
-    top: max(env(safe-area-inset-top, 0px), 8px);
-    right: max(env(safe-area-inset-right, 0px), 8px);
-  }
 }
 
 @media (max-width: 360px) {

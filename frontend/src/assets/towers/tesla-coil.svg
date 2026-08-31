@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" fill="none">
+  <defs>
+    <linearGradient id="steel" x1="53" y1="186" x2="171" y2="68" gradientUnits="userSpaceOnUse"><stop stop-color="#110b28"/><stop offset=".55" stop-color="#41205f"/><stop offset="1" stop-color="#172144"/></linearGradient>
+    <radialGradient id="arc"><stop stop-color="#fff"/><stop offset=".27" stop-color="#f3c6ff"/><stop offset=".6" stop-color="#bc13fe"/><stop offset="1" stop-color="#bc13fe" stop-opacity=".05"/></radialGradient>
+    <filter id="electric" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <ellipse cx="120" cy="195" rx="74" ry="17" fill="#02060d" opacity=".72"/>
+  <path d="m47 178 25-31h96l25 31-24 19H71l-24-19Z" fill="url(#steel)" stroke="#d268ff" stroke-width="4"/>
+  <path d="m94 150 9-85h34l9 85" fill="#1c1640" stroke="#d696ff" stroke-width="4"/>
+  <ellipse cx="120" cy="88" rx="43" ry="12" stroke="#bc13fe" stroke-width="6" filter="url(#electric)"/>
+  <ellipse cx="120" cy="111" rx="37" ry="10" stroke="#e5a5ff" stroke-width="5"/>
+  <ellipse cx="120" cy="133" rx="31" ry="8" stroke="#bc13fe" stroke-width="4"/>
+  <circle cx="120" cy="48" r="30" fill="url(#arc)" filter="url(#electric)"/>
+  <path d="m120 14 11 25 25-8-18 22 17 15-28-5-12 21-2-26-25-7 25-10 7-27Z" fill="#fff5ff" filter="url(#electric)"/>
+  <path d="m64 164 20 8m92-8-20 8" stroke="#d58cff" stroke-width="3"/>
+  <path d="M76 186h25m39 0h25" stroke="#bc13fe" stroke-width="3" stroke-linecap="round"/>
+</svg>

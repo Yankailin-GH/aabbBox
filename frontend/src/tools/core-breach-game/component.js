@@ -69,10 +69,6 @@
           v-if="playing"
           :class="['game-fullscreen-shell', { landscape: forceLandscape, wechat: isWechat }]"
         >
-          <div class="game-fullbar">
-            <button type="button" @click="reloadGame">重载</button>
-            <button type="button" @click="closeGame">退出</button>
-          </div>
           <iframe
             ref="gameFrame"
             :key="'full-' + frameVersion"
@@ -191,14 +187,24 @@
         }
       }
 
+      function handleGameMessage(event) {
+        if (event.origin !== global.location.origin) return;
+        if (playing.value && event.data && event.data.type === "core-breach:exit") {
+          event.source.postMessage({ type: "core-breach:exit-ack" }, event.origin || "*");
+          closeGame();
+        }
+      }
+
       onMounted(() => {
         global.addEventListener("resize", handleResize);
+        global.addEventListener("message", handleGameMessage);
         document.addEventListener("fullscreenchange", handleFullscreenChange);
       });
 
       onBeforeUnmount(() => {
         unlockOrientation();
         global.removeEventListener("resize", handleResize);
+        global.removeEventListener("message", handleGameMessage);
         document.removeEventListener("fullscreenchange", handleFullscreenChange);
       });
 
