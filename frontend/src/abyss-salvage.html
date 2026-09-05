@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#061820">
+  <title>深渊采样</title>
+  <link rel="stylesheet" href="./arcade/arcade-kit.css">
+</head>
+<body>
+  <div id="app"></div>
+  <script src="./arcade/arcade-kit.js"></script>
+  <script>
+  (() => {
+    const S={player:null,samples:[],predators:[],bubbles:[],particles:[],rings:[],terrain:[],collected:0,oxygen:100,hull:100,sampleClock:0,predatorClock:0,bubbleClock:0,sonar:0,drag:false,target:null,current:0};
+    const config={
+      title:'深渊采样',seal:'DS',kicker:'ABYSSAL SURVEY · 04',mission:'采集 18 份发光样本并返回声呐区',limit:'氧气耗尽前',choiceLabel:'选择潜航模块',startLabel:'开始下潜',metricLabel:'氧气',scoreLabel:'样本',objective:'目标：18 份深渊样本',actionLabel:'声呐脉冲',
+      colors:{bg:'#061820',surface:'#0d3036',surface2:'#17464a',ink:'#effffc',muted:'#91b9b7',accent:'#64e7d4',accent2:'#ff7a70'},
+      choices:[{id:'echo',icon:'波',name:'广域声呐',detail:'范围提升'},{id:'armor',icon:'甲',name:'耐压舱',detail:'船体提升'},{id:'turbine',icon:'流',name:'静流推进',detail:'高速节氧'}],
+      init(api){resetWorld(api,true)},resize(api){makeTerrain(api)},choiceChanged(api){resetWorld(api,true)},reset(api){resetWorld(api,false)},update,draw,pointerDown(api,p){S.drag=true;S.target=p},pointerMove(api,p){S.target=p},pointerUp(){S.drag=false},action:sonar
+    };
+    function resetWorld(api,preview){
+      S.player={x:api.w*.5,y:api.h*.57,vx:0,vy:0,face:0,hit:0};S.samples=[];S.predators=[];S.bubbles=[];S.particles=[];S.rings=[];S.collected=0;S.oxygen=100;S.hull=api.choice==='armor'?135:100;S.maxHull=S.hull;S.sampleClock=preview?0:1;S.predatorClock=preview?99:2.4;S.bubbleClock=5;S.sonar=0;S.drag=false;S.target={x:S.player.x,y:S.player.y};S.current=0;makeTerrain(api);api.setHud({metric:'100%',score:0,health:S.hull,maxHealth:S.maxHull,objective:'目标：18 份深渊样本'});api.setAction('声呐脉冲',1,true);
+      if(preview){for(let i=0;i<6;i++)S.samples.push(makeSample(api));for(let i=0;i<2;i++)S.predators.push(makePredator(api,true))}
+    }
+    function makeTerrain(api){S.terrain=Array.from({length:34},(_,i)=>({x:api.rand(5,api.w-5),y:api.rand(85,api.h+20),r:api.rand(4,18),kind:i%4,a:api.rand(0,6.28)}))}
+    function makeSample(api){return{x:api.rand(35,api.w-35),y:api.rand(110,api.h-55),r:api.rand(5,8),phase:api.rand(0,6.28)}}
+    function makePredator(api,preview=false){const side=Math.random()<.5?-1:1;return{x:side<0?-35:api.w+35,y:api.rand(110,api.h-70),vx:0,vy:0,r:api.rand(13,18),phase:api.rand(0,6.28),stun:preview?2:0,hp:2,kind:Math.random()<.48?'shark':'eel'}}
+    function burst(api,x,y,color,count=8){for(let i=0;i<count&&S.particles.length<180;i++){const a=api.rand(0,6.28),v=api.rand(20,90);S.particles.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,r:api.rand(1,3),life:api.rand(.3,.8),max:.8,color})}}
+    function sonar(api){if(S.sonar>0||api.mode!=='playing')return;S.sonar=api.choice==='echo'?5.2:6.5;const max=api.choice==='echo'?150:118;S.rings.push({x:S.player.x,y:S.player.y,r:4,max,life:.7,total:.7});for(let i=S.predators.length-1;i>=0;i--){const e=S.predators[i],d=api.distance(e,S.player);if(d<max){e.hp--;e.stun=1.8;e.x+=(e.x-S.player.x)/(d||1)*34;e.y+=(e.y-S.player.y)/(d||1)*34;burst(api,e.x,e.y,'#8effed',10);if(e.hp<=0){S.predators.splice(i,1);S.oxygen=Math.min(100,S.oxygen+3)}}}api.tone(180,.28,'sine',.035,760);api.tone(820,.12,'triangle',.012,240,.05);api.vibrate(12)}
+    function update(api,dt){
+      const speed=api.choice==='turbine'?205:168;S.current+=dt;S.sonar=Math.max(0,S.sonar-dt);S.sampleClock-=dt;S.predatorClock-=dt;S.bubbleClock-=dt;S.oxygen-=dt*(api.choice==='turbine'?.53:.7);S.player.hit=Math.max(0,S.player.hit-dt);
+      if(S.drag&&S.target){const dx=S.target.x-S.player.x,dy=S.target.y-S.player.y,d=Math.hypot(dx,dy);if(d>5){S.player.vx=dx/d*speed;S.player.vy=dy/d*speed;S.player.face=Math.atan2(dy,dx)}}else{S.player.vx*=.9;S.player.vy*=.9}S.player.x=api.clamp(S.player.x+S.player.vx*dt,24,api.w-24);S.player.y=api.clamp(S.player.y+S.player.vy*dt,96,api.h-28);
+      if(S.sampleClock<=0&&S.samples.length<8){S.samples.push(makeSample(api));S.sampleClock=api.rand(1.8,3.1)}if(S.predatorClock<=0&&S.predators.length<12){S.predators.push(makePredator(api));S.predatorClock=Math.max(.85,2.3-api.elapsed*.012)}if(S.bubbleClock<=0&&S.bubbles.length<3){S.bubbles.push({x:api.rand(30,api.w-30),y:api.h+20,r:9,phase:api.rand(0,6.28)});S.bubbleClock=api.rand(6,9)}
+      for(let i=S.samples.length-1;i>=0;i--){const o=S.samples[i];o.phase+=dt*2;if(api.distance(o,S.player)<19){S.samples.splice(i,1);S.collected++;S.oxygen=Math.min(100,S.oxygen+4);burst(api,o.x,o.y,'#ffb0a7',12);api.tone(740,.08,'triangle',.02,1120);if(S.collected>=18){api.finish('采样完成','深渊信标已接收全部样本。',[{label:'用时',value:api.formatTime(api.elapsed)},{label:'样本',value:S.collected},{label:'船体',value:Math.ceil(S.hull)+'%'}]);return}}}
+      for(let i=S.bubbles.length-1;i>=0;i--){const b=S.bubbles[i];b.y-=28*dt;b.x+=Math.sin(S.current*2+b.phase)*10*dt;if(api.distance(b,S.player)<20){S.bubbles.splice(i,1);S.oxygen=Math.min(100,S.oxygen+24);burst(api,b.x,b.y,'#d8ffff',8);api.tone(560,.1,'sine',.018,940)}else if(b.y<82)S.bubbles.splice(i,1)}
+      for(const e of S.predators){const dx=S.player.x-e.x,dy=S.player.y-e.y,d=Math.hypot(dx,dy)||1;e.phase+=dt*(e.kind==='eel'?5:3);if(e.stun>0)e.stun-=dt;else{const speed=(e.kind==='eel'?64:48)+api.elapsed*.08;e.x+=dx/d*speed*dt;e.y+=dy/d*speed*dt}if(d<e.r+11&&S.player.hit<=0){S.hull-=e.kind==='shark'?18:12;S.player.hit=.75;e.stun=.8;e.x-=dx/d*30;e.y-=dy/d*30;api.hit();api.tone(110,.16,'sawtooth',.04,42)}}
+      for(let i=S.particles.length-1;i>=0;i--){const p=S.particles[i];p.life-=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=.96;p.vy*=.96;if(p.life<=0)S.particles.splice(i,1)}for(let i=S.rings.length-1;i>=0;i--){S.rings[i].life-=dt;if(S.rings[i].life<=0)S.rings.splice(i,1)}
+      if(S.oxygen<=0||S.hull<=0){api.finish('下潜中断',S.oxygen<=0?'氧气耗尽，救援浮标已弹出。':'耐压舱破损，潜航器自动上浮。',[{label:'深度',value:Math.floor(api.elapsed*13)+'m'},{label:'样本',value:S.collected},{label:'用时',value:api.formatTime(api.elapsed)}]);return}
+      api.setHud({metric:Math.ceil(S.oxygen)+'%',score:S.collected,health:S.hull,maxHealth:S.maxHull,objective:S.collected<12?'追踪发光样本':'样本充足 · 保持船体完整'});api.setAction(S.sonar>0?Math.ceil(S.sonar)+'s':'声呐脉冲',1-S.sonar/(api.choice==='echo'?5.2:6.5),S.sonar<=0)
+    }
+    function draw(api){
+      const {ctx,w,h}=api,g=ctx.createLinearGradient(0,0,0,h);g.addColorStop(0,'#0a3540');g.addColorStop(.48,'#08262f');g.addColorStop(1,'#04151d');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+      ctx.strokeStyle='rgba(112,222,211,.06)';ctx.lineWidth=1;for(let y=110;y<h;y+=62){ctx.beginPath();ctx.moveTo(0,y+Math.sin(S.current+y)*8);ctx.bezierCurveTo(w*.3,y-9,w*.7,y+12,w,y-2);ctx.stroke()}
+      for(const r of S.terrain){ctx.save();ctx.translate(r.x,r.y);ctx.rotate(r.a);if(r.kind===0){ctx.fillStyle='rgba(48,105,99,.4)';ctx.beginPath();ctx.ellipse(0,0,r.r,r.r*.34,0,0,6.28);ctx.fill()}else if(r.kind===1){ctx.strokeStyle='rgba(100,183,157,.36)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(0,r.r);ctx.quadraticCurveTo(-8,0,2,-r.r);ctx.moveTo(0,r.r);ctx.quadraticCurveTo(10,0,7,-r.r*.7);ctx.stroke()}else{ctx.fillStyle=r.kind===2?'rgba(255,122,112,.18)':'rgba(99,151,145,.22)';ctx.beginPath();ctx.arc(0,0,r.r*.45,0,6.28);ctx.fill()}ctx.restore()}
+      for(const b of S.bubbles){ctx.strokeStyle='rgba(216,255,255,.7)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(b.x,b.y,b.r,0,6.28);ctx.stroke();ctx.fillStyle='rgba(255,255,255,.35)';ctx.beginPath();ctx.arc(b.x-3,b.y-3,2,0,6.28);ctx.fill()}
+      for(const o of S.samples){ctx.save();ctx.translate(o.x,o.y);ctx.rotate(o.phase*.3);ctx.shadowColor='#ff8d84';ctx.shadowBlur=13;ctx.fillStyle='#ff7a70';for(let i=0;i<5;i++){const a=i*1.256;ctx.beginPath();ctx.ellipse(Math.cos(a)*5,Math.sin(a)*5,5,2.5,a,0,6.28);ctx.fill()}ctx.fillStyle='#fff4c4';ctx.beginPath();ctx.arc(0,0,3,0,6.28);ctx.fill();ctx.restore()}
+      for(const e of S.predators)drawPredator(ctx,e);for(const ring of S.rings){const a=ring.life/ring.total;ctx.strokeStyle=`rgba(100,231,212,${a*.8})`;ctx.lineWidth=4*a+1;ctx.beginPath();ctx.arc(ring.x,ring.y,ring.max*(1-a),0,6.28);ctx.stroke();ctx.setLineDash([5,8]);ctx.beginPath();ctx.arc(ring.x,ring.y,ring.max*(1-a)+9,0,6.28);ctx.stroke();ctx.setLineDash([])}
+      for(const p of S.particles){ctx.globalAlpha=Math.max(0,p.life/p.max);ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,6.28);ctx.fill()}ctx.globalAlpha=1;drawSub(ctx,S.player);
+      const light=ctx.createRadialGradient(S.player.x,S.player.y,8,S.player.x,S.player.y,155);light.addColorStop(0,'rgba(151,255,238,.12)');light.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=light;ctx.fillRect(0,80,w,h-80);
+    }
+    function drawPredator(ctx,e){ctx.save();ctx.translate(e.x,e.y);ctx.rotate(Math.atan2(S.player.y-e.y,S.player.x-e.x));const flash=e.stun>0;if(e.kind==='eel'){ctx.strokeStyle=flash?'#baffef':'#4d6f77';ctx.lineWidth=10;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(-20,0);ctx.bezierCurveTo(-6,Math.sin(e.phase)*10,8,-Math.sin(e.phase)*9,22,0);ctx.stroke();ctx.fillStyle='#18313a';ctx.beginPath();ctx.moveTo(17,-7);ctx.lineTo(31,0);ctx.lineTo(17,7);ctx.closePath();ctx.fill()}else{ctx.fillStyle=flash?'#baffef':'#46616a';ctx.beginPath();ctx.moveTo(-24,0);ctx.quadraticCurveTo(-5,-15,19,-8);ctx.lineTo(31,0);ctx.lineTo(19,8);ctx.quadraticCurveTo(-5,15,-24,0);ctx.fill();ctx.fillStyle='#2a454f';ctx.beginPath();ctx.moveTo(-5,-9);ctx.lineTo(4,-20);ctx.lineTo(9,-7);ctx.fill()}ctx.fillStyle='#ff7a70';ctx.beginPath();ctx.arc(20,-3,2,0,6.28);ctx.fill();ctx.restore()}
+    function drawSub(ctx,p){ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.face);if(p.hit>0){ctx.shadowColor='#ff665f';ctx.shadowBlur=16}ctx.fillStyle='#07191d';ctx.beginPath();ctx.ellipse(0,0,22,11,0,0,6.28);ctx.fill();ctx.fillStyle=p.hit>0?'#ffb0a7':'#e2b755';ctx.beginPath();ctx.ellipse(1,0,18,8,0,0,6.28);ctx.fill();ctx.fillStyle='#62d9cf';ctx.beginPath();ctx.arc(8,-2,5,0,6.28);ctx.fill();ctx.fillStyle='#efffff';ctx.beginPath();ctx.arc(10,-4,1.8,0,6.28);ctx.fill();ctx.fillStyle='#22383d';ctx.fillRect(-26,-7,7,14);ctx.strokeStyle='#78e8da';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-23,-8);ctx.lineTo(-23,-15);ctx.stroke();ctx.fillStyle='#ff7a70';ctx.beginPath();ctx.moveTo(17,-3);ctx.lineTo(29,0);ctx.lineTo(17,3);ctx.fill();ctx.shadowBlur=0;ctx.restore()}
+    ArcadeKit.mount(config);
+  })();
+  </script>
+</body>
+</html>

@@ -1,97 +1,82 @@
 (function (global) {
   if (!global.Vue) return;
 
-  const { computed, nextTick, onBeforeUnmount, onMounted, ref } = global.Vue;
+  const { computed, onBeforeUnmount, onMounted, ref } = global.Vue;
   const gameSrc = "./src/core-breach-game.html";
 
   global.CoreBreachGameTool = {
     name: "CoreBreachGameTool",
-    props: {
-      tool: {
-        type: Object,
-        required: true,
-      },
-    },
+    props: { tool: { type: Object, required: true } },
     emits: ["go-home"],
     template: `
-      <section>
+      <section class="survival-tool">
         <header class="app-header tool-header">
           <section class="tool-nav">
-            <button class="icon-button nav-back" type="button" aria-label="返回首页" @click="goHome">
-              <span class="back-icon"></span>
-            </button>
-            <div class="tool-title">
-              <p class="eyebrow">{{ tool.category }}</p>
-              <h1>{{ tool.name }}</h1>
-            </div>
+            <button class="icon-button nav-back" type="button" aria-label="返回首页" @click="goHome"><span class="back-icon"></span></button>
+            <div class="tool-title"><p class="eyebrow">{{ tool.category }}</p><h1>{{ tool.name }}</h1></div>
           </section>
         </header>
-
-        <section class="game-hero-panel">
-          <div class="game-logo-mark">星核</div>
-          <h2>星核防线：量子协议</h2>
-          <p>{{ isWechat ? '微信内使用沉浸模式打开，请横屏游玩。' : '横屏塔防游戏。进入游戏后请横屏游玩，战场会铺满当前可用视口。' }}</p>
-          <div class="game-hero-actions">
-            <button type="button" @click="openGame">{{ isWechat ? '沉浸游戏' : '进入游戏' }}</button>
-            <button type="button" @click="openDirect">独立打开</button>
-            <button type="button" @click="loadPreview">{{ previewLoaded ? '刷新预览' : '加载预览' }}</button>
-          </div>
+        <section class="survival-intro">
+          <p class="survival-kicker">单机 · 竖屏 · 自动射击</p>
+          <h2>裂隙远征</h2>
+          <p>在荧光温室的战场任意位置拖动走位，武器会自动锁定敌群。每次升级选择一项变异，撑过三分钟。</p>
+          <div class="survival-tags"><span>移动构筑</span><span>精英波</span><span>随机变异</span></div>
+          <button type="button" class="survival-launch" @click="openGame">开始远征</button>
         </section>
-
-        <section class="game-section">
-          <div class="section-header">
-            <h2>内嵌预览</h2>
-            <button type="button" @click="reloadGame">重载</button>
-          </div>
-          <div v-if="!previewLoaded" class="game-preview-placeholder">
-            <span>横屏游戏</span>
-            <p>点击“加载预览”后在工具页内查看。</p>
-          </div>
-          <div v-else class="game-preview-shell" :style="{ height: previewHeight + 'px' }">
-            <iframe
-              :key="'preview-' + frameVersion"
-              class="game-preview-frame"
-              :style="{ transform: 'translateX(-50%) scale(' + previewScale + ')' }"
-              :src="gameSrc"
-              title="星核防线游戏预览"
-              allow="fullscreen; screen-wake-lock"
-              allowfullscreen
-            ></iframe>
-          </div>
-        </section>
-
-        <section class="game-tip-panel">
-          <strong>手机操作建议</strong>
-          <p>iPhone 浏览器建议横屏进入。微信里无法保证隐藏顶部栏，页面会自动使用沉浸式覆盖层铺满当前可用区域。</p>
-        </section>
-
-        <section
-          v-if="playing"
-          :class="['game-fullscreen-shell', { landscape: forceLandscape, wechat: isWechat }]"
-        >
-          <iframe
-            ref="gameFrame"
-            :key="'full-' + frameVersion"
-            class="game-full-frame"
-            :src="gameSrc"
-            title="星核防线：量子协议"
-            allow="fullscreen; screen-wake-lock"
-            allowfullscreen
-          ></iframe>
+        <section v-if="playing" class="survival-fullscreen">
+          <button type="button" class="survival-close" aria-label="退出游戏" @click="closeGame">×</button>
+          <iframe :src="gameSrc" title="裂隙远征" allow="fullscreen"></iframe>
         </section>
       </section>
     `,
     setup(props, { emit }) {
       const playing = ref(false);
-      const previewLoaded = ref(false);
-      const forceLandscape = ref(false);
-      const frameVersion = ref(1);
-      const viewportWidth = ref(getViewportWidth());
-      const gameFrame = ref(null);
-      const isWechat = /MicroMessenger/i.test(global.navigator && global.navigator.userAgent ? global.navigator.userAgent : "");
+      const canFullscreen = computed(() => Boolean(document.documentElement.requestFullscreen));
+      function goHome() { closeGame(); emit("go-home"); }
+      async function openGame() {
+        playing.value = true;
+        try { if (canFullscreen.value) await document.documentElement.requestFullscreen(); } catch (error) { /* Fixed overlay is the fallback. */ }
+      }
+      async function closeGame() {
+        playing.value = false;
+        try { if (document.fullscreenElement && document.exitFullscreen) await document.exitFullscreen(); } catch (error) { /* No action needed. */ }
+      }
+      function handleFullscreen() { if (!document.fullscreenElement) playing.value = false; }
+      onMounted(() => document.addEventListener("fullscreenchange", handleFullscreen));
+      onBeforeUnmount(() => { document.removeEventListener("fullscreenchange", handleFullscreen); closeGame(); });
+      return { closeGame, gameSrc, goHome, openGame, playing };
+    },
+  };
 
-      const previewScale = computed(() => Math.min(1, Math.max(0.32, (viewportWidth.value - 32) / 860)));
-      const previewHeight = computed(() => Math.round(540 * previewScale.value));
+  const legacyGameSrc = "./src/core-breach-legacy.html";
+
+  global.LegacyCoreBreachGameTool = {
+    name: "LegacyCoreBreachGameTool",
+    props: { tool: { type: Object, required: true } },
+    emits: ["go-home"],
+    template: `
+      <section class="survival-tool legacy-game-tool">
+        <header class="app-header tool-header">
+          <section class="tool-nav">
+            <button class="icon-button nav-back" type="button" aria-label="返回首页" @click="goHome"><span class="back-icon"></span></button>
+            <div class="tool-title"><p class="eyebrow">{{ tool.category }}</p><h1>{{ tool.name }}</h1></div>
+          </section>
+        </header>
+        <section class="survival-intro legacy-intro">
+          <p class="survival-kicker">单机 · 竖屏 · 策略塔防</p>
+          <h2>星核防线</h2>
+          <p>部署量子防御塔、组合强化路线并抵御连续敌潮。纵向战场现已适配手机单手操作。</p>
+          <div class="survival-tags"><span>塔防构筑</span><span>首领波次</span><span>主动技能</span></div>
+          <button type="button" class="survival-launch legacy-launch" @click="openGame">进入防线</button>
+        </section>
+        <section v-if="playing" class="survival-fullscreen legacy-fullscreen">
+          <button type="button" class="survival-close" aria-label="退出游戏" @click="closeGame">×</button>
+          <iframe :src="gameSrc" title="星核防线：量子协议" allow="fullscreen"></iframe>
+        </section>
+      </section>
+    `,
+    setup(props, { emit }) {
+      const playing = ref(false);
 
       function goHome() {
         closeGame();
@@ -100,135 +85,38 @@
 
       async function openGame() {
         playing.value = true;
-        await nextTick();
-        if (!isWechat) {
-          await requestFullscreen();
-        }
-        await lockLandscape();
-      }
-
-      function openDirect() {
-        window.location.href = gameSrc;
+        try {
+          if (document.documentElement.requestFullscreen) await document.documentElement.requestFullscreen();
+          if (global.screen.orientation && global.screen.orientation.lock) await global.screen.orientation.lock("portrait");
+        } catch (error) { /* Fullscreen and orientation lock are optional. */ }
       }
 
       async function closeGame() {
         playing.value = false;
-        unlockOrientation();
-
         try {
-          if (document.fullscreenElement && document.exitFullscreen) {
-            await document.exitFullscreen();
-          }
-        } catch (error) {
-          // Ignore fullscreen exit failures.
-        }
+          if (global.screen.orientation && global.screen.orientation.unlock) global.screen.orientation.unlock();
+          if (document.fullscreenElement && document.exitFullscreen) await document.exitFullscreen();
+        } catch (error) { /* No action needed. */ }
       }
 
-      function loadPreview() {
-        previewLoaded.value = true;
-        reloadGame();
-      }
-
-      function reloadGame() {
-        frameVersion.value += 1;
-      }
-
-      async function toggleLandscape() {
-        forceLandscape.value = !forceLandscape.value;
-        if (playing.value && forceLandscape.value) {
-          await lockLandscape();
-        } else {
-          unlockOrientation();
-        }
-      }
-
-      async function requestFullscreen() {
-        const docEl = document.documentElement;
-        const rfs = docEl.requestFullscreen || docEl.webkitRequestFullscreen || docEl.webkitRequestFullScreen || docEl.mozRequestFullScreen || docEl.msRequestFullscreen;
-
-        try {
-          if (rfs && !document.fullscreenElement && !document.webkitFullscreenElement) {
-            await rfs.call(docEl);
-          }
-        } catch (error) {
-          // CSS fixed overlay remains usable if fullscreen is denied.
-        }
-      }
-
-      async function lockLandscape() {
-        if (!forceLandscape.value || !global.screen || !global.screen.orientation || !global.screen.orientation.lock) {
-          return;
-        }
-
-        try {
-          await global.screen.orientation.lock("landscape");
-        } catch (error) {
-          // Orientation lock is optional; CSS rotation is the fallback.
-        }
-      }
-
-      function unlockOrientation() {
-        if (global.screen && global.screen.orientation && global.screen.orientation.unlock) {
-          try {
-            global.screen.orientation.unlock();
-          } catch (error) {
-            // Ignore unsupported unlock.
-          }
-        }
-      }
-
-      function handleResize() {
-        viewportWidth.value = getViewportWidth();
-      }
-
-      function handleFullscreenChange() {
-        if (playing.value) {
-          unlockOrientation();
-        }
-      }
-
-      function handleGameMessage(event) {
-        if (event.origin !== global.location.origin) return;
-        if (playing.value && event.data && event.data.type === "core-breach:exit") {
-          event.source.postMessage({ type: "core-breach:exit-ack" }, event.origin || "*");
-          closeGame();
-        }
+      function handleFullscreen() { if (!document.fullscreenElement) playing.value = false; }
+      function handleMessage(event) {
+        if (event.origin !== global.location.origin || !event.data || event.data.type !== "core-breach:exit") return;
+        event.source.postMessage({ type: "core-breach:exit-ack" }, event.origin);
+        closeGame();
       }
 
       onMounted(() => {
-        global.addEventListener("resize", handleResize);
-        global.addEventListener("message", handleGameMessage);
-        document.addEventListener("fullscreenchange", handleFullscreenChange);
+        document.addEventListener("fullscreenchange", handleFullscreen);
+        global.addEventListener("message", handleMessage);
       });
-
       onBeforeUnmount(() => {
-        unlockOrientation();
-        global.removeEventListener("resize", handleResize);
-        global.removeEventListener("message", handleGameMessage);
-        document.removeEventListener("fullscreenchange", handleFullscreenChange);
+        document.removeEventListener("fullscreenchange", handleFullscreen);
+        global.removeEventListener("message", handleMessage);
+        closeGame();
       });
 
-      return {
-        closeGame,
-        forceLandscape,
-        frameVersion,
-        gameFrame,
-        gameSrc,
-        goHome,
-        isWechat,
-        loadPreview,
-        openGame,
-        playing,
-        previewHeight,
-        previewScale,
-        previewLoaded,
-        reloadGame,
-        toggleLandscape,
-      };
+      return { closeGame, gameSrc: legacyGameSrc, goHome, openGame, playing };
     },
   };
-
-  function getViewportWidth() {
-    return Math.min(global.innerWidth || 430, 430);
-  }
 })(window);

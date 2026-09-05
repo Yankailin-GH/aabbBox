@@ -1,0 +1,31 @@
+.arcade-tool { --arcade-accent:#62d8d0; --arcade-deep:#0b2c31; --arcade-soft:#9eeae0; padding-bottom:28px; }
+.arcade-intro { position:relative; display:grid; justify-items:start; gap:9px; min-height:430px; margin-top:18px; padding:27px 20px 20px; overflow:hidden; border:1px solid color-mix(in srgb,var(--arcade-accent) 30%,transparent); border-radius:8px; background:var(--arcade-deep); color:#f8fffd; box-shadow:0 16px 38px rgba(10,22,27,.16); isolation:isolate; }
+.arcade-intro::before { content:""; position:absolute; z-index:-1; right:-85px; top:-70px; width:225px; height:225px; border:1px solid color-mix(in srgb,var(--arcade-accent) 22%,transparent); border-radius:50%; box-shadow:inset 0 0 0 34px color-mix(in srgb,var(--arcade-accent) 3%,transparent),inset 0 0 0 68px color-mix(in srgb,var(--arcade-accent) 3%,transparent); }
+.arcade-emblem { position:relative; width:72px; height:72px; display:grid; place-items:center; margin-bottom:7px; color:var(--arcade-accent); }
+.arcade-emblem i,.arcade-emblem::before { content:""; position:absolute; inset:5px; border:2px solid currentColor; transform:rotate(45deg); }
+.arcade-emblem::before { inset:15px; border-width:1px; transform:rotate(22.5deg); opacity:.45; }
+.arcade-emblem span { position:relative; z-index:1; max-width:52px; font-size:13px; font-weight:1000; text-align:center; }
+.arcade-kicker { margin:0; color:var(--arcade-soft); font-size:11px; font-weight:900; letter-spacing:1px; }
+.arcade-intro h2 { margin:0; color:#fff; font-size:30px; line-height:1.08; letter-spacing:0; }
+.arcade-description { max-width:310px; margin:2px 0 4px; color:rgba(248,255,253,.76); font-size:14px; line-height:1.62; }
+.arcade-tags { display:flex; flex-wrap:wrap; gap:7px; }
+.arcade-tags span { padding:5px 8px; border:1px solid color-mix(in srgb,var(--arcade-soft) 24%,transparent); border-radius:5px; color:var(--arcade-soft); font-size:10px; font-weight:800; }
+.arcade-launch { width:100%; min-height:50px; margin-top:auto; border-radius:7px; background:var(--arcade-accent); color:#102020; box-shadow:0 6px 0 color-mix(in srgb,var(--arcade-accent) 52%,#000),0 12px 24px rgba(0,0,0,.2); font-size:15px; font-weight:1000; transition:transform .15s ease-out,filter .15s; }
+.arcade-launch:active { transform:translateY(3px); filter:brightness(.92); box-shadow:0 3px 0 color-mix(in srgb,var(--arcade-accent) 52%,#000),0 7px 16px rgba(0,0,0,.2); }
+.arcade-fullscreen { position:fixed; z-index:1000; inset:0; display:grid; grid-template-rows:calc(56px + env(safe-area-inset-top)) minmax(0,1fr); justify-items:center; background:#080d0f; }
+.arcade-fullscreen iframe { grid-row:2; display:block; width:100%; height:100%; min-height:0; border:0; background:#080d0f; }
+.arcade-close { z-index:2; align-self:end; justify-self:end; width:44px; height:44px; margin:0 14px 6px 0; display:grid; place-items:center; border:1px solid rgba(255,255,255,.22); border-radius:8px; background:rgba(6,13,15,.72); color:#fff; font-size:25px; line-height:1; backdrop-filter:blur(6px); }
+.arcade-close:active { border-color:var(--arcade-accent); background:#26353a; }
+.arcade-loading { position:absolute; z-index:1; top:50%; left:50%; margin:0; transform:translate(-50%,-50%); color:rgba(255,255,255,.72); font-size:12px; font-weight:800; }
+.arcade-close:focus-visible,.arcade-launch:focus-visible { outline:3px solid #fff; outline-offset:3px; }
+.arcade-tool[data-game-theme="convoy"] { --arcade-accent:#f2c14e; --arcade-deep:#30231c; --arcade-soft:#f2d391; }
+.arcade-tool[data-game-theme="bastion"] { --arcade-accent:#65d8ef; --arcade-deep:#132a35; --arcade-soft:#aeeaf5; }
+.arcade-tool[data-game-theme="shadow"] { --arcade-accent:#9ee66e; --arcade-deep:#20242c; --arcade-soft:#c1eca5; }
+.arcade-tool[data-game-theme="forge"] { --arcade-accent:#f5c95a; --arcade-deep:#39251f; --arcade-soft:#f5daa0; }
+.arcade-tool[data-game-theme="fruit"] { --arcade-accent:#f6c453; --arcade-deep:#214f3a; --arcade-soft:#dff4d9; }
+.arcade-tool[data-game-theme="fruit"] .arcade-intro { background:linear-gradient(155deg,#214f3a 0%,#2f7d4a 58%,#255f42 100%); }
+.arcade-tool[data-game-theme="fruit"] .arcade-emblem { width:82px; height:82px; border-radius:50%; background:#fff5d9; color:#24583e; box-shadow:0 8px 0 rgba(18,62,41,.45); }
+.arcade-tool[data-game-theme="fruit"] .arcade-emblem i,.arcade-tool[data-game-theme="fruit"] .arcade-emblem::before { border-radius:50%; transform:none; border-color:rgba(47,125,74,.32); }
+.arcade-tool[data-game-theme="fruit"] .arcade-launch { color:#233327; }
+@media (min-width:700px) { .arcade-fullscreen iframe { width:min(100%,540px); margin:auto; box-shadow:0 0 80px rgba(0,0,0,.72); } }
+@media (prefers-reduced-motion:reduce) { .arcade-launch { transition:none; } }

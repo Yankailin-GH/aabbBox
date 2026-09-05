@@ -1,0 +1,19 @@
+{
+  "name": "星核防线：量子协议",
+  "short_name": "星核防线",
+  "description": "量子协议竖屏塔防策略游戏",
+  "start_url": "./core-breach-legacy.html",
+  "display": "standalone",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "portrait",
+  "background_color": "#070a14",
+  "theme_color": "#070a14",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23070a14'/><circle cx='50' cy='50' r='35' fill='none' stroke='%2300f3ff' stroke-width='6'/><circle cx='50' cy='50' r='18' fill='%23bc13fe'/></svg>",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

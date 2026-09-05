@@ -1,6 +1,6 @@
 # AABB Toolbox H5
 
-移动端 H5 工具箱，使用 HTML、CSS 和 Vue 3 构建。当前已接入打牌计分板、幸运转盘、星核防线游戏、JSON 格式化、随机生成、图片压缩、提词器等工具。
+移动端 H5 工具箱，使用 HTML、CSS 和 Vue 3 构建。游戏区包含果果拼拼乐、裂隙远征、星核防线、深渊采样、荒原车队、天穹守望、影域潜行和熔核锻造，并保留计分板、图片处理与开发辅助等工具。
 
 ## 本地预览
 
@@ -43,6 +43,12 @@ frontend/
       core-breach-game/
         component.js
         style.css
+      arcade-games/
+        component.js
+        style.css
+    arcade/
+      arcade-kit.js
+      arcade-kit.css
 ```
 
 `mini-tools/` 里集中放置轻量工具实现，包括 AABB 盒子、颜色取样、色板生成、渐变生成、阴影圆角、单位换算、日期计算、JWT 解析、Base64、URL 参数、正则测试、待办清单、番茄计时、文本去重和速记便签。

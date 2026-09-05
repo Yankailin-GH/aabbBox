@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+  <meta name="theme-color" content="#15171d">
+  <title>影域潜行</title>
+  <link rel="stylesheet" href="./arcade/arcade-kit.css">
+</head>
+<body>
+  <div id="app"></div>
+  <script src="./arcade/arcade-kit.js"></script>
+  <script>
+  (()=>{
+    'use strict';
+    const S={};
+    const N=[
+      [.12,.82],[.29,.82],[.48,.82],[.68,.82],[.87,.82],
+      [.20,.64],[.40,.64],[.61,.64],[.81,.64],
+      [.12,.46],[.32,.46],[.52,.46],[.74,.46],[.89,.46],
+      [.25,.27],[.52,.27],[.78,.27],[.52,.13]
+    ];
+    const E=[[0,1],[1,2],[2,3],[3,4],[0,5],[1,5],[1,6],[2,6],[2,7],[3,7],[3,8],[4,8],[5,6],[6,7],[7,8],[5,9],[5,10],[6,10],[6,11],[7,11],[7,12],[8,12],[8,13],[9,10],[10,11],[11,12],[12,13],[9,14],[10,14],[10,15],[11,15],[12,15],[12,16],[13,16],[14,15],[15,16],[14,17],[15,17],[16,17]];
+    const terminals=[5,13,15];
+    const config={
+      title:'影域潜行',seal:'NULL',kicker:'节点渗透 · 动态警戒',mission:'破解 3 个终端并抵达屋顶撤离点',limit:'120 秒',metricLabel:'警戒',scoreLabel:'终端',objective:'点击相邻节点移动，避开红色视锥',actionLabel:'干扰脉冲',choiceLabel:'选择渗透模组',startLabel:'潜入影域',
+      colors:{bg:'#15171d',surface:'#20242c',surface2:'#2d343e',ink:'#f5f7f2',muted:'#a8afb8',accent:'#9ee66e',accent2:'#ff5f62'},
+      choices:[
+        {id:'ghost',icon:'隐',name:'折光迷彩',detail:'更难被发现'},
+        {id:'cipher',icon:'解',name:'量子破解器',detail:'破解速度 +45%'},
+        {id:'pulse',icon:'脉',name:'过载线圈',detail:'干扰范围 +50%'}
+      ],
+      init(api){reset(api,true)},resize(api){layout(api)},choiceChanged(api){reset(api,true)},reset(api){reset(api,false)},update,draw,
+      pointerDown(api,p){selectNode(api,p)},action:jam
+    };
+    function point(api,index){const top=88,bottom=api.h-70;return{x:N[index][0]*api.w,y:top+N[index][1]*(bottom-top)}}
+    function layout(api){S.points=N.map((_,i)=>point(api,i));if(S.player){const p=S.points[S.player.node];S.player.x=p.x;S.player.y=p.y}}
+    function reset(api,preview){
+      S.player={node:0,x:0,y:0,from:0,to:0,t:1,hidden:0};S.hacked=new Set();S.hack=0;S.alert=0;S.jam=0;S.fx=[];S.preview=preview;S.guards=[];layout(api);
+      S.guards.push(makeGuard(api,[9,10,11,12,13],.24),makeGuard(api,[14,15,16],.62),makeGuard(api,[5,6,7,8],.83));if(!preview)S.guards.push(makeGuard(api,[2,6,10,14],.44));
+      api.setHud({metric:'0%',score:0,health:100,maxHealth:100,objective:'目标：破解 3 个数据终端'});api.setAction('干扰脉冲',1,true);
+    }
+    function makeGuard(api,path,progress){const g={path,segment:0,t:0,x:0,y:0,angle:0,stun:0,phase:Math.random()*6.28};const pos=progress*(path.length-1);g.segment=Math.floor(pos)%path.length;g.t=pos-Math.floor(pos);placeGuard(api,g);return g}
+    function placeGuard(api,g){const a=S.points[g.path[g.segment]],b=S.points[g.path[(g.segment+1)%g.path.length]];g.x=a.x+(b.x-a.x)*g.t;g.y=a.y+(b.y-a.y)*g.t;g.angle=Math.atan2(b.y-a.y,b.x-a.x)}
+    function linked(a,b){return E.some(e=>(e[0]===a&&e[1]===b)||(e[1]===a&&e[0]===b))}
+    function selectNode(api,p){if(S.player.t<1)return;let best=-1,dist=36;for(let i=0;i<S.points.length;i++){const d=Math.hypot(p.x-S.points[i].x,p.y-S.points[i].y);if(d<dist){dist=d;best=i}}if(best<0||best===S.player.node||!linked(S.player.node,best)){api.tone(110,.05,'square',.008,80);return}S.player.from=S.player.node;S.player.to=best;S.player.t=0;S.hack=0;api.tone(320,.035,'triangle',.01,450)}
+    function update(api,dt){
+      S.jam=Math.max(0,S.jam-dt);S.player.hidden=Math.max(0,S.player.hidden-dt);
+      if(S.player.t<1){S.player.t=Math.min(1,S.player.t+dt*2.9);const q=S.player.t*S.player.t*(3-2*S.player.t),a=S.points[S.player.from],b=S.points[S.player.to];S.player.x=a.x+(b.x-a.x)*q;S.player.y=a.y+(b.y-a.y)*q;if(S.player.t>=1){S.player.node=S.player.to;api.tone(490,.04,'sine',.012,610)}}
+      for(const g of S.guards){g.phase+=dt*4;g.stun=Math.max(0,g.stun-dt);if(g.stun<=0){g.t+=dt*(.34+api.elapsed*.0018);if(g.t>=1){g.t-=1;g.segment=(g.segment+1)%g.path.length}placeGuard(api,g)}}
+      let seen=false;if(S.player.t>=.5&&S.player.hidden<=0){for(const g of S.guards){if(g.stun>0)continue;const dx=S.player.x-g.x,dy=S.player.y-g.y,d=Math.hypot(dx,dy),da=Math.abs(angleDiff(Math.atan2(dy,dx),g.angle));const range=api.choice==='ghost'?91:126;if(d<range&&da<.42&&!wallOccluded(api,g,S.player)){seen=true;break}}}
+      if(seen){S.alert=Math.min(100,S.alert+dt*(api.choice==='ghost'?24:38));if(Math.floor(S.alert)%13===0)api.tone(190,.035,'square',.007,160)}else S.alert=Math.max(0,S.alert-dt*(S.player.hidden>0?13:7));
+      const onTerminal=terminals.includes(S.player.node)&&!S.hacked.has(S.player.node)&&S.player.t>=1;if(onTerminal&&!seen){S.hack+=dt*(api.choice==='cipher'?1.45:1);const need=2.8;if(S.hack>=need){S.hacked.add(S.player.node);S.hack=0;S.alert=Math.max(0,S.alert-20);pulse(S.player.x,S.player.y,'#9ee66e');api.tone(440,.18,'triangle',.028,980);api.vibrate(22)}}else if(!onTerminal)S.hack=Math.max(0,S.hack-dt*.8);
+      for(const f of S.fx)f.life-=dt;S.fx=S.fx.filter(f=>f.life>0);
+      if(S.alert>=100)api.finish('身份暴露','警戒网完成锁定，渗透行动终止。',[{label:'终端',value:S.hacked.size+'/3'},{label:'用时',value:api.formatTime(api.elapsed)},{label:'最高警戒',value:'100%'}]);
+      if(S.hacked.size===3&&S.player.node===17&&S.player.t>=1)api.finish('无痕撤离','数据已送出，影域中没有留下身份记录。',[{label:'终端',value:'3/3'},{label:'用时',value:api.formatTime(api.elapsed)},{label:'警戒',value:Math.ceil(S.alert)+'%'}]);
+      if(api.elapsed>=120)api.finish('窗口关闭','撤离航线已经离开，行动超时。',[{label:'终端',value:S.hacked.size+'/3'},{label:'警戒',value:Math.ceil(S.alert)+'%'},{label:'位置',value:S.player.node===17?'屋顶':'设施内'}]);
+      const objective=S.hacked.size<3?(onTerminal?'保持静止 · 破解 '+Math.min(100,Math.round(S.hack/2.8*100))+'%':'目标：破解 '+(3-S.hacked.size)+' 个数据终端'):'撤离点已开放：前往屋顶节点';
+      api.setHud({metric:Math.ceil(S.alert)+'%',score:S.hacked.size+'/3',health:100-S.alert,maxHealth:100,objective});api.setAction(S.jam>0?Math.ceil(S.jam)+'s':'干扰脉冲',1-S.jam/12,S.jam<=0);
+    }
+    function angleDiff(a,b){return Math.atan2(Math.sin(a-b),Math.cos(a-b))}
+    function wallOccluded(api,g,p){return false}
+    function jam(api){if(S.jam>0)return;S.jam=12;const radius=api.choice==='pulse'?155:104;let hit=0;for(const g of S.guards){if(Math.hypot(g.x-S.player.x,g.y-S.player.y)<radius){g.stun=api.choice==='pulse'?5:3.4;hit++}}S.player.hidden=1.35;pulse(S.player.x,S.player.y,'#9ee66e');api.tone(720,.25,'sine',.03,80);api.vibrate(hit?25:10)}
+    function pulse(x,y,color){S.fx.push({x,y,life:.65,max:.65,color})}
+    function draw(api){
+      const {ctx,w,h}=api;ctx.fillStyle='#101218';ctx.fillRect(0,0,w,h);ctx.fillStyle='#171b22';for(let y=80;y<h;y+=48)for(let x=(y/48%2)*24;x<w;x+=48)ctx.fillRect(x+2,y+2,44,44);
+      ctx.strokeStyle='rgba(163,179,186,.12)';ctx.lineWidth=6;ctx.lineCap='round';for(const e of E){const a=S.points[e[0]],b=S.points[e[1]];ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke()}
+      for(const g of S.guards)drawVision(ctx,g,api.choice==='ghost'?91:126);
+      for(let i=0;i<S.points.length;i++){const p=S.points[i],available=S.player.t>=1&&linked(S.player.node,i);ctx.fillStyle=available?'#34454a':'#242a31';ctx.strokeStyle=available?'rgba(158,230,110,.65)':'#4d5661';ctx.lineWidth=2;ctx.beginPath();ctx.arc(p.x,p.y,available?8:6,0,6.28);ctx.fill();ctx.stroke()}
+      for(const id of terminals){const p=S.points[id],done=S.hacked.has(id);ctx.save();ctx.translate(p.x,p.y);ctx.fillStyle=done?'#9ee66e':'#e5b85c';ctx.strokeStyle='#101218';ctx.lineWidth=3;ctx.fillRect(-12,-16,24,21);ctx.strokeRect(-12,-16,24,21);ctx.fillStyle='#101218';ctx.fillRect(-6,-11,12,8);if(!done){ctx.strokeStyle='#e5b85c';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,-6,17,0,6.28);ctx.stroke()}ctx.restore()}
+      const exit=S.points[17];ctx.strokeStyle=S.hacked.size===3?'#9ee66e':'#68717b';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(exit.x-15,exit.y+9);ctx.lineTo(exit.x,exit.y-13);ctx.lineTo(exit.x+15,exit.y+9);ctx.stroke();
+      for(const g of S.guards)drawGuard(ctx,g);for(const f of S.fx){const t=1-f.life/f.max;ctx.globalAlpha=f.life/f.max;ctx.strokeStyle=f.color;ctx.lineWidth=4*(1-t)+1;ctx.beginPath();ctx.arc(f.x,f.y,22+t*145,0,6.28);ctx.stroke()}ctx.globalAlpha=1;
+      if(S.player.hidden>0){ctx.strokeStyle='rgba(158,230,110,.5)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(S.player.x,S.player.y,18+Math.sin(api.elapsed*12)*3,0,6.28);ctx.stroke()}
+      drawAgent(ctx,S.player);if(S.hack>0){ctx.strokeStyle='#9ee66e';ctx.lineWidth=4;ctx.beginPath();ctx.arc(S.player.x,S.player.y,23,-Math.PI/2,-Math.PI/2+6.28*Math.min(1,S.hack/2.8));ctx.stroke()}
+      ctx.fillStyle='rgba(255,95,98,.14)';ctx.fillRect(0,0,w,Math.max(0,S.alert/100)*6);
+    }
+    function drawVision(ctx,g,range){if(g.stun>0)return;const a=g.angle;ctx.fillStyle='rgba(255,76,79,.115)';ctx.beginPath();ctx.moveTo(g.x,g.y);ctx.arc(g.x,g.y,range,a-.42,a+.42);ctx.closePath();ctx.fill();ctx.strokeStyle='rgba(255,95,98,.24)';ctx.lineWidth=1;ctx.stroke()}
+    function drawGuard(ctx,g){ctx.save();ctx.translate(g.x,g.y);ctx.rotate(g.angle);ctx.fillStyle=g.stun>0?'#607069':'#d95a5d';ctx.beginPath();ctx.moveTo(13,0);ctx.lineTo(-8,-9);ctx.lineTo(-5,0);ctx.lineTo(-8,9);ctx.closePath();ctx.fill();ctx.fillStyle=g.stun>0?'#9ee66e':'#ffe0c3';ctx.beginPath();ctx.arc(1,0,4,0,6.28);ctx.fill();ctx.restore();if(g.stun>0){ctx.fillStyle='#9ee66e';ctx.font='bold 10px system-ui';ctx.textAlign='center';ctx.fillText('OFF',g.x,g.y-14)}}
+    function drawAgent(ctx,p){ctx.save();ctx.translate(p.x,p.y);ctx.shadowColor='#9ee66e';ctx.shadowBlur=10;ctx.fillStyle='#dfffcf';ctx.beginPath();ctx.arc(0,-5,5,0,6.28);ctx.fill();ctx.fillStyle='#151f1d';ctx.beginPath();ctx.moveTo(-8,12);ctx.lineTo(-6,-1);ctx.lineTo(0,-6);ctx.lineTo(7,-1);ctx.lineTo(9,12);ctx.closePath();ctx.fill();ctx.strokeStyle='#9ee66e';ctx.lineWidth=2;ctx.stroke();ctx.shadowBlur=0;ctx.restore()}
+    ArcadeKit.mount(config);
+  })();
+  </script>
+</body>
+</html>

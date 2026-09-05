@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+  <meta name="theme-color" content="#1d1715">
+  <title>熔核锻造</title>
+  <link rel="stylesheet" href="./arcade/arcade-kit.css">
+</head>
+<body>
+  <div id="app"></div>
+  <script src="./arcade/arcade-kit.js"></script>
+  <script>
+  (()=>{
+    'use strict';
+    const S={};
+    const COLORS=['#ff6656','#62d8d0','#f5c95a','#d798f3'];
+    const NAMES=['炎','潮','金','晶'];
+    const config={
+      title:'熔核锻造',seal:'FG',kicker:'四色匹配 · 连击锻造',mission:'校准接收环，完成 60 次纯净锻造',limit:'90 秒',metricLabel:'温度',scoreLabel:'锻造',objective:'左右拖动旋转接收环，匹配来料颜色',actionLabel:'低温泄压',choiceLabel:'选择锻造协议',startLabel:'点燃熔核',
+      colors:{bg:'#1d1715',surface:'#302521',surface2:'#45362e',ink:'#fff7e9',muted:'#bcae9f',accent:'#f5c95a',accent2:'#ff6656'},
+      choices:[
+        {id:'stable',icon:'稳',name:'稳定炉心',detail:'失误升温 -35%'},
+        {id:'combo',icon:'连',name:'连锁磁轨',detail:'连击得分更高'},
+        {id:'slow',icon:'缓',name:'时滞线圈',detail:'来料速度 -18%'}
+      ],
+      init(api){reset(api,true)},resize(api){place(api)},choiceChanged(api){reset(api,true)},reset(api){reset(api,false)},update,draw,
+      pointerDown(api,p){S.drag=true;S.lastX=p.x},pointerMove(api,p){if(!S.drag)return;S.rotation+=(p.x-S.lastX)*.012;S.lastX=p.x},pointerUp(){S.drag=false},action:vent
+    };
+    function place(api){S.cx=api.w*.5;S.cy=api.h*.61;S.radius=Math.min(api.w*.27,112)}
+    function reset(api,preview){S.rotation=-Math.PI*.25;S.items=[];S.fx=[];S.forged=0;S.score=0;S.combo=0;S.best=0;S.heat=18;S.spawn=preview?99:1.05;S.vent=0;S.drag=false;S.lastX=0;S.shake=0;S.preview=preview;place(api);if(preview){for(let i=0;i<4;i++)S.items.push(makeItem(api,i,i*Math.PI/2+.2,.58+i*.08))}api.setHud({metric:'18%',score:0,health:82,maxHealth:100,objective:'目标：完成 60 次纯净锻造'});api.setAction('低温泄压',1,true)}
+    function makeItem(api,color,angle=Math.random()*6.28,progress=0){const distance=Math.hypot(api.w,api.h)*.54;return{color:color??Math.floor(Math.random()*4),angle,progress,speed:.15+Math.random()*.035,spin:(Math.random()-.5)*3,rot:Math.random()*6.28,trail:[] ,distance}}
+    function update(api,dt){
+      S.vent=Math.max(0,S.vent-dt);S.spawn-=dt;S.shake=Math.max(0,S.shake-dt);S.heat=Math.max(4,S.heat-dt*(S.combo>7?.2:1.05));
+      if(S.spawn<=0){S.items.push(makeItem(api));const pace=Math.max(.43,1.03-api.elapsed*.006);S.spawn=pace*(api.choice==='slow'?1.2:1)}
+      const speedMod=api.choice==='slow'?.82:1;for(const item of S.items){item.progress+=item.speed*speedMod*dt;item.rot+=item.spin*dt;if(item.progress>.72&&item.trail.length<7)item.trail.push({p:item.progress,life:.3});for(const t of item.trail)t.life-=dt;if(item.progress>=1&&!item.done){item.done=true;resolve(api,item)}}
+      for(const f of S.fx){f.x+=f.vx*dt;f.y+=f.vy*dt;f.vy+=24*dt;f.life-=dt}S.fx=S.fx.filter(f=>f.life>0);S.items=S.items.filter(i=>!i.done);if(S.heat>=100)api.finish('熔核过载','接收环污染导致炉温突破安全上限。',[{label:'锻造',value:S.forged},{label:'最高连击',value:S.best},{label:'得分',value:S.score}]);
+      if(S.forged>=60)api.finish('完美出炉','全部合金完成纯净锻造。',[{label:'锻造',value:S.forged},{label:'最高连击',value:S.best},{label:'得分',value:S.score}]);
+      if(api.elapsed>=90)api.finish(S.forged>=45?'锻造完成':'炉次结束',S.forged>=45?'这批合金达到交付标准。':'材料纯度不足，再校准一次接收环。',[{label:'锻造',value:S.forged},{label:'最高连击',value:S.best},{label:'得分',value:S.score}]);
+      api.setHud({metric:Math.ceil(S.heat)+'%',score:S.forged,health:100-S.heat,maxHealth:100,objective:S.combo>=8?'连击 x'+S.combo+' · 稳住节奏':'目标：还需 '+Math.max(0,60-S.forged)+' 次纯净锻造'});api.setAction(S.vent>0?Math.ceil(S.vent)+'s':'低温泄压',1-S.vent/14,S.vent<=0);
+    }
+    function sectorAt(angle){let a=(angle-S.rotation)%(Math.PI*2);if(a<0)a+=Math.PI*2;return Math.floor(a/(Math.PI/2))%4}
+    function resolve(api,item){const match=sectorAt(item.angle)===item.color;if(match){S.forged++;S.combo++;S.best=Math.max(S.best,S.combo);const mult=1+Math.floor(S.combo/5)*(api.choice==='combo'?2:1);S.score+=mult;S.heat=Math.max(0,S.heat-(S.combo>5?2.8:1.5));sparks(item, COLORS[item.color],12);api.tone(330+item.color*95,.08,'triangle',.02,520+S.combo*8)}else{S.combo=0;S.heat=Math.min(100,S.heat+(api.choice==='stable'?10:15));S.shake=.22;sparks(item,'#fff1db',18);api.hit();api.tone(105,.16,'sawtooth',.03,52)}}
+    function vent(api){if(S.vent>0)return;S.vent=14;S.heat=Math.max(0,S.heat-28);S.combo=0;for(let i=0;i<34;i++){const a=Math.random()*6.28,sp=45+Math.random()*130;S.fx.push({x:S.cx,y:S.cy,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:.4+Math.random()*.5,max:.9,color:'#d9ffff',r:1+Math.random()*3})}api.tone(680,.35,'sine',.025,110);api.vibrate(18)}
+    function sparks(item,color,count){const p=itemPos(item);for(let i=0;i<count;i++){const a=Math.random()*6.28,sp=30+Math.random()*100;S.fx.push({x:p.x,y:p.y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:.3+Math.random()*.45,max:.75,color,r:1+Math.random()*2.5})}}
+    function itemPos(item){const outer=item.distance,dist=outer*(1-item.progress)+S.radius;return{x:S.cx+Math.cos(item.angle)*dist,y:S.cy+Math.sin(item.angle)*dist}}
+    function draw(api){
+      const {ctx,w,h}=api;ctx.save();if(S.shake>0)ctx.translate((Math.random()-.5)*8,(Math.random()-.5)*8);const bg=ctx.createRadialGradient(S.cx,S.cy,20,S.cx,S.cy,Math.max(w,h));bg.addColorStop(0,'#4b2d21');bg.addColorStop(.32,'#251b19');bg.addColorStop(1,'#120f11');ctx.fillStyle=bg;ctx.fillRect(-10,-10,w+20,h+20);
+      ctx.strokeStyle='rgba(245,201,90,.08)';ctx.lineWidth=1;for(let r=S.radius+48;r<Math.max(w,h)*.6;r+=48){ctx.beginPath();ctx.arc(S.cx,S.cy,r,0,6.28);ctx.stroke()}
+      for(const item of S.items)drawItem(ctx,item);drawRing(ctx,api);for(const f of S.fx){ctx.globalAlpha=Math.max(0,f.life/f.max);ctx.fillStyle=f.color;ctx.beginPath();ctx.arc(f.x,f.y,f.r,0,6.28);ctx.fill()}ctx.globalAlpha=1;
+      ctx.textAlign='center';ctx.fillStyle='#fff7e9';ctx.font='900 26px system-ui';ctx.fillText(S.combo>1?'x'+S.combo:'熔核',S.cx,S.cy+8);ctx.fillStyle='#bcae9f';ctx.font='800 9px system-ui';ctx.fillText(S.combo>1?'连续纯净锻造':'旋转接收环',S.cx,S.cy+25);ctx.restore();
+    }
+    function drawRing(ctx,api){const gap=.035;for(let i=0;i<4;i++){const a=S.rotation+i*Math.PI/2+gap,b=S.rotation+(i+1)*Math.PI/2-gap;ctx.strokeStyle=COLORS[i];ctx.lineWidth=22;ctx.shadowColor=COLORS[i];ctx.shadowBlur=9;ctx.beginPath();ctx.arc(S.cx,S.cy,S.radius,a,b);ctx.stroke();ctx.shadowBlur=0;const m=(a+b)/2;ctx.save();ctx.translate(S.cx+Math.cos(m)*S.radius,S.cy+Math.sin(m)*S.radius);ctx.rotate(m+Math.PI/2);ctx.fillStyle='#171315';ctx.font='900 10px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(NAMES[i],0,1);ctx.restore()}ctx.strokeStyle='rgba(255,247,233,.14)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(S.cx,S.cy,S.radius-18,0,6.28);ctx.stroke();ctx.fillStyle='#120f11';ctx.beginPath();ctx.arc(S.cx,S.cy,S.radius-29,0,6.28);ctx.fill();ctx.strokeStyle='#f5c95a';ctx.globalAlpha=.24+.18*Math.sin(api.elapsed*4);ctx.lineWidth=2;ctx.beginPath();ctx.arc(S.cx,S.cy,S.radius-35,0,6.28);ctx.stroke();ctx.globalAlpha=1}
+    function drawItem(ctx,item){const p=itemPos(item);for(const t of item.trail){if(t.life<=0)continue;const dist=item.distance*(1-t.p)+S.radius,x=S.cx+Math.cos(item.angle)*dist,y=S.cy+Math.sin(item.angle)*dist;ctx.globalAlpha=t.life/.3;ctx.fillStyle=COLORS[item.color];ctx.beginPath();ctx.arc(x,y,3,0,6.28);ctx.fill()}ctx.globalAlpha=1;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(item.rot);ctx.shadowColor=COLORS[item.color];ctx.shadowBlur=14;ctx.fillStyle=COLORS[item.color];ctx.strokeStyle='#fff7e9';ctx.lineWidth=1.5;ctx.beginPath();if(item.color===0){ctx.moveTo(0,-13);ctx.lineTo(10,8);ctx.lineTo(0,12);ctx.lineTo(-10,8)}else if(item.color===1){ctx.roundRect(-9,-12,18,24,5)}else if(item.color===2){ctx.moveTo(0,-13);ctx.lineTo(12,0);ctx.lineTo(0,13);ctx.lineTo(-12,0)}else{for(let i=0;i<8;i++){const a=i*Math.PI/4,r=i%2?7:12;ctx.lineTo(Math.cos(a)*r,Math.sin(a)*r)}ctx.closePath()}ctx.fill();ctx.stroke();ctx.shadowBlur=0;ctx.restore()}
+    ArcadeKit.mount(config);
+  })();
+  </script>
+</body>
+</html>

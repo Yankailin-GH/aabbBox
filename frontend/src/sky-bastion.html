@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+  <meta name="theme-color" content="#101820">
+  <title>天穹守望</title>
+  <link rel="stylesheet" href="./arcade/arcade-kit.css">
+</head>
+<body>
+  <div id="app"></div>
+  <script src="./arcade/arcade-kit.js"></script>
+  <script>
+  (()=>{
+    'use strict';
+    const S={};
+    const config={
+      title:'天穹守望',seal:'SKY',kicker:'防空预测 · 火控拦截',mission:'守住穹顶，消除 45 点空中威胁',limit:'90 秒',metricLabel:'护盾',scoreLabel:'威胁',objective:'拖动准星，炮台自动射击',actionLabel:'空爆弹',choiceLabel:'选择火控模块',startLabel:'启动防空阵列',
+      colors:{bg:'#101820',surface:'#1b2b34',surface2:'#29404b',ink:'#f5fbff',muted:'#9db2bf',accent:'#65d8ef',accent2:'#ff795d'},
+      choices:[
+        {id:'rail',icon:'轨',name:'磁轨速射',detail:'高弹速 · 均衡'},
+        {id:'scatter',icon:'散',name:'近炸霰弹',detail:'三发 · 近程'},
+        {id:'seeker',icon:'导',name:'追猎弹头',detail:'追踪 · 慢射'}
+      ],
+      init(api){reset(api,true)},resize(api){makeSkyline(api)},choiceChanged(api){reset(api,true)},reset(api){reset(api,false)},update,draw,
+      pointerDown(api,p){S.aim=p;S.drag=true},pointerMove(api,p){S.aim=p},pointerUp(){S.drag=false},action:airburst
+    };
+    function reset(api,preview){
+      S.base={x:api.w*.5,y:api.h-74,hp:100,max:100,hit:0};S.aim={x:api.w*.5,y:api.h*.34};S.targets=[];S.shells=[];S.bombs=[];S.fx=[];S.stars=[];S.city=[];S.kills=0;S.combo=0;S.bestCombo=0;S.spawn=preview?99:.8;S.shot=.2;S.skill=0;S.drag=false;S.wave=1;S.preview=preview;makeSkyline(api);
+      if(preview){S.targets.push(makeTarget(api,'wing',.22),makeTarget(api,'bomber',.52),makeTarget(api,'drone',.78))}
+      api.setHud({metric:'100%',score:0,health:100,maxHealth:100,objective:'目标：消除 45 点空中威胁'});api.setAction('空爆弹',1,true);
+    }
+    function makeSkyline(api){S.stars=Array.from({length:38},()=>({x:Math.random()*api.w,y:90+Math.random()*api.h*.58,r:Math.random()*1.4+.3,a:Math.random()*.65+.2}));S.city=[];let x=0;while(x<api.w){const w=18+Math.random()*28,h=24+Math.random()*65;S.city.push({x,w,h,lit:Math.random()});x+=w+3}}
+    function makeTarget(api,kind,xRatio=Math.random()){
+      const stats=kind==='bomber'?{w:38,h:18,hp:4,speed:34,score:4}:kind==='drone'?{w:18,h:13,hp:1,speed:78,score:1}:{w:28,h:14,hp:2,speed:56,score:2};
+      const side=Math.random()<.5?-1:1;return {kind,x:xRatio*api.w,y:112+Math.random()*api.h*.38,w:stats.w,h:stats.h,hp:stats.hp,max:stats.hp,speed:stats.speed*(.9+S.wave*.06),score:stats.score,dir:side,phase:Math.random()*6.28,drop:1.2+Math.random()*2.3,hit:0};
+    }
+    function fire(api){
+      const c=S.base,a=Math.atan2(S.aim.y-c.y,S.aim.x-c.x);if(api.choice==='scatter'){for(let i=-1;i<=1;i++)S.shells.push({x:c.x,y:c.y-17,vx:Math.cos(a+i*.11)*390,vy:Math.sin(a+i*.11)*390,r:3,life:1.1,seek:false})}else{const speed=api.choice==='rail'?610:330;S.shells.push({x:c.x,y:c.y-17,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed,r:api.choice==='rail'?3:5,life:1.8,seek:api.choice==='seeker'})}api.tone(api.choice==='rail'?180:api.choice==='scatter'?105:145,.055,'square',.018,55);
+    }
+    function update(api,dt){
+      S.wave=1+Math.floor(api.elapsed/22);S.base.hit=Math.max(0,S.base.hit-dt);S.skill=Math.max(0,S.skill-dt);S.shot-=dt;S.spawn-=dt;
+      const fireRate=api.choice==='rail'?.22:api.choice==='scatter'?.62:.72;if(S.shot<=0){fire(api);S.shot=fireRate}
+      if(S.spawn<=0){const roll=Math.random();S.targets.push(makeTarget(api,roll<.18?'bomber':roll<.5?'drone':'wing'));S.spawn=Math.max(.34,1.08-S.wave*.1)*(api.choice==='scatter'?1.04:1)}
+      for(const e of S.targets){e.phase+=dt*5;e.x+=e.dir*e.speed*dt;e.y+=Math.sin(e.phase)*5*dt;e.hit=Math.max(0,e.hit-dt);e.drop-=dt;if(e.x<-35){e.x=api.w+30;e.y+=20;e.dir=-1}else if(e.x>api.w+35){e.x=-30;e.y+=20;e.dir=1}if(e.drop<=0){S.bombs.push({x:e.x,y:e.y+8,vx:e.dir*7,vy:45+S.wave*5,r:e.kind==='bomber'?7:5});e.drop=1.5+Math.random()*2.5}}
+      for(const b of S.bombs){b.vy+=34*dt;b.x+=b.vx*dt;b.y+=b.vy*dt;if(b.y>S.base.y-8){b.dead=true;damage(api,b.r>6?14:8)}}
+      for(const p of S.shells){if(p.seek&&S.targets.length){let t=S.targets[0],bd=Infinity;for(const e of S.targets){const d=(e.x-p.x)**2+(e.y-p.y)**2;if(d<bd){bd=d;t=e}}const a=Math.atan2(t.y-p.y,t.x-p.x),sp=Math.hypot(p.vx,p.vy);p.vx+=(Math.cos(a)*sp-p.vx)*dt*3;p.vy+=(Math.sin(a)*sp-p.vy)*dt*3}p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt;if(p.life<=0||p.y<75||p.x<-20||p.x>api.w+20)p.dead=true}
+      for(const p of S.shells){if(p.dead)continue;for(const b of S.bombs){if(!b.dead&&Math.hypot(p.x-b.x,p.y-b.y)<p.r+b.r+2){p.dead=true;b.dead=true;burst(b.x,b.y,'#ffd36b',7);S.combo++;break}}if(p.dead)continue;for(const e of S.targets){if(e.dead)continue;if(Math.abs(p.x-e.x)<e.w*.56+p.r&&Math.abs(p.y-e.y)<e.h*.65+p.r){p.dead=true;e.hp--;e.hit=.09;burst(p.x,p.y,'#d6f9ff',4);if(e.hp<=0){e.dead=true;S.kills+=e.score;S.combo++;S.bestCombo=Math.max(S.bestCombo,S.combo);burst(e.x,e.y,e.kind==='bomber'?'#ff8a5c':'#65d8ef',14);api.tone(90,.13,'sawtooth',.026,36);if(S.kills>=45)api.finish('苍穹已净空','最后一批来袭单位已被截断。',[{label:'拦截',value:S.kills},{label:'最高连击',value:S.bestCombo},{label:'护盾',value:Math.ceil(S.base.hp)+'%'}])}break}}}
+      for(const f of S.fx){f.x+=f.vx*dt;f.y+=f.vy*dt;f.vy+=20*dt;f.life-=dt}
+      S.targets=S.targets.filter(e=>!e.dead&&e.y<S.base.y-25);S.shells=S.shells.filter(p=>!p.dead);S.bombs=S.bombs.filter(b=>!b.dead);S.fx=S.fx.filter(f=>f.life>0);
+      if(api.elapsed>=90)api.finish(S.base.hp>0?'守望完成':'阵地失守',S.base.hp>0?'援军已经接管防区。':'穹顶护盾在援军抵达前耗尽。',[{label:'拦截',value:S.kills},{label:'最高连击',value:S.bestCombo},{label:'护盾',value:Math.ceil(S.base.hp)+'%'}]);
+      api.setHud({metric:Math.ceil(S.base.hp)+'%',score:S.kills,health:S.base.hp,maxHealth:100,objective:S.kills>=34?'最后攻势：优先拦截轰炸机':'目标：消除 45 点空中威胁'});api.setAction(S.skill>0?Math.ceil(S.skill)+'s':'空爆弹',1-S.skill/10,S.skill<=0);
+    }
+    function damage(api,amount){S.base.hp=Math.max(0,S.base.hp-amount);S.base.hit=.24;S.combo=0;api.hit();api.tone(70,.18,'sawtooth',.035,38);if(S.base.hp<=0)api.finish('穹顶失守','重新配置火控模块，再守一次。',[{label:'拦截',value:S.kills},{label:'最高连击',value:S.bestCombo},{label:'坚持',value:api.formatTime(api.elapsed)}])}
+    function airburst(api){if(S.skill>0)return;S.skill=10;let caught=0;for(const b of S.bombs){if(Math.hypot(b.x-S.aim.x,b.y-S.aim.y)<105){b.dead=true;caught++;burst(b.x,b.y,'#ffd36b',9)}}for(const e of S.targets){if(Math.hypot(e.x-S.aim.x,e.y-S.aim.y)<92){e.hp-=2;e.hit=.16;if(e.hp<=0){e.dead=true;S.kills+=e.score;caught++;burst(e.x,e.y,'#65d8ef',13)}}}burst(S.aim.x,S.aim.y,'#ffffff',28);api.tone(390,.22,'triangle',.04,82);api.vibrate(caught?30:12)}
+    function burst(x,y,color,count){for(let i=0;i<count;i++){const a=Math.random()*6.28,sp=35+Math.random()*110;S.fx.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:.35+Math.random()*.45,max:.8,color,r:1+Math.random()*2.8})}}
+    function draw(api){
+      const {ctx,w,h}=api,g=ctx.createLinearGradient(0,0,0,h);g.addColorStop(0,'#07121e');g.addColorStop(.58,'#173543');g.addColorStop(1,'#152125');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+      for(const s of S.stars){ctx.globalAlpha=s.a*(.7+.3*Math.sin(api.elapsed+s.x));ctx.fillStyle='#d6f9ff';ctx.fillRect(s.x,s.y,s.r,s.r)}ctx.globalAlpha=1;
+      ctx.strokeStyle='rgba(101,216,239,.08)';ctx.lineWidth=1;for(let y=120;y<h-80;y+=52){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}
+      const horizon=h-45;ctx.fillStyle='#0a1013';for(const b of S.city){ctx.fillRect(b.x,horizon-b.h,b.w,b.h);ctx.fillStyle=b.lit>.5?'rgba(255,202,97,.32)':'rgba(101,216,239,.22)';for(let yy=horizon-b.h+8;yy<horizon-6;yy+=12)for(let xx=b.x+5;xx<b.x+b.w-4;xx+=9)ctx.fillRect(xx,yy,2,3);ctx.fillStyle='#0a1013'}
+      ctx.strokeStyle='rgba(101,216,239,.34)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(S.base.x,horizon,Math.min(w*.62,h*.43),Math.PI,Math.PI*2);ctx.stroke();
+      for(const b of S.bombs)drawBomb(ctx,b);for(const e of S.targets)drawTarget(ctx,e);for(const p of S.shells){ctx.strokeStyle=p.seek?'#ffd36b':'#bdf7ff';ctx.lineWidth=p.r;ctx.beginPath();ctx.moveTo(p.x-p.vx*.025,p.y-p.vy*.025);ctx.lineTo(p.x,p.y);ctx.stroke()}
+      for(const f of S.fx){ctx.globalAlpha=Math.max(0,f.life/f.max);ctx.fillStyle=f.color;ctx.beginPath();ctx.arc(f.x,f.y,f.r,0,6.28);ctx.fill()}ctx.globalAlpha=1;
+      const a=Math.atan2(S.aim.y-S.base.y,S.aim.x-S.base.x);ctx.save();ctx.translate(S.base.x,S.base.y);ctx.rotate(a+Math.PI/2);ctx.fillStyle=S.base.hit>0?'#fff2df':'#4f6b75';ctx.fillRect(-8,-34,16,38);ctx.fillStyle='#65d8ef';ctx.fillRect(-3,-38,6,28);ctx.restore();ctx.fillStyle='#1b2b34';ctx.beginPath();ctx.arc(S.base.x,S.base.y,25,Math.PI,0);ctx.fill();ctx.strokeStyle='#65d8ef';ctx.lineWidth=3;ctx.stroke();
+      const travel=Math.hypot(S.aim.x-S.base.x,S.aim.y-S.base.y)/(api.choice==='rail'?610:api.choice==='seeker'?330:390);ctx.save();ctx.setLineDash([5,7]);ctx.strokeStyle='rgba(214,249,255,.46)';ctx.beginPath();ctx.moveTo(S.base.x,S.base.y-20);ctx.quadraticCurveTo((S.base.x+S.aim.x)/2,S.aim.y-28*travel,S.aim.x,S.aim.y);ctx.stroke();ctx.setLineDash([]);ctx.strokeStyle='#d6f9ff';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(S.aim.x,S.aim.y,14,0,6.28);ctx.moveTo(S.aim.x-21,S.aim.y);ctx.lineTo(S.aim.x+21,S.aim.y);ctx.moveTo(S.aim.x,S.aim.y-21);ctx.lineTo(S.aim.x,S.aim.y+21);ctx.stroke();ctx.restore();
+    }
+    function drawBomb(ctx,b){ctx.save();ctx.translate(b.x,b.y);ctx.rotate(Math.atan2(b.vy,b.vx)+Math.PI/2);ctx.fillStyle='#ff795d';ctx.beginPath();ctx.moveTo(0,8);ctx.lineTo(-b.r,-5);ctx.quadraticCurveTo(0,-11,b.r,-5);ctx.closePath();ctx.fill();ctx.restore()}
+    function drawTarget(ctx,e){ctx.save();ctx.translate(e.x,e.y);if(e.dir<0)ctx.scale(-1,1);ctx.fillStyle=e.hit>0?'#fff':'#263c46';ctx.strokeStyle=e.kind==='bomber'?'#ff9d62':e.kind==='drone'?'#81eef2':'#a5c7d1';ctx.lineWidth=2;if(e.kind==='drone'){ctx.fillRect(-8,-5,16,10);ctx.beginPath();ctx.arc(-12,0,6,0,6.28);ctx.arc(12,0,6,0,6.28);ctx.stroke()}else{ctx.beginPath();ctx.moveTo(-e.w/2,4);ctx.lineTo(-5,-3);ctx.lineTo(3,-e.h/2);ctx.lineTo(7,-3);ctx.lineTo(e.w/2,3);ctx.lineTo(6,7);ctx.lineTo(-8,7);ctx.closePath();ctx.fill();ctx.stroke();if(e.kind==='bomber'){ctx.fillStyle='#ff795d';ctx.fillRect(-4,-2,15,3)}}ctx.restore();if(e.hp<e.max){ctx.fillStyle='rgba(0,0,0,.45)';ctx.fillRect(e.x-e.w/2,e.y-e.h, e.w,3);ctx.fillStyle='#65d8ef';ctx.fillRect(e.x-e.w/2,e.y-e.h,e.w*e.hp/e.max,3)}}
+    ArcadeKit.mount(config);
+  })();
+  </script>
+</body>
+</html>

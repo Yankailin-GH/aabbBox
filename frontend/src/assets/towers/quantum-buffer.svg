@@ -1,16 +1,33 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" fill="none">
   <defs>
-    <linearGradient id="frame" x1="48" y1="181" x2="190" y2="55" gradientUnits="userSpaceOnUse"><stop stop-color="#1b1605"/><stop offset=".55" stop-color="#68521a"/><stop offset="1" stop-color="#25344b"/></linearGradient>
-    <radialGradient id="gold"><stop stop-color="#fffbe2"/><stop offset=".35" stop-color="#ffe889"/><stop offset=".72" stop-color="#ffd02e"/><stop offset="1" stop-color="#ffd02e" stop-opacity=".08"/></radialGradient>
-    <filter id="signal" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <linearGradient id="petal" x1="120" y1="28" x2="120" y2="111" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFD865"/>
+      <stop offset=".55" stop-color="#FFAA3F"/>
+      <stop offset="1" stop-color="#F47A37"/>
+    </linearGradient>
+    <radialGradient id="core" cx="0" cy="0" r="1" gradientTransform="translate(98 93) rotate(48) scale(77)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF9A8"/>
+      <stop offset=".48" stop-color="#FFD955"/>
+      <stop offset=".82" stop-color="#FFB53F"/>
+      <stop offset="1" stop-color="#ED8C32"/>
+    </radialGradient>
+    <filter id="shadow" x="17" y="17" width="206" height="213" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="10" stdDeviation="7" flood-color="#B85C28" flood-opacity=".32"/>
+    </filter>
   </defs>
-  <ellipse cx="120" cy="195" rx="77" ry="18" fill="#02060d" opacity=".72"/>
-  <path d="m43 179 28-34h98l28 34-27 19H70l-27-19Z" fill="url(#frame)" stroke="#ffd02e" stroke-width="4"/>
-  <path d="M73 165h94l12 19H61l12-19Z" fill="#1a1b1b" stroke="#d9b843" stroke-width="2"/>
-  <path d="m120 35 46 82-46 33-46-33 46-82Z" fill="#ffd02e" fill-opacity=".18" stroke="#ffe889" stroke-width="4" filter="url(#signal)"/>
-  <path d="m120 54 25 61-25 18-25-18 25-61Z" fill="url(#gold)" filter="url(#signal)"/>
-  <circle cx="120" cy="114" r="13" fill="#fffbe2" stroke="#ffd02e" stroke-width="3"/>
-  <path d="M36 105c31-28 55-36 84-36m84 36c-31-28-55-36-84-36" stroke="#ffd02e" stroke-width="3" stroke-linecap="round" opacity=".8"/>
-  <path d="M49 125c25-18 46-24 71-24m71 24c-25-18-46-24-71-24" stroke="#ffe889" stroke-width="2" stroke-linecap="round" opacity=".65"/>
-  <path d="M75 188h25m40 0h25" stroke="#ffe889" stroke-width="3" stroke-linecap="round"/>
+  <g filter="url(#shadow)">
+    <g fill="url(#petal)" stroke="#D76A31" stroke-width="6">
+      <ellipse cx="120" cy="54" rx="27" ry="39"/>
+      <ellipse cx="120" cy="54" rx="27" ry="39" transform="rotate(45 120 120)"/>
+      <ellipse cx="120" cy="54" rx="27" ry="39" transform="rotate(90 120 120)"/>
+      <ellipse cx="120" cy="54" rx="27" ry="39" transform="rotate(135 120 120)"/>
+      <ellipse cx="120" cy="54" rx="27" ry="39" transform="rotate(180 120 120)"/>
+      <ellipse cx="120" cy="54" rx="27" ry="39" transform="rotate(225 120 120)"/>
+      <ellipse cx="120" cy="54" rx="27" ry="39" transform="rotate(270 120 120)"/>
+      <ellipse cx="120" cy="54" rx="27" ry="39" transform="rotate(315 120 120)"/>
+    </g>
+    <circle cx="120" cy="120" r="57" fill="url(#core)" stroke="#D27D2F" stroke-width="7"/>
+    <path d="M78 117C79 91 97 72 122 69" stroke="#FFF7A5" stroke-width="11" stroke-linecap="round" opacity=".42"/>
+    <ellipse cx="98" cy="88" rx="16" ry="9" transform="rotate(-30 98 88)" fill="white" opacity=".66"/>
+  </g>
 </svg>

@@ -1,20 +1,29 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" fill="none">
   <defs>
-    <linearGradient id="base" x1="35" y1="185" x2="196" y2="58" gradientUnits="userSpaceOnUse"><stop stop-color="#071425"/><stop offset="1" stop-color="#173a52"/></linearGradient>
-    <linearGradient id="metal" x1="72" y1="123" x2="186" y2="84" gradientUnits="userSpaceOnUse"><stop stop-color="#66889a"/><stop offset=".5" stop-color="#d8faff"/><stop offset="1" stop-color="#316071"/></linearGradient>
-    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <radialGradient id="lime-body" cx="0" cy="0" r="1" gradientTransform="translate(82 78) rotate(52) scale(144)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E8FF82"/>
+      <stop offset=".42" stop-color="#85ED45"/>
+      <stop offset=".78" stop-color="#43CC39"/>
+      <stop offset="1" stop-color="#20A746"/>
+    </radialGradient>
+    <linearGradient id="lime-neck" x1="143" y1="91" x2="194" y2="40" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#80EA45"/>
+      <stop offset="1" stop-color="#49CF3D"/>
+    </linearGradient>
+    <linearGradient id="bottle-mark" x1="96" y1="92" x2="133" y2="168" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF779"/>
+      <stop offset="1" stop-color="#FFD72C"/>
+    </linearGradient>
+    <filter id="shadow" x="18" y="18" width="207" height="213" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="10" stdDeviation="7" flood-color="#176F40" flood-opacity=".34"/>
+    </filter>
   </defs>
-  <ellipse cx="120" cy="193" rx="78" ry="19" fill="#02060d" opacity=".72"/>
-  <path d="M45 177 72 146h96l27 31-26 22H71l-26-22Z" fill="url(#base)" stroke="#00f3ff" stroke-width="4"/>
-  <path d="m68 174 17-17h70l17 17-12 11H80l-12-11Z" fill="#0a2537" stroke="#5cefff" stroke-width="2"/>
-  <path d="M94 149h52l12-45H82l12 45Z" fill="url(#base)" stroke="#64d9ec" stroke-width="3"/>
-  <circle cx="120" cy="108" r="27" fill="#0b2234" stroke="#00f3ff" stroke-width="4"/>
-  <circle cx="120" cy="108" r="12" fill="#00f3ff" filter="url(#glow)"/>
-  <path d="m125 94 63-31 8 13-57 38" fill="url(#metal)" stroke="#b7fbff" stroke-width="3"/>
-  <path d="m125 107 68-10 3 15-64 16" fill="url(#metal)" stroke="#b7fbff" stroke-width="3"/>
-  <path d="m121 120 60 15-4 15-63-9" fill="url(#metal)" stroke="#b7fbff" stroke-width="3"/>
-  <path d="m188 58 25-12-11 26-8-4-6 4Z" fill="#dfffff" filter="url(#glow)"/>
-  <path d="m194 93 26-4-20 18-7-4-7 3Z" fill="#dfffff" filter="url(#glow)"/>
-  <path d="m181 132 25 9-25 9-5-7-8-2Z" fill="#dfffff" filter="url(#glow)"/>
-  <path d="M63 186h22M155 186h22" stroke="#00f3ff" stroke-width="3" stroke-linecap="round"/>
+  <g filter="url(#shadow)">
+    <path d="M148 85C154 72 157 60 164 49C171 38 186 34 197 41C209 48 211 64 204 75C197 86 183 91 169 92L148 85Z" fill="url(#lime-neck)" stroke="#20A747" stroke-width="7" stroke-linejoin="round"/>
+    <circle cx="110" cy="137" r="72" fill="url(#lime-body)" stroke="#20A747" stroke-width="8"/>
+    <path d="M92 91C66 99 52 122 54 145" stroke="#F2FFB0" stroke-width="11" stroke-linecap="round" opacity=".55"/>
+    <ellipse cx="82" cy="91" rx="18" ry="10" transform="rotate(-35 82 91)" fill="white" opacity=".68"/>
+    <path d="M106 92H128L125 106V115C125 120 129 124 134 130C145 144 138 162 123 169C106 177 87 165 87 148C87 139 92 132 99 125C105 119 108 112 107 104L106 92Z" fill="url(#bottle-mark)" stroke="#DAB92B" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M96 139C104 134 119 134 131 139" stroke="#FFF7A3" stroke-width="5" stroke-linecap="round" opacity=".55"/>
+  </g>
 </svg>

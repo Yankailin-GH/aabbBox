@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#14383c">
+  <title>荒原车队</title>
+  <link rel="stylesheet" href="./arcade/arcade-kit.css">
+  <style>
+    .convoy-upgrade { position:absolute; z-index:28; inset:0; display:grid; place-items:center; padding:20px; background:rgba(8,16,17,.78); backdrop-filter:blur(7px); -webkit-backdrop-filter:blur(7px); }
+    .convoy-upgrade[hidden] { display:none; }
+    .convoy-upgrade-panel { width:min(370px,calc(100vw - 40px)); padding:22px 18px 18px; border:1px solid rgba(242,193,78,.42); border-radius:8px; background:#17292a; box-shadow:0 24px 70px rgba(0,0,0,.55); text-align:center; }
+    .convoy-upgrade-kicker { margin:0 0 5px; color:#f2c14e; font-size:10px; font-weight:900; letter-spacing:1px; }
+    .convoy-upgrade h2 { margin:0; color:#fff5dc; font-size:25px; letter-spacing:0; }
+    .convoy-upgrade-copy { margin:7px 0 16px; color:#aebfb4; font-size:11px; }
+    .convoy-upgrade-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; }
+    .convoy-upgrade-option { min-width:0; min-height:112px; display:grid; grid-template-rows:30px auto auto auto; place-items:center; gap:3px; padding:9px 5px; border:1px solid rgba(255,245,220,.18); border-radius:7px; background:#233d3d; color:#fff5dc; touch-action:manipulation; transition:background .18s ease-out,border-color .18s ease-out,transform .18s ease-out; }
+    .convoy-upgrade-option:active { transform:scale(.97); background:#31504e; border-color:#f2c14e; }
+    .convoy-upgrade-option:focus-visible { outline:3px solid #f2c14e; outline-offset:2px; }
+    .convoy-upgrade-option i { width:28px; height:28px; display:grid; place-items:center; border:1px solid #f2c14e; border-radius:50%; color:#f2c14e; font-size:10px; font-style:normal; font-weight:900; }
+    .convoy-upgrade-option strong { max-width:100%; font-size:11px; overflow-wrap:anywhere; }
+    .convoy-upgrade-option small { color:#b8c8bb; font-size:8px; line-height:1.35; }
+    .convoy-upgrade-option b { color:#f2c14e; font-size:9px; }
+    @media (max-width:350px) { .convoy-upgrade-panel { padding-inline:12px; } .convoy-upgrade-grid { gap:5px; } .convoy-upgrade-option { min-height:106px; padding-inline:3px; } }
+    @media (prefers-reduced-motion:reduce) { .convoy-upgrade-option { transition:none; } }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <script src="./arcade/arcade-kit.js"></script>
+  <script>
+  (() => {
+    "use strict";
+
+    const PICKUPS = {
+      fuel: { name:"燃油桶", short:"燃油 +28%", color:"#f2c14e", mark:"油" },
+      repair: { name:"维修箱", short:"装甲 +25", color:"#68dcc7", mark:"修" },
+      damage: { name:"穿甲核心", short:"伤害 +50%", color:"#ff7557", mark:"破" },
+      scatter: { name:"霰弹模块", short:"三向散射", color:"#e9a65d", mark:"散" },
+      missile: { name:"导弹舱", short:"追踪导弹 ×8", color:"#8fd7ee", mark:"导" },
+      overdrive: { name:"超频弹链", short:"射速 +35%", color:"#d5a4f4", mark:"频" },
+      upgrade: { name:"改装箱", short:"永久升级", color:"#fff0a2", mark:"改" },
+    };
+    const STANDARD_POOL = ["fuel","fuel","fuel","fuel","fuel","repair","repair","repair","repair","damage","damage","damage","damage","scatter","scatter","scatter","missile","missile","overdrive","overdrive"];
+    const WEAPON_NAMES = { mg:"双联机枪", scatter:"三向霰弹", missile:"追踪导弹" };
+    const S = {
+      car:null,enemies:[],bullets:[],pickups:[],particles:[],road:[],distance:0,kills:0,
+      fuel:100,armor:100,maxArmor:100,shot:0,spawn:0,pickup:0,nitro:0,cooldown:0,
+      targetX:0,drag:false,roadOffset:0,weapon:"mg",weaponTime:0,missiles:0,
+      damageTime:0,overdriveTime:0,upgrades:{fire:0,armor:0,engine:0},
+      nextUpgrade:0,upgradeMilestones:[1600,3800,6000],notice:null,toast:null,upgrading:false,
+      panel:null,runtime:null,
+    };
+
+    const config = {
+      title:"荒原车队",seal:"WC",kicker:"LAST HIGHWAY · CONVOY 12",
+      mission:"护送能源车穿过 8 公里封锁公路",limit:"燃料耗尽前",
+      choiceLabel:"选择护送车辆",startLabel:"车队出发",metricLabel:"燃料",scoreLabel:"击破",
+      objective:"目标：抵达 8.0 km 检查站",actionLabel:"氮气冲刺",
+      colors:{bg:"#14383c",surface:"#173f40",surface2:"#28534f",ink:"#fff5dc",muted:"#b8c8bb",accent:"#f2c14e",accent2:"#e35d3f"},
+      choices:[
+        {id:"interceptor",icon:"快",name:"截击车",detail:"射速提升"},
+        {id:"hauler",icon:"重",name:"装甲车",detail:"高耐久"},
+        {id:"scout",icon:"省",name:"斥候车",detail:"节油高速"},
+      ],
+      init(api){ reset(api,true); },
+      resize(api){ makeRoadside(api); },
+      choiceChanged(api){ reset(api,true); },
+      reset(api){ reset(api,false); },
+      update,draw,
+      pointerDown(api,p){ S.drag=true;S.targetX=p.x; },
+      pointerMove(api,p){ S.targetX=p.x; },
+      pointerUp(){ S.drag=false; },
+      action:nitro,
+    };
+
+    function reset(api,preview) {
+      const baseArmor=api.choice==="hauler"?145:100;
+      S.car={x:api.w*.5,y:api.h*.78,w:24,h:42,hit:0};
+      S.enemies=[];S.bullets=[];S.pickups=[];S.particles=[];S.distance=0;S.kills=0;
+      S.fuel=100;S.armor=baseArmor;S.maxArmor=baseArmor;S.shot=.2;S.spawn=preview?99:.7;S.pickup=3.8;
+      S.nitro=0;S.cooldown=0;S.targetX=S.car.x;S.drag=false;S.roadOffset=0;
+      S.weapon="mg";S.weaponTime=0;S.missiles=0;S.damageTime=0;S.overdriveTime=0;
+      S.upgrades={fire:0,armor:0,engine:0};S.nextUpgrade=0;S.notice=null;S.toast=null;S.upgrading=false;
+      if(S.panel)S.panel.hidden=true;
+      makeRoadside(api);
+      if(preview){S.enemies.push(makeEnemy(api,"truck",1),makeEnemy(api,"bike",0));}
+      api.setHud({metric:"100%",score:0,health:S.armor,maxHealth:S.maxArmor,objective:"目标：抵达 8.0 km 检查站"});
+      api.setAction("氮气冲刺",1,true);
+    }
+
+    function roadBounds(api) {
+      const gutter=api.w<430?66:70;
+      const width=Math.min(api.w-gutter*2,370);
+      return {left:(api.w-width)/2,right:(api.w+width)/2,width,lane:width/3};
+    }
+
+    function makeRoadside(api) {
+      S.road=Array.from({length:34},(_,i)=>({
+        side:i%2?-1:1,y:api.rand(80,api.h+80),r:api.rand(4,14),kind:i%4,offset:api.rand(12,42),a:api.rand(-.4,.4),
+      }));
+    }
+
+    function cruiseSpeed(api) {
+      return api.choice==="scout"?132:api.choice==="hauler"?105:118;
+    }
+
+    function makeEnemy(api,kind,laneIndex) {
+      const b=roadBounds(api);
+      const lane=laneIndex===undefined?Math.floor(api.rand(0,3)):laneIndex;
+      const type=kind||["raider","bike","truck"][Math.floor(api.rand(0,3))];
+      return {
+        x:b.left+b.lane*(lane+.5),y:api.rand(-110,-45),lane,
+        w:type==="truck"?28:type==="bike"?14:23,h:type==="truck"?50:type==="bike"?35:40,
+        hp:type==="truck"?5:type==="bike"?1:3,maxHp:type==="truck"?5:type==="bike"?1:3,
+        kind:type,phase:api.rand(0,6.28),hit:0,dead:false,
+      };
+    }
+
+    function availableLane(api) {
+      const lanes=[0,1,2].sort(()=>Math.random()-.5);
+      return lanes.find(lane=>!S.enemies.some(e=>e.lane===lane&&e.y<145)) ?? lanes[0];
+    }
+
+    function spawnPickup(api,kind) {
+      const b=roadBounds(api),lane=availableLane(api),info=PICKUPS[kind];
+      S.pickups.push({x:b.left+b.lane*(lane+.5),y:-34,lane,kind,phase:api.rand(0,6.28),dead:false});
+      const side=lane===0?-1:lane===2?1:(Math.random()<.5?-1:1);
+      S.notice={kind,lane,side,life:2.2,max:2.2};
+      api.tone(kind==="upgrade"?620:280,.07,"triangle",.012,kind==="upgrade"?920:420);
+    }
+
+    function spawnStandardPickup(api) {
+      spawnPickup(api,STANDARD_POOL[Math.floor(Math.random()*STANDARD_POOL.length)]);
+    }
+
+    function spark(api,x,y,color,count=8) {
+      for(let i=0;i<count&&S.particles.length<220;i++){
+        const a=api.rand(0,6.28),v=api.rand(30,135);
+        S.particles.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,r:api.rand(1,3),life:api.rand(.2,.68),max:.68,color});
+      }
+    }
+
+    function nitro(api) {
+      if(S.cooldown>0||api.mode!=="playing")return;
+      S.nitro=1.8+S.upgrades.engine*.18;
+      S.cooldown=Math.max(5.5,8-S.upgrades.engine*.7);
+      api.tone(110,.35,"sawtooth",.035,310);api.tone(520,.18,"triangle",.012,920,.06);api.vibrate(14);
+    }
+
+    function weaponDamage(api) {
+      const perLevel=api.choice==="interceptor"?.25:.20;
+      return (1+S.upgrades.fire*perLevel)*(S.damageTime>0?1.5:1);
+    }
+
+    function currentWeapon() {
+      if(S.weapon==="missile"&&S.missiles<=0)return "mg";
+      if(S.weapon==="scatter"&&S.weaponTime<=0)return "mg";
+      return S.weapon;
+    }
+
+    function fire(api) {
+      const weapon=currentWeapon(),damage=weaponDamage(api),y=S.car.y-23;
+      if(weapon==="missile"){
+        S.bullets.push({x:S.car.x,y:y-2,vx:0,vy:-330,r:6,damage:damage*3.2,kind:"rocket",dead:false});
+        S.missiles--;
+        if(S.missiles<=0){S.weapon="mg";S.weaponTime=0;}
+        api.tone(135,.11,"sawtooth",.022,58);
+        return .65;
+      }
+      if(weapon==="scatter"){
+        [-68,0,68].forEach((vx,index)=>S.bullets.push({x:S.car.x+(index-1)*5,y,vx,vy:-470,r:4,damage:damage*.82,kind:"scatter",dead:false}));
+        api.tone(150,.07,"square",.018,72);
+        return .38;
+      }
+      S.bullets.push(
+        {x:S.car.x-7,y, vx:0,vy:-540,r:3,damage,kind:"mg",dead:false},
+        {x:S.car.x+7,y, vx:0,vy:-540,r:3,damage,kind:"mg",dead:false}
+      );
+      api.tone(S.damageTime>0?250:210,.035,"square",.008,90);
+      return api.choice==="interceptor"?.16:.24;
+    }
+
+    function nearestEnemy(x,y) {
+      let target=null,best=Infinity;
+      for(const e of S.enemies){
+        if(e.dead)continue;
+        const d=(e.x-x)**2+(e.y-y)**2;
+        if(d<best){best=d;target=e;}
+      }
+      return target;
+    }
+
+    function damageEnemy(api,e,damage,color) {
+      if(e.dead)return;
+      e.hp-=damage;e.hit=.11;spark(api,e.x,e.y,color,4);
+      if(e.hp<=0){
+        e.dead=true;S.kills++;spark(api,e.x,e.y,e.kind==="truck"?"#ff8a58":"#ff6d4f",14);
+        api.tone(130,.09,"sawtooth",.02,58);
+      }
+    }
+
+    function explodeRocket(api,q) {
+      spark(api,q.x,q.y,"#ffd17a",24);
+      for(const e of S.enemies){
+        const d=Math.hypot(e.x-q.x,e.y-q.y);
+        if(d<52)damageEnemy(api,e,q.damage*(1-d/104),"#ffd17a");
+      }
+      api.tone(82,.16,"sawtooth",.028,38);api.vibrate(10);
+    }
+
+    function applyPickup(api,p) {
+      const info=PICKUPS[p.kind];
+      if(p.kind==="fuel")S.fuel=Math.min(100,S.fuel+28);
+      else if(p.kind==="repair")S.armor=Math.min(S.maxArmor,S.armor+25);
+      else if(p.kind==="damage")S.damageTime=10;
+      else if(p.kind==="scatter"){S.weapon="scatter";S.weaponTime=10;S.missiles=0;}
+      else if(p.kind==="missile"){S.weapon="missile";S.missiles=8;S.weaponTime=0;}
+      else if(p.kind==="overdrive")S.overdriveTime=10;
+      else if(p.kind==="upgrade"){openUpgrade(api);return;}
+      S.toast={text:info.short,color:info.color,life:1.35,max:1.35};
+      spark(api,p.x,p.y,info.color,13);api.tone(520,.1,"triangle",.02,960);api.vibrate(8);
+    }
+
+    function update(api,dt) {
+      const choice=api.choice,cruise=cruiseSpeed(api),boost=S.nitro>0?1.75:1;
+      S.nitro=Math.max(0,S.nitro-dt);S.cooldown=Math.max(0,S.cooldown-dt);
+      S.weaponTime=Math.max(0,S.weaponTime-dt);S.damageTime=Math.max(0,S.damageTime-dt);S.overdriveTime=Math.max(0,S.overdriveTime-dt);
+      if(S.weapon==="scatter"&&S.weaponTime<=0)S.weapon="mg";
+      if(S.notice){S.notice.life-=dt;if(S.notice.life<=0)S.notice=null;}
+      if(S.toast){S.toast.life-=dt;if(S.toast.life<=0)S.toast=null;}
+      S.roadOffset=(S.roadOffset+cruise*boost*dt)%72;
+      S.distance+=cruise*boost*dt*.72;
+      S.fuel-=dt*(choice==="scout"?.55:.78)*(S.nitro>0?1.12:1);
+      S.car.hit=Math.max(0,S.car.hit-dt);
+      const b=roadBounds(api);
+
+      const moveRate=(choice==="scout"?13:10)*(1+S.upgrades.engine*(choice==="scout"?.15:.10));
+      if(S.drag){
+        const dx=api.clamp(S.targetX,b.left+18,b.right-18)-S.car.x;
+        S.car.x+=dx*Math.min(1,dt*moveRate);
+      }
+
+      S.shot-=dt;
+      if(S.shot<=0){
+        S.shot=fire(api)/(S.overdriveTime>0?1.35:1);
+      }
+
+      S.spawn-=dt;
+      if(S.spawn<=0&&S.enemies.length<14){
+        S.enemies.push(makeEnemy(api));
+        S.spawn=Math.max(.38,1.05-api.elapsed*.006)+api.rand(0,.35);
+      }
+
+      S.pickup-=dt;
+      if(S.pickup<=0&&S.pickups.filter(p=>p.kind!=="upgrade").length<3){
+        spawnStandardPickup(api);
+        S.pickup=api.rand(4.8,7);
+      }
+
+      if(S.nextUpgrade<S.upgradeMilestones.length&&S.distance>=S.upgradeMilestones[S.nextUpgrade]){
+        spawnPickup(api,"upgrade");S.nextUpgrade++;
+      }
+
+      for(const r of S.road){
+        r.y+=cruise*boost*.62*dt;
+        if(r.y>api.h+30)r.y=-30;
+      }
+
+      for(const q of S.bullets){
+        if(q.kind==="rocket"){
+          const target=nearestEnemy(q.x,q.y);
+          if(target){
+            const angle=Math.atan2(target.y-q.y,target.x-q.x),speed=Math.hypot(q.vx,q.vy);
+            q.vx+=(Math.cos(angle)*speed-q.vx)*Math.min(1,dt*4.5);
+            q.vy+=(Math.sin(angle)*speed-q.vy)*Math.min(1,dt*4.5);
+          }
+        }
+        q.x+=q.vx*dt;q.y+=q.vy*dt;
+        const hit=S.enemies.find(e=>!e.dead&&Math.abs(q.x-e.x)<e.w*.55+q.r&&Math.abs(q.y-e.y)<e.h*.55+q.r);
+        if(hit){
+          q.dead=true;
+          if(q.kind==="rocket")explodeRocket(api,q);else damageEnemy(api,hit,q.damage,q.kind==="scatter"?"#ffc16b":"#fff0a8");
+        }
+        if(q.y<65||q.x<b.left-25||q.x>b.right+25)q.dead=true;
+      }
+      S.bullets=S.bullets.filter(q=>!q.dead);
+
+      for(const e of S.enemies){
+        if(e.dead)continue;
+        const factor=e.kind==="bike"?.84:e.kind==="truck"?.52:.68;
+        e.y+=(cruise*factor+api.elapsed*.35)*dt;e.phase+=dt*5;e.hit=Math.max(0,e.hit-dt);
+        const touching=Math.abs(e.x-S.car.x)<(e.w+S.car.w)*.48&&Math.abs(e.y-S.car.y)<(e.h+S.car.h)*.48;
+        if(S.nitro>0&&touching){
+          e.dead=true;S.kills++;spark(api,e.x,e.y,"#f2c14e",16);
+        }else if(touching&&S.car.hit<=0){
+          S.armor-=e.kind==="truck"?28:e.kind==="bike"?12:20;S.car.hit=.8;e.dead=true;
+          spark(api,S.car.x,S.car.y,"#ff6b50",16);api.hit();api.tone(85,.18,"square",.035,36);
+        }else if(e.y>api.h+70)e.dead=true;
+      }
+      S.enemies=S.enemies.filter(e=>!e.dead);
+
+      const averageEnemySpeed=cruise*.68+api.elapsed*.35;
+      const pickupSpeed=averageEnemySpeed*1.30;
+      for(const p of S.pickups){
+        p.y+=pickupSpeed*dt;p.phase+=dt*4;
+        if(Math.abs(p.x-S.car.x)<25&&Math.abs(p.y-S.car.y)<34){p.dead=true;applyPickup(api,p);}
+        else if(p.y>api.h+42)p.dead=true;
+      }
+      S.pickups=S.pickups.filter(p=>!p.dead);
+
+      for(const p of S.particles){
+        p.life-=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=.95;p.vy*=.95;
+      }
+      S.particles=S.particles.filter(p=>p.life>0);
+
+      if(S.distance>=8000){
+        api.finish("护送完成","车队驶入北部检查站。",[
+          {label:"里程",value:"8.0km"},{label:"击破",value:S.kills},{label:"改装",value:upgradeCount()+"级"},
+        ]);return;
+      }
+      if(S.fuel<=0||S.armor<=0){
+        api.finish("车队失联",S.fuel<=0?"燃料耗尽，车队停在了无人区。":"护送车失去行动能力。",[
+          {label:"里程",value:(S.distance/1000).toFixed(1)+"km"},{label:"击破",value:S.kills},{label:"改装",value:upgradeCount()+"级"},
+        ]);return;
+      }
+
+      const distanceText=Math.max(0,8-S.distance/1000).toFixed(1)+"km";
+      const weapon=currentWeapon();
+      let weaponText="";
+      if(weapon==="scatter")weaponText=" · 霰弹 "+Math.ceil(S.weaponTime)+"s";
+      else if(weapon==="missile")weaponText=" · 导弹 ×"+S.missiles;
+      else if(S.damageTime>0)weaponText=" · 穿甲 "+Math.ceil(S.damageTime)+"s";
+      else if(S.overdriveTime>0)weaponText=" · 超频 "+Math.ceil(S.overdriveTime)+"s";
+      api.setHud({
+        metric:Math.ceil(S.fuel)+"%",score:S.kills,health:S.armor,maxHealth:S.maxArmor,
+        objective:"距检查站 "+distanceText+weaponText,
+      });
+      api.setAction(S.cooldown>0?Math.ceil(S.cooldown)+"s":"氮气冲刺",1-S.cooldown/Math.max(5.5,8-S.upgrades.engine*.7),S.cooldown<=0);
+    }
+
+    function upgradeCount(){return S.upgrades.fire+S.upgrades.armor+S.upgrades.engine;}
+
+    function openUpgrade(api) {
+      if(!S.panel||S.upgrading)return;
+      S.upgrading=true;S.runtime=api;updateUpgradePanel();
+      S.panel.hidden=false;api.freeze();
+      requestAnimationFrame(()=>S.panel.querySelector("button:not([disabled])")?.focus());
+      api.tone(470,.18,"triangle",.025,880);api.vibrate(20);
+    }
+
+    function chooseUpgrade(type) {
+      const api=S.runtime;
+      if(!api||!S.upgrading||S.upgrades[type]>=3)return;
+      S.upgrades[type]++;
+      if(type==="armor"){
+        const gain=api.choice==="hauler"?20:15;
+        S.maxArmor+=gain;S.armor=Math.min(S.maxArmor,S.armor+gain);
+      }
+      const labels={fire:"火控升级",armor:"装甲升级",engine:"引擎升级"};
+      S.toast={text:labels[type]+" Lv."+S.upgrades[type],color:"#f2c14e",life:1.6,max:1.6};
+      S.upgrading=false;S.panel.hidden=true;api.tone(540,.2,"triangle",.026,1080);api.vibrate(18);api.unfreeze();
+    }
+
+    function updateUpgradePanel() {
+      if(!S.panel)return;
+      for(const button of S.panel.querySelectorAll("[data-upgrade]")){
+        const type=button.dataset.upgrade,level=S.upgrades[type];
+        button.querySelector("b").textContent="Lv."+level+" → Lv."+(level+1);
+        button.disabled=level>=3;
+      }
+    }
+
+    function installUpgradePanel(api) {
+      const root=document.getElementById("arcade");
+      root.insertAdjacentHTML("beforeend",`
+        <section class="convoy-upgrade" id="convoy-upgrade" hidden aria-labelledby="convoy-upgrade-title">
+          <div class="convoy-upgrade-panel">
+            <p class="convoy-upgrade-kicker">荒原改装站</p>
+            <h2 id="convoy-upgrade-title">选择一项永久升级</h2>
+            <p class="convoy-upgrade-copy">战场已冻结，升级将在本局持续生效。</p>
+            <div class="convoy-upgrade-grid">
+              <button class="convoy-upgrade-option" type="button" data-upgrade="fire"><i>火</i><strong>火控系统</strong><small>伤害提升<br>强化枪管</small><b></b></button>
+              <button class="convoy-upgrade-option" type="button" data-upgrade="armor"><i>甲</i><strong>装甲系统</strong><small>提高上限<br>立即维修</small><b></b></button>
+              <button class="convoy-upgrade-option" type="button" data-upgrade="engine"><i>擎</i><strong>引擎系统</strong><small>横移更快<br>强化氮气</small><b></b></button>
+            </div>
+          </div>
+        </section>`);
+      S.panel=document.getElementById("convoy-upgrade");S.runtime=api;
+      S.panel.querySelectorAll("[data-upgrade]").forEach(button=>button.addEventListener("click",()=>chooseUpgrade(button.dataset.upgrade)));
+    }
+
+    function draw(api) {
+      const {ctx,w,h}=api,b=roadBounds(api);
+      ctx.fillStyle="#4b573e";ctx.fillRect(0,0,w,h);
+      ctx.fillStyle="#263a3b";ctx.fillRect(b.left,0,b.width,h);
+      ctx.fillStyle="#1c2c2f";ctx.fillRect(b.left+8,0,b.width-16,h);
+      ctx.strokeStyle="#d6bf73";ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(b.left+9,0);ctx.lineTo(b.left+9,h);ctx.moveTo(b.right-9,0);ctx.lineTo(b.right-9,h);ctx.stroke();
+      ctx.fillStyle="rgba(255,241,198,.34)";
+      for(let lane=1;lane<3;lane++){
+        const x=b.left+b.lane*lane;
+        for(let y=-72+S.roadOffset;y<h;y+=72)ctx.fillRect(x-2,y,4,34);
+      }
+      drawRoadside(ctx,api,b);
+      for(const p of S.pickups)drawPickup(ctx,p);
+      for(const e of S.enemies)drawEnemy(ctx,e);
+      drawBullets(ctx);
+      for(const p of S.particles){
+        ctx.globalAlpha=Math.max(0,p.life/p.max);ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,6.28);ctx.fill();
+      }
+      ctx.globalAlpha=1;
+      drawCar(ctx,S.car,api.choice,S.nitro>0,S.upgrades,currentWeapon());
+      drawVehicleStatus(ctx,api);
+      if(S.notice)drawNotice(ctx,api,b,S.notice);
+    }
+
+    function drawRoadside(ctx,api,b) {
+      for(const r of S.road){
+        const x=r.side<0?b.left-r.offset:b.right+r.offset;
+        ctx.save();ctx.translate(x,r.y);ctx.rotate(r.a);
+        if(r.kind===0){
+          ctx.fillStyle="#697258";ctx.beginPath();ctx.moveTo(-r.r,4);ctx.lineTo(-r.r*.2,-r.r*.5);ctx.lineTo(r.r,2);ctx.closePath();ctx.fill();
+        }else if(r.kind===1){
+          ctx.strokeStyle="#d1ba79";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-r.r,0);ctx.lineTo(r.r,0);ctx.moveTo(-r.r*.6,-4);ctx.lineTo(-r.r*.6,4);ctx.moveTo(r.r*.5,-4);ctx.lineTo(r.r*.5,4);ctx.stroke();
+        }else{
+          ctx.fillStyle=r.kind===2?"#2f4a47":"#7d4938";ctx.globalAlpha=.55;ctx.fillRect(-r.r*.7,-r.r*.3,r.r*1.4,r.r*.6);ctx.globalAlpha=1;
+        }
+        ctx.restore();
+      }
+      ctx.strokeStyle="rgba(229,93,63,.3)";ctx.lineWidth=2;
+      for(let y=120-S.roadOffset;y<api.h;y+=190){ctx.beginPath();ctx.moveTo(b.left+18,y);ctx.lineTo(b.left+34,y+12);ctx.lineTo(b.left+27,y+24);ctx.stroke();}
+    }
+
+    function drawNotice(ctx,api,b,n) {
+      const info=PICKUPS[n.kind],alpha=Math.min(1,n.life/.25,(n.max-n.life)/.18);
+      const shoulder=n.side<0?b.left:(api.w-b.right),maxWidth=Math.max(42,shoulder-8),width=Math.min(62,maxWidth);
+      const x=n.side<0?b.left/2:(b.right+api.w)/2,y=128;
+      ctx.save();ctx.globalAlpha=Math.max(0,alpha);ctx.translate(x,y);
+      ctx.fillStyle="rgba(14,28,29,.92)";ctx.strokeStyle=info.color;ctx.lineWidth=1.5;ctx.beginPath();ctx.roundRect(-width/2,-28,width,56,5);ctx.fill();ctx.stroke();
+      ctx.fillStyle=info.color;ctx.textAlign="center";ctx.font="900 11px system-ui";ctx.fillText(info.mark,0,-11);
+      ctx.fillStyle="#fff5dc";ctx.font="900 9px system-ui";ctx.fillText(info.name,0,2);
+      ctx.fillStyle=info.color;ctx.font="800 8px system-ui";ctx.fillText(info.short,0,14);
+      const targetX=b.left+b.lane*(n.lane+.5)-x;
+      ctx.strokeStyle=info.color;ctx.beginPath();ctx.moveTo(n.side<0?width/2:-width/2,23);ctx.lineTo(targetX*.55,23);ctx.stroke();
+      ctx.fillStyle=info.color;ctx.beginPath();ctx.moveTo(targetX*.55+(n.side<0?4:-4),19);ctx.lineTo(targetX*.55+(n.side<0?4:-4),27);ctx.lineTo(targetX*.55+(n.side<0?10:-10),23);ctx.closePath();ctx.fill();
+      ctx.restore();
+    }
+
+    function drawPickup(ctx,p) {
+      const info=PICKUPS[p.kind];ctx.save();ctx.translate(p.x,p.y);ctx.rotate(Math.sin(p.phase)*.1);ctx.shadowColor=info.color;ctx.shadowBlur=13;
+      ctx.fillStyle="#162a2b";ctx.strokeStyle=info.color;ctx.lineWidth=2.5;
+      if(p.kind==="missile"){
+        ctx.beginPath();ctx.moveTo(0,-15);ctx.lineTo(8,7);ctx.lineTo(4,14);ctx.lineTo(0,9);ctx.lineTo(-4,14);ctx.lineTo(-8,7);ctx.closePath();ctx.fill();ctx.stroke();
+      }else if(p.kind==="damage"){
+        ctx.beginPath();ctx.moveTo(0,-14);ctx.lineTo(12,0);ctx.lineTo(0,14);ctx.lineTo(-12,0);ctx.closePath();ctx.fill();ctx.stroke();
+      }else if(p.kind==="scatter"){
+        ctx.beginPath();ctx.moveTo(0,-14);ctx.lineTo(13,11);ctx.lineTo(0,7);ctx.lineTo(-13,11);ctx.closePath();ctx.fill();ctx.stroke();
+      }else if(p.kind==="overdrive"){
+        ctx.beginPath();ctx.moveTo(4,-15);ctx.lineTo(-8,2);ctx.lineTo(0,2);ctx.lineTo(-4,15);ctx.lineTo(9,-4);ctx.lineTo(1,-4);ctx.closePath();ctx.fill();ctx.stroke();
+      }else if(p.kind==="upgrade"){
+        ctx.beginPath();for(let i=0;i<6;i++){const a=-Math.PI/2+i*Math.PI/3,x=Math.cos(a)*14,y=Math.sin(a)*14;i?ctx.lineTo(x,y):ctx.moveTo(x,y);}ctx.closePath();ctx.fill();ctx.stroke();
+      }else{
+        ctx.beginPath();ctx.roundRect(-12,-14,24,28,4);ctx.fill();ctx.stroke();
+      }
+      ctx.shadowBlur=0;ctx.fillStyle=info.color;ctx.font="900 9px system-ui";ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText(info.mark,0,1);ctx.restore();
+    }
+
+    function drawBullets(ctx) {
+      for(const q of S.bullets){
+        if(q.kind==="rocket"){
+          ctx.save();ctx.translate(q.x,q.y);ctx.rotate(Math.atan2(q.vy,q.vx)+Math.PI/2);ctx.fillStyle="#8fd7ee";ctx.shadowColor="#8fd7ee";ctx.shadowBlur=10;ctx.beginPath();ctx.moveTo(0,-9);ctx.lineTo(5,6);ctx.lineTo(0,10);ctx.lineTo(-5,6);ctx.closePath();ctx.fill();ctx.restore();
+        }else{
+          ctx.fillStyle=q.kind==="scatter"?"#ffc16b":S.damageTime>0?"#ff7557":"#fff2bc";ctx.shadowColor=ctx.fillStyle;ctx.shadowBlur=7;ctx.fillRect(q.x-q.r/2,q.y-8,q.r,14);ctx.shadowBlur=0;
+        }
+      }
+    }
+
+    function drawEnemy(ctx,e) {
+      ctx.save();ctx.translate(e.x,e.y);
+      if(e.kind==="bike"){
+        ctx.strokeStyle="#151d1e";ctx.lineWidth=4;ctx.beginPath();ctx.arc(0,-12,6,0,6.28);ctx.arc(0,12,6,0,6.28);ctx.stroke();ctx.fillStyle=e.hit>0?"#fff0c7":"#d6523d";ctx.fillRect(-5,-14,10,28);ctx.fillStyle="#f2c14e";ctx.fillRect(-3,-8,6,5);
+      }else{
+        ctx.fillStyle="#121d1f";ctx.fillRect(-e.w/2-2,-e.h/2-2,e.w+4,e.h+4);ctx.fillStyle=e.hit>0?"#fff0c7":e.kind==="truck"?"#77483d":"#b44e3d";ctx.fillRect(-e.w/2,-e.h/2,e.w,e.h);ctx.fillStyle="#27383a";ctx.fillRect(-e.w*.34,-e.h*.24,e.w*.68,e.h*.27);ctx.fillStyle="#e0bf55";ctx.fillRect(-e.w*.32,e.h*.27,e.w*.23,5);ctx.fillRect(e.w*.09,e.h*.27,e.w*.23,5);if(e.kind==="truck"){ctx.strokeStyle="#d59a52";ctx.lineWidth=3;ctx.strokeRect(-e.w*.35,-e.h*.42,e.w*.7,e.h*.7);}
+      }
+      ctx.restore();
+      if(e.hp<e.maxHp){ctx.fillStyle="rgba(0,0,0,.45)";ctx.fillRect(e.x-e.w/2,e.y-e.h*.72,e.w,3);ctx.fillStyle="#f2c14e";ctx.fillRect(e.x-e.w/2,e.y-e.h*.72,e.w*Math.max(0,e.hp/e.maxHp),3);}
+    }
+
+    function drawCar(ctx,c,choice,boost,upgrades,weapon) {
+      ctx.save();ctx.translate(c.x,c.y);
+      if(boost||upgrades.engine>0){
+        const length=(boost?42:20)+upgrades.engine*5;ctx.fillStyle=boost?"rgba(242,193,78,.62)":"rgba(104,220,199,.34)";ctx.shadowColor=boost?"#f2c14e":"#68dcc7";ctx.shadowBlur=12;
+        ctx.beginPath();ctx.moveTo(-8,20);ctx.lineTo(0,20+length+Math.random()*8);ctx.lineTo(8,20);ctx.fill();ctx.shadowBlur=0;
+      }
+      if(upgrades.armor>0){
+        ctx.fillStyle="#8c9b8e";ctx.fillRect(-c.w/2-5,-c.h*.28,5,c.h*.62);ctx.fillRect(c.w/2,-c.h*.28,5,c.h*.62);
+        if(upgrades.armor>1){ctx.fillStyle="#d0ba78";ctx.fillRect(-c.w*.62,c.h*.35,c.w*1.24,5);}
+      }
+      ctx.fillStyle="#111b1d";ctx.fillRect(-c.w/2-3,-c.h/2-3,c.w+6,c.h+6);
+      ctx.fillStyle=c.hit>0?"#fff0c5":choice==="hauler"?"#7b8e86":choice==="scout"?"#55a89f":"#e35d3f";ctx.fillRect(-c.w/2,-c.h/2,c.w,c.h);
+      ctx.fillStyle="#b9e2d9";ctx.fillRect(-c.w*.32,-c.h*.25,c.w*.64,c.h*.3);ctx.fillStyle="#f2c14e";ctx.fillRect(-c.w*.34,-c.h*.48,c.w*.25,5);ctx.fillRect(c.w*.09,-c.h*.48,c.w*.25,5);ctx.fillStyle="#253235";ctx.fillRect(-c.w*.42,c.h*.22,c.w*.84,8);
+      const barrels=weapon==="scatter"?3:weapon==="missile"?1:2+Math.min(2,upgrades.fire);
+      ctx.strokeStyle=weapon==="missile"?"#8fd7ee":weapon==="scatter"?"#e9a65d":"#fff2bc";ctx.lineWidth=2;
+      for(let i=0;i<barrels;i++){const x=(i-(barrels-1)/2)*5;ctx.beginPath();ctx.moveTo(x,-c.h/2);ctx.lineTo(x,-c.h/2-7-upgrades.fire*2);ctx.stroke();}
+      ctx.restore();
+    }
+
+    function drawVehicleStatus(ctx,api) {
+      const weapon=currentWeapon(),parts=[];
+      if(weapon!=="mg")parts.push(WEAPON_NAMES[weapon]);
+      if(S.damageTime>0)parts.push("穿甲");if(S.overdriveTime>0)parts.push("超频");
+      if(!parts.length&&upgradeCount()>0)parts.push("改装 "+upgradeCount()+"级");
+      if(parts.length){
+        const text=parts.join(" · "),y=S.car.y-39;ctx.font="900 9px system-ui";const width=Math.min(132,ctx.measureText(text).width+16);
+        ctx.fillStyle="rgba(11,27,28,.78)";ctx.beginPath();ctx.roundRect(S.car.x-width/2,y-13,width,19,4);ctx.fill();ctx.fillStyle="#fff2bc";ctx.textAlign="center";ctx.fillText(text,S.car.x,y);
+      }
+      if(S.toast){
+        const alpha=Math.min(1,S.toast.life/.25);ctx.globalAlpha=alpha;ctx.font="900 11px system-ui";ctx.textAlign="center";ctx.fillStyle=S.toast.color;ctx.fillText(S.toast.text,S.car.x,S.car.y-60-(1-S.toast.life/S.toast.max)*12);ctx.globalAlpha=1;
+      }
+    }
+
+    const api=ArcadeKit.mount(config);
+    installUpgradePanel(api);
+  })();
+  </script>
+</body>
+</html>
