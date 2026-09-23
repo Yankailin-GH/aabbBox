@@ -289,7 +289,7 @@
     document.getElementById("pause").addEventListener("click", pause);
     document.getElementById("resume").addEventListener("click", resume);
     document.getElementById("restart-paused").addEventListener("click", start);
-    document.getElementById("back-start").addEventListener("click", () => { mode = "start"; toggle("result", false); toggle("start", true); render(); });
+    document.getElementById("back-start").addEventListener("click", () => { mode = "start"; toggle("paused", false); toggle("result", false); toggle("start", true); render(); });
     elements.action.addEventListener("click", () => { if (mode === "playing" && config.action) config.action(api); });
     document.getElementById("sound").addEventListener("click", () => {
       audioOn = !audioOn;

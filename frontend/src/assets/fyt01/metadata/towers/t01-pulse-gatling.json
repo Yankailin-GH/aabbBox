@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "packId": "fyt01",
+  "unitId": "t01-pulse-gatling",
+  "gameId": "pulse",
+  "displayName": "瓶子炮",
+  "role": "高频单体输出；三级追加副弹",
+  "skill": "快速发射青柠能量弹；三级每次攻击追加一枚约 48% 伤害的副弹。",
+  "levelCount": 3,
+  "sourceSize": [
+    1024,
+    1024
+  ],
+  "runtimeCellSize": [
+    128,
+    128
+  ],
+  "detailSize": [
+    512,
+    512
+  ],
+  "fps": 12,
+  "facingZeroDeg": "right",
+  "coordinates": "top-left origin; +x right; +y down; normalized 0..1",
+  "anchors": {
+    "placement": [
+      0.5,
+      0.5
+    ],
+    "aimPivot": [
+      0.5,
+      0.5
+    ],
+    "muzzle": [
+      0.91,
+      0.5
+    ],
+    "effectOrigin": [
+      0.91,
+      0.5
+    ]
+  },
+  "attackDirection": "朝目标 360° 旋转锁定",
+  "animations": [
+    {
+      "name": "idle",
+      "frames": 6,
+      "durationMs": 120,
+      "loop": true
+    },
+    {
+      "name": "attack-pre",
+      "frames": 4,
+      "durationMs": 80,
+      "loop": false
+    },
+    {
+      "name": "attack",
+      "frames": 6,
+      "durationMs": 80,
+      "loop": false,
+      "event": {
+        "frame": 2,
+        "name": "fire"
+      }
+    },
+    {
+      "name": "attack-post",
+      "frames": 4,
+      "durationMs": 100,
+      "loop": false
+    }
+  ],
+  "levels": [
+    {
+      "level": 1,
+      "source": "source/towers/t01-pulse-gatling/lv1.svg",
+      "master": "masters/towers/t01-pulse-gatling/lv1/base.png",
+      "icon": "runtime/icons/t01-pulse-gatling-lv1@2x.png",
+      "detail": "runtime/detail/t01-pulse-gatling-lv1@2x.png",
+      "atlas": "runtime/atlases/t01-pulse-gatling-lv1@2x.png",
+      "atlasMetadata": "runtime/atlases/t01-pulse-gatling-lv1@2x.json"
+    },
+    {
+      "level": 2,
+      "source": "source/towers/t01-pulse-gatling/lv2.svg",
+      "master": "masters/towers/t01-pulse-gatling/lv2/base.png",
+      "icon": "runtime/icons/t01-pulse-gatling-lv2@2x.png",
+      "detail": "runtime/detail/t01-pulse-gatling-lv2@2x.png",
+      "atlas": "runtime/atlases/t01-pulse-gatling-lv2@2x.png",
+      "atlasMetadata": "runtime/atlases/t01-pulse-gatling-lv2@2x.json"
+    },
+    {
+      "level": 3,
+      "source": "source/towers/t01-pulse-gatling/lv3.svg",
+      "master": "masters/towers/t01-pulse-gatling/lv3/base.png",
+      "icon": "runtime/icons/t01-pulse-gatling-lv3@2x.png",
+      "detail": "runtime/detail/t01-pulse-gatling-lv3@2x.png",
+      "atlas": "runtime/atlases/t01-pulse-gatling-lv3@2x.png",
+      "atlasMetadata": "runtime/atlases/t01-pulse-gatling-lv3@2x.json"
+    }
+  ]
+}

@@ -82,7 +82,7 @@
           <button type="button" class="arcade-launch" @click="openGame">{{ game.launch }}</button>
         </section>
         <section v-if="playing" class="arcade-fullscreen">
-          <button type="button" class="arcade-close" aria-label="退出游戏" @click="closeGame">×</button>
+          <button type="button" class="arcade-close" aria-label="退出游戏，返回工具首页" @click="goHome">×</button>
           <p v-if="loading" class="arcade-loading" role="status">正在载入 {{ game.title }}</p>
           <iframe :src="game.src" :title="game.title" allow="fullscreen" @load="onFrameLoad"></iframe>
         </section>

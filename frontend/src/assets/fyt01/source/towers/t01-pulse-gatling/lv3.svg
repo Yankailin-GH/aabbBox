@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" fill="none">
+  <!-- fyt01 t01-pulse-gatling level 3; generated from pulse-gatling.svg -->
+  <defs>
+    <linearGradient id="cannon-body" x1="46" y1="87" x2="173" y2="155" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#DFFF8B"/>
+      <stop offset=".32" stop-color="#91EE4A"/>
+      <stop offset=".72" stop-color="#4DD43E"/>
+      <stop offset="1" stop-color="#23A947"/>
+    </linearGradient>
+    <linearGradient id="cannon-nozzle" x1="174" y1="95" x2="225" y2="144" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7FEA45"/>
+      <stop offset="1" stop-color="#2EB83F"/>
+    </linearGradient>
+    <linearGradient id="bottle-mark" x1="100" y1="97" x2="141" y2="144" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF889"/>
+      <stop offset="1" stop-color="#FFD53A"/>
+    </linearGradient>
+    <filter id="shadow" x="20" y="72" width="211" height="105" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="9" stdDeviation="7" flood-color="#176F40" flood-opacity=".34"/>
+    </filter>
+  </defs>
+  <g id="pulse-chassis" filter="url(#shadow)" stroke-linejoin="round">
+    <path d="M60 87H156C178 87 181 96.24 198 96.24H207C219 96.24 228 108.12 228 120C228 131.88 219 143.76 207 143.76H198C181 143.76 178 153 156 153H60C28 153 28 153 28 120C28 87 28 87 60 87Z" fill="url(#cannon-body)" stroke="#209F43" stroke-width="8"/>
+    <rect x="204" y="101.52" width="23" height="36.96" rx="13.306" fill="#B1F468" stroke="#209F43" stroke-width="5"/>
+    <path d="M55 109.44C70 94.92 91 92.28 111 96.24" stroke="#F4FFB1" stroke-width="10.56" stroke-linecap="round" opacity=".58"/>
+    <ellipse cx="65" cy="104.16" rx="17.28" ry="7.3" transform="rotate(-20 65 104.16)" fill="white" opacity=".68"/>
+    <path d="M107 96H131L129 108V114C129 120 135 125 139 132C145 143 136 154 121 154C106 154 97 143 103 132C107 125 110 120 110 114L107 96Z" transform="translate(120 120) scale(.72) rotate(90) translate(-120 -120)" fill="url(#bottle-mark)" stroke="#D8AD29" stroke-width="4"/>
+    <path d="M106 132C114 128 128 128 136 132" transform="translate(120 120) scale(.72) rotate(90) translate(-120 -120)" stroke="#FFF7A4" stroke-width="4" stroke-linecap="round" opacity=".68"/>
+  </g>
+  <g id="upgrade-lv3" stroke-linejoin="round"><path d="M61 94Q64 80 81 80H144Q154 80 164 91L157 99H76Z" fill="#B8F66D" stroke="#218F48" stroke-width="4"/><path d="M82 87H139" stroke="#FFF29A" stroke-width="5" stroke-linecap="round"/><path d="M69 95H152" stroke="#E9FFC0" stroke-width="3" stroke-linecap="round"/><g transform="translate(0 240) scale(1 -1)"><path d="M61 94Q64 80 81 80H144Q154 80 164 91L157 99H76Z" fill="#B8F66D" stroke="#218F48" stroke-width="4"/><path d="M82 87H139" stroke="#FFF29A" stroke-width="5" stroke-linecap="round"/><path d="M69 95H152" stroke="#E9FFC0" stroke-width="3" stroke-linecap="round"/></g><path d="M179 105H211M179 135H211" stroke="#196F42" stroke-width="8" stroke-linecap="round"/><path d="M182 105H210M182 135H210" stroke="#EDFFAA" stroke-width="4" stroke-linecap="round"/></g>
+</svg>

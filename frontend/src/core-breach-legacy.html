@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="星核防线">
+  <meta name="apple-mobile-web-app-title" content="花园防线">
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="theme-color" content="#070a14">
+  <meta name="theme-color" content="#6fa957">
   <meta name="apple-touch-fullscreen" content="yes">
   <meta name="full-screen" content="yes">
   <meta name="browsermode" content="application">
@@ -19,27 +19,27 @@
   <meta name="imagemode" content="force">
   <meta name="format-detection" content="telephone=no,email=no">
   <link rel="manifest" href="./legacy-manifest.json">
-  <title>星核防线：量子协议 | Core Breach</title>
+  <title>花园防线 | Garden Guard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-dark: #070a14;
-      --panel-bg: rgba(11, 19, 43, 0.75);
-      --panel-border: rgba(0, 243, 255, 0.25);
-      --panel-glow: 0 8px 32px rgba(0, 243, 255, 0.15);
-      --cyan: #00f3ff;
-      --cyan-dim: rgba(0, 243, 255, 0.2);
-      --magenta: #ff2a6d;
-      --magenta-dim: rgba(255, 42, 109, 0.2);
-      --purple: #bc13fe;
-      --lime: #05ffa1;
-      --amber: #ffd02e;
-      --text-main: #f0f6fc;
-      --text-muted: #8b9bb4;
-      --font-title: 'Orbitron', -apple-system, sans-serif;
-      --font-body: 'Rajdhani', -apple-system, sans-serif;
+      --bg-dark: #edf8de;
+      --panel-bg: rgba(255, 255, 248, 0.9);
+      --panel-border: rgba(102, 155, 83, 0.34);
+      --panel-glow: 0 8px 28px rgba(76, 132, 73, 0.14);
+      --cyan: #4aa8b6;
+      --cyan-dim: rgba(74, 168, 182, 0.16);
+      --magenta: #e97a8f;
+      --magenta-dim: rgba(233, 122, 143, 0.16);
+      --purple: #9c83d7;
+      --lime: #71ae58;
+      --amber: #efae4d;
+      --text-main: #31563b;
+      --text-muted: #69816c;
+      --font-title: 'Fredoka', -apple-system, sans-serif;
+      --font-body: 'Nunito', -apple-system, sans-serif;
     }
 
     * {
@@ -2902,7 +2902,8 @@
     .home-logo-icon { font-size: 1.25rem; }
     .home-title { font-size: 1rem; }
     .home-subtitle { font-size: 0.55rem; }
-    .home-top-actions { gap: 8px; }
+    .home-top-actions { gap: 8px; flex-wrap: wrap; }
+    .home-topbar { flex-wrap: wrap; gap: 10px; }
     .home-action-btn { min-width: 56px; padding: 0 8px; }
 
     .home-main-content {
@@ -3051,8 +3052,141 @@
     @media (max-width: 600px), (orientation: portrait) {
       #tower-float-menu { border-radius: 8px 8px 0 0; }
     }
+
+    /* Garden Guard visual pass: keeps the old control layout, but gives every surface
+       a sunny, illustrated garden material instead of a sci-fi HUD treatment. */
+    html, body {
+      background-color: #edf8de;
+      background-image: radial-gradient(circle at 14px 14px, rgba(255,255,255,.62) 0 2px, transparent 2.5px);
+      background-size: 28px 28px;
+    }
+    #game-app { background: #edf8de; }
+    .hud-top, .home-topbar {
+      background: rgba(255, 253, 243, .92);
+      border-color: #b7d89f;
+      box-shadow: 0 3px 14px rgba(70, 125, 71, .12);
+    }
+    .brand-logo { background: #f3ad59; clip-path: none; border-radius: 11px; box-shadow: none; }
+    .brand-text h1, .home-title { background: none; -webkit-text-fill-color: #3e7049; color: #3e7049; letter-spacing: 0; }
+    .brand-text .sub, .home-subtitle { color: #77916e; }
+    .stat-badge { background: #fffdf4; border-color: #c5dfb0; color: #49634f; border-radius: 10px; }
+    .stat-badge.energy { background: #fff5c9; border-color: #efca73; }
+    .stat-badge.wave { border-color: #9ed6c1; }.stat-badge.score { border-color: #f2b5a5; }.stat-badge.towers { border-color: #c7b5e5; }
+    .hud-btn, .home-action-btn, .stage-enter-btn, .btn-modal.primary {
+      background: #f3ad59; border-color: #d48d41; color: #51361d; box-shadow: 0 3px 0 #ce843d;
+    }
+    .hud-btn:hover, .home-action-btn:hover, .stage-enter-btn:hover, .btn-modal.primary:hover { background: #ffd16a; color: #51361d; box-shadow: 0 4px 0 #ce843d; }
+    .game-screen-home { background: #edf8de; }
+    .home-section-header h2, .modal-card h2 { color: #3e7049; letter-spacing: 0; }
+    .home-section-header p, .stage-desc { color: #69816c; }
+    .stage-card, .modal-card, #tower-float-menu, #tower-asset-menu {
+      background: #fffdf4; border-color: #bddba8; box-shadow: 0 7px 18px rgba(74, 128, 71, .12);
+    }
+    .stage-card::before { background: #f5c965; opacity: .55; }
+    .stage-num-badge { background: #e7f5d9; color: #52894d; border-color: #afd297; }
+    .stage-title { color: #3e7049; }
+    .briefing-tag, .briefing-section-title { color: #5d934f; }
+    .briefing-mon-card { background: #f4fae9; border-color: #c7e2b3; }
+    #modal-stage-briefing .briefing-monsters-grid { max-height: none; }
+    #modal-stage-briefing .mon-badge-art { width: 64px; height: 64px; max-width: 100%; object-fit: contain; }
+    #modal-stage-briefing .mon-badge-name, #modal-stage-briefing h2 { color: #3e7049; }
+    #modal-stage-briefing .briefing-mon-card { min-height: 178px; color: #48654b; }
+    #modal-stage-briefing .mon-badge-trait { color: #648267; }
+    .mon-badge-icon { color: #70ad58; }
+    .modal-overlay { background: rgba(54, 91, 58, .4); }
+    .toast-notice { background: #3e7049; color: #fffdf4; border-color: #79ae61; }
+    .hud-skill-badge { background: #fffdf4; border-color: #a9d18d; box-shadow: 0 3px 10px rgba(76, 128, 73, .18); }
+    .boss-hud-bar { background: #fffdf4; border-color: #e79aa6; box-shadow: 0 5px 14px rgba(197, 105, 124, .16); }
+    .boss-name { color: #bd5f76; }
+    #wave-alarm-overlay { background: rgba(236, 248, 220, .92); }
+    #wave-alarm-overlay .alarm-title, #wave-alarm-overlay .alarm-number { color: #3e7049; text-shadow: none; }
+    .upgrade-confirm-card { width: min(330px, 88vw); text-align: center; }
+    .upgrade-confirm-kicker { margin-bottom: 5px; color: #6a9956; font-family: var(--font-title); font-size: .72rem; }
+    #upgrade-confirm-copy { margin: 10px 0 16px; color: #69816c; line-height: 1.5; }
+    .upgrade-confirm-cost { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; margin-bottom: 16px; border: 1px solid #efd48c; border-radius: 8px; background: #fff7d7; color: #6d5a32; }
+    .upgrade-confirm-cost strong { color: #b7732d; font-family: var(--font-title); font-size: 1.2rem; }
+    :focus-visible { outline: 3px solid #efae4d; outline-offset: 2px; }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+    #modal-help .codex-content { overflow: hidden; max-height: none; min-height: 0; margin: 0; padding: 0; color: #31563b; }
+    #modal-help .modal-card { width: min(540px, 98vw) !important; height: min(900px, 98dvh); max-height: 98dvh; display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: 4px; padding: 8px !important; background: #eaf5e2; }
+    #modal-help .modal-card > h2 { font-size: 20px; margin: 0; }
+    #modal-help .modal-actions { margin: 0; }
+    #modal-help .codex-content { display: grid; grid-template-rows: auto auto minmax(0, 1fr) auto; gap: 8px; }
+    .codex-tabs { display: flex; gap: 8px; }
+    .codex-tabs button { flex: 1; min-height: 44px; border: 1px solid #b7cfaa; border-radius: 6px; background: #f9fcf5; color: #456344; font: inherit; cursor: pointer; }
+    .codex-tabs button[aria-selected="true"] { background: #426f48; color: #fff; border-color: #426f48; }
+    .codex-posters { overflow-y: auto; overscroll-behavior: contain; touch-action: pan-y; min-height: 0; scrollbar-width: thin; }
+    .archive-sheet { padding: 18px; min-height: 100%; box-sizing: border-box; background: #fff4d7; border: 1px solid #dccb9c; border-radius: 6px; color: #655338; }
+    .archive-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding-bottom: 14px; border-bottom: 1px solid #dbc794; }
+    .archive-heading h3 { font-size: 24px; margin: 0; color: #88633b; }
+    .archive-heading > span { font-size: 12px; color: #3a7653; }
+    .archive-sheet h4 { margin: 0 0 8px; font-size: 15px; color: #93683e; }
+    .archive-sheet p { font-size: 13px; line-height: 1.65; margin: 0 0 12px; overflow-wrap: anywhere; }
+    .archive-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 16px 0 4px; }
+    .archive-level { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 16px; padding: 18px 0; border-top: 1px solid #dccb9c; }
+    .archive-level-art { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+    .archive-level-art img { width: 112px; height: 112px; object-fit: contain; }
+    .archive-level-art span { font-size: 13px; font-weight: 700; color: #43704c; }
+    .archive-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 14px; }
+    .archive-stat { display: grid; grid-template-columns: 1fr; gap: 3px; font-size: 12px; min-width: 0; }
+    .archive-stat span { color: #80684a; }
+    .archive-stat strong { font-size: 14px; color: #415e46; overflow-wrap: anywhere; }
+    .archive-stat meter { appearance: none; width: 100%; height: 8px; border: 0; background: #e6d8b9; border-radius: 4px; overflow: hidden; }
+    .archive-stat meter::-webkit-meter-bar { background: #e6d8b9; border: 0; }
+    .archive-stat meter::-webkit-meter-optimum-value { background: var(--stat-color); }
+    .archive-stat meter::-moz-meter-bar { background: var(--stat-color); }
+    .archive-level-info .archive-ability { margin: 12px 0 0; color: #55745c; }
+    .archive-enemy-art { display: grid; place-items: center; padding: 16px 0; }
+    .archive-enemy-art canvas { width: 220px; max-width: 100%; aspect-ratio: 1; }
+    @media (max-width: 420px) { .archive-sheet { padding: 12px; } .archive-level { grid-template-columns: 80px minmax(0, 1fr); gap: 10px; } .archive-level-art img { width: 80px; height: 96px; } .archive-intro { gap: 12px; } }
+    .codex-poster { min-height: 100%; scroll-snap-align: start; scroll-snap-stop: always; border: 1px solid #bdd3ae; border-radius: 8px; background: #fffef9; overflow: hidden; margin-bottom: 12px; }
+    .codex-poster-art { height: 210px; display: grid; place-items: center; background: var(--poster-bg, #dfeecf); border-bottom: 1px solid #d4e2c8; }
+    .codex-poster-art img, .codex-poster-art canvas { width: 200px; height: 200px; object-fit: contain; }
+    .codex-poster-copy { padding: 16px; }
+    .codex-poster-copy h3 { font-size: 22px; color: #31563b; margin: 0 0 8px; letter-spacing: 0; }
+    .codex-poster-copy p { font-size: 14px; line-height: 1.5; color: #56725a; margin: 0 0 12px; }
+    .codex-poster-copy small { display: block; font-size: 13px; line-height: 1.8; color: #45634a; border-top: 1px solid #e1e9da; padding-top: 10px; }
+    .codex-paging { display: flex; align-items: center; justify-content: center; gap: 20px; color: #45634a; font-size: 13px; }
+    .codex-paging button { width: 44px; height: 44px; border-radius: 6px; border: 1px solid #b7cfaa; background: #fffef9; color: #31563b; font-size: 22px; cursor: pointer; }
+    .codex-paging button:disabled { opacity: .35; cursor: default; }
+    @media (max-height: 700px) { .codex-poster-art { height: 145px; } .codex-poster-art img, .codex-poster-art canvas { width: 140px; height: 140px; } .codex-poster-copy { padding: 12px; } .codex-poster-copy h3 { font-size: 19px; } }
+    #modal-help .codex-row { display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #d4e4c8; padding: 12px 0; }
+    #modal-help .codex-art { width: 64px; height: 64px; flex: 0 0 64px; object-fit: contain; }
+    #modal-help .codex-row div { min-width: 0; }
+    #modal-help .codex-row strong { color: #31563b; }
+    #modal-help .codex-row p { font-size: 13px; line-height: 1.5; }
+    #modal-help .codex-row small { color: #58735a; line-height: 1.5; }
+    /* One complete poster per screen; compact rows retain every level's details. */
+    #modal-help .modal-card > h2 { display: none; }
+    #modal-help .codex-content { gap: 4px; }
+    #modal-help .codex-posters { overflow: hidden; touch-action: auto; }
+    #modal-help .archive-sheet { min-height: 0; padding: 10px; transform-origin: top center; }
+    #modal-help .archive-heading { gap: 4px; padding-bottom: 6px; }
+    #modal-help .archive-heading h3 { font-size: 21px; }
+    #modal-help .archive-intro { gap: 10px; padding: 8px 0 4px; }
+    #modal-help .archive-sheet h4 { font-size: 13px; margin: 0 0 4px; }
+    #modal-help .archive-sheet p { font-size: 12px; line-height: 1.4; margin: 0 0 4px; }
+    #modal-help .archive-level { grid-template-columns: 64px minmax(0, 1fr); gap: 8px; padding: 7px 0; }
+    #modal-help .archive-level-art { gap: 2px; }
+    #modal-help .archive-level-art img { width: 64px; height: 64px; }
+    #modal-help .archive-level-art span { font-size: 12px; }
+    #modal-help .archive-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px 8px; }
+    #modal-help .archive-stat { gap: 1px; font-size: 11px; }
+    #modal-help .archive-stat strong { font-size: 12px; }
+    #modal-help .archive-stat meter { height: 4px; }
+    #modal-help .archive-level-info .archive-ability { margin: 4px 0 0; }
+    #modal-help .archive-enemy-art { padding: 8px 0; }
+    #modal-help .archive-enemy-art canvas { width: 180px; }
+    /* HUD telemetry is compact numeric text rather than button-like badges. */
+    #hud-stats-group .stat-badge { min-width: auto; padding: 3px 7px; border: 0; background: transparent; box-shadow: none; }
+    #hud-stats-group .stat-badge .label { display: none; }
+    #hud-stats-group .stat-badge .value { font-size: 14px; font-weight: 800; }
+    #hud-stats-group .stat-badge.energy .value { color: #b86a24; }
   </style>
 
+  <link rel="stylesheet" href="./arcade/game-navigation.css">
+  <link rel="stylesheet" href="./arcade/garden-controls.css">
+  <script src="./arcade/game-navigation.js" defer></script>
 </head>
 <body>
 
@@ -3156,7 +3290,7 @@
     <!-- Boss HP Bar -->
     <div class="boss-hud-bar" id="boss-bar">
       <div class="boss-hud-info">
-        <span class="boss-name" id="boss-title">⚠️ 首领入侵：腐化主脑</span>
+        <span class="boss-name" id="boss-title">首领来访：荆棘女王</span>
         <span id="boss-hp-val">1000 / 1000</span>
       </div>
       <div class="boss-hp-track">
@@ -3178,13 +3312,14 @@
   <div id="screen-home" class="game-screen-home">
     <header class="home-topbar">
       <div class="home-brand">
-        <span class="home-logo-icon">⚡</span>
+        <span class="home-logo-icon">✿</span>
         <div>
-          <div class="home-title">星核防线</div>
-          <div class="home-subtitle">QUANTUM PROTOCOL</div>
+          <div class="home-title">花园防线</div>
+          <div class="home-subtitle">GARDEN GUARD</div>
         </div>
       </div>
       <div class="home-top-actions">
+        <button class="home-action-btn" id="btn-home-codex" type="button" title="花园图鉴">图鉴</button>
         <button class="home-action-btn" id="btn-home-fullscreen" title="切换全屏模式">全屏</button>
         <button class="home-action-btn" id="btn-home-settings" title="系统设置">设置</button>
       </div>
@@ -3192,65 +3327,65 @@
 
     <div class="home-main-content">
       <div class="home-section-header">
-        <h2>战术防区选择</h2>
-        <p>选择量子核心节点，建立防御矩阵抵御异构体侵蚀</p>
+        <h2>选择花园</h2>
+        <p>挑一块花圃，布置植物守卫，保护每一朵正在开放的花</p>
       </div>
 
       <div class="stage-select-grid" id="home-stage-grid">
-        <!-- Sector 01 -->
+        <!-- Garden 01 -->
         <div class="stage-card" data-stage="0">
           <div>
             <div class="stage-card-header">
-              <span class="stage-num-badge">SECTOR 01</span>
+              <span class="stage-num-badge">花圃 01</span>
               <span class="stage-stars" id="home-stars-0">⭐⭐⭐</span>
             </div>
-            <div class="stage-title">矩阵双轨</div>
-            <div class="stage-desc">经典迂回双通路，敌军兵分两路迂回包抄核心。</div>
+            <div class="stage-title">郁金香双径</div>
+            <div class="stage-desc">两条碎石小径绕过花圃，捣蛋方块从不同入口闯入。</div>
           </div>
           <div>
             <div class="stage-meta-row">
               <span>难度: ⭐☆☆</span>
               <span>20 波次</span>
             </div>
-            <button class="stage-enter-btn" data-stage="0">进入战区</button>
+            <button class="stage-enter-btn" data-stage="0">守护花圃</button>
           </div>
         </div>
 
-        <!-- Sector 02 -->
+        <!-- Garden 02 -->
         <div class="stage-card" data-stage="1">
           <div>
             <div class="stage-card-header">
-              <span class="stage-num-badge">SECTOR 02</span>
+              <span class="stage-num-badge">花圃 02</span>
               <span class="stage-stars" id="home-stars-1">☆☆☆</span>
             </div>
-            <div class="stage-title">霓虹十字交错</div>
-            <div class="stage-desc">双向合流中枢交汇，存在高密度敌人交叉火力盲区。</div>
+            <div class="stage-title">雏菊十字路</div>
+            <div class="stage-desc">花径在中央交汇，适合成片种植植物守卫。</div>
           </div>
           <div>
             <div class="stage-meta-row">
               <span>难度: ⭐⭐☆</span>
               <span>20 波次</span>
             </div>
-            <button class="stage-enter-btn" data-stage="1">进入战区</button>
+            <button class="stage-enter-btn" data-stage="1">守护花圃</button>
           </div>
         </div>
 
-        <!-- Sector 03 -->
+        <!-- Garden 03 -->
         <div class="stage-card" data-stage="2">
           <div>
             <div class="stage-card-header">
-              <span class="stage-num-badge">SECTOR 03</span>
+              <span class="stage-num-badge">花圃 03</span>
               <span class="stage-stars" id="home-stars-2">☆☆☆</span>
             </div>
-            <div class="stage-title">虚空超弦反应堆</div>
-            <div class="stage-desc">紧凑螺旋核心死斗，终极首领将频繁发动全图冲击。</div>
+            <div class="stage-title">月光玫瑰园</div>
+            <div class="stage-desc">玫瑰小径盘旋在温室深处，两位首领会发动突袭。</div>
           </div>
           <div>
             <div class="stage-meta-row">
               <span>难度: ⭐⭐⭐</span>
               <span>20 波次</span>
             </div>
-            <button class="stage-enter-btn" data-stage="2">进入战区</button>
+            <button class="stage-enter-btn" data-stage="2">守护花圃</button>
           </div>
         </div>
       </div>
@@ -3263,14 +3398,14 @@
       <div class="briefing-header">
         <div>
           <div class="briefing-tag">🚨 战前敌情侦测报告</div>
-          <h2 id="briefing-stage-title">Sector 01: 矩阵双轨</h2>
+          <h2 id="briefing-stage-title">花圃 01：郁金香双径</h2>
         </div>
-        <button class="insp-close" id="btn-briefing-close">✕</button>
+        <button class="insp-close" id="btn-briefing-close" aria-label="返回选关" title="返回选关">←</button>
       </div>
 
-      <p class="briefing-desc" id="briefing-stage-desc">双轨迂回回路，侦测到高频异构体生物特征反应。</p>
+      <p class="briefing-desc" id="briefing-stage-desc">双轨碎石小径，捣蛋方块正向花园靠近。</p>
 
-      <div class="briefing-section-title">👾 本防区主要遭遇异构体：</div>
+      <div class="briefing-section-title">本花圃主要遭遇的方块：</div>
       <div class="briefing-monsters-grid" id="briefing-monsters-list">
         <!-- Populated dynamically based on chosen stage -->
       </div>
@@ -3322,7 +3457,7 @@
             <div style="font-size:0.68rem;color:var(--cyan);letter-spacing:0.5px;">自定义防御塔与怪物全维度数值 · 支持随时重置</div>
           </div>
         </div>
-        <button class="insp-close" id="btn-settings-close">✕</button>
+        <button class="insp-close" id="btn-settings-close" aria-label="返回上一页" title="返回上一页">←</button>
       </div>
 
       <!-- Settings Tabs Navigation -->
@@ -3348,10 +3483,6 @@
             <button class="settings-btn-toggle" id="btn-toggle-fullscreen">进入全屏</button>
           </div>
           <div class="settings-row">
-            <div class="settings-label">📖 指挥官战术手册</div>
-            <button class="settings-btn-toggle" id="btn-open-codex">查看图鉴</button>
-          </div>
-          <div class="settings-row">
             <div class="settings-label" style="color:#ff7597;">🔄 清除通关存档</div>
             <button class="settings-btn-toggle" id="btn-reset-data" style="border-color:#ff2a6d;color:#ff7597;">重置数据</button>
           </div>
@@ -3370,7 +3501,7 @@
             <div class="cfg-fields-grid">
               <div class="cfg-field">
                 <label>⚔️ 基础伤害</label>
-                <div class="cfg-input-wrap"><input type="number" id="cfg-t-pulse-damage" step="1" min="1" max="9999" value="26"><span class="cfg-unit">点</span></div>
+                <div class="cfg-input-wrap"><input type="number" id="cfg-t-pulse-damage" step="1" min="1" max="9999" value="39"><span class="cfg-unit">点</span></div>
               </div>
               <div class="cfg-field">
                 <label>⚡ 攻击射速</label>
@@ -3391,16 +3522,12 @@
           <div class="cfg-card">
             <div class="cfg-card-header">
               <div class="cfg-card-title"><span class="t-icon-box cryo">冰</span> 冰冻星</div>
-              <span class="cfg-tag" style="background:rgba(104,216,244,0.15);color:#8eeaff;">直线穿透减速</span>
+              <span class="cfg-tag" style="background:rgba(104,216,244,0.15);color:#8eeaff;">小范围减速</span>
             </div>
             <div class="cfg-fields-grid">
               <div class="cfg-field">
                 <label>⚔️ 基础伤害</label>
-                <div class="cfg-input-wrap"><input type="number" id="cfg-t-cryo-damage" step="1" min="0" max="9999" value="18"><span class="cfg-unit">点</span></div>
-              </div>
-              <div class="cfg-field">
-                <label>⚡ 攻击射速</label>
-                <div class="cfg-input-wrap"><input type="number" id="cfg-t-cryo-fireRate" step="0.1" min="0.1" max="20" value="0.95"><span class="cfg-unit">次/s</span></div>
+                <div class="cfg-input-wrap"><input type="number" id="cfg-t-cryo-damage" step="1" min="0" max="9999" value="27"><span class="cfg-unit">点</span></div>
               </div>
               <div class="cfg-field">
                 <label>🎯 攻击射程</label>
@@ -3411,7 +3538,7 @@
                 <div class="cfg-input-wrap"><input type="number" id="cfg-t-cryo-slowRate" step="1" min="0" max="95" value="36"><span class="cfg-unit">%</span></div>
               </div>
               <div class="cfg-field">
-                <label>⏱️ 减速时长 (秒)</label>
+                <label>⏱️ 冰面 / 初始间隔 (秒)</label>
                 <div class="cfg-input-wrap"><input type="number" id="cfg-t-cryo-slowDuration" step="0.1" min="0.5" max="30" value="2.5"><span class="cfg-unit">s</span></div>
               </div>
               <div class="cfg-field">
@@ -3430,7 +3557,7 @@
             <div class="cfg-fields-grid">
               <div class="cfg-field">
                 <label>⚔️ 基础伤害</label>
-                <div class="cfg-input-wrap"><input type="number" id="cfg-t-plasma-damage" step="1" min="1" max="9999" value="20"><span class="cfg-unit">点</span></div>
+                <div class="cfg-input-wrap"><input type="number" id="cfg-t-plasma-damage" step="1" min="1" max="9999" value="30"><span class="cfg-unit">点</span></div>
               </div>
               <div class="cfg-field">
                 <label>⚡ 攻击射速</label>
@@ -3441,8 +3568,8 @@
                 <div class="cfg-input-wrap"><input type="number" id="cfg-t-plasma-range" step="5" min="50" max="1000" value="185"><span class="cfg-unit">px</span></div>
               </div>
               <div class="cfg-field">
-                <label>🔥 每次叠层增伤</label>
-                <div class="cfg-input-wrap"><input type="number" id="cfg-t-plasma-rampPercent" step="1" min="0" max="100" value="18"><span class="cfg-unit">%</span></div>
+                <label>🔥 满蓄力增伤</label>
+                <div class="cfg-input-wrap"><input type="number" id="cfg-t-plasma-rampPercent" step="1" min="0" max="700" value="126"><span class="cfg-unit">%</span></div>
               </div>
               <div class="cfg-field">
                 <label>💰 建造造价</label>
@@ -3454,13 +3581,13 @@
           <!-- Tesla -->
           <div class="cfg-card">
             <div class="cfg-card-header">
-              <div class="cfg-card-title"><span class="t-icon-box tesla">晶</span> 水晶</div>
-              <span class="cfg-tag" style="background:rgba(189,120,239,0.15);color:#dca8ff;">单体激光 · 邻格辅助</span>
+              <div class="cfg-card-title"><span class="t-icon-box tesla">晶</span> 水晶花</div>
+              <span class="cfg-tag" style="background:rgba(189,120,239,0.15);color:#dca8ff;">连锁闪电 · 邻格辅助</span>
             </div>
             <div class="cfg-fields-grid">
               <div class="cfg-field">
                 <label>⚔️ 激光伤害</label>
-                <div class="cfg-input-wrap"><input type="number" id="cfg-t-tesla-damage" step="1" min="1" max="9999" value="42"><span class="cfg-unit">点</span></div>
+                <div class="cfg-input-wrap"><input type="number" id="cfg-t-tesla-damage" step="1" min="1" max="9999" value="63"><span class="cfg-unit">点</span></div>
               </div>
               <div class="cfg-field">
                 <label>⚡ 攻击射速</label>
@@ -3494,7 +3621,7 @@
               </div>
               <div class="cfg-field">
                 <label>⚔️ 群体伤害</label>
-                <div class="cfg-input-wrap"><input type="number" id="cfg-t-buffer-damage" step="1" min="1" max="9999" value="34"><span class="cfg-unit">点</span></div>
+                <div class="cfg-input-wrap"><input type="number" id="cfg-t-buffer-damage" step="1" min="1" max="9999" value="51"><span class="cfg-unit">点</span></div>
               </div>
               <div class="cfg-field">
                 <label>⚡ 攻击射速</label>
@@ -3515,7 +3642,7 @@
           <!-- Crawler -->
           <div class="cfg-card">
             <div class="cfg-card-header">
-              <div class="cfg-card-title">👾 比特蠕虫 (Crawler)</div>
+              <div class="cfg-card-title">■ 种子小方 (Seed Block)</div>
               <span class="cfg-tag" style="background:rgba(5,255,161,0.15);color:#05ffa1;">轻装集群</span>
             </div>
             <div class="cfg-fields-grid">
@@ -3530,7 +3657,7 @@
           <!-- Scout -->
           <div class="cfg-card">
             <div class="cfg-card-header">
-              <div class="cfg-card-title">🛸 巡逻侦察机 (Scout)</div>
+              <div class="cfg-card-title">■ 风铃小方 (Bell Block)</div>
               <span class="cfg-tag" style="background:rgba(0,243,255,0.15);color:var(--cyan);">疾速高闪避</span>
             </div>
             <div class="cfg-fields-grid">
@@ -3545,7 +3672,7 @@
           <!-- Phantom -->
           <div class="cfg-card">
             <div class="cfg-card-header">
-              <div class="cfg-card-title">👻 隐匿幽灵 (Phantom)</div>
+              <div class="cfg-card-title">■ 薄荷忍者 (Mint Ninja)</div>
               <span class="cfg-tag" style="background:rgba(162,155,254,0.15);color:#a29bfe;">隐匿突袭</span>
             </div>
             <div class="cfg-fields-grid">
@@ -3560,7 +3687,7 @@
           <!-- Replicator -->
           <div class="cfg-card">
             <div class="cfg-card-header">
-              <div class="cfg-card-title">🟣 裂变母体 (Replicator)</div>
+              <div class="cfg-card-title">■ 泡泡园丁 (Bubble Gardener)</div>
               <span class="cfg-tag" style="background:rgba(224,86,253,0.15);color:#e056fd;">阵亡裂变</span>
             </div>
             <div class="cfg-fields-grid">
@@ -3575,7 +3702,7 @@
           <!-- Shielder -->
           <div class="cfg-card">
             <div class="cfg-card-header">
-              <div class="cfg-card-title">🛡️ 护盾发生机 (Shielder)</div>
+              <div class="cfg-card-title">■ 护花骑士 (Garden Knight)</div>
               <span class="cfg-tag" style="background:rgba(104,109,224,0.15);color:#686de0;">全向力场</span>
             </div>
             <div class="cfg-fields-grid">
@@ -3590,7 +3717,7 @@
           <!-- Titan -->
           <div class="cfg-card">
             <div class="cfg-card-header">
-              <div class="cfg-card-title">🤖 重装金刚 (Titan)</div>
+              <div class="cfg-card-title">■ 南瓜骑士 (Pumpkin Knight)</div>
               <span class="cfg-tag" style="background:rgba(255,208,46,0.15);color:var(--amber);">极高护甲重坦</span>
             </div>
             <div class="cfg-fields-grid">
@@ -3605,7 +3732,7 @@
           <!-- Boss 1: Overlord -->
           <div class="cfg-card">
             <div class="cfg-card-header">
-              <div class="cfg-card-title">👑 腐化主脑 (Boss 1)</div>
+              <div class="cfg-card-title">■ 荆棘女王 (Boss 1)</div>
               <span class="cfg-tag" style="background:rgba(255,42,109,0.15);color:var(--magenta);">首领·EMP脉冲</span>
             </div>
             <div class="cfg-fields-grid">
@@ -3620,7 +3747,7 @@
           <!-- Boss 2: Devourer -->
           <div class="cfg-card">
             <div class="cfg-card-header">
-              <div class="cfg-card-title">☠️ 量子吞噬者 (Boss 2)</div>
+              <div class="cfg-card-title">■ 夜莓伯爵 (Boss 2)</div>
               <span class="cfg-tag" style="background:rgba(188,19,254,0.15);color:var(--purple);">终极首领·护盾跃迁</span>
             </div>
             <div class="cfg-fields-grid">
@@ -3639,7 +3766,7 @@
         <button class="btn-modal" id="btn-cfg-reset" style="border-color:rgba(255,42,109,0.5);color:#ff7597;background:rgba(255,42,109,0.12);" title="恢复所有参数至默认初始数值">恢复默认数值</button>
         <div style="display:flex;gap:8px;">
           <button class="btn-modal primary" id="btn-cfg-save">保存并应用配置</button>
-          <button class="btn-modal sub" id="btn-settings-done">关闭</button>
+          <button class="btn-modal sub" id="btn-settings-done">返回</button>
         </div>
       </div>
     </div>
@@ -3648,13 +3775,13 @@
   <!-- Modals: Victory / Defeat -->
   <div class="modal-overlay" id="modal-gameover">
     <div class="modal-card" id="gameover-card">
-      <h2 id="go-title">核心防线失守</h2>
+      <h2 id="go-title">花园暂时失守</h2>
       <div class="modal-stars" id="go-stars">⭐⭐⭐</div>
-      <p id="go-desc" style="color:var(--text-muted);">异构母体突破了最终量子约束...</p>
+      <p id="go-desc" style="color:var(--text-muted);">捣蛋方块闯进了最后一片花圃...</p>
 
       <div class="modal-stats">
         <div>抵抗波次: <strong id="go-stat-wave" style="color:var(--cyan);">12/20</strong></div>
-        <div>击破异构体: <strong id="go-stat-kills" style="color:var(--magenta);">158</strong></div>
+        <div>送走方块: <strong id="go-stat-kills" style="color:var(--magenta);">158</strong></div>
         <div>总输出伤害: <strong id="go-stat-dmg" style="color:var(--amber);">45,200</strong></div>
         <div>最终得分: <strong id="go-stat-score" style="color:var(--lime);">12,800</strong></div>
       </div>
@@ -3669,7 +3796,7 @@
   <!-- Modal: Help / Codex -->
   <div class="modal-overlay" id="modal-help">
     <div class="modal-card" style="width:min(620px,94vw);">
-      <h2>指挥官战术手册</h2>
+      <h2>花园图鉴</h2>
       <div class="codex-content">
         <div class="codex-section">
           <h3>防御塔特性与三级升级</h3>
@@ -3679,15 +3806,15 @@
           </div>
           <div class="codex-row">
             <span class="t-icon-box cryo"><img src="./assets/towers/cryo-emitter.svg" alt=""></span>
-            <div><strong>冰冻星</strong>：寒流沿直线穿透，伤害并减速沿途全部敌人。</div>
+            <div><strong>冰冻星</strong>：投掷雪球造成命中伤害，并留下冰面，经过冰面的怪物会减速。</div>
           </div>
           <div class="codex-row">
             <span class="t-icon-box plasma"><img src="./assets/towers/plasma-mortar.svg" alt=""></span>
-            <div><strong>火瓶子</strong>：持续锁定一个目标，连续命中会逐步提高伤害。</div>
+            <div><strong>火瓶子</strong>：持续发射火焰光柱，锁定同一目标越久伤害越高，3 秒达到最大。</div>
           </div>
           <div class="codex-row">
             <span class="t-icon-box tesla"><img src="./assets/towers/tesla-coil.svg" alt=""></span>
-            <div><strong>水晶</strong>：发射单体晶能光束，并提高相邻一格炮塔的攻击力。</div>
+            <div><strong>水晶花</strong>：闪电传递到附近怪物，升级增加伤害与命中数量、提高攻击频率，并提高邻格炮塔的攻击力。</div>
           </div>
           <div class="codex-row">
             <span class="t-icon-box buffer"><img src="./assets/towers/quantum-buffer.svg" alt=""></span>
@@ -3696,20 +3823,20 @@
         </div>
 
         <div class="codex-section">
-          <h3>👾 异构体情报</h3>
+          <h3>方块情报</h3>
           <div class="codex-row">
             <span class="codex-icon">🛡️</span>
-            <div><strong>护盾母机 & 重装金刚</strong>：具备能量护盾与高抗性，适合用火瓶子持续锁定或太阳花协同清理。</div>
+            <div><strong>护花骑士 & 南瓜骑士</strong>：带有花瓣护盾与厚重盔甲，适合用火瓶子持续锁定或太阳花协同清理。</div>
           </div>
           <div class="codex-row">
             <span class="codex-icon">👻</span>
-            <div><strong>隐形幽灵体</strong>：只有被冰冻星寒流扫中或受到 EMP 冲击后才会显形。</div>
+            <div><strong>隐形幽灵体</strong>：只有被冰冻星冰霜击中或受到 EMP 冲击后才会显形。</div>
           </div>
         </div>
       </div>
 
       <div class="modal-actions">
-        <button class="btn-modal primary" id="btn-help-close">明白，返回战场</button>
+        <button class="btn-modal primary" id="btn-help-close">返回</button>
       </div>
     </div>
   </div>
@@ -3717,7 +3844,7 @@
 
 <script>
 /**
- * 《星核防线：量子协议》 Core Game Engine
+ * 《花园防线》 Core Game Engine
  * 纯原生 Canvas 2D + Web Audio API 算法声音合成 + 高性能对象池化
  */
 
@@ -3877,6 +4004,39 @@ const sounds = new SoundManager();
 const BUILD_HOLD_DURATION_MS = 1000;
 const COMBAT_SPEED_MULTIPLIER = 0.7;
 const TOWER_TYPES = ['pulse', 'cryo', 'tesla', 'plasma', 'buffer'];
+// 五塔共用等级素材，战场和检视面板保持一致。
+const TOWER_ASSET_IDS = {
+  pulse: 't01-pulse-gatling', cryo: 't02-cryo-emitter', plasma: 't03-plasma-mortar',
+  tesla: 't04-tesla-coil', buffer: 't05-quantum-buffer'
+};
+const TOWER_ART_REVISION = 'smooth-neck-3';
+function towerArtPath(type, level, kind = 'icons') {
+  if (type === 'plasma') return `./assets/towers/fire-bottle-lv${level}.svg?v=smooth-neck-2`;
+  return `./assets/fyt01/runtime/${kind}/${TOWER_ASSET_IDS[type]}-lv${level}@2x.png?v=${TOWER_ART_REVISION}`;
+}
+// 不使用 Object.fromEntries：旧版 iOS Safari 在解析阶段就会因它而中断脚本。
+const TOWER_LEVEL_IMAGES = {};
+TOWER_TYPES.forEach(type => {
+  TOWER_LEVEL_IMAGES[type] = [null, 1, 2, 3].map(level => {
+    if (!level) return null;
+    const image = new Image();
+    image.src = towerArtPath(type, level);
+    return image;
+  });
+});
+const PULSE_SPRITE_FACING_OFFSET = 0;
+const PULSE_SPRITE_SIZE_RATIO = 1.16;
+const PULSE_SPRITE_ANIMATIONS = {
+  idle: { row: 0, frames: 6, frameMs: 120, loop: true },
+  attack: { row: 2, frames: 6, frameMs: 80, loop: false },
+  'attack-post': { row: 3, frames: 4, frameMs: 100, loop: false }
+};
+const PULSE_SPRITE_ATLASES = [null, 1, 2, 3].map(level => {
+  if (!level) return null;
+  const image = new Image();
+  image.src = towerArtPath('pulse', level, 'atlases');
+  return image;
+});
 const COMMANDER_SKILLS = {
   emp: { label: '轨道 EMP', glyph: 'EMP' },
   overdrive: { label: '量子超频', glyph: 'UP' },
@@ -3884,8 +4044,8 @@ const COMMANDER_SKILLS = {
 };
 const TOWER_ARCHIVE_META = {
   pulse: { role: '基础单体', core: '双脉冲瓶芯', classCode: 'T-01 / LIME' },
-  cryo: { role: '直线减速', core: '冰晶星核', classCode: 'T-02 / FROST' },
-  tesla: { role: '单体辅助', core: '增幅晶核', classCode: 'T-03 / GEM' },
+  cryo: { role: '小范围减速', core: '冰晶星核', classCode: 'T-02 / FROST' },
+  tesla: { role: '连锁辅助', core: '增幅晶核', classCode: 'T-03 / GEM' },
   plasma: { role: '持续增伤', core: '灼热瓶芯', classCode: 'T-04 / FLAME' },
   buffer: { role: '范围群攻', core: '日耀花芯', classCode: 'T-05 / SUN' }
 };
@@ -3893,22 +4053,22 @@ const TOWER_ARCHIVE_META = {
 const TOWER_CONFIGS = {
   pulse: {
     name: '瓶子炮',
-    asset: './assets/towers/pulse-gatling.svg',
+    asset: './assets/fyt01/runtime/detail/t01-pulse-gatling-lv1@2x.png',
     icon: '瓶',
-    iconSvg: '<img class="tower-menu-icon" src="./assets/towers/pulse-gatling.svg" alt="">',
+    iconSvg: '<img class="tower-menu-icon" src="./assets/fyt01/runtime/icons/t01-pulse-gatling-lv1@2x.png" alt="">',
     cost: 100,
     upgradeCosts: [180, 260],
     range: 165,
-    damage: 26,
+    damage: 39,
     fireRate: 2.5,
     color: '#63df3f',
     bulletSpeed: 680,
     type: 'pulse',
     desc: '轻巧稳定的单体炮塔。升到顶级后，每次攻击会追加一枚能量弹。',
     trait: '顶级追加攻击',
-    levelDamage: [1, 1.55, 2.15],
-    levelRate: [1, 1.08, 1.16],
-    levelRange: [1, 1.05, 1.1]
+    levelDamage: [1, 1.6, 2.56],
+    levelRate: [1, 1.3, 1.69],
+    levelRange: [1, 1.3, 1.69]
   },
   cryo: {
     name: '冰冻星',
@@ -3918,18 +4078,18 @@ const TOWER_CONFIGS = {
     cost: 150,
     upgradeCosts: [250, 400],
     range: 195,
-    damage: 18,
-    fireRate: 0.95,
+    damage: 27,
+    fireRate: 0.4,
     slowRate: 0.36,
     slowDuration: 2.5,
-    lineWidth: 22,
+    splashRadius: 45,
     color: '#49d6f0',
     type: 'cryo',
-    desc: '沿目标方向发射穿透寒流，对直线上的所有敌人造成伤害并减速。',
-    trait: '直线穿透 · 减速',
-    levelDamage: [1, 1.5, 2.25],
-    levelRate: [1, 1.08, 1.18],
-    levelRange: [1, 1.08, 1.16]
+    desc: '投掷雪球，命中怪物造成伤害并留下冰面；重叠冰面可叠加减速，最低保留 20% 移速。',
+    trait: '雪球命中 · 冰面减速',
+    levelDamage: [1, 1.6, 2.56],
+    levelRate: [1, 1.3, 1.69],
+    levelRange: [1, 1.3, 1.69]
   },
   plasma: {
     name: '火瓶子',
@@ -3939,37 +4099,40 @@ const TOWER_CONFIGS = {
     cost: 200,
     upgradeCosts: [320, 480],
     range: 185,
-    damage: 20,
+    damage: 30,
     fireRate: 2.1,
     rampPerHit: 0.18,
     maxRampStacks: 7,
     color: '#ff7b38',
     bulletSpeed: 720,
     type: 'plasma',
-    desc: '持续锁定同一目标，命中次数越多，后续火焰伤害越高。',
-    trait: '持续锁定 · 叠层增伤',
-    levelDamage: [1, 1.45, 2.05],
-    levelRate: [1, 1.12, 1.26],
-    levelRange: [1, 1.05, 1.1]
+    wings: false,
+    desc: '发射持续火焰光柱，伤害随锁定时间增长，3 秒达到最大；切换或失去目标后重新蓄力。',
+    trait: '持续光柱 · 3秒满蓄力',
+    levelDamage: [1, 1.6, 2.56],
+    levelRate: [1, 1.3, 1.69],
+    levelRange: [1, 1.3, 1.69]
   },
   tesla: {
-    name: '水晶',
+    name: '水晶花',
     asset: './assets/towers/tesla-coil.svg',
     icon: '晶',
     iconSvg: '<img class="tower-menu-icon" src="./assets/towers/tesla-coil.svg" alt="">',
     cost: 150,
     upgradeCosts: [250, 350],
     range: 180,
-    damage: 42,
+    damage: 63,
     fireRate: 1.25,
     buffDmg: 0.18,
     color: '#c454e8',
     type: 'tesla',
-    desc: '向单个目标发射晶能光束，同时强化相邻一格内炮塔的攻击力。',
-    trait: '单体激光 · 邻格增伤',
-    levelDamage: [1, 1.55, 2.2],
-    levelRate: [1, 1.08, 1.16],
-    levelRange: [1, 1.05, 1.1]
+    desc: '闪电击中目标后传递至附近怪物，不重复命中；升级增加伤害与连锁数量，并提高攻击频率。同时强化邻格炮塔。',
+    trait: '连锁闪电 · 邻格增伤',
+    chainTargets: [2, 3, 4],
+    chainRange: 100,
+    levelDamage: [1, 1.6, 2.56],
+    levelRate: [1, 1.3, 1.69],
+    levelRange: [1, 1.3, 1.69]
   },
   buffer: {
     name: '太阳花',
@@ -3979,27 +4142,34 @@ const TOWER_CONFIGS = {
     cost: 200,
     upgradeCosts: [300, 450],
     range: 125,
-    damage: 34,
+    damage: 51,
     fireRate: 0.82,
     color: '#ffbd3f',
     type: 'buffer',
     desc: '周期性释放日耀脉冲，同时攻击范围内的所有敌人。',
     trait: '范围内全体攻击',
-    levelDamage: [1, 1.5, 2.2],
-    levelRate: [1, 1.08, 1.18],
-    levelRange: [1, 1.1, 1.2]
+    levelDamage: [1, 1.6, 2.56],
+    levelRate: [1, 1.3, 1.69],
+    levelRange: [1, 1.3, 1.69]
   }
 };
 
+TOWER_TYPES.forEach(type => {
+  TOWER_CONFIGS[type].asset = towerArtPath(type, 1, 'detail');
+  TOWER_CONFIGS[type].iconSvg = `<img class="tower-menu-icon" src="${towerArtPath(type, 1)}" alt="">`;
+});
+
+// All garden raiders share this rounded-block chassis. New variants only add a
+// palette plus outfit, accessory, weapon, wings, and headwear tokens.
 const ENEMY_TYPES = {
-  crawler: { name: '比特蠕虫', hpMultiplier: 0.85, defense: 0.0, speed: 65, reward: 12, score: 10, radius: 16, color: '#05ffa1', icon: '👾' },
-  scout: { name: '巡逻侦察机', hpMultiplier: 0.55, defense: 0.05, speed: 115, reward: 10, score: 15, radius: 13, color: '#00f3ff', evasion: 0.25, icon: '🛸' },
-  phantom: { name: '隐匿幽灵', hpMultiplier: 1.15, defense: 0.15, speed: 70, reward: 22, score: 25, radius: 17, stealth: true, color: '#a29bfe', icon: '👻' },
-  replicator: { name: '裂变母体', hpMultiplier: 1.60, defense: 0.20, speed: 50, reward: 25, score: 30, radius: 22, splits: 3, color: '#e056fd', icon: '🟣' },
-  shielder: { name: '护盾发生机', hpMultiplier: 1.85, defense: 0.25, speed: 45, reward: 28, score: 30, radius: 20, shieldAura: true, color: '#686de0', icon: '🛡️' },
-  titan: { name: '重装金刚', hpMultiplier: 3.40, defense: 0.45, speed: 38, reward: 30, score: 35, radius: 25, color: '#ffd02e', icon: '🤖' },
-  boss_overlord: { name: '腐化主脑', hpMultiplier: 25.0, defense: 0.30, speed: 28, reward: 250, score: 500, radius: 36, isBoss: true, bossSkill: 'emp', color: '#ff2a6d', icon: '👑' },
-  boss_devourer: { name: '量子吞噬者', hpMultiplier: 50.0, defense: 0.40, speed: 24, reward: 500, score: 1000, radius: 42, isBoss: true, bossSkill: 'shieldShift', color: '#bc13fe', icon: '☠️' }
+  crawler: { name: '种子小方', hpMultiplier: 0.85, defense: 0.0, speed: 65, reward: 12, score: 10, radius: 16, color: '#78bc60', icon: '■', visual: { body: '#a7dd7e', trim: '#589b49', outfit: 'overalls', headwear: 'leaf' } },
+  scout: { name: '风铃小方', hpMultiplier: 0.55, defense: 0.05, speed: 115, reward: 10, score: 15, radius: 13, color: '#62b9d1', evasion: 0.25, icon: '■', visual: { body: '#91ddec', trim: '#438ca6', outfit: 'scarf', wings: true, headwear: 'sprout' } },
+  phantom: { name: '薄荷忍者', hpMultiplier: 1.15, defense: 0.15, speed: 70, reward: 22, score: 25, radius: 17, stealth: true, color: '#ab93d6', icon: '■', visual: { body: '#c8b5ed', trim: '#806aaa', outfit: 'hood', weapon: 'wand' } },
+  replicator: { name: '泡泡园丁', hpMultiplier: 1.60, defense: 0.20, speed: 50, reward: 25, score: 30, radius: 22, splits: 3, color: '#ef8eae', icon: '■', visual: { body: '#f7bad0', trim: '#c9698e', outfit: 'apron', accessory: 'bubbles', headwear: 'bow' } },
+  shielder: { name: '护花骑士', hpMultiplier: 1.85, defense: 0.25, speed: 45, reward: 28, score: 30, radius: 20, shieldAura: true, color: '#7f9bd5', icon: '■', visual: { body: '#aec3ed', trim: '#5e77ad', outfit: 'tabard', accessory: 'shield', headwear: 'helmet' } },
+  titan: { name: '南瓜骑士', hpMultiplier: 3.40, defense: 0.45, speed: 38, reward: 30, score: 35, radius: 25, color: '#eca950', icon: '■', visual: { body: '#ffc66c', trim: '#cb7a39', outfit: 'armor', weapon: 'rake', headwear: 'pumpkin' } },
+  boss_overlord: { name: '荆棘女王', hpMultiplier: 25.0, defense: 0.30, speed: 28, reward: 250, score: 500, radius: 36, isBoss: true, bossSkill: 'emp', color: '#e77a8f', icon: '■', visual: { body: '#ffb3c2', trim: '#b95870', outfit: 'cape', weapon: 'scepter', headwear: 'crown', accessory: 'thorns' } },
+  boss_devourer: { name: '夜莓伯爵', hpMultiplier: 50.0, defense: 0.40, speed: 24, reward: 500, score: 1000, radius: 42, isBoss: true, bossSkill: 'shieldShift', color: '#a889d4', icon: '■', visual: { body: '#c4aeeb', trim: '#745b9e', outfit: 'cape', weapon: 'umbrella', wings: true, headwear: 'topHat' } }
 };
 
 const DEFAULT_TOWER_CONFIGS = JSON.parse(JSON.stringify(TOWER_CONFIGS));
@@ -4013,7 +4183,7 @@ function loadAndApplyCustomConfig() {
     if (cfg.towers) {
       for (const [k, t] of Object.entries(cfg.towers)) {
         if (TOWER_CONFIGS[k]) {
-          if (typeof t.damage === 'number') TOWER_CONFIGS[k].damage = t.damage;
+          if (typeof t.damage === 'number') TOWER_CONFIGS[k].damage = t.damage * (cfg.balanceVersion === 3 ? 1 : 1.5);
           if (typeof t.fireRate === 'number') TOWER_CONFIGS[k].fireRate = t.fireRate;
           if (typeof t.range === 'number') TOWER_CONFIGS[k].range = t.range;
           if (typeof t.cost === 'number') TOWER_CONFIGS[k].cost = t.cost;
@@ -4046,7 +4216,7 @@ loadAndApplyCustomConfig();
 // Portrait waypoint paths (7 columns x 12 rows) keep cells large enough for touch.
 const MAP_DEFINITIONS = [
   {
-    name: 'Sector 01: 矩阵双轨',
+    name: '花圃 01：郁金香双径',
     cols: 7,
     rows: 12,
     maxTowers: 10,
@@ -4058,7 +4228,7 @@ const MAP_DEFINITIONS = [
     ]
   },
   {
-    name: 'Sector 02: 霓虹十字交错',
+    name: '花圃 02：雏菊十字路',
     cols: 7,
     rows: 12,
     maxTowers: 14,
@@ -4070,7 +4240,7 @@ const MAP_DEFINITIONS = [
     ]
   },
   {
-    name: 'Sector 03: 虚空超弦反应堆',
+    name: '花圃 03：月光玫瑰园',
     cols: 7,
     rows: 12,
     maxTowers: 18,
@@ -4087,30 +4257,30 @@ const BASE_GAME_SPEED = 0.5;
 
 const STAGE_MONSTER_INTEL = [
   {
-    title: 'Sector 01: 矩阵双轨',
-    desc: '双轨迂回回路，异构体兵分两路迂回包抄核心。建议在交叉路口布置瓶子炮与冰冻星。',
+    title: '花圃 01：郁金香双径',
+    desc: '两条碎石小径绕过花圃，捣蛋方块会从不同入口穿过花园。建议在交叉路口布置瓶子炮与冰冻星。',
     monsters: [
-      { icon: '👾', name: '比特蠕虫', speed: '快速 (65)', trait: '数量庞大、集群冲锋', weak: '瓶子炮 / 太阳花' },
-      { icon: '🛸', name: '巡逻侦察机', speed: '疾速 (115)', trait: '超高速巡航、易漏怪', weak: '冰冻星减速集火' },
-      { icon: '🟣', name: '裂变母体', speed: '中速 (50)', trait: '被击破后分裂为3个小怪', weak: '太阳花范围攻击' }
+      { enemyType: 'crawler', name: '种子小方', speed: '快速 (65)', trait: '数量庞大、集群冲锋', weak: '瓶子炮 / 太阳花' },
+      { enemyType: 'scout', name: '风铃小方', speed: '疾速 (115)', trait: '有翅膀，容易漏过花径', weak: '冰冻星减速集火' },
+      { enemyType: 'replicator', name: '泡泡园丁', speed: '中速 (50)', trait: '被击破后分出3个小方', weak: '太阳花范围攻击' }
     ]
   },
   {
-    title: 'Sector 02: 霓虹十字交错',
-    desc: '双向合流中枢交汇，存在高密度敌人交叉火力盲区。侦测到高抗性护盾异构体与隐匿幽灵。',
+    title: '花圃 02：雏菊十字路',
+    desc: '花径在中央交汇，适合成片种植守卫。注意护花骑士与薄荷忍者会从花丛侧边出现。',
     monsters: [
-      { icon: '👻', name: '隐匿幽灵', speed: '快速 (70)', trait: '完全隐身、不受普通塔瞄准', weak: '冰冻星寒流 / EMP显形' },
-      { icon: '🛡️', name: '护盾发生机', speed: '慢速 (45)', trait: '自带全向防护力场吸收伤害', weak: '水晶激光 / EMP破盾' },
-      { icon: '🤖', name: '重装金刚', speed: '极慢 (38)', trait: '45%重装甲减伤、超高体魄', weak: '火瓶子持续锁定' }
+      { enemyType: 'phantom', name: '薄荷忍者', speed: '快速 (70)', trait: '隐身突袭，不受普通塔瞄准', weak: '冰冻星冰霜 / EMP显形' },
+      { enemyType: 'shielder', name: '护花骑士', speed: '慢速 (45)', trait: '带有花瓣护盾吸收伤害', weak: '水晶花激光 / EMP破盾' },
+      { enemyType: 'titan', name: '南瓜骑士', speed: '极慢 (38)', trait: '重装甲减伤、超高体魄', weak: '火瓶子持续锁定' }
     ]
   },
   {
-    title: 'Sector 03: 虚空超弦反应堆',
-    desc: '紧凑螺旋核心死斗，终极首领将频繁发动全图冲击瘫痪防线！全火力强化型怪物集群倾巢出动。',
+    title: '花圃 03：月光玫瑰园',
+    desc: '玫瑰小径在温室深处盘旋，两位花园首领会带着精锐方块军团发动突袭。',
     monsters: [
-      { icon: '👑', name: '腐化主脑 (Boss)', speed: '首领级', trait: '极高生命、EMP瘫痪我方防线', weak: '量子超频爆发急火' },
-      { icon: '☠️', name: '量子吞噬者 (Boss)', speed: '终极首领', trait: '相位转移超强护盾、高额反制', weak: '地雷陷阱 / 极限超频' },
-      { icon: '🛡️', name: '复合护盾巨兽', speed: '强袭级', trait: '护盾+重甲复合抗性', weak: '等离子破甲 / 电弧跳跃' }
+      { enemyType: 'boss_overlord', name: '荆棘女王 (Boss)', speed: '首领级', trait: '极高生命、花粉脉冲干扰防线', weak: '超频急火' },
+      { enemyType: 'boss_devourer', name: '夜莓伯爵 (Boss)', speed: '终极首领', trait: '翅膀跃迁与超强护盾', weak: '地雷陷阱 / 极限超频' },
+      { enemyType: 'shielder', name: '复合护花骑士', speed: '强袭级', trait: '护盾与重甲复合抗性', weak: '火瓶子持续锁定' }
     ]
   }
 ];
@@ -4155,12 +4325,16 @@ class QuantumTDGame {
     this.floatTexts = [];
     this.mines = [];
     this.groundZones = [];
+    this.icePatches = [];
     this.buildEffects = [];
 
     // Selection & Placement
     this.selectedTowerType = null;
     this.inspectedTower = null;
     this.hoveredTower = null;
+    this.pendingUpgradeTower = null;
+    this.upgradeDialogKeepsInspector = false;
+    this.upgradeDialogWasPaused = false;
     this.hoverGrid = { x: -1, y: -1 };
     this.activeSkill = null; // 'emp', 'overdrive', 'mine'
     this.selectedCommanderSkill = 'emp';
@@ -4486,11 +4660,14 @@ class QuantumTDGame {
       appY = clientY;
     }
 
-    const containerOffsetLeft = this.container ? (this.container.offsetLeft || 0) : 0;
-    const containerOffsetTop = this.container ? (this.container.offsetTop || 0) : 0;
-
-    const mx = appX - containerOffsetLeft;
-    const my = appY - containerOffsetTop;
+    // 不能使用 offsetLeft / offsetTop：宽屏时 #game-app 会居中，offset 是相对
+    // 父元素的坐标，而 pointer 的 clientX/Y 是相对视口的坐标。两者混用会让
+    // 桌面端长按被判定到棋盘外。Canvas 的实际边界也能正确处理浏览器缩放。
+    const canvasRect = this.canvas.getBoundingClientRect();
+    const scaleX = canvasRect.width ? this.viewWidth / canvasRect.width : 1;
+    const scaleY = canvasRect.height ? this.viewHeight / canvasRect.height : 1;
+    const mx = (appX - canvasRect.left) * scaleX;
+    const my = (appY - canvasRect.top) * scaleY;
 
     const gx = Math.floor((mx - this.offsetX) / this.cellSize);
     const gy = Math.floor((my - this.offsetY) / this.cellSize);
@@ -4566,6 +4743,7 @@ class QuantumTDGame {
     this.floatTexts = [];
     this.mines = [];
     this.groundZones = [];
+    this.icePatches = [];
     this.buildEffects = [];
 
     // Recalculate cell size and offsets for current map grid
@@ -4802,21 +4980,31 @@ class QuantumTDGame {
     if (monstersEl) {
       monstersEl.innerHTML = intel.monsters.map(monster => `
         <div class="briefing-mon-card">
-          <span class="mon-badge-icon" aria-hidden="true">${monster.icon}</span>
+          <canvas class="mon-badge-art" width="192" height="192" data-enemy="${monster.enemyType}" role="img" aria-label="${monster.name}"></canvas>
           <strong class="mon-badge-name">${monster.name}</strong>
           <span class="mon-badge-trait">${monster.trait}</span>
           <span class="mon-badge-weak">克制：${monster.weak}</span>
         </div>
       `).join('');
+      monstersEl.querySelectorAll('canvas[data-enemy]').forEach(canvas => this.renderEnemyThumbnail(canvas));
     }
 
-    document.querySelectorAll('#briefing-skill-options [data-skill]').forEach(option => {
-      option.classList.remove('selected');
-      option.setAttribute('aria-pressed', 'false');
-    });
-    const startBtn = document.getElementById('btn-briefing-start');
-    if (startBtn) startBtn.disabled = true;
+    this.selectCommanderSkill('emp');
     this.openModal('modal-stage-briefing');
+  }
+
+  renderEnemyThumbnail(canvas) {
+    if (!ENEMY_TYPES[canvas.dataset.enemy]) return;
+    const enemy = new CreepEnemy(canvas.dataset.enemy, 1, [{ x: 0, y: 0 }], this);
+    enemy.radius = 24;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.save();
+    ctx.translate(canvas.width / 2, canvas.height * 0.547);
+    ctx.scale(canvas.width / 85.333, canvas.height / 85.333);
+    enemy.drawGardenBlock(ctx);
+    ctx.restore();
   }
 
   selectCommanderSkill(skillKey) {
@@ -5139,26 +5327,22 @@ class QuantumTDGame {
         return;
       }
 
-      // Check if clicking existing tower -> Open upgrade & inspect menu!
-      // Match either grid cell gx,gy OR within 0.65 cellSize of tower center
-      let clickedTower = this.towers.find(t => t.gx === gx && t.gy === gy);
-      if (!clickedTower) {
-        clickedTower = this.towers.find(t => {
-          const tcx = this.offsetX + (t.gx + 0.5) * this.cellSize;
-          const tcy = this.offsetY + (t.gy + 0.5) * this.cellSize;
-          return Math.hypot(mx - tcx, my - tcy) <= this.cellSize * 0.65;
-        });
-      }
+      // Tap an existing tower to upgrade without opening an inspector.
+      // Keep both tower and upgrade-marker taps inside the owning grid cell.
+      const clickedTower = this.towers.find(t => t.gx === gx && t.gy === gy);
       if (clickedTower) {
         this.clearPendingBuildTile();
-        this.inspectTower(clickedTower);
+        this.closeInspector();
+        if (clickedTower.level < 3) clickedTower.upgrade(this);
         this.updateHUD();
         return;
       }
 
-      // A short tap on the battlefield only dismisses the inspector.
       this.clearPendingBuildTile();
       this.closeInspector();
+      if (!this.pathTiles.has(`${gx},${gy}`)) {
+        this.setPendingBuildTile(gx, gy, 0);
+      }
     };
 
     let holdTimer = null;
@@ -5167,6 +5351,9 @@ class QuantumTDGame {
     let holdGrid = null;
     const cancelBuildHold = () => {
       if (holdTimer) window.clearTimeout(holdTimer);
+      if (pressedPointerId !== null && this.canvas.hasPointerCapture && this.canvas.hasPointerCapture(pressedPointerId)) {
+        this.canvas.releasePointerCapture(pressedPointerId);
+      }
       holdTimer = null;
       pressedPointerId = null;
       holdGrid = null;
@@ -5174,10 +5361,25 @@ class QuantumTDGame {
     };
     const beginBuildHold = (e) => {
       if (e.button !== undefined && e.button !== 0) return;
+      if (pressedPointerId !== null) return;
+      cancelBuildHold();
+      // 避免桌面浏览器把持续按住解释为拖拽或文本选择。
+      e.preventDefault();
       sounds.init();
       const coords = this.getGameLocalCoords(e);
       pressedPointerId = e.pointerId;
       longPressTriggered = false;
+      const heldTower = this.towers.find(t => t.gx === coords.x && t.gy === coords.y);
+      if (heldTower && !this.activeSkill) {
+        holdGrid = { gx: coords.x, gy: coords.y };
+        holdTimer = window.setTimeout(() => {
+          holdTimer = null;
+          longPressTriggered = true;
+          if (!this.gameOver && !this.activeSkill) this.sellTower(heldTower);
+        }, BUILD_HOLD_DURATION_MS);
+        if (this.canvas.setPointerCapture) this.canvas.setPointerCapture(e.pointerId);
+        return;
+      }
       const canOpenBuildFrame = !this.activeSkill
         && coords.x >= 0 && coords.x < this.gridWidth
         && coords.y >= 0 && coords.y < this.gridHeight
@@ -5202,7 +5404,7 @@ class QuantumTDGame {
       if (coords.x !== holdGrid.gx || coords.y !== holdGrid.gy) cancelBuildHold();
     };
     const finishCanvasPointer = (e) => {
-      if (pressedPointerId !== null && e.pointerId !== pressedPointerId) return;
+      if (pressedPointerId === null || e.pointerId !== pressedPointerId) return;
       const wasLongPress = longPressTriggered;
       cancelBuildHold();
       if (!wasLongPress) handleCanvasAction(e);
@@ -5212,11 +5414,14 @@ class QuantumTDGame {
     this.canvas.addEventListener('pointermove', moveBuildHold);
     this.canvas.addEventListener('pointerup', finishCanvasPointer);
     this.canvas.addEventListener('pointercancel', cancelBuildHold);
+    this.canvas.addEventListener('lostpointercapture', cancelBuildHold);
+    window.addEventListener('blur', cancelBuildHold);
     this.canvas.addEventListener('contextmenu', (e) => e.preventDefault());
 
     // Docked Tower Panels: keep interactions inside either panel from closing the inspector.
     const floatMenu = document.getElementById('tower-float-menu');
     const assetMenu = document.getElementById('tower-asset-menu');
+    const upgradeDialog = document.getElementById('modal-upgrade-confirm');
     if (floatMenu) {
       floatMenu.addEventListener('click', (e) => e.stopPropagation());
       floatMenu.addEventListener('pointerdown', (e) => e.stopPropagation());
@@ -5228,6 +5433,11 @@ class QuantumTDGame {
       assetMenu.addEventListener('pointerdown', (e) => e.stopPropagation());
       assetMenu.addEventListener('mousedown', (e) => e.stopPropagation());
       assetMenu.addEventListener('touchstart', (e) => e.stopPropagation(), { passive: true });
+    }
+    if (upgradeDialog) {
+      upgradeDialog.addEventListener('pointerdown', (e) => e.stopPropagation());
+      upgradeDialog.addEventListener('mousedown', (e) => e.stopPropagation());
+      upgradeDialog.addEventListener('touchstart', (e) => e.stopPropagation(), { passive: true });
     }
 
     // Any non-canvas interaction outside the paired tower panels closes both.
@@ -5272,6 +5482,8 @@ class QuantumTDGame {
     bindActionButton('tfm-btn-upgrade', () => this.upgradeCurrentTower());
     bindActionButton('tfm-btn-sell', () => this.sellCurrentTower());
     bindActionButton('skill-selected', () => this.triggerSelectedCommanderSkill());
+
+    bindActionButton('btn-home-codex', () => this.openModal('modal-help'));
 
     // Speed Button
     const btnSpeed = document.getElementById('btn-speed');
@@ -5429,14 +5641,6 @@ class QuantumTDGame {
         this.toggleFullScreen();
       });
     }
-    const btnOpenCodex = document.getElementById('btn-open-codex');
-    if (btnOpenCodex) {
-      btnOpenCodex.addEventListener('click', () => {
-        sounds.init();
-        this.closeModal('modal-settings');
-        this.openModal('modal-help');
-      });
-    }
     const btnResetData = document.getElementById('btn-reset-data');
     if (btnResetData) {
       btnResetData.addEventListener('click', () => {
@@ -5539,6 +5743,7 @@ class QuantumTDGame {
   }
 
   openModal(id) {
+    if (id === 'modal-help') this.renderCodex();
     const el = document.getElementById(id);
     if (el) {
       el.style.display = 'grid';
@@ -5564,6 +5769,119 @@ class QuantumTDGame {
   closeModal(id) {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
+    if (id === 'modal-help' && this.codexResizeObserver) {
+      this.codexResizeObserver.disconnect();
+      this.codexResizeObserver = null;
+    }
+  }
+
+  renderCodex() {
+    if (this.codexResizeObserver) this.codexResizeObserver.disconnect();
+    const content = document.querySelector('#modal-help .codex-content');
+    const fmt = value => Number(value.toFixed(2));
+    const stat = (label, value, ratio = 0, color = '#78b665') =>
+      `<div class="archive-stat"><span>${label}</span><strong>${value}</strong>${ratio ? `<meter min="0" max="1" value="${Math.min(1, ratio)}" style="--stat-color:${color}"></meter>` : ''}</div>`;
+    const tips = {
+      pulse: '优先覆盖长直路段，三级追加一枚 48% 伤害的子弹。',
+      cryo: '在交汇处铺设冰面，重叠冰面叠加减速，最低保留 20% 移速。',
+      plasma: '锁定高生命怪物持续灼烧，3 秒达到峰值，切换目标重新蓄力。',
+      tesla: '靠近密集路线布置，让闪电逐个传递，同时强化相邻炮塔。',
+      buffer: '覆盖多条路线，让范围脉冲同时击中更多怪物。'
+    };
+    const towerPoster = type => {
+      const c = TOWER_CONFIGS[type];
+      const levels = [1, 2, 3].map(level => {
+        const tower = new DefensiveTower(0, 0, type, this);
+        tower.level = level;
+        tower.investedEnergy = tower.getInvestedEnergyForLevel();
+        const rate = tower.getEffectiveFireRate();
+        const damage = tower.getEffectiveDamage();
+        const range = tower.getEffectiveRange();
+        let special = '';
+        if (type === 'pulse') special = level === 3 ? '每次追加 48% 伤害子弹' : '单体子弹';
+        if (type === 'cryo') special = `减速 ${fmt(tower.getEffectiveSlowRate() * 100)}% · 冰面 ${fmt(Math.max(0.5, c.slowDuration || 2.5) * tower.getAttributeGrowth())} 秒 · 半径 ${fmt(c.splashRadius * tower.getAttributeGrowth())}`;
+        if (type === 'tesla') special = `最多命中 ${c.chainTargets[level - 1]} 个目标 · 传递距离 ${fmt(c.chainRange * tower.getAttributeGrowth())} · 邻格增伤 ${fmt(tower.getCrystalBuffDamage() * 100)}%`;
+        if (type === 'plasma') special = `持续伤害 ${fmt(damage * rate)} / 秒 → ${fmt(damage * rate * (1 + c.rampPerHit * c.maxRampStacks * tower.getAttributeGrowth()))} / 秒 · 3 秒满蓄力`;
+        if (type === 'buffer') special = '范围内所有目标受到脉冲伤害';
+        return `<section class="archive-level">
+          <div class="archive-level-art"><img src="${towerArtPath(type, level, 'detail')}" alt="${c.name} ${level}级" loading="lazy"><span>Lv.${level}</span></div>
+          <div class="archive-level-info"><h4>${['初始形态', '二级进化', '顶级形态'][level - 1]}</h4>
+          <div class="archive-stats">${stat(type === 'plasma' ? '基础伤害' : '单次伤害', fmt(damage), damage / 150, '#e57e83')}${stat('攻击间隔', fmt(1 / rate) + ' 秒', rate / 3, '#58b8cd')}${stat('攻击射程', fmt(range), range / 300, '#e9b44d')}${stat(level === 1 ? '建造价格' : '本次升级', level === 1 ? c.cost : c.upgradeCosts[level - 2])}${stat('出售返还', tower.getRefundValue())}</div>
+          <p class="archive-ability">${special}</p></div></section>`;
+      }).join('');
+      return `<article class="archive-sheet"><header class="archive-heading"><h3>${c.name}</h3><span>${c.trait}</span></header>
+        <div class="archive-intro"><section><h4>炮塔说明</h4><p>${c.desc}</p></section><section><h4>使用技巧</h4><p>${tips[type]}</p></section></div>
+        <div class="archive-levels">${levels}</div></article>`;
+    };
+    const enemyPoster = key => {
+      const c = ENEMY_TYPES[key];
+      const traits = [c.isBoss ? '首领' : '普通怪物'];
+      if (c.stealth) traits.push('隐身');
+      if (c.shieldAura) traits.push('初始护盾 120');
+      if (c.splits) traits.push(`分裂 ${c.splits} 个小方`);
+      if (c.evasion) traits.push(`闪避 ${fmt(c.evasion * 100)}%`);
+      if (c.bossSkill === 'emp') traits.push('脉冲干扰');
+      if (c.bossSkill === 'shieldShift') traits.push('护盾跃迁');
+      return `<article class="archive-sheet"><header class="archive-heading"><h3>${c.name}</h3><span>${c.isBoss ? '首领' : '普通怪物'}</span></header>
+        <div class="archive-enemy-art"><canvas width="512" height="512" data-enemy="${key}" aria-label="${c.name}"></canvas></div>
+        <h4>怪物特性</h4><p>${traits.join(' · ')}</p>
+        <div class="archive-stats">${stat('生命倍率', c.hpMultiplier + ' 倍')}${stat('实际移速', fmt(c.speed * COMBAT_SPEED_MULTIPLIER), c.speed / 150, '#58b8cd')}${stat('伤害减免', fmt(c.defense * 100) + '%', c.defense, '#e57e83')}${stat('击败奖励', c.reward)}${stat('积分', c.score)}</div></article>`;
+    };
+    content.innerHTML = '<div class="codex-tabs" role="tablist" aria-label="图鉴分类"><button type="button" role="tab" aria-selected="true" data-kind="towers">防御塔</button><button type="button" role="tab" aria-selected="false" data-kind="enemies">怪物</button></div><div class="codex-paging"><button type="button" data-step="-1" title="上一张" aria-label="上一张">↑</button><span aria-live="polite"></span></div><div class="codex-posters" role="tabpanel" tabindex="0" aria-label="防御塔图鉴"></div><div class="codex-paging"><button type="button" data-step="1" title="下一张" aria-label="下一张">↓</button></div>';
+    const posters = content.querySelector('.codex-posters');
+    const fitPoster = () => {
+      const sheet = posters.firstElementChild;
+      if (!sheet || !posters.clientHeight) return;
+      const height = Math.max(sheet.scrollHeight, sheet.offsetHeight);
+      const scale = Math.min(1, posters.clientHeight / Math.max(1, height));
+      sheet.style.transform = `scale(${scale})`;
+    };
+    if (typeof ResizeObserver !== 'undefined') {
+      this.codexResizeObserver = new ResizeObserver(fitPoster);
+      this.codexResizeObserver.observe(posters);
+    }
+    let kind = 'towers';
+    let current = 0;
+    const show = () => {
+      const keys = kind === 'towers' ? TOWER_TYPES : Object.keys(ENEMY_TYPES);
+      posters.innerHTML = kind === 'towers' ? towerPoster(keys[current]) : enemyPoster(keys[current]);
+      if (this.codexResizeObserver) {
+        this.codexResizeObserver.disconnect();
+        this.codexResizeObserver.observe(posters);
+        this.codexResizeObserver.observe(posters.firstElementChild);
+      }
+      posters.querySelectorAll('img').forEach(image => image.addEventListener('load', fitPoster, { once: true }));
+      fitPoster();
+      posters.scrollTop = 0;
+      content.querySelector('.codex-paging span').textContent = `${current + 1} / ${keys.length}`;
+      content.querySelector('[data-step="-1"]').disabled = current === 0;
+      content.querySelector('[data-step="1"]').disabled = current === keys.length - 1;
+      posters.querySelectorAll('canvas[data-enemy]').forEach(canvas => {
+        this.renderEnemyThumbnail(canvas);
+      });
+    };
+    const select = button => {
+      kind = button.dataset.kind; current = 0;
+      content.querySelectorAll('[data-kind]').forEach(tab => {
+        tab.setAttribute('aria-selected', String(tab === button));
+        tab.tabIndex = tab === button ? 0 : -1;
+      });
+      posters.setAttribute('aria-label', kind === 'towers' ? '防御塔图鉴' : '怪物图鉴');
+      show();
+    };
+    content.querySelectorAll('[data-kind]').forEach(button => {
+      button.onclick = () => select(button);
+      button.onkeydown = event => {
+        if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+        event.preventDefault();
+        const next = content.querySelector(button.dataset.kind === 'towers' ? '[data-kind="enemies"]' : '[data-kind="towers"]');
+        select(next); next.focus();
+      };
+    });
+    content.querySelectorAll('[data-step]').forEach(button => {
+      button.onclick = () => { current += Number(button.dataset.step); show(); };
+    });
+    select(content.querySelector('[data-kind="towers"]'));
   }
 
   // ==================== CONFIGURATION HUB MANAGER ====================
@@ -5582,7 +5900,6 @@ class QuantumTDGame {
     }
     if (TOWER_CONFIGS.cryo) {
       setVal('cfg-t-cryo-damage', TOWER_CONFIGS.cryo.damage);
-      setVal('cfg-t-cryo-fireRate', TOWER_CONFIGS.cryo.fireRate);
       setVal('cfg-t-cryo-range', TOWER_CONFIGS.cryo.range);
       setVal('cfg-t-cryo-slowRate', Math.round((TOWER_CONFIGS.cryo.slowRate || 0.45) * 100));
       setVal('cfg-t-cryo-slowDuration', TOWER_CONFIGS.cryo.slowDuration);
@@ -5592,7 +5909,7 @@ class QuantumTDGame {
       setVal('cfg-t-plasma-damage', TOWER_CONFIGS.plasma.damage);
       setVal('cfg-t-plasma-fireRate', TOWER_CONFIGS.plasma.fireRate);
       setVal('cfg-t-plasma-range', TOWER_CONFIGS.plasma.range);
-      setVal('cfg-t-plasma-rampPercent', Math.round((TOWER_CONFIGS.plasma.rampPerHit || 0.18) * 100));
+      setVal('cfg-t-plasma-rampPercent', Math.round((TOWER_CONFIGS.plasma.rampPerHit ?? 0.18) * TOWER_CONFIGS.plasma.maxRampStacks * 100));
       setVal('cfg-t-plasma-cost', TOWER_CONFIGS.plasma.cost);
     }
     if (TOWER_CONFIGS.tesla) {
@@ -5679,28 +5996,28 @@ class QuantumTDGame {
 
     const towers = {
       pulse: {
-        damage: getNum('cfg-t-pulse-damage', 26),
+        damage: getNum('cfg-t-pulse-damage', 39),
         fireRate: getNum('cfg-t-pulse-fireRate', 2.5),
         range: getNum('cfg-t-pulse-range', 165),
         cost: getNum('cfg-t-pulse-cost', 100)
       },
       cryo: {
-        damage: getNum('cfg-t-cryo-damage', 18),
-        fireRate: getNum('cfg-t-cryo-fireRate', 0.95),
+        damage: getNum('cfg-t-cryo-damage', 27),
+        fireRate: 1 / Math.max(0.5, getNum('cfg-t-cryo-slowDuration', 2.5)),
         range: getNum('cfg-t-cryo-range', 195),
         slowRate: getNum('cfg-t-cryo-slowRate', 36) / 100,
-        slowDuration: getNum('cfg-t-cryo-slowDuration', 2.5),
+        slowDuration: Math.max(0.5, getNum('cfg-t-cryo-slowDuration', 2.5)),
         cost: getNum('cfg-t-cryo-cost', 150)
       },
       plasma: {
-        damage: getNum('cfg-t-plasma-damage', 20),
+        damage: getNum('cfg-t-plasma-damage', 30),
         fireRate: getNum('cfg-t-plasma-fireRate', 2.1),
         range: getNum('cfg-t-plasma-range', 185),
-        rampPerHit: getNum('cfg-t-plasma-rampPercent', 18) / 100,
+        rampPerHit: getNum('cfg-t-plasma-rampPercent', 126) / (TOWER_CONFIGS.plasma.maxRampStacks * 100),
         cost: getNum('cfg-t-plasma-cost', 200)
       },
       tesla: {
-        damage: getNum('cfg-t-tesla-damage', 42),
+        damage: getNum('cfg-t-tesla-damage', 63),
         fireRate: getNum('cfg-t-tesla-fireRate', 1.25),
         range: getNum('cfg-t-tesla-range', 180),
         buffDmg: getNum('cfg-t-tesla-buffDmg', 18) / 100,
@@ -5708,7 +6025,7 @@ class QuantumTDGame {
       },
       buffer: {
         range: getNum('cfg-t-buffer-range', 125),
-        damage: getNum('cfg-t-buffer-damage', 34),
+        damage: getNum('cfg-t-buffer-damage', 51),
         fireRate: getNum('cfg-t-buffer-fireRate', 0.82),
         cost: getNum('cfg-t-buffer-cost', 200)
       }
@@ -5773,7 +6090,7 @@ class QuantumTDGame {
       }
     };
 
-    const customConfig = { towers, enemies, updatedAt: Date.now() };
+    const customConfig = { towers, enemies, balanceVersion: 3, updatedAt: Date.now() };
     localStorage.setItem('quantum_td_custom_config_v2', JSON.stringify(customConfig));
     loadAndApplyCustomConfig();
 
@@ -5833,7 +6150,6 @@ class QuantumTDGame {
     const affordableTypes = TOWER_TYPES.filter(type => this.energy >= TOWER_CONFIGS[type].cost);
     if (affordableTypes.length === 0) {
       const minCost = Math.min(...TOWER_TYPES.map(type => TOWER_CONFIGS[type].cost));
-      this.showToast(`⚠️ 能量不足 (至少需要 ${minCost})`);
       sounds.playUI('error');
       return false;
     }
@@ -5908,6 +6224,7 @@ class QuantumTDGame {
   setPendingBuildTile(gx, gy, durationMs = BUILD_HOLD_DURATION_MS) {
     this.clearPendingBuildTile();
     this.pendingBuildTile = { gx, gy };
+    if (durationMs === 0) return;
     this.pendingBuildTimer = window.setTimeout(() => {
       this.pendingBuildTimer = null;
       this.pendingBuildTile = null;
@@ -5938,7 +6255,7 @@ class QuantumTDGame {
       const archive = TOWER_ARCHIVE_META[tower.type] || TOWER_ARCHIVE_META.pulse;
       const assetImage = document.getElementById('taf-image');
       if (assetImage) {
-        assetImage.src = tower.config.asset || TOWER_CONFIGS.pulse.asset;
+        assetImage.src = towerArtPath(tower.type, tower.level, 'detail');
         assetImage.alt = `${tower.config.name}塔体素材`;
       }
       const archiveName = document.getElementById('taf-name');
@@ -5961,7 +6278,9 @@ class QuantumTDGame {
       floatMenu.style.display = 'flex';
 
       const tfmIcon = document.getElementById('tfm-icon');
-      if (tfmIcon) tfmIcon.innerHTML = tower.config.iconSvg || '';
+      if (tfmIcon) {
+        tfmIcon.innerHTML = `<img class="tower-menu-icon" src="${towerArtPath(tower.type, tower.level)}" alt="">`;
+      }
       const tfmName = document.getElementById('tfm-name');
       if (tfmName) tfmName.textContent = tower.config.name;
       const tfmLevel = document.getElementById('tfm-level');
@@ -6030,17 +6349,23 @@ class QuantumTDGame {
   }
 
   upgradeCurrentTower() {
-    if (!this.inspectedTower) return;
-    this.inspectedTower.upgrade(this);
+    if (this.inspectedTower) this.inspectedTower.upgrade(this);
   }
 
   sellCurrentTower() {
-    if (!this.inspectedTower) return;
-    const refund = this.inspectedTower.getRefundValue();
+    this.sellTower(this.inspectedTower);
+  }
+
+  sellTower(tower) {
+    if (!tower || !this.towers.includes(tower)) return;
+    const refund = tower.getRefundValue();
     this.energy += refund;
-    this.towers = this.towers.filter(t => t !== this.inspectedTower);
+    this.towers = this.towers.filter(t => t !== tower);
+    if (this.hoveredTower === tower) this.hoveredTower = null;
+    this.clearPendingBuildTile();
     sounds.playUI('click');
-    this.createParticleBurst(this.inspectedTower.x, this.inspectedTower.y, '#ffd02e', 20);
+    this.createParticleBurst(tower.x, tower.y, '#ffd02e', 20);
+    this.createFloatingText(tower.x, tower.y - 25, `拆除 +${refund}`, '#528e45', true);
     this.closeInspector();
     this.updateHUD();
     this.saveGameState();
@@ -6243,8 +6568,12 @@ class QuantumTDGame {
     this.towers.forEach(t => t.update(dt, this));
 
     // Update Enemies
+    this.icePatches = this.icePatches.filter(patch => (patch.life -= dt) > 0);
     for (let i = this.enemies.length - 1; i >= 0; i--) {
       const e = this.enemies[i];
+      e.iceSlowFactor = this.icePatches.reduce((factor, patch) =>
+        patch.contains(e.x, e.y)
+          ? Math.max(0.2, factor * patch.slowFactor) : factor, 1);
       e.update(dt, this);
       if (e.reachedEnd) {
         this.hp -= e.isBoss ? 5 : 1;
@@ -6346,7 +6675,7 @@ class QuantumTDGame {
     const bossHud = document.getElementById('boss-bar');
     if (activeBoss) {
       bossHud.style.display = 'flex';
-      document.getElementById('boss-title').textContent = `⚠️ 首领入侵：${activeBoss.config.name}`;
+      document.getElementById('boss-title').textContent = `首领来访：${activeBoss.config.name}`;
       document.getElementById('boss-hp-val').textContent = `${Math.ceil(activeBoss.hp)} / ${activeBoss.maxHp}`;
       const pct = Math.max(0, (activeBoss.hp / activeBoss.maxHp) * 100);
       document.getElementById('boss-hp-fill').style.width = `${pct}%`;
@@ -6359,11 +6688,11 @@ class QuantumTDGame {
     this.gameOver = true;
     const card = document.getElementById('gameover-card');
     card.className = 'modal-card victory';
-    document.getElementById('go-title').textContent = '🎉 量子矩阵守卫大捷！';
+    document.getElementById('go-title').textContent = '花园守住了！';
     const starCount = this.hp >= 18 ? 3 : (this.hp >= 10 ? 2 : 1);
     const stars = '⭐'.repeat(starCount) + '☆'.repeat(3 - starCount);
     document.getElementById('go-stars').textContent = stars;
-    document.getElementById('go-desc').textContent = '异构入侵已被全面净化，核心能源网运转稳定！';
+    document.getElementById('go-desc').textContent = '捣蛋方块已经离开，花园里的花又能自在开放了。';
     document.getElementById('go-stat-wave').textContent = `${this.wave}/${this.maxWaves}`;
     document.getElementById('go-stat-kills').textContent = this.kills;
     document.getElementById('go-stat-dmg').textContent = Math.round(this.totalDamage).toLocaleString();
@@ -6383,9 +6712,9 @@ class QuantumTDGame {
     this.gameOver = true;
     const card = document.getElementById('gameover-card');
     card.className = 'modal-card defeat';
-    document.getElementById('go-title').textContent = '⚠️ 核心防线崩溃失守';
+    document.getElementById('go-title').textContent = '花园暂时失守';
     document.getElementById('go-stars').textContent = '☆☆☆';
-    document.getElementById('go-desc').textContent = '量子主核过载熔毁，请重构防御阵列！';
+    document.getElementById('go-desc').textContent = '方块闯进了花圃，调整植物守卫后再试一次。';
     document.getElementById('go-stat-wave').textContent = `${this.wave}/${this.maxWaves}`;
     document.getElementById('go-stat-kills').textContent = this.kills;
     document.getElementById('go-stat-dmg').textContent = Math.round(this.totalDamage).toLocaleString();
@@ -6394,6 +6723,69 @@ class QuantumTDGame {
   }
 
   // ==================== 9. CANVAS RENDERING ====================
+  drawGardenPathTile(ctx, gx, gy, x, y) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.scale(this.cellSize, this.cellSize);
+    ctx.fillStyle = '#f5dfad';
+    ctx.beginPath();
+    traceRoundRect(ctx, 0.015, 0.015, 0.97, 0.97, 0.13);
+    ctx.fill();
+
+    // Tile coordinates keep surface details stable across frames and resizes.
+    const seed = gx * 37 + gy * 61;
+    for (let i = 0; i < 7; i++) {
+      const px = 0.12 + ((seed + i * 29) % 79) / 100;
+      const py = 0.12 + ((seed * 3 + i * 43) % 77) / 100;
+      ctx.fillStyle = i % 2 ? '#dfc38e' : '#fff1ce';
+      ctx.beginPath();
+      ctx.ellipse(px, py, 0.017, 0.01, i, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    if (seed % 5 === 0) {
+      ctx.fillStyle = '#b8dfe0';
+      ctx.beginPath(); ctx.ellipse(0.62, 0.65, 0.17, 0.085, -0.3, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = '#e6ffff'; ctx.lineWidth = 0.018;
+      ctx.beginPath(); ctx.ellipse(0.62, 0.63, 0.1, 0.035, -0.3, Math.PI, Math.PI * 1.85); ctx.stroke();
+    } else if (seed % 3 === 0) {
+      ctx.fillStyle = '#b2b9ae';
+      ctx.beginPath(); ctx.ellipse(0.7, 0.7, 0.065, 0.04, 0.3, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#dce0ce';
+      ctx.beginPath(); ctx.ellipse(0.69, 0.685, 0.038, 0.017, 0.3, 0, Math.PI * 2); ctx.fill();
+    }
+
+    const neighbors = [[0, -1], [1, 0], [0, 1], [-1, 0]];
+    neighbors.forEach(([dx, dy], side) => {
+      if (this.pathTiles.has(`${gx + dx},${gy + dy}`)) return;
+      ctx.save();
+      ctx.translate(0.5, 0.5); ctx.rotate(side * Math.PI / 2); ctx.translate(-0.5, -0.5);
+      ctx.fillStyle = '#8cba70'; ctx.fillRect(0, 0, 1, 0.045);
+      ctx.strokeStyle = '#659f61'; ctx.lineWidth = 0.025; ctx.lineCap = 'round';
+      const pos = 0.2 + ((seed + side * 13) % 5) * 0.12;
+      ctx.beginPath();
+      ctx.moveTo(pos, 0.11); ctx.quadraticCurveTo(pos - 0.03, 0.055, pos - 0.08, 0.03);
+      ctx.moveTo(pos, 0.11); ctx.lineTo(pos + 0.01, 0.015);
+      ctx.moveTo(pos, 0.11); ctx.quadraticCurveTo(pos + 0.035, 0.04, pos + 0.075, 0.04);
+      ctx.stroke();
+      const detail = (seed + side) % 3;
+      if (detail === 0) {
+        ctx.fillStyle = seed % 2 ? '#f3a3b5' : '#fff2a5';
+        for (let p = 0; p < 5; p++) {
+          const a = p * Math.PI * 2 / 5;
+          ctx.beginPath(); ctx.ellipse(0.79 + Math.cos(a) * 0.036, 0.085 + Math.sin(a) * 0.036, 0.032, 0.025, a, 0, Math.PI * 2); ctx.fill();
+        }
+        ctx.fillStyle = '#eeb95a'; ctx.beginPath(); ctx.arc(0.79, 0.085, 0.022, 0, Math.PI * 2); ctx.fill();
+      } else {
+        ctx.fillStyle = detail === 1 ? '#69ab72' : '#adb5a6';
+        ctx.beginPath(); ctx.ellipse(0.82, 0.085, 0.067, 0.03, -0.4, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = detail === 1 ? '#a6d78a' : '#dbe0d1'; ctx.lineWidth = 0.012;
+        ctx.beginPath(); ctx.moveTo(0.78, 0.096); ctx.lineTo(0.85, 0.068); ctx.stroke();
+      }
+      ctx.restore();
+    });
+    ctx.restore();
+  }
+
   render() {
     const ctx = this.ctx;
     ctx.save();
@@ -6408,13 +6800,30 @@ class QuantumTDGame {
     // Clear Canvas
     ctx.clearRect(0, 0, this.viewWidth, this.viewHeight);
 
-    // Painted alien-garden board: brighter and more tactile than the old black grid.
+    // Sunlit garden board: grass tiles, pale stone paths, and small flower accents.
     const fieldGradient = ctx.createLinearGradient(0, 0, this.viewWidth, this.viewHeight);
-    fieldGradient.addColorStop(0, '#183f46');
-    fieldGradient.addColorStop(0.5, '#17353f');
-    fieldGradient.addColorStop(1, '#142d38');
+    fieldGradient.addColorStop(0, '#bfe59c');
+    fieldGradient.addColorStop(0.5, '#a8d986');
+    fieldGradient.addColorStop(1, '#91c877');
     ctx.fillStyle = fieldGradient;
     ctx.fillRect(0, 0, this.viewWidth, this.viewHeight);
+
+    // A continuous rounded underlay softens every route bend and junction.
+    if (this.routes && this.routes.length) {
+      ctx.save();
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.strokeStyle = '#e3c995';
+      ctx.lineWidth = this.cellSize * 0.98;
+      this.routes.forEach(route => {
+        if (route.length < 2) return;
+        ctx.beginPath();
+        ctx.moveTo(route[0].x, route[0].y);
+        route.slice(1).forEach(point => ctx.lineTo(point.x, point.y));
+        ctx.stroke();
+      });
+      ctx.restore();
+    }
 
     // 1. Draw Grid Tiles
     for (let gx = 0; gx < this.gridWidth; gx++) {
@@ -6424,23 +6833,32 @@ class QuantumTDGame {
         const isPath = this.pathTiles.has(`${gx},${gy}`);
 
         if (isPath) {
-          ctx.fillStyle = 'rgba(255, 222, 137, 0.08)';
-          ctx.fillRect(x + 1, y + 1, this.cellSize - 2, this.cellSize - 2);
-          ctx.strokeStyle = 'rgba(180, 229, 211, 0.16)';
-          ctx.lineWidth = 1;
-          ctx.strokeRect(x, y, this.cellSize, this.cellSize);
+          this.drawGardenPathTile(ctx, gx, gy, x, y);
         } else {
-          const tileTint = (gx + gy) % 2 === 0 ? 'rgba(101, 179, 147, 0.055)' : 'rgba(65, 133, 126, 0.035)';
+          const tileTint = (gx + gy) % 2 === 0 ? 'rgba(244, 255, 216, 0.16)' : 'rgba(87, 154, 76, 0.09)';
           ctx.fillStyle = tileTint;
           ctx.fillRect(x + 1, y + 1, this.cellSize - 2, this.cellSize - 2);
-          ctx.strokeStyle = 'rgba(216, 255, 232, 0.055)';
+          ctx.strokeStyle = 'rgba(69, 126, 67, 0.12)';
           ctx.lineWidth = 1;
           ctx.strokeRect(x, y, this.cellSize, this.cellSize);
+
+          // A small flower motif makes empty build tiles feel part of the garden.
+          if ((gx * 3 + gy * 5) % 7 === 0) {
+            ctx.save();
+            ctx.translate(x + this.cellSize * 0.22, y + this.cellSize * 0.22);
+            ctx.fillStyle = (gx + gy) % 3 === 0 ? '#f3a3b5' : '#fff2a5';
+            for (let petal = 0; petal < 5; petal++) {
+              ctx.rotate((Math.PI * 2) / 5);
+              ctx.beginPath(); ctx.ellipse(0, -3, 2.3, 4, 0, 0, Math.PI * 2); ctx.fill();
+            }
+            ctx.beginPath(); ctx.arc(0, 0, 2.1, 0, Math.PI * 2); ctx.fillStyle = '#edaa4e'; ctx.fill();
+            ctx.restore();
+          }
         }
       }
     }
 
-    // 1.5 Draw Pending Build Tile (+ indicator with cyber dashed rotation)
+    // 1.5 Draw the selected build cell without extending outside its bounds.
     if (this.pendingBuildTile) {
       const px = this.offsetX + this.pendingBuildTile.gx * this.cellSize;
       const py = this.offsetY + this.pendingBuildTile.gy * this.cellSize;
@@ -6449,16 +6867,16 @@ class QuantumTDGame {
 
       ctx.save();
       // Glowing cell highlight
-      ctx.fillStyle = 'rgba(0, 243, 255, 0.16)';
+      ctx.fillStyle = 'rgba(255, 250, 202, 0.78)';
       ctx.fillRect(px + 2, py + 2, this.cellSize - 4, this.cellSize - 4);
 
-      // Rotating dashed golden border
+      // Fixed border with animated dashes.
       ctx.save();
       ctx.translate(cx, cy);
-      ctx.rotate(this.time * 2.2);
-      ctx.strokeStyle = '#ffd02e';
-      ctx.lineWidth = 1.8;
+      ctx.strokeStyle = '#458a48';
+      ctx.lineWidth = 3;
       ctx.setLineDash([5, 5]);
+      ctx.lineDashOffset = -this.time * 12;
       ctx.strokeRect(-this.cellSize * 0.38, -this.cellSize * 0.38, this.cellSize * 0.76, this.cellSize * 0.76);
       ctx.restore();
 
@@ -6466,51 +6884,32 @@ class QuantumTDGame {
       const pulse = Math.sin(this.time * 6) * 2.5;
       ctx.save();
       ctx.translate(cx, cy);
-      ctx.fillStyle = '#00f3ff';
-      ctx.shadowColor = '#00f3ff';
-      ctx.shadowBlur = 12 + pulse;
-      ctx.font = 'bold 26px Orbitron, sans-serif';
+      const arm = this.cellSize * 0.18;
+      ctx.lineCap = 'round';
+      ctx.globalAlpha = 0.9 + pulse * 0.04;
+      for (const [color, width] of [['#fffef1', this.cellSize * 0.18], ['#377e40', this.cellSize * 0.11]]) {
+        ctx.strokeStyle = color; ctx.lineWidth = width;
+        ctx.beginPath();
+        ctx.moveTo(-arm, -this.cellSize * 0.05); ctx.lineTo(arm, -this.cellSize * 0.05);
+        ctx.moveTo(0, -arm - this.cellSize * 0.05); ctx.lineTo(0, arm - this.cellSize * 0.05);
+        ctx.stroke();
+      }
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText('+', 0, -2);
 
       // Mini price indicator below +
-      ctx.fillStyle = '#ffd02e';
+      ctx.fillStyle = '#3f6840';
       ctx.font = 'bold 8.5px Orbitron, sans-serif';
-      ctx.fillText('100 起', 0, this.cellSize * 0.30);
+      ctx.fillText(`${Math.min(...TOWER_TYPES.map(type => TOWER_CONFIGS[type].cost))} 起`, 0, this.cellSize * 0.30);
       ctx.restore();
 
       ctx.restore();
     }
 
-    // 2. Draw Pulsating Energy Path Flow for all routes
+    // 2. Draw base stations at the end of each garden path.
     if (this.routes && this.routes.length > 0) {
       this.routes.forEach((route, rIdx) => {
         if (route.length > 1) {
-          ctx.save();
-          ctx.beginPath();
-          ctx.moveTo(route[0].x, route[0].y);
-          for (let i = 1; i < route.length; i++) {
-            ctx.lineTo(route[i].x, route[i].y);
-          }
-          ctx.strokeStyle = 'rgba(37, 48, 67, 0.42)';
-          ctx.lineWidth = this.cellSize * 0.61;
-          ctx.lineCap = 'round';
-          ctx.lineJoin = 'round';
-          ctx.stroke();
-
-          ctx.strokeStyle = rIdx === 0 ? 'rgba(99, 213, 218, 0.64)' : (rIdx === 1 ? 'rgba(188, 126, 222, 0.62)' : 'rgba(105, 210, 145, 0.62)');
-          ctx.lineWidth = this.cellSize * 0.49;
-          ctx.stroke();
-
-          ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
-          ctx.lineWidth = 2;
-          ctx.setLineDash([7, 11]);
-          ctx.lineDashOffset = -this.time * 18;
-          ctx.stroke();
-
-          ctx.restore();
-
           // Draw Base Core Station & Level Total HP Display at Endpoint
           const endWp = route[route.length - 1];
           if (endWp) {
@@ -6549,11 +6948,7 @@ class QuantumTDGame {
             ctx.shadowColor = ctx.strokeStyle;
             ctx.shadowBlur = 8;
             ctx.beginPath();
-            if (ctx.roundRect) {
-              ctx.roundRect(-badgeW / 2, badgeY, badgeW, badgeH, 5);
-            } else {
-              ctx.rect(-badgeW / 2, badgeY, badgeW, badgeH);
-            }
+            traceRoundRect(ctx, -badgeW / 2, badgeY, badgeW, badgeH, 5);
             ctx.fill();
             ctx.stroke();
 
@@ -6570,6 +6965,19 @@ class QuantumTDGame {
           }
         }
       });
+    }
+
+    // Ice is clipped to walkable cells, below units and projectiles.
+    if (this.icePatches.length) {
+      ctx.save();
+      ctx.beginPath();
+      this.pathTiles.forEach(key => {
+        const [gx, gy] = key.split(',').map(Number);
+        ctx.rect(this.offsetX + gx * this.cellSize, this.offsetY + gy * this.cellSize, this.cellSize, this.cellSize);
+      });
+      ctx.clip();
+      this.icePatches.forEach(patch => patch.draw(ctx));
+      ctx.restore();
     }
 
     // 3. Draw Ground Burning Zones
@@ -6602,6 +7010,7 @@ class QuantumTDGame {
     });
 
     // 6. Draw Towers
+    this.towers.forEach(t => t.drawFlameBeam(ctx, this));
     this.towers.forEach(t => t.draw(ctx, this));
 
     // 7. Draw Enemies
@@ -6702,7 +7111,7 @@ class QuantumTDGame {
         ctx.font = 'bold 11px Orbitron, sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(canAfford ? `${minTowerCost} 起` : '能量不足', cx, cy);
+        ctx.fillText(canAfford ? `${minTowerCost} 起` : '', cx, cy);
         ctx.restore();
       }
     }
@@ -6724,7 +7133,7 @@ class QuantumTDGame {
 
       // Floating Level Badge above Tower
       ctx.save();
-      ctx.translate(ht.x, ht.y - this.cellSize * 0.5 - 14);
+      ctx.translate(ht.x, ht.y + this.cellSize * 0.5 + 14);
       const levelText = `Lv.${ht.level} ${'●'.repeat(ht.level)}${'○'.repeat(3 - ht.level)}`;
       ctx.font = 'bold 11px Orbitron, sans-serif';
       const textW = ctx.measureText(levelText).width;
@@ -6735,7 +7144,7 @@ class QuantumTDGame {
       ctx.shadowColor = ctx.strokeStyle;
       ctx.shadowBlur = 10;
       ctx.beginPath();
-      ctx.roundRect(-textW / 2 - 8, -10, textW + 16, 20, 5);
+      traceRoundRect(ctx, -textW / 2 - 8, -10, textW + 16, 20, 5);
       ctx.fill();
       ctx.stroke();
 
@@ -6813,6 +7222,28 @@ function createUnitMaterial(ctx, radius, highlight, mid, shadow) {
   material.addColorStop(0.38, mid);
   material.addColorStop(1, shadow);
   return material;
+}
+
+// CanvasRenderingContext2D.roundRect 在 iOS 16 之前不可用。游戏一帧中的
+// 未捕获异常会终止渲染循环，因此所有圆角面板都经过这个兼容路径。
+function traceRoundRect(ctx, x, y, width, height, radius) {
+  if (typeof ctx.roundRect === 'function') {
+    ctx.roundRect(x, y, width, height, radius);
+    return;
+  }
+  const r = Math.max(0, Math.min(Number(radius) || 0, Math.abs(width) / 2, Math.abs(height) / 2));
+  const right = x + width;
+  const bottom = y + height;
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(right - r, y);
+  ctx.quadraticCurveTo(right, y, right, y + r);
+  ctx.lineTo(right, bottom - r);
+  ctx.quadraticCurveTo(right, bottom, right - r, bottom);
+  ctx.lineTo(x + r, bottom);
+  ctx.quadraticCurveTo(x, bottom, x, bottom - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
 }
 
 function drawExtrudedUnitPlate(ctx, points, depth, palette) {
@@ -6990,7 +7421,7 @@ function drawCartoonMouth(ctx, x, y, width, mood = 'grin') {
   ctx.stroke();
   if (mood === 'grin') {
     ctx.beginPath();
-    ctx.roundRect(-width * 0.25, width * 0.02, width * 0.5, width * 0.16, width * 0.06);
+    traceRoundRect(ctx, -width * 0.25, width * 0.02, width * 0.5, width * 0.16, width * 0.06);
     ctx.fillStyle = '#fffdf3';
     ctx.fill();
     ctx.beginPath();
@@ -7034,6 +7465,7 @@ class DefensiveTower {
     this.y = game.offsetY + (gy + 0.5) * game.cellSize;
 
     this.level = 1;
+    this.upgradeAnimation = 0;
     this.investedEnergy = this.config.cost;
     this.cooldown = 0;
     this.rotation = 0;
@@ -7041,6 +7473,7 @@ class DefensiveTower {
     this.targetEnemy = null;
     this.lockedTarget = null;
     this.lockStacks = 0;
+    this.lockDuration = 0;
     this.overdriveTimer = 0;
 
     // Advanced Visual & Animation States
@@ -7051,6 +7484,8 @@ class DefensiveTower {
     this.chargeLevel = 0; // For Plasma/Tesla energy buildup
     this.auraPulse = 0;   // For Buffer sonar rings
     this.coinAbsorbTimer = 0; // Flash when absorbing killed creep coins
+    this.pulseSpriteState = 'idle';
+    this.pulseSpriteElapsed = Math.random() * PULSE_SPRITE_ANIMATIONS.idle.frameMs * PULSE_SPRITE_ANIMATIONS.idle.frames;
   }
 
   getUpgradeCost() {
@@ -7079,11 +7514,11 @@ class DefensiveTower {
     game.energy -= cost;
     this.investedEnergy += cost;
     this.level += 1;
+    this.upgradeAnimation = 0.9;
     sounds.playUI('upgrade');
     game.createParticleBurst(this.x, this.y, this.config.color, 34);
     game.createFloatingText(this.x, this.y - 25, `Lv.${this.level}`, '#ffe08a', true);
 
-    game.inspectTower(this);
     game.updateHUD();
     game.saveGameState();
   }
@@ -7093,12 +7528,13 @@ class DefensiveTower {
   }
 
   getEffectiveSlowRate() {
-    return Math.min(0.62, (this.config.slowRate || 0.36) + (this.level - 1) * 0.1);
+    return Math.min(0.8, (this.config.slowRate || 0.36) * this.getAttributeGrowth());
   }
 
+  getAttributeGrowth() { return Math.pow(1.3, Math.min(2, this.level - 1)); }
+
   getCrystalBuffDamage() {
-    const additions = [0, 0.1, 0.22];
-    return (this.config.buffDmg || 0.18) + additions[Math.min(2, this.level - 1)];
+    return (this.config.buffDmg || 0.18) * this.getAttributeGrowth();
   }
 
   getEffectiveBuffs(game) {
@@ -7140,13 +7576,15 @@ class DefensiveTower {
 
   getEffectiveFireRate(game) {
     const levels = this.config.levelRate || [1, 1.08, 1.16];
-    let fr = this.config.fireRate * levels[Math.min(2, this.level - 1)];
+    const baseRate = this.type === 'cryo' ? 1 / Math.max(0.5, this.config.slowDuration || 2.5) : this.config.fireRate;
+    let fr = baseRate * levels[Math.min(2, this.level - 1)];
     if (this.overdriveTimer > 0) fr *= 3.5;
-    return fr * COMBAT_SPEED_MULTIPLIER;
+    return fr * (this.type === 'cryo' ? 1 : COMBAT_SPEED_MULTIPLIER);
   }
 
   update(dt, game) {
     this.idleTimer += dt;
+    this.upgradeAnimation = Math.max(0, this.upgradeAnimation - dt);
     if (this.overdriveTimer > 0) this.overdriveTimer -= dt;
 
     // Smooth Recoil & Flash Decay
@@ -7161,6 +7599,7 @@ class DefensiveTower {
     }
 
     this.auraPulse = (this.auraPulse || 0) + dt;
+    if (this.type === 'pulse') this.updatePulseSprite(dt);
 
     this.cooldown -= dt;
     this.findTarget(game);
@@ -7176,12 +7615,22 @@ class DefensiveTower {
       // Charge build-up for heavier weapons
       this.chargeLevel = Math.min(1.0, this.chargeLevel + dt * 4);
 
-      if (this.cooldown <= 0) {
+      if (this.type === 'plasma') {
+        this.updateFlameBeam(dt, game);
+      } else if (this.cooldown <= 0) {
         this.fire(game);
         this.cooldown = 1 / this.getEffectiveFireRate();
       }
     } else {
       this.chargeLevel = Math.max(0, this.chargeLevel - dt * 2);
+      this.lockDuration = 0;
+      if (this.type === 'cryo' || this.type === 'pulse') {
+        const idleAngle = -Math.PI / 2 + Math.sin(this.idleTimer * 1.5) * 0.38;
+        let diff = idleAngle - this.rotation;
+        while (diff < -Math.PI) diff += Math.PI * 2;
+        while (diff > Math.PI) diff -= Math.PI * 2;
+        this.rotation += diff * Math.min(1, dt * 4);
+      }
     }
 
     // Barrel spin update for Gatling
@@ -7194,9 +7643,28 @@ class DefensiveTower {
     }
   }
 
+  updatePulseSprite(dt) {
+    const animation = PULSE_SPRITE_ANIMATIONS[this.pulseSpriteState];
+    this.pulseSpriteElapsed += dt * 1000;
+    const totalMs = animation.frames * animation.frameMs;
+
+    if (!animation.loop && this.pulseSpriteElapsed >= totalMs) {
+      this.pulseSpriteState = this.pulseSpriteState === 'attack' ? 'attack-post' : 'idle';
+      this.pulseSpriteElapsed = 0;
+    } else if (animation.loop) {
+      this.pulseSpriteElapsed %= totalMs;
+    }
+  }
+
+  playPulseAttack() {
+    this.pulseSpriteState = 'attack';
+    this.pulseSpriteElapsed = 0;
+  }
+
   findTarget(game) {
     const range = this.getEffectiveRange(game);
     const inRange = game.enemies.filter(e => {
+      if (e.dead || e.reachedEnd) return false;
       if (e.stealth && !e.stealthRevealed && this.type !== 'cryo') return false;
       const dist = Math.hypot(e.x - this.x, e.y - this.y);
       return dist <= range;
@@ -7232,32 +7700,27 @@ class DefensiveTower {
 
     if (this.type === 'pulse') {
       this.recoil = 4.5;
+      this.playPulseAttack();
       sounds.playLaser();
+      const muzzleDistance = game.cellSize * PULSE_SPRITE_SIZE_RATIO * (0.91 - 0.5);
+      const muzzleX = this.x + Math.cos(this.rotation) * muzzleDistance;
+      const muzzleY = this.y + Math.sin(this.rotation) * muzzleDistance;
       // Eject glowing shell casing to side
       const sideAngle = this.rotation + Math.PI / 2 + (Math.random() - 0.5) * 0.3;
       game.particles.push(new ShellCasing(this.x, this.y, Math.cos(sideAngle) * 60, Math.sin(sideAngle) * 60, '#ffd02e'));
-      game.projectiles.push(new Projectile(this.x, this.y, this.targetEnemy, 'pulse', finalDmg, bulletSpd, this.config.color, this, isCrit));
+      game.projectiles.push(new Projectile(muzzleX, muzzleY, this.targetEnemy, 'pulse', finalDmg, bulletSpd, this.config.color, this, isCrit));
       if (this.level >= 3) {
         const secondary = game.enemies
           .filter(e => !e.dead && e !== this.targetEnemy && Math.hypot(e.x - this.x, e.y - this.y) <= this.getEffectiveRange(game))
           .sort((a, b) => b.distanceTraveled - a.distanceTraveled)[0] || this.targetEnemy;
-        game.projectiles.push(new Projectile(this.x, this.y, secondary, 'pulse', finalDmg * 0.48, bulletSpd * 0.92, '#ffe56f', this, false));
+        game.projectiles.push(new Projectile(muzzleX, muzzleY, secondary, 'pulse', finalDmg * 0.48, bulletSpd * 0.92, '#ffe56f', this, false));
       }
     } else if (this.type === 'cryo') {
       this.recoil = 3.0;
       sounds.playFreeze();
-      this.fireCryoLine(game, finalDmg, isCrit);
+      game.projectiles.push(new Projectile(this.x, this.y, this.targetEnemy, 'cryo', finalDmg, 300 * (game.scaleRatio || 1), '#d9faff', this, isCrit));
     } else if (this.type === 'plasma') {
-      this.recoil = 4.0;
-      sounds.playLaser();
-      if (this.lockedTarget === this.targetEnemy) {
-        this.lockStacks = Math.min(this.config.maxRampStacks || 7, this.lockStacks + 1);
-      } else {
-        this.lockedTarget = this.targetEnemy;
-        this.lockStacks = 0;
-      }
-      const rampedDamage = finalDmg * (1 + this.lockStacks * (this.config.rampPerHit || 0.18));
-      game.projectiles.push(new Projectile(this.x, this.y, this.targetEnemy, 'plasma', rampedDamage, bulletSpd, this.config.color, this, isCrit));
+      // Continuous flame damage is handled by updateFlameBeam.
     } else if (this.type === 'tesla') {
       this.recoil = 2.0;
       sounds.playElectricCurrent();
@@ -7269,36 +7732,66 @@ class DefensiveTower {
     }
   }
 
-  fireCryoLine(game, dmg, isCrit) {
-    const range = this.getEffectiveRange(game);
-    const angle = Math.atan2(this.targetEnemy.y - this.y, this.targetEnemy.x - this.x);
-    const endX = this.x + Math.cos(angle) * range;
-    const endY = this.y + Math.sin(angle) * range;
-    const hitWidth = (this.config.lineWidth || 22) * (game.scaleRatio || 1);
+  updateFlameBeam(dt, game) {
+    if (this.lockedTarget !== this.targetEnemy) {
+      this.lockedTarget = this.targetEnemy;
+      this.lockDuration = 0;
+    }
+    const previous = this.lockDuration;
+    this.lockDuration = Math.min(3, previous + dt);
+    const bonus = this.config.rampPerHit * this.config.maxRampStacks * this.getAttributeGrowth();
+    // Integrate the ramp so damage does not depend on frame rate.
+    const rampTime = Math.min(dt, 3 - previous);
+    const rampArea = (previous + this.lockDuration) * 0.5 * rampTime / 3 + (dt - rampTime);
+    const damage = this.getEffectiveDamage(game) * this.getEffectiveFireRate() * (dt + bonus * rampArea);
+    this.targetEnemy.takeDamage(damage, 'fire', game, false, this);
+    this.totalDamageDealt += damage;
+    this.muzzleFlash = 1;
+    if (this.cooldown <= 0) {
+      sounds.playLaser();
+      game.createParticleBurst(this.targetEnemy.x, this.targetEnemy.y, '#ffad55', 4);
+      this.cooldown = 0.16;
+    }
+  }
 
-    game.enemies.forEach(enemy => {
-      if (enemy.dead) return;
-      const vx = endX - this.x;
-      const vy = endY - this.y;
-      const lenSq = vx * vx + vy * vy;
-      const projection = Math.max(0, Math.min(1, ((enemy.x - this.x) * vx + (enemy.y - this.y) * vy) / lenSq));
-      const px = this.x + projection * vx;
-      const py = this.y + projection * vy;
-      if (projection > 0 && Math.hypot(enemy.x - px, enemy.y - py) <= hitWidth) {
-        enemy.takeDamage(dmg, 'cryo', game, isCrit && enemy === this.targetEnemy, this);
-        enemy.slowTimer = this.config.slowDuration || 2.5;
-        enemy.slowFactor = Math.max(0.2, 1 - this.getEffectiveSlowRate());
-        this.totalDamageDealt += dmg;
-      }
-    });
-    game.particles.push(new BeamLine(this.x, this.y, endX, endY, '#8eeaff', hitWidth * 0.55, 0.2));
+  drawFlameBeam(ctx, game) {
+    if (this.type !== 'plasma' || !this.targetEnemy || this.targetEnemy.dead || this.lockDuration <= 0) return;
+    const heat = this.lockDuration / 3;
+    const angle = Math.atan2(this.targetEnemy.y - this.y, this.targetEnemy.x - this.x);
+    const muzzle = game.cellSize * 0.36;
+    ctx.save();
+    ctx.lineCap = 'round';
+    const width = (4 + heat * 7) * (game.scaleRatio || 1);
+    for (const [color, scale] of [['rgba(255,109,42,0.25)', 2.4], ['#ff963c', 1.2], ['#ffe59a', 0.65], ['#fff9de', 0.25]]) {
+      ctx.strokeStyle = color;
+      ctx.lineWidth = width * scale;
+      ctx.beginPath();
+      ctx.moveTo(this.x + Math.cos(angle) * muzzle, this.y + Math.sin(angle) * muzzle);
+      ctx.lineTo(this.targetEnemy.x, this.targetEnemy.y);
+      ctx.stroke();
+    }
+    ctx.restore();
   }
 
   fireTesla(game, dmg, isCrit) {
-    this.targetEnemy.takeDamage(dmg, 'tesla', game, isCrit, this);
-    this.totalDamageDealt += dmg;
-    game.particles.push(new BeamLine(this.x, this.y, this.targetEnemy.x, this.targetEnemy.y, '#dca8ff', 3.2, 0.14));
-    game.createParticleBurst(this.targetEnemy.x, this.targetEnemy.y, this.config.color, 10);
+    const scale = game.scaleRatio || 1;
+    const hit = new Set();
+    let target = this.targetEnemy;
+    let origin = { x: this.x, y: this.y };
+    const limit = this.config.chainTargets[this.level - 1];
+    while (target && !target.dead && hit.size < limit) {
+      const endpoint = { x: target.x, y: target.y };
+      hit.add(target);
+      target.takeDamage(dmg, 'tesla', game, isCrit, this);
+      this.totalDamageDealt += dmg;
+      game.particles.push(new LightningArc(origin.x, origin.y, endpoint.x, endpoint.y, scale));
+      game.particles.push(new ShockwaveRing(endpoint.x, endpoint.y, 18 * scale, '#efc9ff', 0.28));
+      game.createParticleBurst(endpoint.x, endpoint.y, this.config.color, 8);
+      origin = endpoint;
+      target = game.enemies.filter(e => !e.dead && !e.reachedEnd && !hit.has(e)
+        && Math.hypot(e.x - origin.x, e.y - origin.y) <= this.config.chainRange * this.getAttributeGrowth() * scale)
+        .sort((a, b) => Math.hypot(a.x - origin.x, a.y - origin.y) - Math.hypot(b.x - origin.x, b.y - origin.y))[0];
+    }
   }
 
   fireSunPulse(game, dmg, isCrit) {
@@ -7311,16 +7804,38 @@ class DefensiveTower {
         hitCount += 1;
       }
     });
-    game.particles.push(new ShockwaveRing(this.x, this.y, range, '#ffd766', 0.42));
+    game.particles.push(new SolarFlameWave(this.x, this.y, range, this.level));
     game.createParticleBurst(this.x, this.y, '#ffbd4a', 16);
   }
 
   draw(ctx, game) {
     ctx.save();
+    // Round all custom tower strokes and polygon joins for the macaron silhouette.
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
     ctx.translate(this.x, this.y);
 
     const baseColor = this.config.color;
     const cellSize = game.cellSize;
+    if (this.upgradeAnimation > 0) {
+      const progress = 1 - this.upgradeAnimation / 0.9;
+      ctx.save();
+      ctx.globalAlpha = 1 - progress;
+      ctx.strokeStyle = '#fff4a3';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.arc(0, 0, cellSize * (0.3 + progress * 0.65), 0, Math.PI * 2);
+      ctx.stroke();
+      for (let i = 0; i < 8; i++) {
+        const angle = i * Math.PI / 4 + progress * 0.5;
+        const distance = cellSize * (0.2 + progress * 0.6);
+        ctx.beginPath();
+        ctx.ellipse(Math.cos(angle) * distance, Math.sin(angle) * distance - progress * 12, 3, 6, angle, 0, Math.PI * 2);
+        ctx.fillStyle = i % 2 ? '#fff6b0' : this.config.color;
+        ctx.fill();
+      }
+      ctx.restore();
+    }
 
     // Overdrive Supercharge Aura
     if (this.overdriveTimer > 0) {
@@ -7361,11 +7876,18 @@ class DefensiveTower {
     const idleBob = Math.sin(this.idleTimer * 2.2) * 0.65;
     const fireSquash = Math.min(0.08, this.recoil * 0.007);
     ctx.translate(0, idleBob + fireSquash * 10);
+    if (this.upgradeAnimation > 0) {
+      const lift = Math.sin((1 - this.upgradeAnimation / 0.9) * Math.PI);
+      ctx.translate(0, -lift * 7);
+      ctx.scale(1 + lift * 0.14, 1 + lift * 0.14);
+    }
     ctx.scale(1.12 * (1 + fireSquash), 1.12 * (1 - fireSquash));
 
     // Render Specific Tower Types
     if (this.type === 'pulse') {
       this.drawPulseGatling(ctx, cellSize, baseColor);
+    } else if (this.drawLevelArtwork(ctx, cellSize)) {
+      // 已绘制当前等级的塔体。
     } else if (this.type === 'cryo') {
       this.drawCryoEmitter(ctx, cellSize, baseColor);
     } else if (this.type === 'plasma') {
@@ -7375,26 +7897,6 @@ class DefensiveTower {
     } else if (this.type === 'buffer') {
       this.drawQuantumBuffer(ctx, cellSize, baseColor, game);
     }
-    ctx.restore();
-
-    // Persistent three-step level label.
-    ctx.save();
-    const badgeX = -cellSize * 0.42;
-    const badgeY = -cellSize * 0.42;
-    const levelLabel = `Lv.${this.level}`;
-    ctx.font = 'bold 9px Orbitron, sans-serif';
-    const labelWidth = Math.max(27, ctx.measureText(levelLabel).width + 9);
-    ctx.fillStyle = 'rgba(5, 12, 28, 0.94)';
-    ctx.strokeStyle = this.level >= 3 ? '#ffd02e' : '#7fe5cf';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.roundRect(badgeX, badgeY, labelWidth, 15, 3);
-    ctx.fill();
-    ctx.stroke();
-    ctx.fillStyle = '#ffffff';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(levelLabel, badgeX + labelWidth / 2, badgeY + 7.5);
     ctx.restore();
 
     // Crystal adjacency boost marker.
@@ -7449,40 +7951,27 @@ class DefensiveTower {
       ctx.restore();
     }
 
-    // 2. 可以升级的防御塔右上角都增加待升级的标记 (▲)
+    // Inset chevrons stay in the top-right corner of the owning cell.
     const canUpgrade = this.level < 3 && game.energy >= this.getUpgradeCost();
     if (canUpgrade) {
-      const trX = cellSize * 0.35;
-      const trY = -cellSize * 0.35;
-      const upPulse = Math.sin(this.idleTimer * 6) * 1.6;
+      const badgeScale = Math.min(1, cellSize / 40);
+      const trX = cellSize / 2 - 10 * badgeScale;
+      const trY = -cellSize / 2 + 10 * badgeScale;
 
       ctx.save();
       ctx.translate(trX, trY);
-
-      // Outer green/cyan pulse ring
-      ctx.beginPath();
-      ctx.arc(0, 0, 8.5 + upPulse, 0, Math.PI * 2);
-      ctx.strokeStyle = 'rgba(5, 255, 161, 0.85)';
-      ctx.lineWidth = 1.4;
-      ctx.stroke();
-
-      // Badge backing
-      ctx.beginPath();
-      ctx.arc(0, 0, 7.5, 0, Math.PI * 2);
-      ctx.fillStyle = '#061a1a';
-      ctx.fill();
-      ctx.strokeStyle = '#05ffa1';
-      ctx.lineWidth = 1.2;
-      ctx.shadowColor = '#05ffa1';
-      ctx.shadowBlur = 10;
-      ctx.stroke();
-
-      // Green neon up chevron ▲
-      ctx.fillStyle = '#05ffa1';
-      ctx.font = 'bold 9px sans-serif';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText('▲', 0, -0.5);
+      ctx.scale(badgeScale, badgeScale);
+      ctx.globalAlpha = 0.85 + Math.sin(this.idleTimer * 6) * 0.15;
+      const arrowSize = 6;
+      ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      for (const [color, width] of [['#fffde3', 5], ['#52964f', 2.5]]) {
+        ctx.strokeStyle = color; ctx.lineWidth = width;
+        ctx.beginPath();
+        for (const y of [-3, 3]) {
+          ctx.moveTo(-arrowSize, y + 2); ctx.lineTo(0, y - 2); ctx.lineTo(arrowSize, y + 2);
+        }
+        ctx.stroke();
+      }
 
       ctx.restore();
     }
@@ -7490,8 +7979,55 @@ class DefensiveTower {
     ctx.restore();
   }
 
-  // 1. 瓶子炮: glossy round bottle with a short, soft-edged muzzle.
+  drawLevelArtwork(ctx, size) {
+    const image = TOWER_LEVEL_IMAGES[this.type][this.level];
+    if (!image || !image.complete || !image.naturalWidth) return false;
+    const drawSize = size * 1.16;
+    ctx.save();
+    if (this.type === 'plasma') {
+      // 原图炮口朝右上 30°，围绕真实炮轴转向目标。
+      ctx.rotate(this.rotation);
+      ctx.translate(-this.recoil, 0);
+      ctx.rotate(Math.PI / 6);
+      ctx.drawImage(image, -drawSize * 0.5, -drawSize * 0.525, drawSize, drawSize);
+    } else {
+      ctx.rotate(this.type === 'cryo' ? this.rotation + Math.PI / 2 : Math.sin(this.idleTimer * 1.7) * 0.04);
+      ctx.drawImage(image, -drawSize * 0.5, -drawSize * 0.5, drawSize, drawSize);
+    }
+    ctx.restore();
+    return true;
+  }
+
+  // 1. 瓶子炮: production sprite atlas with idle and attack frame playback.
   drawPulseGatling(ctx, size, color) {
+    const image = PULSE_SPRITE_ATLASES[this.level];
+    if (image && image.complete && image.naturalWidth > 0) {
+      const animation = PULSE_SPRITE_ANIMATIONS[this.pulseSpriteState];
+      const frameIndex = Math.min(
+        animation.frames - 1,
+        Math.floor(this.pulseSpriteElapsed / animation.frameMs)
+      );
+      const drawSize = size * PULSE_SPRITE_SIZE_RATIO;
+      const sourceSize = 128;
+
+      ctx.save();
+      ctx.rotate(this.rotation + PULSE_SPRITE_FACING_OFFSET);
+      ctx.drawImage(
+        image,
+        frameIndex * sourceSize,
+        animation.row * sourceSize,
+        sourceSize,
+        sourceSize,
+        -drawSize * 0.5,
+        -drawSize * 0.5,
+        drawSize,
+        drawSize
+      );
+      ctx.restore();
+      return;
+    }
+
+    // Keep the vector fallback during asset loading or if the atlas is unavailable.
     drawMacaronTowerShadow(ctx, size);
     ctx.save();
     ctx.rotate(this.rotation);
@@ -7501,7 +8037,7 @@ class DefensiveTower {
     neck.addColorStop(0, '#9bf054');
     neck.addColorStop(1, '#35bd3e');
     ctx.beginPath();
-    ctx.roundRect(10, -9, 24, 18, 9);
+    traceRoundRect(ctx, 10, -9, 24, 18, 9);
     ctx.fillStyle = neck;
     ctx.fill();
     ctx.strokeStyle = '#209f43';
@@ -7564,7 +8100,7 @@ class DefensiveTower {
   drawCryoEmitter(ctx, size, color) {
     drawMacaronTowerShadow(ctx, size);
     ctx.save();
-    ctx.rotate(Math.sin(this.idleTimer * 1.7) * 0.05);
+    ctx.rotate(this.rotation + Math.PI / 2);
     ctx.lineJoin = 'round';
     ctx.lineCap = 'round';
     ctx.beginPath();
@@ -7623,14 +8159,30 @@ class DefensiveTower {
     neck.addColorStop(0, '#ffb542');
     neck.addColorStop(1, '#f45b31');
     ctx.beginPath();
-    ctx.roundRect(9, -9, 25, 18, 9);
+    traceRoundRect(ctx, 9, -9, 25, 18, 9);
     ctx.fillStyle = neck;
     ctx.fill();
     ctx.strokeStyle = '#cc4932';
     ctx.lineWidth = 2.4;
     ctx.stroke();
+
+    // Upgrade marks: extra flame emblems communicate the three forms at a glance.
+    ctx.save();
+    ctx.translate(-18, -27);
+    for (let i = 0; i < this.level; i++) {
+      const x = i * 12;
+      ctx.fillStyle = '#fff3a0';
+      ctx.strokeStyle = '#d85a32';
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.moveTo(x, 7); ctx.quadraticCurveTo(x - 4, 2, x, -5);
+      ctx.quadraticCurveTo(x + 2, -1, x + 4, 2);
+      ctx.quadraticCurveTo(x + 5, 5, x, 7); ctx.closePath();
+      ctx.fill(); ctx.stroke();
+    }
+    ctx.restore();
     ctx.beginPath();
-    ctx.roundRect(26, -7, 10, 14, 6);
+    traceRoundRect(ctx, 26, -7, 10, 14, 6);
     ctx.fillStyle = '#ff9635';
     ctx.fill();
     ctx.stroke();
@@ -7674,7 +8226,7 @@ class DefensiveTower {
     ctx.restore();
   }
 
-  // 4. 水晶: three nested pentagonal crystal shells.
+  // 4. 水晶花: three nested pentagonal crystal shells.
   drawTeslaCoil(ctx, size, color) {
     drawMacaronTowerShadow(ctx, size);
     ctx.save();
@@ -7818,7 +8370,7 @@ class CreepEnemy {
 
     const scale = (game && typeof game.scaleRatio === 'number') ? game.scaleRatio : 1.0;
     this.speed = this.config.speed * scale * COMBAT_SPEED_MULTIPLIER;
-    this.radius = this.config.radius * scale;
+    this.radius = (this.config.isBoss ? this.config.radius : 18) * scale;
     this.isBoss = !!this.config.isBoss;
 
     this.shield = this.config.shieldAura ? 120 : 0;
@@ -7833,12 +8385,11 @@ class CreepEnemy {
     this.reachedEnd = false;
     this.dead = false;
 
-    // Movement & Hit Animations + Layering Lateral Offset
+    // Movement state keeps the visual upright regardless of path direction.
     this.lateralOffset = (Math.random() - 0.5) * 14 * scale;
     this.walkCycle = Math.random() * 100;
     this.moveAngle = 0;
     this.hitFlash = 0;
-    this.hitSquash = 1.0;
     this.stepDustTimer = 0;
   }
 
@@ -7847,7 +8398,6 @@ class CreepEnemy {
 
     this.stealthRevealed = 2.5;
     this.hitFlash = 0.18;
-    this.hitSquash = 0.7;
 
     let actualDmg = amount;
 
@@ -7917,8 +8467,7 @@ class CreepEnemy {
   }
 
   update(dt, game) {
-    this.walkCycle += dt * (this.speed * this.slowFactor * 0.12);
-    this.hitSquash += (1 - this.hitSquash) * Math.min(1, dt * 13);
+    this.walkCycle += dt * (this.speed * Math.min(this.slowFactor, this.iceSlowFactor || 1) * 0.12);
 
     if (this.hitFlash > 0) {
       this.hitFlash = Math.max(0, this.hitFlash - dt * 5);
@@ -7946,7 +8495,7 @@ class CreepEnemy {
     const dy = targetWp.y - this.y;
     const dist = Math.hypot(dx, dy);
     this.moveAngle = Math.atan2(dy, dx);
-    const moveStep = this.speed * this.slowFactor * dt;
+    const moveStep = this.speed * Math.min(this.slowFactor, this.iceSlowFactor || 1) * dt;
 
     // Heavy footstep dust for Titan & Boss Overlord
     if (this.typeKey === 'titan' || this.typeKey === 'boss_overlord') {
@@ -7978,6 +8527,7 @@ class CreepEnemy {
     const ox = Math.cos(normAngle) * this.lateralOffset;
     const oy = Math.sin(normAngle) * this.lateralOffset;
     ctx.translate(this.x + ox, this.y + oy);
+    ctx.scale(0.8, 0.8);
 
     const isVisible = !this.stealth || this.stealthRevealed > 0;
     ctx.globalAlpha = isVisible ? 1.0 : 0.25;
@@ -7996,36 +8546,13 @@ class CreepEnemy {
     const bounce = isAirborne
       ? Math.sin(this.walkCycle * 2.8) * 2.2
       : -Math.abs(gait) * (this.isBoss ? 1.2 : 2.1);
-    const hitCompression = 1 - this.hitSquash;
-    ctx.translate(0, bounce + hitCompression * 3);
-    ctx.rotate(isAirborne ? Math.sin(this.walkCycle * 1.4) * 0.045 : gait * 0.025);
+    ctx.translate(0, bounce);
     const characterScale = this.isBoss ? 1.08 : 1.3;
-    ctx.scale(characterScale * (1 + hitCompression * 0.42), characterScale * (1 - hitCompression * 0.32));
+    ctx.scale(characterScale, characterScale);
 
-    // Draw Unique Monster Shapes & Walk Animation (Smooth steady movement without shaking)
-    if (this.typeKey === 'crawler') {
-      this.drawCrawler(ctx);
-    } else if (this.typeKey === 'scout') {
-      this.drawScout(ctx);
-    } else if (this.typeKey === 'titan') {
-      this.drawTitan(ctx);
-    } else if (this.typeKey === 'phantom') {
-      this.drawPhantom(ctx);
-    } else if (this.typeKey === 'replicator') {
-      this.drawReplicator(ctx);
-    } else if (this.typeKey === 'shielder') {
-      this.drawShielder(ctx);
-    } else if (this.typeKey === 'boss_overlord') {
-      this.drawBossOverlord(ctx);
-    } else if (this.typeKey === 'boss_devourer') {
-      this.drawBossDevourer(ctx);
-    } else {
-      // Fallback
-      ctx.beginPath();
-      ctx.arc(0, 0, this.radius, 0, Math.PI * 2);
-      ctx.fillStyle = this.config.color;
-      ctx.fill();
-    }
+    // One rounded-block base supports every monster. Their data-driven outer layers
+    // are deliberately independent so future variants do not need another silhouette.
+    this.drawGardenBlock(ctx);
 
     // Hit Flash Overlay (White flash on taking damage)
     if (this.hitFlash > 0) {
@@ -8059,7 +8586,7 @@ class CreepEnemy {
     }
 
     // Slowed Frost Crystals Overlay
-    if (this.slowTimer > 0) {
+    if (this.slowTimer > 0 || this.iceSlowFactor < 1) {
       ctx.save();
       ctx.strokeStyle = '#4deeea';
       ctx.fillStyle = '#a5f3fc';
@@ -8101,18 +8628,18 @@ class CreepEnemy {
       ctx.save();
       ctx.fillStyle = CARTOON_OUTLINE;
       ctx.beginPath();
-      ctx.roundRect(-barW / 2 - 1.5, barY - 1.5, barW + 3, barH + 3, (barH + 3) / 2);
+      traceRoundRect(ctx, -barW / 2 - 1.5, barY - 1.5, barW + 3, barH + 3, (barH + 3) / 2);
       ctx.fill();
 
       ctx.fillStyle = '#fff7df';
       ctx.beginPath();
-      ctx.roundRect(-barW / 2, barY, barW, barH, barH / 2);
+      traceRoundRect(ctx, -barW / 2, barY, barW, barH, barH / 2);
       ctx.fill();
 
       const fillWidth = Math.max(0, barW * pct);
       ctx.fillStyle = this.isBoss ? '#ff5f7e' : (pct > 0.5 ? '#74d84b' : (pct > 0.25 ? '#ffd45c' : '#ff5f7e'));
       ctx.beginPath();
-      ctx.roundRect(-barW / 2, barY, fillWidth, barH, Math.min(barH / 2, fillWidth / 2));
+      traceRoundRect(ctx, -barW / 2, barY, fillWidth, barH, Math.min(barH / 2, fillWidth / 2));
       ctx.fill();
 
       ctx.fillStyle = 'rgba(255,255,255,0.55)';
@@ -8132,6 +8659,144 @@ class CreepEnemy {
     ctx.restore();
   }
 
+  drawGardenBlock(ctx) {
+    const visual = this.config.visual || {};
+    const size = Math.max(11, Math.min(25, this.radius * 0.8));
+    const body = visual.body || this.config.color;
+    const trim = visual.trim || '#49735a';
+    const faceY = -size * 0.1;
+    const outfitY = size * 0.18;
+    const outfitHeight = size * 0.7;
+
+    ctx.save();
+    if (!this.isBoss) {
+      const extent = Math.max(1, visual.wings ? 1.5 : 1, visual.weapon ? 1.45 : 1,
+        visual.headwear ? 1.5 : 1, visual.accessory === 'shield' ? 1.5 : 1,
+        visual.accessory === 'bubbles' ? 1.33 : 1);
+      ctx.scale(1.5 / extent, 1.5 / extent);
+    }
+
+    // Wings are an optional back-layer, useful for fast and boss variants.
+    if (visual.wings) {
+      [-1, 1].forEach(side => {
+        ctx.save();
+        ctx.rotate(side * (0.22 + Math.sin(this.walkCycle * 5) * 0.12));
+        ctx.beginPath();
+        ctx.ellipse(-size * 0.62, side * size * 0.54, size * 0.72, size * 0.31, side * 0.34, 0, Math.PI * 2);
+        ctx.fillStyle = side > 0 ? '#d8f4ec' : '#f9d9ec';
+        ctx.strokeStyle = trim;
+        ctx.lineWidth = 1.8;
+        ctx.fill();
+        ctx.stroke();
+        ctx.restore();
+      });
+    }
+
+    // A held tool is another optional layer, drawn behind the hand.
+    if (visual.weapon) {
+      ctx.save();
+      ctx.rotate(-0.22);
+      ctx.strokeStyle = '#91633d';
+      ctx.lineWidth = Math.max(2, size * 0.16);
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(size * 0.25, size * 0.35);
+      ctx.lineTo(size * 1.02, -size * 0.7);
+      ctx.stroke();
+      ctx.fillStyle = visual.weapon === 'scepter' ? '#ffd35f' : (visual.weapon === 'umbrella' ? '#8d78c9' : '#7bb56a');
+      ctx.beginPath();
+      if (visual.weapon === 'umbrella') {
+        ctx.arc(size * 1.02, -size * 0.72, size * 0.33, Math.PI, 0);
+      } else {
+        ctx.arc(size * 1.02, -size * 0.72, size * 0.26, 0, Math.PI * 2);
+      }
+      ctx.fill();
+      ctx.strokeStyle = trim;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    // Shared macaron rounded-block chassis.
+    const bodyGradient = ctx.createLinearGradient(-size, -size, size, size);
+    bodyGradient.addColorStop(0, '#fffdf1');
+    bodyGradient.addColorStop(0.2, body);
+    bodyGradient.addColorStop(1, trim);
+    ctx.beginPath();
+    traceRoundRect(ctx, -size, -size, size * 2, size * 2, size * 0.48);
+    ctx.fillStyle = bodyGradient;
+    ctx.strokeStyle = CARTOON_OUTLINE;
+    ctx.lineWidth = this.isBoss ? 3 : 2.2;
+    ctx.fill();
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.ellipse(-size * 0.4, -size * 0.48, size * 0.32, size * 0.17, -0.48, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(255,255,255,0.62)';
+    ctx.fill();
+
+    // Clothing: same body, distinct lower-half styling.
+    ctx.save();
+    ctx.beginPath();
+    traceRoundRect(ctx, -size * 0.88, outfitY, size * 1.76, outfitHeight, size * 0.23);
+    ctx.clip();
+    const outfitColors = {
+      overalls: '#4c9b78', scarf: '#ef8d79', hood: '#755fa9', apron: '#f6edf0',
+      tabard: '#5578b8', armor: '#c27845', cape: '#b55a78'
+    };
+    ctx.fillStyle = outfitColors[visual.outfit] || '#fff0ab';
+    ctx.fillRect(-size, outfitY, size * 2, outfitHeight + 2);
+    if (visual.outfit === 'overalls') {
+      ctx.strokeStyle = '#e8f7d6'; ctx.lineWidth = 1.6;
+      ctx.beginPath(); ctx.moveTo(-size * 0.45, outfitY); ctx.lineTo(-size * 0.18, size); ctx.moveTo(size * 0.45, outfitY); ctx.lineTo(size * 0.18, size); ctx.stroke();
+    } else if (visual.outfit === 'armor') {
+      ctx.strokeStyle = '#ffd98a'; ctx.lineWidth = 1.4;
+      ctx.beginPath(); ctx.moveTo(-size, outfitY + 4); ctx.lineTo(size, outfitY + 4); ctx.moveTo(-size, outfitY + 9); ctx.lineTo(size, outfitY + 9); ctx.stroke();
+    } else if (visual.outfit === 'cape') {
+      ctx.fillStyle = 'rgba(255,224,240,0.42)'; ctx.fillRect(-size, outfitY, size * 0.32, outfitHeight);
+    }
+    ctx.restore();
+
+    // Every block keeps a friendly readable face.
+    drawCartoonEye(ctx, -size * 0.3, faceY, size * 0.18, 0.35, 0.03);
+    drawCartoonEye(ctx, size * 0.3, faceY, size * 0.18, 0.35, -0.03);
+    drawCartoonMouth(ctx, 0, faceY + size * 0.48, size * 0.28, this.isBoss ? 'angry' : 'grin');
+
+    // Headwear is deliberately tokenized, making new combinations cheap to author.
+    if (visual.headwear === 'leaf' || visual.headwear === 'sprout') {
+      ctx.fillStyle = '#69ad58'; ctx.strokeStyle = trim; ctx.lineWidth = 1.3;
+      ctx.beginPath(); ctx.ellipse(-size * 0.12, -size * 1.12, size * 0.25, size * 0.47, -0.55, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      if (visual.headwear === 'sprout') { ctx.beginPath(); ctx.ellipse(size * 0.25, -size * 1.06, size * 0.23, size * 0.4, 0.48, 0, Math.PI * 2); ctx.fill(); ctx.stroke(); }
+    } else if (visual.headwear === 'bow') {
+      ctx.fillStyle = '#ef7ea6'; ctx.strokeStyle = trim; ctx.lineWidth = 1.4;
+      [-1, 1].forEach(side => { ctx.beginPath(); ctx.ellipse(side * size * 0.24, -size * 1.02, size * 0.32, size * 0.2, side * 0.35, 0, Math.PI * 2); ctx.fill(); ctx.stroke(); });
+      ctx.beginPath(); ctx.arc(0, -size * 1.02, size * 0.11, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    } else if (visual.headwear === 'helmet' || visual.headwear === 'pumpkin') {
+      ctx.fillStyle = visual.headwear === 'pumpkin' ? '#f09b46' : '#8da6da'; ctx.strokeStyle = trim; ctx.lineWidth = 1.8;
+      ctx.beginPath(); ctx.arc(0, -size * 0.73, size * 0.76, Math.PI, 0); ctx.lineTo(size * 0.75, -size * 0.25); ctx.lineTo(-size * 0.75, -size * 0.25); ctx.closePath(); ctx.fill(); ctx.stroke();
+    } else if (visual.headwear === 'crown') {
+      ctx.fillStyle = '#ffd35f'; ctx.strokeStyle = trim; ctx.lineWidth = 1.6;
+      ctx.beginPath(); ctx.moveTo(-size * 0.58, -size * 0.76); ctx.lineTo(-size * 0.48, -size * 1.35); ctx.lineTo(0, -size * 0.95); ctx.lineTo(size * 0.42, -size * 1.38); ctx.lineTo(size * 0.58, -size * 0.76); ctx.closePath(); ctx.fill(); ctx.stroke();
+    } else if (visual.headwear === 'topHat') {
+      ctx.fillStyle = '#493967'; ctx.strokeStyle = trim; ctx.lineWidth = 1.7;
+      ctx.beginPath(); traceRoundRect(ctx, -size * 0.38, -size * 1.55, size * 0.76, size * 0.83, size * 0.1); ctx.fill(); ctx.stroke();
+      ctx.fillRect(-size * 0.64, -size * 0.78, size * 1.28, size * 0.15);
+    }
+
+    if (visual.accessory === 'shield') {
+      ctx.fillStyle = '#d9eff9'; ctx.strokeStyle = trim; ctx.lineWidth = 1.8;
+      ctx.beginPath(); ctx.arc(-size * 1.03, size * 0.28, size * 0.47, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#89bbd2'; ctx.fillRect(-size * 1.1, size * 0.21, size * 0.14, size * 0.14);
+    } else if (visual.accessory === 'bubbles') {
+      for (let i = 0; i < 3; i++) { const a = this.walkCycle * 1.6 + i * 2.1; ctx.beginPath(); ctx.arc(Math.cos(a) * size * 1.2, Math.sin(a) * size * 0.9, size * 0.13, 0, Math.PI * 2); ctx.fillStyle = 'rgba(255,255,255,.65)'; ctx.fill(); ctx.strokeStyle = '#dc7ab3'; ctx.lineWidth = 1; ctx.stroke(); }
+    } else if (visual.accessory === 'thorns') {
+      ctx.strokeStyle = '#719755'; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(-size * 1.05, -size * 0.25); ctx.lineTo(-size * 1.3, -size * 0.62); ctx.moveTo(-size * 1.05, size * 0.35); ctx.lineTo(-size * 1.3, size * 0.72); ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  // Legacy specialised silhouettes are retained below for reference, but all active
+  // enemies now render through drawGardenBlock above.
   // 1. 比特蠕虫: 多节波浪蠕动 + 侧面摆动小足 + 闪烁触角
   drawCrawler(ctx) {
     ctx.save();
@@ -8233,7 +8898,7 @@ class CreepEnemy {
 
     // Soft-corner armored body and side shoulder pads.
     ctx.beginPath();
-    ctx.roundRect(-14, -13, 28, 26, 9);
+    traceRoundRect(ctx, -14, -13, 28, 26, 9);
     ctx.fillStyle = createCandyMaterial(ctx, 19, '#fff0b0', '#f6a93d', '#c85f2f');
     ctx.fill();
     ctx.strokeStyle = CARTOON_OUTLINE;
@@ -8496,6 +9161,45 @@ class CreepEnemy {
 }
 
 // ==================== 12. PROJECTILE CLASS WITH ADVANCED WEAPON FX ====================
+class IcePatch {
+  constructor(x, y, tower, game) {
+    this.x = x;
+    this.y = y;
+    this.radius = tower.config.splashRadius * tower.getAttributeGrowth() * (game.scaleRatio || 1);
+    this.life = Math.max(0.5, tower.config.slowDuration || 2.5) * tower.getAttributeGrowth();
+    this.slowFactor = Math.max(0.2, 1 - tower.getEffectiveSlowRate());
+  }
+
+  contains(x, y) {
+    return this.life > 0 && Math.hypot(x - this.x, y - this.y) <= this.radius;
+  }
+
+  draw(ctx) {
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.globalAlpha = Math.min(1, this.life / 0.5) * 0.8;
+    ctx.fillStyle = '#bce7ef'; ctx.strokeStyle = '#f2fdff'; ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    for (let i = 0; i < 12; i++) {
+      const a = i * Math.PI / 6;
+      const r = this.radius * (i % 2 ? 0.94 : 1);
+      if (i === 0) ctx.moveTo(Math.cos(a) * r, Math.sin(a) * r);
+      else ctx.lineTo(Math.cos(a) * r, Math.sin(a) * r);
+    }
+    ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.strokeStyle = 'rgba(255,255,255,0.85)';
+    for (let i = 0; i < 3; i++) {
+      ctx.save(); ctx.rotate(i * Math.PI * 2 / 3);
+      ctx.beginPath();
+      ctx.moveTo(this.radius * 0.12, -this.radius * 0.12);
+      ctx.lineTo(this.radius * 0.4, -this.radius * 0.28);
+      ctx.lineTo(this.radius * 0.7, -this.radius * 0.2);
+      ctx.stroke(); ctx.restore();
+    }
+    ctx.restore();
+  }
+}
+
 class Projectile {
   constructor(x, y, target, type, damage, speed, color, sourceTower, isCrit = false) {
     this.x = x;
@@ -8507,12 +9211,15 @@ class Projectile {
     this.type = type;
     this.damage = damage;
     this.speed = speed;
-    this.color = color;
+    this.color = type === 'pulse' ? '#65df72' : color;
     this.sourceTower = sourceTower;
     this.isCrit = isCrit;
     this.destroyed = false;
     this.trail = [];
     this.rotation = 0;
+    this.visualScale = type === 'pulse' && sourceTower
+      ? Math.pow(1.3, Math.min(2, Math.max(0, sourceTower.level - 1)))
+      : 1;
   }
 
   update(dt, game) {
@@ -8531,6 +9238,8 @@ class Projectile {
     const step = this.speed * dt;
 
     if (dist <= step) {
+      this.x = this.targetPos.x;
+      this.y = this.targetPos.y;
       this.hit(game);
     } else {
       this.x += (dx / dist) * step;
@@ -8550,16 +9259,11 @@ class Projectile {
     } else if (this.type === 'cryo') {
       if (this.target && !this.target.dead) {
         this.target.takeDamage(this.damage, 'cryo', game, this.isCrit, this.sourceTower);
-        this.target.slowTimer = 2.5;
-        const slowRate = this.sourceTower && typeof this.sourceTower.getEffectiveSlowRate === 'function'
-          ? this.sourceTower.getEffectiveSlowRate()
-          : 0.45;
-        this.target.slowFactor = Math.max(0.15, 1 - slowRate);
         this.sourceTower.totalDamageDealt += this.damage;
       }
-      // Frost Nova Shockwave
-      game.particles.push(new ShockwaveRing(this.x, this.y, 35, '#4deeea', 0.4));
-      game.createParticleBurst(this.x, this.y, '#4deeea', 16);
+      game.icePatches.push(new IcePatch(this.x, this.y, this.sourceTower, game));
+      game.particles.push(new ShockwaveRing(this.x, this.y, this.sourceTower.config.splashRadius * this.sourceTower.getAttributeGrowth() * (game.scaleRatio || 1), '#c9f4ff', 0.3));
+      game.createParticleBurst(this.x, this.y, '#edfaff', 12);
     } else if (this.type === 'plasma') {
       if (this.target && !this.target.dead) {
         this.target.takeDamage(this.damage, 'plasma', game, this.isCrit, this.sourceTower);
@@ -8587,23 +9291,34 @@ class Projectile {
     }
 
     ctx.translate(this.x, this.y);
+    if (this.type === 'cryo') {
+      const total = Math.hypot(this.targetPos.x - this.startX, this.targetPos.y - this.startY);
+      const traveled = Math.hypot(this.x - this.startX, this.y - this.startY);
+      const progress = total > 0 ? Math.min(1, traveled / total) : 1;
+      ctx.translate(0, -Math.sin(progress * Math.PI) * 18);
+    }
     ctx.rotate(this.rotation);
     ctx.globalAlpha = 1.0;
 
     if (this.type === 'pulse') {
       // Sleek Tracer Kinetic Bolt
-      ctx.fillStyle = '#ffffff';
-      ctx.shadowColor = '#00f3ff';
-      ctx.shadowBlur = 10;
-      ctx.fillRect(-6, -2, 12, 4);
+      const boltLength = 12 * this.visualScale * 1.3;
+      const boltWidth = 4 * this.visualScale * 1.3;
+      ctx.fillStyle = '#65df72';
+      ctx.shadowColor = '#39b956';
+      ctx.shadowBlur = 10 * this.visualScale;
+      ctx.fillRect(-boltLength / 2, -boltWidth / 2, boltLength, boltWidth);
     } else if (this.type === 'cryo') {
-      // Spinning Snowflake Comet
-      ctx.fillStyle = '#ffffff';
-      ctx.shadowColor = '#4deeea';
-      ctx.shadowBlur = 12;
+      // A shaded snowball, with a bright snowy cap.
+      ctx.scale(2.1, 2.1);
+      ctx.fillStyle = '#d5eef7';
+      ctx.strokeStyle = '#82bdcf';
+      ctx.lineWidth = 1;
       ctx.beginPath();
-      ctx.arc(0, 0, 4.5, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.arc(0, 0, 7, 0, Math.PI * 2);
+      ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath(); ctx.ellipse(-1.8, -2, 3.8, 2.6, -0.4, 0, Math.PI * 2); ctx.fill();
     } else if (this.type === 'plasma') {
       // Plasma High Explosive Shell
       ctx.fillStyle = '#ff2a6d';
@@ -8746,6 +9461,54 @@ class ShellCasing {
   }
 }
 
+class SolarFlameWave {
+  constructor(x, y, radius, level = 1) {
+    this.x = x;
+    this.y = y;
+    this.radius = radius;
+    this.level = level;
+    this.life = this.maxLife = 0.7;
+  }
+  update(dt) { this.life -= dt; }
+  draw(ctx) {
+    const progress = Math.max(0, Math.min(1, 1 - this.life / this.maxLife));
+    if (progress >= 1) return;
+    const radius = this.radius * (0.12 + progress * 0.88);
+    const thickness = this.radius * 0.12;
+    const fade = Math.min(0.42, (1 - progress) * 1.35);
+    const palettes = [
+      ['rgba(255,198,80,0.28)', '#ffb13b', '#ffe18a'],
+      ['rgba(242,125,42,0.30)', '#ed6a2e', '#ffc15d'],
+      ['rgba(194,54,38,0.34)', '#c93d2f', '#f58235']
+    ];
+    const palette = palettes[Math.min(2, Math.max(0, this.level - 1))];
+    ctx.save(); ctx.translate(this.x, this.y);
+    ctx.globalAlpha = fade;
+    // A hollow, scalloped flame front leaves the battlefield visible behind it.
+    for (const [color, width] of [[palette[0], thickness * 1.8], [palette[1], thickness], [palette[2], thickness * 0.4]]) {
+      ctx.strokeStyle = color; ctx.lineWidth = width;
+      ctx.beginPath(); ctx.arc(0, 0, radius, 0, Math.PI * 2); ctx.stroke();
+    }
+    for (let i = 0; i < 24; i++) {
+      const angle = i * Math.PI / 12;
+      const flameHeight = thickness * (1.1 + 0.3 * Math.sin(i * 2.1 + progress * 9));
+      ctx.save(); ctx.rotate(angle); ctx.translate(0, -radius);
+      ctx.fillStyle = palette[1];
+      ctx.beginPath(); ctx.moveTo(-thickness * 0.5, thickness * 0.3);
+      ctx.quadraticCurveTo(-thickness * 0.55, -flameHeight * 0.5, thickness * 0.12, -flameHeight);
+      ctx.quadraticCurveTo(thickness * 0.03, -flameHeight * 0.35, thickness * 0.45, -flameHeight * 0.5);
+      ctx.quadraticCurveTo(thickness * 0.6, 0, thickness * 0.4, thickness * 0.3);
+      ctx.closePath(); ctx.fill();
+      ctx.fillStyle = palette[2];
+      ctx.beginPath(); ctx.moveTo(-thickness * 0.2, thickness * 0.2);
+      ctx.quadraticCurveTo(-thickness * 0.2, -flameHeight * 0.3, thickness * 0.08, -flameHeight * 0.52);
+      ctx.quadraticCurveTo(thickness * 0.2, -flameHeight * 0.1, thickness * 0.25, thickness * 0.2);
+      ctx.closePath(); ctx.fill(); ctx.restore();
+    }
+    ctx.restore();
+  }
+}
+
 class ShockwaveRing {
   constructor(x, y, maxRadius, color, life = 0.4) {
     this.x = x;
@@ -8770,6 +9533,33 @@ class ShockwaveRing {
     ctx.beginPath();
     ctx.arc(this.x, this.y, radius, 0, Math.PI * 2);
     ctx.stroke();
+    ctx.restore();
+  }
+}
+
+class LightningArc {
+  constructor(x1, y1, x2, y2, scale = 1) {
+    this.life = this.maxLife = 0.28;
+    this.scale = scale;
+    const dx = x2 - x1, dy = y2 - y1;
+    const distance = Math.hypot(dx, dy) || 1;
+    const segments = Math.max(4, Math.ceil(distance / (16 * scale)));
+    this.points = Array.from({ length: segments + 1 }, (_, i) => {
+      const t = i / segments;
+      const offset = i === 0 || i === segments ? 0 : (i % 2 ? 1 : -1) * (5 + Math.random() * 8) * scale;
+      return { x: x1 + dx * t - dy / distance * offset, y: y1 + dy * t + dx / distance * offset };
+    });
+  }
+  update(dt) { this.life -= dt; }
+  draw(ctx) {
+    ctx.save();
+    ctx.globalAlpha = Math.max(0, this.life / this.maxLife);
+    ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+    ctx.beginPath();
+    this.points.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
+    for (const [color, width] of [['rgba(180,90,240,0.3)', 13], ['#ba78ee', 7], ['#f8edff', 2.5]]) {
+      ctx.strokeStyle = color; ctx.lineWidth = width * this.scale; ctx.stroke();
+    }
     ctx.restore();
   }
 }

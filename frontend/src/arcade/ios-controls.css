@@ -1,0 +1,59 @@
+/* Shared rounded controls. Scope stays inside games, including their launch pages. */
+:is(.ios-game-controls, .sliding-puzzle-page, .arcade-tool, .survival-tool) button {
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 16px !important;
+  clip-path: none !important;
+  border-width: 1px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'PingFang SC', 'Microsoft YaHei', sans-serif !important;
+  font-weight: 600 !important;
+  letter-spacing: 0 !important;
+  text-shadow: none !important;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: opacity 160ms ease, background-color 160ms ease, transform 160ms ease !important;
+}
+
+:is(.ios-game-controls, .sliding-puzzle-page, .arcade-tool, .survival-tool) button:not(.puzzle-tile) {
+  min-width: 44px;
+  min-height: 44px !important;
+  transform: none !important;
+}
+
+:is(.ios-game-controls, .sliding-puzzle-page, .arcade-tool, .survival-tool)
+button:is(.icon-button, .arcade-close, .survival-close, .puzzle-reset-button, .puzzle-exit-button, .puzzle-close-button, .nav-back) {
+  border-radius: 50% !important;
+}
+
+.sliding-puzzle-page .puzzle-tile {
+  /* Keep dense puzzle boards and tile movement geometry intact. */
+  border-radius: 20% !important;
+}
+
+@media (hover: hover) {
+  :is(.ios-game-controls, .sliding-puzzle-page, .arcade-tool, .survival-tool) button:hover:not(:disabled) {
+    filter: brightness(1.05);
+  }
+}
+
+:is(.ios-game-controls, .sliding-puzzle-page, .arcade-tool, .survival-tool) button:active:not(:disabled):not(.puzzle-tile) {
+  transform: scale(0.96) !important;
+  opacity: 0.72;
+}
+
+:is(.ios-game-controls, .sliding-puzzle-page, .arcade-tool, .survival-tool) button:focus-visible {
+  outline: 3px solid #65a8f5 !important;
+  outline-offset: 3px !important;
+}
+
+:is(.ios-game-controls, .sliding-puzzle-page, .arcade-tool, .survival-tool) button:disabled:not(.puzzle-tile) {
+  opacity: 0.4 !important;
+  cursor: default;
+  transform: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :is(.ios-game-controls, .sliding-puzzle-page, .arcade-tool, .survival-tool) button { transition: none !important; }
+  :is(.ios-game-controls, .sliding-puzzle-page, .arcade-tool, .survival-tool) button:active:not(.puzzle-tile) { transform: none !important; }
+}

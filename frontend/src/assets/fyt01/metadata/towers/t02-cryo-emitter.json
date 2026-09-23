@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "packId": "fyt01",
+  "unitId": "t02-cryo-emitter",
+  "gameId": "cryo",
+  "displayName": "冰冻星",
+  "role": "直线穿透与群体减速",
+  "skill": "沿目标方向释放贯穿寒流，对沿途敌人造成伤害并减速约 36%，持续约 2.5 秒。",
+  "levelCount": 3,
+  "sourceSize": [
+    1024,
+    1024
+  ],
+  "runtimeCellSize": [
+    128,
+    128
+  ],
+  "detailSize": [
+    512,
+    512
+  ],
+  "fps": 12,
+  "facingZeroDeg": "right",
+  "coordinates": "top-left origin; +x right; +y down; normalized 0..1",
+  "anchors": {
+    "placement": [
+      0.5,
+      0.85
+    ],
+    "aimPivot": [
+      0.5,
+      0.5
+    ],
+    "muzzle": [
+      0.5,
+      0.5
+    ],
+    "effectOrigin": [
+      0.5,
+      0.5
+    ]
+  },
+  "attackDirection": "由星核朝目标 360° 直线发射",
+  "animations": [
+    {
+      "name": "idle",
+      "frames": 6,
+      "durationMs": 120,
+      "loop": true
+    },
+    {
+      "name": "attack-pre",
+      "frames": 4,
+      "durationMs": 80,
+      "loop": false
+    },
+    {
+      "name": "attack",
+      "frames": 6,
+      "durationMs": 80,
+      "loop": false,
+      "event": {
+        "frame": 2,
+        "name": "fire"
+      }
+    },
+    {
+      "name": "attack-post",
+      "frames": 4,
+      "durationMs": 100,
+      "loop": false
+    }
+  ],
+  "levels": [
+    {
+      "level": 1,
+      "source": "source/towers/t02-cryo-emitter/lv1.svg",
+      "master": "masters/towers/t02-cryo-emitter/lv1/base.png",
+      "icon": "runtime/icons/t02-cryo-emitter-lv1@2x.png",
+      "detail": "runtime/detail/t02-cryo-emitter-lv1@2x.png",
+      "atlas": "runtime/atlases/t02-cryo-emitter-lv1@2x.png",
+      "atlasMetadata": "runtime/atlases/t02-cryo-emitter-lv1@2x.json"
+    },
+    {
+      "level": 2,
+      "source": "source/towers/t02-cryo-emitter/lv2.svg",
+      "master": "masters/towers/t02-cryo-emitter/lv2/base.png",
+      "icon": "runtime/icons/t02-cryo-emitter-lv2@2x.png",
+      "detail": "runtime/detail/t02-cryo-emitter-lv2@2x.png",
+      "atlas": "runtime/atlases/t02-cryo-emitter-lv2@2x.png",
+      "atlasMetadata": "runtime/atlases/t02-cryo-emitter-lv2@2x.json"
+    },
+    {
+      "level": 3,
+      "source": "source/towers/t02-cryo-emitter/lv3.svg",
+      "master": "masters/towers/t02-cryo-emitter/lv3/base.png",
+      "icon": "runtime/icons/t02-cryo-emitter-lv3@2x.png",
+      "detail": "runtime/detail/t02-cryo-emitter-lv3@2x.png",
+      "atlas": "runtime/atlases/t02-cryo-emitter-lv3@2x.png",
+      "atlasMetadata": "runtime/atlases/t02-cryo-emitter-lv3@2x.json"
+    }
+  ]
+}

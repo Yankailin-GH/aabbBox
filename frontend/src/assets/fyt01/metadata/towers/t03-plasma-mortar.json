@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "packId": "fyt01",
+  "unitId": "t03-plasma-mortar",
+  "gameId": "plasma",
+  "displayName": "火瓶子",
+  "role": "持续锁定与叠层增伤",
+  "skill": "连续命中同一目标时每次提高约 18% 伤害，最多 7 层；更换目标后重置。",
+  "levelCount": 3,
+  "sourceSize": [
+    1024,
+    1024
+  ],
+  "runtimeCellSize": [
+    128,
+    128
+  ],
+  "detailSize": [
+    512,
+    512
+  ],
+  "fps": 12,
+  "facingZeroDeg": "right",
+  "coordinates": "top-left origin; +x right; +y down; normalized 0..1",
+  "anchors": {
+    "placement": [
+      0.5,
+      0.82
+    ],
+    "aimPivot": [
+      0.5,
+      0.55
+    ],
+    "muzzle": [
+      0.84,
+      0.31
+    ],
+    "effectOrigin": [
+      0.84,
+      0.31
+    ]
+  },
+  "attackDirection": "瓶口朝目标 360° 旋转锁定",
+  "animations": [
+    {
+      "name": "idle",
+      "frames": 6,
+      "durationMs": 120,
+      "loop": true
+    },
+    {
+      "name": "attack-pre",
+      "frames": 4,
+      "durationMs": 80,
+      "loop": false
+    },
+    {
+      "name": "attack",
+      "frames": 6,
+      "durationMs": 80,
+      "loop": false,
+      "event": {
+        "frame": 2,
+        "name": "fire"
+      }
+    },
+    {
+      "name": "attack-post",
+      "frames": 4,
+      "durationMs": 100,
+      "loop": false
+    }
+  ],
+  "levels": [
+    {
+      "level": 1,
+      "source": "source/towers/t03-plasma-mortar/lv1.svg",
+      "master": "masters/towers/t03-plasma-mortar/lv1/base.png",
+      "icon": "runtime/icons/t03-plasma-mortar-lv1@2x.png",
+      "detail": "runtime/detail/t03-plasma-mortar-lv1@2x.png",
+      "atlas": "runtime/atlases/t03-plasma-mortar-lv1@2x.png",
+      "atlasMetadata": "runtime/atlases/t03-plasma-mortar-lv1@2x.json"
+    },
+    {
+      "level": 2,
+      "source": "source/towers/t03-plasma-mortar/lv2.svg",
+      "master": "masters/towers/t03-plasma-mortar/lv2/base.png",
+      "icon": "runtime/icons/t03-plasma-mortar-lv2@2x.png",
+      "detail": "runtime/detail/t03-plasma-mortar-lv2@2x.png",
+      "atlas": "runtime/atlases/t03-plasma-mortar-lv2@2x.png",
+      "atlasMetadata": "runtime/atlases/t03-plasma-mortar-lv2@2x.json"
+    },
+    {
+      "level": 3,
+      "source": "source/towers/t03-plasma-mortar/lv3.svg",
+      "master": "masters/towers/t03-plasma-mortar/lv3/base.png",
+      "icon": "runtime/icons/t03-plasma-mortar-lv3@2x.png",
+      "detail": "runtime/detail/t03-plasma-mortar-lv3@2x.png",
+      "atlas": "runtime/atlases/t03-plasma-mortar-lv3@2x.png",
+      "atlasMetadata": "runtime/atlases/t03-plasma-mortar-lv3@2x.json"
+    }
+  ]
+}

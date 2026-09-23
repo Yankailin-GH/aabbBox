@@ -24,7 +24,7 @@
           <button type="button" class="survival-launch" @click="openGame">开始远征</button>
         </section>
         <section v-if="playing" class="survival-fullscreen">
-          <button type="button" class="survival-close" aria-label="退出游戏" @click="closeGame">×</button>
+          <button type="button" class="survival-close" aria-label="退出游戏，返回工具首页" @click="goHome">×</button>
           <iframe :src="gameSrc" title="裂隙远征" allow="fullscreen"></iframe>
         </section>
       </section>
@@ -64,14 +64,14 @@
         </header>
         <section class="survival-intro legacy-intro">
           <p class="survival-kicker">单机 · 竖屏 · 策略塔防</p>
-          <h2>星核防线</h2>
-          <p>部署量子防御塔、组合强化路线并抵御连续敌潮。纵向战场现已适配手机单手操作。</p>
-          <div class="survival-tags"><span>塔防构筑</span><span>首领波次</span><span>主动技能</span></div>
-          <button type="button" class="survival-launch legacy-launch" @click="openGame">进入防线</button>
+          <h2>花园防线</h2>
+          <p>在阳光花园布置植物守卫，搭配不同路线和技能，挡住一路前来的捣蛋方块军团。</p>
+          <div class="survival-tags"><span>花园构筑</span><span>首领波次</span><span>园丁技能</span></div>
+          <button type="button" class="survival-launch legacy-launch" @click="openGame">守护花园</button>
         </section>
         <section v-if="playing" class="survival-fullscreen legacy-fullscreen">
-          <button type="button" class="survival-close" aria-label="退出游戏" @click="closeGame">×</button>
-          <iframe :src="gameSrc" title="星核防线：量子协议" allow="fullscreen"></iframe>
+          <button type="button" class="survival-close" aria-label="退出游戏，返回工具首页" @click="goHome">×</button>
+          <iframe :src="gameSrc" title="花园防线" allow="fullscreen"></iframe>
         </section>
       </section>
     `,
@@ -103,7 +103,7 @@
       function handleMessage(event) {
         if (event.origin !== global.location.origin || !event.data || event.data.type !== "core-breach:exit") return;
         event.source.postMessage({ type: "core-breach:exit-ack" }, event.origin);
-        closeGame();
+        goHome();
       }
 
       onMounted(() => {

@@ -63,7 +63,7 @@
                 >
                   <span class="puzzle-reset-icon" aria-hidden="true"></span>
                 </button>
-                <button class="puzzle-exit-button" type="button" aria-label="退出游戏" @click="closeGame">
+                <button class="puzzle-exit-button" type="button" aria-label="退出游戏，返回工具首页" @click="goHome">
                   <span aria-hidden="true"></span>
                 </button>
               </div>

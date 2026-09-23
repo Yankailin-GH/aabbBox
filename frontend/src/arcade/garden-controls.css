@@ -1,0 +1,94 @@
+/* Garden Guard: one rounded control system for static and dynamically added buttons.
+   Important declarations override legacy cut corners and inline button colors. */
+body button {
+  --control-bg: #edf3e9;
+  --control-text: #356044;
+  --control-border: rgba(66, 98, 72, 0.1);
+  -webkit-appearance: none;
+  appearance: none;
+  box-sizing: border-box;
+  min-height: 44px !important;
+  min-width: 44px;
+  border-radius: 16px !important;
+  clip-path: none !important;
+  border: 1px solid var(--control-border) !important;
+  background: var(--control-bg) !important;
+  color: var(--control-text) !important;
+  box-shadow: 0 1px 2px rgba(38, 64, 44, 0.06) !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'PingFang SC', 'Microsoft YaHei', sans-serif !important;
+  font-weight: 600 !important;
+  letter-spacing: 0 !important;
+  text-shadow: none !important;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+  transform: none !important;
+  filter: none !important;
+  transition: opacity 160ms ease, transform 160ms ease, background-color 160ms ease !important;
+}
+
+body button:is(.primary, .stage-enter-btn, .upgrade) {
+  --control-bg: #3e8058;
+  --control-text: #fff;
+  --control-border: transparent;
+}
+
+body button:is(.home-action-btn, .hud-btn, .game-navigation-button, .tfm-close) {
+  --control-bg: #f7faf4;
+}
+
+body button:is(.hud-btn, .hud-skill-badge, .tfm-close),
+body .codex-paging button {
+  border-radius: 50% !important;
+}
+
+body .settings-tab-btn,
+body .codex-tabs button {
+  border-radius: 12px !important;
+  box-shadow: none !important;
+}
+
+body button:is(.active, .active-target, [aria-selected='true'], [aria-pressed='true']) {
+  --control-bg: #d4e9dc;
+  --control-text: #21573a;
+  --control-border: #91bea0;
+}
+
+body button:is(#btn-reset-data, #btn-cfg-reset, .sell) {
+  --control-bg: #fceae7;
+  --control-text: #af3830;
+  --control-border: transparent;
+}
+
+body .hud-btn::before,
+body .hud-skill-badge::before {
+  display: none;
+}
+
+@media (hover: hover) {
+  body button:hover:not(:disabled):not(.cooling) { opacity: 0.84; }
+}
+
+body button:active:not(:disabled):not(.cooling) {
+  transform: scale(0.96) !important;
+  opacity: 0.7;
+}
+
+body button:focus-visible {
+  outline: 3px solid #3487d7 !important;
+  outline-offset: 3px !important;
+}
+
+body button:disabled,
+body button[aria-disabled='true'] {
+  opacity: 0.4 !important;
+  cursor: default;
+  transform: none !important;
+}
+
+body button.cooling { opacity: 0.6; }
+
+@media (prefers-reduced-motion: reduce) {
+  body button { transition: none !important; }
+  body button:active:not(:disabled) { transform: none !important; }
+}

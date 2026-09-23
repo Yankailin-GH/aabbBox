@@ -20,8 +20,11 @@
     @media(orientation:landscape) and (max-height:560px){.game-shell{max-width:430px;min-height:100%}.game-bar{height:60px;padding-top:8px}.play-area{height:calc(100% - 60px)}.word-panel{min-height:56px}.fruit-name{font-size:28px}.piece-status{min-height:46px;padding-bottom:8px}.portrait-note{position:absolute;z-index:30;right:8px;bottom:8px;display:block;margin:0;padding:5px 8px;border-radius:4px;background:rgba(36,51,44,.72);color:#fff;font-size:11px}}
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
   </style>
+  <link rel="stylesheet" href="./arcade/game-navigation.css">
+  <script src="./arcade/game-navigation.js" defer></script>
+  <link rel="stylesheet" href="./arcade/ios-controls.css">
 </head>
-<body>
+<body class="ios-game-controls">
   <main class="game-shell" aria-label="果果拼拼乐">
     <header class="game-bar">
       <button id="soundButton" class="icon-button" type="button" aria-label="关闭声音" title="声音">

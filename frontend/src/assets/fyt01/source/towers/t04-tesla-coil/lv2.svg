@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" fill="none">
+  <!-- fyt01 t04-tesla-coil level 2; generated from tesla-coil.svg -->
+  <defs>
+    <linearGradient id="outer" x1="73" y1="39" x2="169" y2="207" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F5CDFF"/>
+      <stop offset=".48" stop-color="#C673F2"/>
+      <stop offset="1" stop-color="#7A3AC7"/>
+    </linearGradient>
+    <linearGradient id="inner" x1="90" y1="72" x2="148" y2="178" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FA83F2"/>
+      <stop offset=".55" stop-color="#D838D5"/>
+      <stop offset="1" stop-color="#8D2AC2"/>
+    </linearGradient>
+    <linearGradient id="bolt" x1="105" y1="86" x2="137" y2="160" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF982"/>
+      <stop offset="1" stop-color="#FFD52C"/>
+    </linearGradient>
+    <filter id="shadow" x="23" y="21" width="194" height="211" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="10" stdDeviation="7" flood-color="#56218B" flood-opacity=".35"/>
+    </filter>
+  </defs>
+  <g filter="url(#shadow)" stroke-linejoin="round">
+    <path d="M120 34L201 94L170 202H70L39 94L120 34Z" fill="url(#outer)" stroke="#7840B8" stroke-width="8"/>
+    <path d="M120 55L180 99L157 180H83L60 99L120 55Z" fill="#F7E5FF" stroke="#B98AE6" stroke-width="5"/>
+    <path d="M120 70L164 103L147 164H93L76 103L120 70Z" fill="url(#inner)" stroke="#9A35C8" stroke-width="5"/>
+    <path d="M124 84L99 125H118L108 164L143 116H125L141 84H124Z" fill="url(#bolt)" stroke="#D69A27" stroke-width="4"/>
+    <path d="M85 96L120 70L153 95" stroke="white" stroke-width="6" stroke-linecap="round" opacity=".5"/>
+  </g>
+  <g id="upgrade-lv2" stroke-linejoin="round"><g transform="rotate(0 120 121)"><path d="M120 44L137 60L120 67L103 60Z" fill="#EEC7FA" stroke="#9D60C9" stroke-width="2.5"/></g><g transform="rotate(72 120 121)"><path d="M120 44L137 60L120 67L103 60Z" fill="#EEC7FA" stroke="#9D60C9" stroke-width="2.5"/></g><g transform="rotate(144 120 121)"><path d="M120 44L137 60L120 67L103 60Z" fill="#EEC7FA" stroke="#9D60C9" stroke-width="2.5"/></g><g transform="rotate(216 120 121)"><path d="M120 44L137 60L120 67L103 60Z" fill="#EEC7FA" stroke="#9D60C9" stroke-width="2.5"/></g><g transform="rotate(288 120 121)"><path d="M120 44L137 60L120 67L103 60Z" fill="#EEC7FA" stroke="#9D60C9" stroke-width="2.5"/></g></g>
+</svg>

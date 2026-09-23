@@ -59,8 +59,11 @@
     @media (min-width:620px) { .screen { border-left:1px solid rgba(200,255,124,.12); border-right:1px solid rgba(200,255,124,.12); box-shadow:0 0 70px rgba(0,0,0,.55); } }
     @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms!important; transition-duration:.01ms!important; } }
   </style>
+  <link rel="stylesheet" href="./arcade/game-navigation.css">
+  <script src="./arcade/game-navigation.js" defer></script>
+  <link rel="stylesheet" href="./arcade/ios-controls.css">
 </head>
-<body>
+<body class="ios-game-controls">
   <main id="game" aria-label="裂隙远征单机生存游戏">
     <section class="screen">
       <canvas id="field" aria-label="游戏战场"></canvas>

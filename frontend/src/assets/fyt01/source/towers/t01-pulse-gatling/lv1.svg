@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" fill="none">
+  <!-- fyt01 t01-pulse-gatling level 1; generated from pulse-gatling.svg -->
+  <defs>
+    <linearGradient id="cannon-body" x1="46" y1="87" x2="173" y2="155" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#DFFF8B"/>
+      <stop offset=".32" stop-color="#91EE4A"/>
+      <stop offset=".72" stop-color="#4DD43E"/>
+      <stop offset="1" stop-color="#23A947"/>
+    </linearGradient>
+    <linearGradient id="cannon-nozzle" x1="174" y1="95" x2="225" y2="144" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7FEA45"/>
+      <stop offset="1" stop-color="#2EB83F"/>
+    </linearGradient>
+    <linearGradient id="bottle-mark" x1="100" y1="97" x2="141" y2="144" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF889"/>
+      <stop offset="1" stop-color="#FFD53A"/>
+    </linearGradient>
+    <filter id="shadow" x="20" y="72" width="211" height="105" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="9" stdDeviation="7" flood-color="#176F40" flood-opacity=".34"/>
+    </filter>
+  </defs>
+  <g id="pulse-chassis" filter="url(#shadow)" stroke-linejoin="round">
+    <path d="M48 99H156C178 99 181 104.88 198 104.88H207C219 104.88 228 112.44 228 120C228 127.56 219 135.12 207 135.12H198C181 135.12 178 141 156 141H48C28 141 28 141 28 120C28 99 28 99 48 99Z" fill="url(#cannon-body)" stroke="#209F43" stroke-width="8"/>
+    <rect x="204" y="108.24" width="23" height="23.52" rx="8.467" fill="#B1F468" stroke="#209F43" stroke-width="5"/>
+    <path d="M55 113.28C70 104.04 91 102.36 111 104.88" stroke="#F4FFB1" stroke-width="8" stroke-linecap="round" opacity=".58"/>
+    <ellipse cx="65" cy="109.92" rx="15.36" ry="6.1" transform="rotate(-20 65 109.92)" fill="white" opacity=".68"/>
+    <path d="M107 96H131L129 108V114C129 120 135 125 139 132C145 143 136 154 121 154C106 154 97 143 103 132C107 125 110 120 110 114L107 96Z" transform="translate(120 120) scale(.72) rotate(90) translate(-120 -120)" fill="url(#bottle-mark)" stroke="#D8AD29" stroke-width="4"/>
+    <path d="M106 132C114 128 128 128 136 132" transform="translate(120 120) scale(.72) rotate(90) translate(-120 -120)" stroke="#FFF7A4" stroke-width="4" stroke-linecap="round" opacity=".68"/>
+  </g>
+  
+</svg>

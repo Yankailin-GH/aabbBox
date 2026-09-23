@@ -1,0 +1,426 @@
+{
+  "schemaVersion": 1,
+  "packId": "fyt01",
+  "generatedAt": "2026-09-14T08:54:55.264Z",
+  "sourceReference": "User-provided 476x331 screenshot used only for style direction; existing project SVGs are the production source.",
+  "license": "Project-local derivative assets; inherits the source SVG ownership and license.",
+  "display": {
+    "battlefieldCssPx": 64,
+    "detailCssPx": 240
+  },
+  "masters": {
+    "size": [
+      1024,
+      1024
+    ],
+    "format": "RGBA PNG",
+    "colorSpace": "sRGB",
+    "alpha": "straight"
+  },
+  "runtime": {
+    "cellSize": [
+      128,
+      128
+    ],
+    "atlasGrid": [
+      6,
+      4
+    ],
+    "textureFilter": "linear",
+    "rotated": false
+  },
+  "towers": [
+    {
+      "id": "t01-pulse-gatling",
+      "gameId": "pulse",
+      "displayName": "瓶子炮",
+      "role": "高频单体输出；三级追加副弹",
+      "skill": "快速发射青柠能量弹；三级每次攻击追加一枚约 48% 伤害的副弹。",
+      "attackDirection": "朝目标 360° 旋转锁定",
+      "placement": [
+        0.5,
+        0.5
+      ],
+      "aimPivot": [
+        0.5,
+        0.5
+      ],
+      "muzzle": [
+        0.91,
+        0.5
+      ],
+      "effectOrigin": [
+        0.91,
+        0.5
+      ],
+      "levels": [
+        {
+          "level": 1,
+          "source": "source/towers/t01-pulse-gatling/lv1.svg",
+          "master": "masters/towers/t01-pulse-gatling/lv1/base.png",
+          "icon": "runtime/icons/t01-pulse-gatling-lv1@2x.png",
+          "detail": "runtime/detail/t01-pulse-gatling-lv1@2x.png",
+          "atlas": "runtime/atlases/t01-pulse-gatling-lv1@2x.png",
+          "atlasMetadata": "runtime/atlases/t01-pulse-gatling-lv1@2x.json",
+          "sha256": {
+            "source": "9f37abd70797e101bc9cfd10580e9768e536139c66b45fdeedac2d278cc22bf3",
+            "master": "84368293872e10983c76d09118774c225b53be94a3676c82d6d792b8d6bf5c92",
+            "icon": "05625c097490d45a3eca13b2819f03e8e185d6c8dee5ee9ec007ff610d2409bc",
+            "detail": "f1be386f115d6931a92a8bf559d28d22b3d21c2cea853a8980e207ee82358b10",
+            "atlas": "02261d987b93e93784e34f8cd25493f2c49cbccab58c7a4b5df7d42e46fa19a8",
+            "atlasMetadata": "fc8b42d70404cfd6c4d2ccd075d20306832671440a6c74c73ddb0eb4dc9aa8e2"
+          }
+        },
+        {
+          "level": 2,
+          "source": "source/towers/t01-pulse-gatling/lv2.svg",
+          "master": "masters/towers/t01-pulse-gatling/lv2/base.png",
+          "icon": "runtime/icons/t01-pulse-gatling-lv2@2x.png",
+          "detail": "runtime/detail/t01-pulse-gatling-lv2@2x.png",
+          "atlas": "runtime/atlases/t01-pulse-gatling-lv2@2x.png",
+          "atlasMetadata": "runtime/atlases/t01-pulse-gatling-lv2@2x.json",
+          "sha256": {
+            "source": "67c8cbbccbb2a4506a7ebd47e4abe498d240f32f5aa8fac60b3d042a96c8a6ab",
+            "master": "b37f288c600d1620849cebe1b4c559735520f6ba573a59b005464385aff2d438",
+            "icon": "d5d851a4167779ccbeb49216a2a57426acafff4fb97f443bf3d59209567fc278",
+            "detail": "d6dcd2ba8f9b33aa96c132edb46495d95714abf1897a0f62f4f572aab48df191",
+            "atlas": "a4651a406590f88ddc2c63411883da20a76f8a57e9984343cce051dc48ae28be",
+            "atlasMetadata": "b06fcda7a499002069944de44592e28b968265268d434eb0d102aa37d8807c25"
+          }
+        },
+        {
+          "level": 3,
+          "source": "source/towers/t01-pulse-gatling/lv3.svg",
+          "master": "masters/towers/t01-pulse-gatling/lv3/base.png",
+          "icon": "runtime/icons/t01-pulse-gatling-lv3@2x.png",
+          "detail": "runtime/detail/t01-pulse-gatling-lv3@2x.png",
+          "atlas": "runtime/atlases/t01-pulse-gatling-lv3@2x.png",
+          "atlasMetadata": "runtime/atlases/t01-pulse-gatling-lv3@2x.json",
+          "sha256": {
+            "source": "033bb9eb7443ab21abbf3dd7d95d2b3c67fbd0aedac9a31fce8d60262dc8943c",
+            "master": "37413a0b16fb3bea340e39227a2df261463f5dd88abaed20d9c6bf25430cb557",
+            "icon": "7c5f98a6ebd2b9c1cdaddc0071075a29520040d9d92526be7762b05712b55d22",
+            "detail": "80a7fdd3be47978f221f9511077c00b7852c75d0cd478a7201ad60c509c63a8f",
+            "atlas": "6ca41cca8f6b7656325540bc0902628f2d4a65eb3c27898e20f0828cf9f35944",
+            "atlasMetadata": "7404dfbf79e9890657bacd4a3624ab42b6e1f8d1b976509be9df1c32ebb38917"
+          }
+        }
+      ],
+      "preview": "previews/t01-pulse-gatling-attack-demo.gif",
+      "previewSha256": "c0bfbeac79bf806434f2287af769a849b268e3d1f4d61a7982be721930476707"
+    },
+    {
+      "id": "t02-cryo-emitter",
+      "gameId": "cryo",
+      "displayName": "冰冻星",
+      "role": "直线穿透与群体减速",
+      "skill": "沿目标方向释放贯穿寒流，对沿途敌人造成伤害并减速约 36%，持续约 2.5 秒。",
+      "attackDirection": "由星核朝目标 360° 直线发射",
+      "placement": [
+        0.5,
+        0.85
+      ],
+      "aimPivot": [
+        0.5,
+        0.5
+      ],
+      "muzzle": [
+        0.5,
+        0.5
+      ],
+      "effectOrigin": [
+        0.5,
+        0.5
+      ],
+      "levels": [
+        {
+          "level": 1,
+          "source": "source/towers/t02-cryo-emitter/lv1.svg",
+          "master": "masters/towers/t02-cryo-emitter/lv1/base.png",
+          "icon": "runtime/icons/t02-cryo-emitter-lv1@2x.png",
+          "detail": "runtime/detail/t02-cryo-emitter-lv1@2x.png",
+          "atlas": "runtime/atlases/t02-cryo-emitter-lv1@2x.png",
+          "atlasMetadata": "runtime/atlases/t02-cryo-emitter-lv1@2x.json",
+          "sha256": {
+            "source": "2c9aae6a84752eca7d620978c6796835c6c5c2630fa8d56c0657f4420eb498f9",
+            "master": "a871fe5ab5ef213592292b58456c1246075f39aa9deb590f4745bb7d7d558109",
+            "icon": "ccde6212890e1bb2a15fa7e37f6e27ba6119ab4bb8b4c61f5303a61f8dbd55b3",
+            "detail": "c2a0e1329d521f796d0b9c0a49f7161c865742f61e23a53ec11091c0f86fc9e1",
+            "atlas": "9628c23c0c2a2d2802a330b5809364cedd604b5edfa29349408a44ba0c922004",
+            "atlasMetadata": "3eac6a6fab978d977ed26ae4373214c44b7230c3ead20ddc8c3c85c8e1359fa3"
+          }
+        },
+        {
+          "level": 2,
+          "source": "source/towers/t02-cryo-emitter/lv2.svg",
+          "master": "masters/towers/t02-cryo-emitter/lv2/base.png",
+          "icon": "runtime/icons/t02-cryo-emitter-lv2@2x.png",
+          "detail": "runtime/detail/t02-cryo-emitter-lv2@2x.png",
+          "atlas": "runtime/atlases/t02-cryo-emitter-lv2@2x.png",
+          "atlasMetadata": "runtime/atlases/t02-cryo-emitter-lv2@2x.json",
+          "sha256": {
+            "source": "81a6f842e0664dc754225ed7764e0797139d84eb8562d1309f296ae1772d1c96",
+            "master": "75a2f9d587e1f395ea26684239a96fa389a101f6fce8b1448f85396f16f742b0",
+            "icon": "a437e92e058b1200f4f57740196ce5540322768882a99e305b5d3c52aa5cf937",
+            "detail": "373407b3fc959594a35e31622d669c7d6c3f48f6ca2994ff32507f2706a88092",
+            "atlas": "bb53341ae205785429e7fa8b97da38f615dec1a4cfa1109a175b4e26a737c446",
+            "atlasMetadata": "c2828d3d01921d5ce73ec0bbb3fabf4a3370cea2c69a4c8bdfdc21b510986b97"
+          }
+        },
+        {
+          "level": 3,
+          "source": "source/towers/t02-cryo-emitter/lv3.svg",
+          "master": "masters/towers/t02-cryo-emitter/lv3/base.png",
+          "icon": "runtime/icons/t02-cryo-emitter-lv3@2x.png",
+          "detail": "runtime/detail/t02-cryo-emitter-lv3@2x.png",
+          "atlas": "runtime/atlases/t02-cryo-emitter-lv3@2x.png",
+          "atlasMetadata": "runtime/atlases/t02-cryo-emitter-lv3@2x.json",
+          "sha256": {
+            "source": "d3b9c573568eb5d357a5a055951e306e0c78d20cdff504444d268d77be1f0616",
+            "master": "13cba74e4b3102b5936fb3a175903bbfd651168df7aa090cca27ca5df6a699f6",
+            "icon": "90c46271ae48ed916295db302798c1d36234f9c055c11560fff5f0500893a286",
+            "detail": "292cf20dc475a4fc59387d24b4fa3ea3140cd51fd3f7dd92c0c9770f609a98a6",
+            "atlas": "cbb34949b44bb3e34d5644083f0d54b8bf69af33387bf7556f1c06c8abcc6a53",
+            "atlasMetadata": "ec224c53b10fcd94d5ee10e383c7817fad4b0374d31b2c1ed416ad42b56eca1a"
+          }
+        }
+      ],
+      "preview": "previews/t02-cryo-emitter-attack-demo.gif",
+      "previewSha256": "4b54dd5c5c07368de600ff842f87740e3e1c784e214638490856e7962e5f2b24"
+    },
+    {
+      "id": "t03-plasma-mortar",
+      "gameId": "plasma",
+      "displayName": "火瓶子",
+      "role": "持续锁定与叠层增伤",
+      "skill": "连续命中同一目标时每次提高约 18% 伤害，最多 7 层；更换目标后重置。",
+      "attackDirection": "瓶口朝目标 360° 旋转锁定",
+      "placement": [
+        0.5,
+        0.82
+      ],
+      "aimPivot": [
+        0.5,
+        0.55
+      ],
+      "muzzle": [
+        0.84,
+        0.31
+      ],
+      "effectOrigin": [
+        0.84,
+        0.31
+      ],
+      "levels": [
+        {
+          "level": 1,
+          "source": "source/towers/t03-plasma-mortar/lv1.svg",
+          "master": "masters/towers/t03-plasma-mortar/lv1/base.png",
+          "icon": "runtime/icons/t03-plasma-mortar-lv1@2x.png",
+          "detail": "runtime/detail/t03-plasma-mortar-lv1@2x.png",
+          "atlas": "runtime/atlases/t03-plasma-mortar-lv1@2x.png",
+          "atlasMetadata": "runtime/atlases/t03-plasma-mortar-lv1@2x.json",
+          "sha256": {
+            "source": "b4ebf7b36708b4bc0038f0f0309e0263aaa2387ed03e24320f33392356f95c58",
+            "master": "4f8a2a578c792bdbe6d1d7bf015aa5dbee15a010b59b8bdffc132c025ce710f7",
+            "icon": "8158e88be2fdf4e06ba0ab047e9d283e7229f3b8db7e24ae64580503ba5411b9",
+            "detail": "92aec78880583fe150d282bc5459259ca3ed95da3856af4c0646d22fe6419efe",
+            "atlas": "1be7ae18bc2fa4ca344ee25f49e796935b63f069d7d0a96ef672220f46a5127c",
+            "atlasMetadata": "d2d1e3176755177014c79226bbbe7cf777073228f57dcbc04dfabfc69813fc79"
+          }
+        },
+        {
+          "level": 2,
+          "source": "source/towers/t03-plasma-mortar/lv2.svg",
+          "master": "masters/towers/t03-plasma-mortar/lv2/base.png",
+          "icon": "runtime/icons/t03-plasma-mortar-lv2@2x.png",
+          "detail": "runtime/detail/t03-plasma-mortar-lv2@2x.png",
+          "atlas": "runtime/atlases/t03-plasma-mortar-lv2@2x.png",
+          "atlasMetadata": "runtime/atlases/t03-plasma-mortar-lv2@2x.json",
+          "sha256": {
+            "source": "10b0aa98318940e8d7ba0733192b776741e3324af3f1f34753019f84d24f85e9",
+            "master": "42e4a7e6fd9dd3ca62cdb2d8ce2b1c57a346671a540f04ac1bcdefe0b793205c",
+            "icon": "3981b16e51e5994ff6c746ee257d86ecb6d992e912c4e35893a425b21cf37ca4",
+            "detail": "a0a76335afc8bb852c0d346c5bc78b1008238a24f5e5552d857f25a5aa4f1910",
+            "atlas": "68ef0ea4a673dfea831a1fee0703bac9547c5b5f31515ae40b650479f96e432b",
+            "atlasMetadata": "d01d2f24e03912c2fc330ef084da7e1574cb62518dcc1f5b90af29f38194e8e3"
+          }
+        },
+        {
+          "level": 3,
+          "source": "source/towers/t03-plasma-mortar/lv3.svg",
+          "master": "masters/towers/t03-plasma-mortar/lv3/base.png",
+          "icon": "runtime/icons/t03-plasma-mortar-lv3@2x.png",
+          "detail": "runtime/detail/t03-plasma-mortar-lv3@2x.png",
+          "atlas": "runtime/atlases/t03-plasma-mortar-lv3@2x.png",
+          "atlasMetadata": "runtime/atlases/t03-plasma-mortar-lv3@2x.json",
+          "sha256": {
+            "source": "dfa982c2836086af1f273a6768914cdec538c68894f8ae451dd2dfb09df9ea7b",
+            "master": "ff64baa966e9d3f64ae8e03df74cbcd15a839698499277b4a519f4c12ebb9383",
+            "icon": "f5d81c54e642505344f2f24225533a992a4adfb3f2aaa8db2771d3e51c695af5",
+            "detail": "db8104881c9d1d345b20ecf367f9ad1a372d4dc1c9b046d2b8ffef1c1b41bbff",
+            "atlas": "588d34b0217b05f12693c66e9d2b59150b912c8f21865f8fd322aed5c001e4fe",
+            "atlasMetadata": "01a4cd83d633cc7ad82e0aeaaa879ee1c62d0c6bbae95d888ad562b529358355"
+          }
+        }
+      ],
+      "preview": "previews/t03-plasma-mortar-attack-demo.gif",
+      "previewSha256": "3a7fcac8399997f48c41547ec1e2095d2574a7fcb021ac47a3d1feec0c5c9b8f"
+    },
+    {
+      "id": "t04-tesla-coil",
+      "gameId": "tesla",
+      "displayName": "水晶花",
+      "role": "高伤单体光束与邻格增伤",
+      "skill": "向单体发射晶能光束，并提高相邻一格防御塔约 18%/28%/40% 的攻击力。",
+      "attackDirection": "由中央晶核向目标全向放射",
+      "placement": [
+        0.5,
+        0.85
+      ],
+      "aimPivot": [
+        0.5,
+        0.5
+      ],
+      "muzzle": [
+        0.5,
+        0.5
+      ],
+      "effectOrigin": [
+        0.5,
+        0.5
+      ],
+      "levels": [
+        {
+          "level": 1,
+          "source": "source/towers/t04-tesla-coil/lv1.svg",
+          "master": "masters/towers/t04-tesla-coil/lv1/base.png",
+          "icon": "runtime/icons/t04-tesla-coil-lv1@2x.png",
+          "detail": "runtime/detail/t04-tesla-coil-lv1@2x.png",
+          "atlas": "runtime/atlases/t04-tesla-coil-lv1@2x.png",
+          "atlasMetadata": "runtime/atlases/t04-tesla-coil-lv1@2x.json",
+          "sha256": {
+            "source": "4ab8db8af7342958bbb43b7bde77149354f91913a037854781651d4c34111a9c",
+            "master": "817e06e315bf872e4f4cf312a24b697d3a4b9c512dfdd56359e01c5b814cacb2",
+            "icon": "56b9d47c0116685c0400eafd34b2cecd4d56a054eed08e1ed9e0bf6ef8726740",
+            "detail": "bc7ddcd9b1438c71620e4752e707d827daaeda1c74a9be4369d530162958e1a0",
+            "atlas": "4ca1179bfb75c562ca147304e2935194d99602c901541777626808f99420cb9c",
+            "atlasMetadata": "eb2d5a81864f0a3c4e3406a69803ec8398e407130487f43fe6bd1bba8123cc0b"
+          }
+        },
+        {
+          "level": 2,
+          "source": "source/towers/t04-tesla-coil/lv2.svg",
+          "master": "masters/towers/t04-tesla-coil/lv2/base.png",
+          "icon": "runtime/icons/t04-tesla-coil-lv2@2x.png",
+          "detail": "runtime/detail/t04-tesla-coil-lv2@2x.png",
+          "atlas": "runtime/atlases/t04-tesla-coil-lv2@2x.png",
+          "atlasMetadata": "runtime/atlases/t04-tesla-coil-lv2@2x.json",
+          "sha256": {
+            "source": "eda27c8526c4a8387814b0fdf5119b076ff2cfc3dad6e1c6b79bd601cf9843ea",
+            "master": "0cfd072615103e85ae4b1590a6464bb6d0cf471bf85b53025df96acc03bb59c7",
+            "icon": "a2e9eca0db8d9f465710df6d88f5b7b839c07ca0e4f4ecdeefe3a6bf49243e2b",
+            "detail": "38322cc6da7b5375939def0038b8a5e85b9014ba1278230e803b66d19a906431",
+            "atlas": "c89fafabcc5d544897813c9017337663dfec74c56e2d1a1418852200360cd620",
+            "atlasMetadata": "a5710c393ea6d9d9530e48c4bd719511d0b84d8968f8f35bed419de7a73cf078"
+          }
+        },
+        {
+          "level": 3,
+          "source": "source/towers/t04-tesla-coil/lv3.svg",
+          "master": "masters/towers/t04-tesla-coil/lv3/base.png",
+          "icon": "runtime/icons/t04-tesla-coil-lv3@2x.png",
+          "detail": "runtime/detail/t04-tesla-coil-lv3@2x.png",
+          "atlas": "runtime/atlases/t04-tesla-coil-lv3@2x.png",
+          "atlasMetadata": "runtime/atlases/t04-tesla-coil-lv3@2x.json",
+          "sha256": {
+            "source": "f3524b15bc724131ecf81f195f3e0f2ca40e274ee16dd85a601169e5eff2e127",
+            "master": "d4f654742d88f3392f0cdb0ef3626f9873a550a1270bf50474f246928388f1df",
+            "icon": "abe7d42c3bfdf8ff182bd771941bc56605019ed3b49a0cdef401376fc0ddf283",
+            "detail": "a51c33c5565ac7d8c10ba8d2c85a18cb1e20f4bd2b3a542bba3eea5deb926925",
+            "atlas": "93c959aebad7012e4798d8ccdad4159bb9f2d6408d84eef318657c5667cf5a91",
+            "atlasMetadata": "5ebd880e8b8374f94506dd8924c320c375d10487e7c9c46fa2a9d8457e2309eb"
+          }
+        }
+      ],
+      "preview": "previews/t04-tesla-coil-attack-demo.gif",
+      "previewSha256": "40550fdbfff47ded7de37c99151effeda72c0e5f43d529199dc807fa4e37e24d"
+    },
+    {
+      "id": "t05-quantum-buffer",
+      "gameId": "buffer",
+      "displayName": "太阳花",
+      "role": "近距范围全体攻击",
+      "skill": "周期性释放日耀冲击波，同时伤害攻击范围内的所有敌人。",
+      "attackDirection": "以花芯为中心 360° 扩散",
+      "placement": [
+        0.5,
+        0.85
+      ],
+      "aimPivot": [
+        0.5,
+        0.5
+      ],
+      "muzzle": null,
+      "effectOrigin": [
+        0.5,
+        0.5
+      ],
+      "levels": [
+        {
+          "level": 1,
+          "source": "source/towers/t05-quantum-buffer/lv1.svg",
+          "master": "masters/towers/t05-quantum-buffer/lv1/base.png",
+          "icon": "runtime/icons/t05-quantum-buffer-lv1@2x.png",
+          "detail": "runtime/detail/t05-quantum-buffer-lv1@2x.png",
+          "atlas": "runtime/atlases/t05-quantum-buffer-lv1@2x.png",
+          "atlasMetadata": "runtime/atlases/t05-quantum-buffer-lv1@2x.json",
+          "sha256": {
+            "source": "a5119f9a06725fb47329afbfa2495b3ebf6167c1768ddf0d05ef98c015eaf5c5",
+            "master": "b88cd262f4deeb9ebec5ed61c24d0d86d2b9a95ecd05f348cb2ca0087608dc0a",
+            "icon": "c56021ff047ed8a953923022a8c35db08319189afd8a29df32e3cf0fe91aa856",
+            "detail": "575d7ecc777de5f369fcfcb6a678b4397cb4532cf48011e3051e009fb6feefa8",
+            "atlas": "ad9fc05a6c7e61700819f30827b34327c47087686b6886b209848ffc44b67dd7",
+            "atlasMetadata": "29f1fb5bd2d842ab077cf9b8d1d3134404927a695d0f30d32fd61edb4a99d805"
+          }
+        },
+        {
+          "level": 2,
+          "source": "source/towers/t05-quantum-buffer/lv2.svg",
+          "master": "masters/towers/t05-quantum-buffer/lv2/base.png",
+          "icon": "runtime/icons/t05-quantum-buffer-lv2@2x.png",
+          "detail": "runtime/detail/t05-quantum-buffer-lv2@2x.png",
+          "atlas": "runtime/atlases/t05-quantum-buffer-lv2@2x.png",
+          "atlasMetadata": "runtime/atlases/t05-quantum-buffer-lv2@2x.json",
+          "sha256": {
+            "source": "54f0909afcc600fcb54561f362cff7cbbd991e079ce1e5ed1c41c2c090733c62",
+            "master": "7166ce5bbb58cbca937711d19d0b93285e97c19d3a3ff5c2d31ea3c65eb2098c",
+            "icon": "1344bc73c2949daa3008de175c178e03c407e8b2cfff30f260096c8a77d5433e",
+            "detail": "ddad187dd4aa65d26d52325bdbdca6b6eaa7f7fabb5c3c8ba6d19fdfe67bcdf1",
+            "atlas": "f24abcf2a2bbfe18e3d63c0a6935ef6437311b0a0e14896bf15f2e8dd3a02e0f",
+            "atlasMetadata": "220308e25e160046459ddd3cd657c5317804893a1b0598a6aef8a3b36e789898"
+          }
+        },
+        {
+          "level": 3,
+          "source": "source/towers/t05-quantum-buffer/lv3.svg",
+          "master": "masters/towers/t05-quantum-buffer/lv3/base.png",
+          "icon": "runtime/icons/t05-quantum-buffer-lv3@2x.png",
+          "detail": "runtime/detail/t05-quantum-buffer-lv3@2x.png",
+          "atlas": "runtime/atlases/t05-quantum-buffer-lv3@2x.png",
+          "atlasMetadata": "runtime/atlases/t05-quantum-buffer-lv3@2x.json",
+          "sha256": {
+            "source": "4a728fbf49997c90cd5c4f1d64a8c69354d9b16c4f8c0859a84220f9ceb97c67",
+            "master": "af3b86c6166da6f560f0c4d25b17d80769cf3436609ed686b41420d70676606a",
+            "icon": "520ec9cf224381fad55affd6fa6b1dd4a312da27ba34e3eb5418f0b32c133ff7",
+            "detail": "b6165430c53ee6ac4b4faa262521ad68ac1d10bed845ad30d9cd4afe138f1d2d",
+            "atlas": "f75c42ddad54cdd56262937cdffe53d5a52d37a7ea1916e33b60c6c7c808fce2",
+            "atlasMetadata": "50953b12d9129c90fb2a31a325947fa948c34db791ccade24b4fefcef32e009d"
+          }
+        }
+      ],
+      "preview": "previews/t05-quantum-buffer-attack-demo.gif",
+      "previewSha256": "cd51b752ba3ef233d63c5a2cb398c5c05dab49a23fdb1337890a28205f8decc4"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" fill="none">
+  <defs>
+    <radialGradient id="flame-body" cx="0" cy="0" r="1" gradientTransform="translate(84 84) rotate(47) scale(132 130)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFE676"/>
+      <stop offset=".38" stop-color="#FFB23F"/>
+      <stop offset=".72" stop-color="#FF7137"/>
+      <stop offset="1" stop-color="#DE3D37"/>
+    </radialGradient>
+    <linearGradient id="neck" x1="149" y1="68" x2="203" y2="109" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFB642"/>
+      <stop offset="1" stop-color="#F45A30"/>
+    </linearGradient>
+    <filter id="shadow" x="17" y="27" width="210" height="197" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="10" stdDeviation="7" flood-color="#9A322C" flood-opacity=".34"/>
+    </filter>
+  </defs>
+  <g filter="url(#shadow)" transform="rotate(-30 120 126)">
+    <path d="M88 87H131C156 87 158 101 181 101H194C208 101 218 112 218 126C218 140 208 151 194 151H181C158 151 158 179 131 179H88C62 179 42 159 42 133C42 107 62 87 88 87Z" fill="url(#flame-body)" stroke="#CF4B32" stroke-width="8" stroke-linejoin="round"/>
+    <rect x="190" y="108" width="25" height="36" rx="12" fill="#FF9A37" stroke="#CF4B32" stroke-width="6"/>
+    <ellipse cx="78" cy="107" rx="22" ry="12" transform="rotate(-18 78 107)" fill="white" opacity=".57"/>
+<g class="flame-head" transform="translate(109 139) scale(1)"><path d="M0 19C-17 19-20 5-12-6C-9-10-7-15-7-21C0-18 4-11 5-5C10-8 11-12 11-14C24 0 18 19 0 19Z" fill="#FFF07B" stroke="#D57C24" stroke-width="2.5" stroke-linejoin="round"/><path d="M0 14C-9 14-10 6-5 0C-3-3-2-6-2-9C6-4 11 5 7 11C5 13 3 14 0 14Z" fill="#FFFCE0"/><ellipse cx="-9" cy="3" rx="2.5" ry="4" fill="#FFFFFF" opacity=".7"/></g>
+  </g>
+</svg>

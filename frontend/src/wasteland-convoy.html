@@ -24,8 +24,11 @@
     @media (max-width:350px) { .convoy-upgrade-panel { padding-inline:12px; } .convoy-upgrade-grid { gap:5px; } .convoy-upgrade-option { min-height:106px; padding-inline:3px; } }
     @media (prefers-reduced-motion:reduce) { .convoy-upgrade-option { transition:none; } }
   </style>
+  <link rel="stylesheet" href="./arcade/game-navigation.css">
+  <script src="./arcade/game-navigation.js" defer></script>
+  <link rel="stylesheet" href="./arcade/ios-controls.css">
 </head>
-<body>
+<body class="ios-game-controls">
   <div id="app"></div>
   <script src="./arcade/arcade-kit.js"></script>
   <script>

@@ -6,9 +6,9 @@
 .survival-launch { position:relative; z-index:1; width:100%; min-height:48px; margin-top:3px; border-radius:7px; background:#c8ff7c; color:#122015; font-size:15px; font-weight:900; transition:transform .18s ease-out,filter .18s ease-out; }.survival-launch:active { transform:scale(.98); filter:brightness(.91); }
 .survival-fullscreen iframe { width:100%; height:100%; border:0; display:block; background:#071914; }
 .survival-fullscreen { position:fixed; z-index:1000; inset:0; background:#071914; }.survival-close { position:absolute; z-index:2; top:max(12px, env(safe-area-inset-top)); right:14px; width:44px; height:44px; border:1px solid rgba(245,255,233,.25); border-radius:12px; background:rgba(4,22,16,.72); color:#fff; font-size:25px; line-height:1; }.survival-close:active { background:#274b3b; }
-.legacy-intro { background:#091128; border-color:rgba(0,243,255,.28); }.legacy-intro::after { border-color:rgba(0,243,255,.25); border-radius:8px; transform:rotate(45deg); }.legacy-intro .survival-kicker { color:#68efff; }.legacy-launch { background:#00e6f3; color:#05141d; }
-.legacy-fullscreen iframe { display:block; width:100%; height:100%; max-width:none; border:0; background:#070a14; }
-.legacy-fullscreen { display:grid; grid-template-rows:56px minmax(0,1fr); justify-items:center; background:#070a14; }
+.legacy-intro { background:#e9f8d8; border-color:#a9d78c; color:#315a3e; box-shadow:0 14px 34px rgba(74,137,83,.16); }.legacy-intro::after { border-color:rgba(255,176,88,.42); border-radius:50%; transform:rotate(18deg); }.legacy-intro .survival-kicker { color:#508e52; }.legacy-intro h2 { color:#315a3e; }.legacy-intro > p:not(.survival-kicker) { color:#52735d; }.legacy-intro .survival-tags span { color:#44754c; border-color:#afd496; background:rgba(255,255,255,.5); }.legacy-launch { background:#f7ad58; color:#4d321a; }
+.legacy-fullscreen iframe { display:block; width:100%; height:100%; max-width:none; border:0; background:#edf8de; }
+.legacy-fullscreen { display:grid; grid-template-rows:56px minmax(0,1fr); justify-items:center; background:#edf8de; }
 .legacy-fullscreen .survival-close { position:static; align-self:center; justify-self:end; margin-right:14px; }
 .legacy-fullscreen iframe { grid-row:2; min-height:0; }
 @media (min-width:700px) { .survival-fullscreen iframe { width:min(100%,540px); margin:auto; box-shadow:0 0 80px rgba(0,0,0,.6); } }

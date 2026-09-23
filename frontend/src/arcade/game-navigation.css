@@ -1,0 +1,9 @@
+.game-navigation-button {
+  min-height: 44px; padding: 8px 12px; margin-top: 8px; border: 1px solid currentColor;
+  border-radius: 6px; background: transparent; color: inherit; font: inherit;
+  font-size: 13px; font-weight: 700; letter-spacing: 0; cursor: pointer; touch-action: manipulation;
+}
+.game-navigation-button:focus-visible { outline: 3px solid #f0b84f; outline-offset: 2px; }
+.home-top-actions .game-navigation-button, .game-bar .game-navigation-button { margin-top: 0; }
+.home-top-actions { flex-wrap: wrap; }
+.start-panel > .game-navigation-button, .start-card > .game-navigation-button, .pause-panel > .game-navigation-button { width: 100%; }

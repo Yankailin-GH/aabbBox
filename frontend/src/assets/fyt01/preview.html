@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>fyt01 素材预览</title>
+  <style>
+    :root { color-scheme: dark; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #13161c; color: #f5f7fb; }
+    header { padding: 28px 32px 18px; border-bottom: 1px solid #353a45; }
+    h1 { margin: 0; font-size: 24px; letter-spacing: 0; }
+    p { margin: 8px 0 0; color: #aeb6c5; }
+    main { padding: 24px 32px 40px; display: grid; gap: 24px; }
+    section { border-bottom: 1px solid #353a45; padding-bottom: 24px; }
+    h2 { margin: 0 0 14px; font-size: 18px; letter-spacing: 0; }
+    .row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; align-items: start; }
+    figure { margin: 0; min-width: 0; }
+    .art { width: 100%; aspect-ratio: 1; display: block; object-fit: contain; border: 1px solid #414754; background-color: #242832; background-image: linear-gradient(45deg,#2f3541 25%,transparent 25%),linear-gradient(-45deg,#2f3541 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#2f3541 75%),linear-gradient(-45deg,transparent 75%,#2f3541 75%); background-size: 24px 24px; background-position: 0 0,0 12px,12px -12px,-12px 0; }
+    figcaption { margin-top: 8px; color: #cbd1dc; font-size: 13px; }
+    @media (max-width: 760px) { header, main { padding-left: 16px; padding-right: 16px; } .row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  </style>
+</head>
+<body>
+  <header><h1>fyt01 五塔素材包</h1><p>透明母版、三级外观与三级攻击演示</p></header>
+  <main id="gallery"></main>
+  <script>
+    const towers = [
+      ["t01-pulse-gatling", "瓶子炮"],
+      ["t02-cryo-emitter", "冰冻星"],
+      ["t03-plasma-mortar", "火瓶子"],
+      ["t04-tesla-coil", "水晶花"],
+      ["t05-quantum-buffer", "太阳花"]
+    ];
+    document.querySelector("#gallery").innerHTML = towers.map(([id, name]) => `
+      <section>
+        <h2>${name}</h2>
+        <div class="row">
+          ${[1, 2, 3].map(level => `<figure><img class="art" src="masters/towers/${id}/lv${level}/base.png" alt="${name} ${level}级"><figcaption>Lv.${level} · 1024px 透明母版</figcaption></figure>`).join("")}
+          <figure><img class="art" src="previews/${id}-attack-demo.gif" alt="${name}攻击演示"><figcaption>Lv.3 · 3.84s 攻击演示</figcaption></figure>
+        </div>
+      </section>`).join("");
+  </script>
+</body>
+</html>
