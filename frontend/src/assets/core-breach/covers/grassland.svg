@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="风痕草原哨塔">
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#5aa6bf"/><stop offset="1" stop-color="#c9dd8e"/></linearGradient>
+    <linearGradient id="tower" x2="1" y2="1"><stop stop-color="#d8bb77"/><stop offset="1" stop-color="#8d774c"/></linearGradient>
+    <pattern id="grain" width="14" height="14" patternUnits="userSpaceOnUse"><path d="M2 2h2" stroke="#f4e4af" stroke-width="2" opacity=".2"/></pattern>
+  </defs>
+  <rect width="400" height="400" fill="url(#sky)"/>
+  <rect y="310" width="400" height="90" fill="#385f48"/>
+  <g transform="translate(-128 55) scale(.9)">
+  <rect width="720" height="320" fill="url(#grain)"/>
+  <path d="M0 181q65-55 126-18 78-78 155-16 83-74 167-15 86-71 143 12 71-38 129 19v157H0Z" fill="#8bbd77"/>
+  <path d="M0 214q78-54 165-8 82-53 174-16 100-50 180-7 100-39 201 20v117H0Z" fill="#5f9c67"/>
+  <path d="M0 258q108-48 207 3 74-29 163-6 82-35 165-1 99-32 185-6v72H0Z" fill="#447a54"/>
+  <path d="M0 280h720v40H0z" fill="#385f48"/>
+  <path d="M168 256v-63l64-36 72 36v63Z" fill="#a89665" stroke="#263c3d" stroke-width="9" stroke-linejoin="round"/>
+  <path d="m149 197 83-52 92 52-9 21-83-45-73 44Z" fill="#d66d47" stroke="#293b3f" stroke-width="9" stroke-linejoin="round"/>
+  <path d="M191 216h83v40h-83z" fill="#6a7958" stroke="#314840" stroke-width="7"/><path d="M205 220v36m29-36v36m26-36v36" stroke="#cfc288" stroke-width="5"/>
+  <path d="M317 255V112h95v143Z" fill="url(#tower)" stroke="#263b40" stroke-width="10"/>
+  <path d="M302 130h126l-14-24H316Z" fill="#e4c88a" stroke="#263b40" stroke-width="9"/>
+  <path d="m290 112 74-57 74 57-12 19-62-44-62 44Z" fill="#d86c47" stroke="#263b40" stroke-width="10" stroke-linejoin="round"/>
+  <path d="M333 153h63v55h-63z" fill="#34545a" stroke="#263b40" stroke-width="8"/><path d="M339 158h51v43h-51z" fill="#f4d98e"/><path d="M365 158v43m-26-22h51" stroke="#405657" stroke-width="5"/>
+  <path d="M334 224h60v32h-60z" fill="#657960" stroke="#263b40" stroke-width="7"/><path d="M342 230h44m-44 10h44m-44 10h44" stroke="#d7c78a" stroke-width="4"/>
+  <path d="M364 56V26" stroke="#263b40" stroke-width="7"/><path d="m367 30 36 12-36 10Z" fill="#f7d679" stroke="#263b40" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M445 255v-51h108v51Z" fill="#ad9d6b" stroke="#263b40" stroke-width="9"/><path d="m427 207 71-46 75 46-9 18-66-37-61 37Z" fill="#d16c4b" stroke="#263b40" stroke-width="9" stroke-linejoin="round"/>
+  <path d="M470 226h56v29h-56z" fill="#4b665b" stroke="#304a45" stroke-width="7"/>
+  <path d="M91 269v-33m0 8h94m-48-8v33M566 268v-34m0 8h96m-48-8v34" stroke="#32483e" stroke-width="9" stroke-linecap="round"/>
+  <path d="M91 243h94M566 242h96" stroke="#d7ba7c" stroke-width="5"/>
+  <path d="m27 274 9-22 7 23m39-1 7-27 12 27m495-1 8-29 10 29m46-1 8-24 10 24" stroke="#b7d377" stroke-width="6" stroke-linecap="round"/>
+  <path d="M0 295q45-14 94 0 43-16 83 2 37-13 77 1 44-12 86 1 53-15 112 0 49-12 93 2 69-19 175 0" fill="none" stroke="#79ae5b" stroke-width="10"/>
+  </g>
+</svg>

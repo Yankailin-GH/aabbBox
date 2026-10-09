@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="荧光温室建筑">
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#174b50"/><stop offset="1" stop-color="#6da978"/></linearGradient>
+    <linearGradient id="glass" x2="0" y2="1"><stop stop-color="#b9f6bc" stop-opacity=".86"/><stop offset=".48" stop-color="#4ebda5" stop-opacity=".72"/><stop offset="1" stop-color="#255f60"/></linearGradient>
+    <linearGradient id="door" x2="0" y2="1"><stop stop-color="#d9ffb1"/><stop offset="1" stop-color="#46ac80"/></linearGradient>
+    <pattern id="dots" width="12" height="12" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="#e3ffcf" opacity=".26"/></pattern>
+  </defs>
+  <rect width="400" height="400" fill="url(#sky)"/>
+  <rect y="310" width="400" height="90" fill="#1b3e3b"/>
+  <g transform="translate(-128 55) scale(.9)">
+  <rect width="720" height="320" fill="url(#dots)"/>
+  <path d="M0 192 70 168 144 184 208 151 278 179 350 154 425 177 510 152 588 180 655 158 720 181v139H0Z" fill="#366f65" opacity=".65"/>
+  <path d="M0 231 95 207 182 219 267 200 359 221 460 201 553 220 649 205 720 229v91H0Z" fill="#2c5e53"/>
+  <path d="M0 259h720v61H0z" fill="#1b3e3b"/><path d="M0 269h720" stroke="#86bd75" stroke-width="5" opacity=".5"/>
+  <path d="M156 260V176q28-89 204-89t204 89v84Z" fill="#1b3438" stroke="#182d36" stroke-width="12" stroke-linejoin="round"/>
+  <path d="M175 249v-70q30-72 185-72t185 72v70Z" fill="url(#glass)" stroke="#8bcf9d" stroke-width="5"/>
+  <path d="M200 165q40-54 160-54t160 54" fill="none" stroke="#e4ffd0" stroke-width="7" opacity=".65"/>
+  <path d="M360 103v149M257 128l-18 124M463 128l18 124M185 181h350M178 216h364" stroke="#1c4245" stroke-width="10" stroke-linecap="round"/>
+  <path d="M360 103v149M257 128l-18 124M463 128l18 124M185 181h350M178 216h364" stroke="#c4e9ab" stroke-width="3" opacity=".72"/>
+  <path d="M181 249h358v20H181z" fill="#596d63" stroke="#1b3339" stroke-width="7"/>
+  <path d="M321 263v-57q0-28 39-28t39 28v57Z" fill="#18383c" stroke="#172c35" stroke-width="8"/>
+  <path d="M335 260v-53q0-17 25-17t25 17v53Z" fill="url(#door)"/><path d="M360 190v70" stroke="#366d61" stroke-width="5"/>
+  <path d="M306 252q-28-14-36-36 22 0 33 17-5-30 15-43 10 30-4 47Z" fill="#83cc64" stroke="#214b42" stroke-width="5"/>
+  <path d="M414 252q28-14 36-36-22 0-33 17 5-30-15-43-10 30 4 47Z" fill="#8fe069" stroke="#214b42" stroke-width="5"/>
+  <path d="M125 252v-61h30v61M565 252v-61h30v61" fill="#576c63" stroke="#1c353a" stroke-width="7"/>
+  <path d="M118 190h44M558 190h44" stroke="#b8d783" stroke-width="8"/>
+  <path d="M82 270v-42h57v42M581 270v-42h57v42" fill="#334f48" stroke="#1b3339" stroke-width="7"/>
+  <path d="M88 235q8-21 23-3 3-27 20-21 0 18-9 27M587 237q10-30 22-12 7-23 22-16 0 21-12 31" fill="#8ed86d" stroke="#2d624c" stroke-width="5"/>
+  <path d="M0 284h720" stroke="#b0cc83" stroke-width="5" opacity=".5"/><path d="M35 298h85m492 0h76" stroke="#5b8e70" stroke-width="7" stroke-linecap="round"/>
+  </g>
+</svg>

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="零号街区封锁站">
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#3b475c"/><stop offset=".62" stop-color="#77616b"/><stop offset="1" stop-color="#a46b61"/></linearGradient>
+    <linearGradient id="front" x2="0" y2="1"><stop stop-color="#738087"/><stop offset="1" stop-color="#424b53"/></linearGradient>
+    <pattern id="windows" width="24" height="30" patternUnits="userSpaceOnUse"><rect x="5" y="6" width="9" height="12" fill="#ecb46e" opacity=".43"/><rect x="17" y="7" width="3" height="11" fill="#a4c0b2" opacity=".25"/></pattern>
+  </defs>
+  <rect width="400" height="400" fill="url(#sky)"/>
+  <rect y="310" width="400" height="90" fill="#343e48"/>
+  <g transform="translate(-128 55) scale(.9)">
+  
+  <path d="M0 109h86V72h49v151H0ZM116 154h81V91h44v142H116ZM487 115h60V56h68v170H487ZM599 139h43V80h78v159H599Z" fill="#37434f"/>
+  <path d="M0 109h86V72h49v151H0ZM116 154h81V91h44v142H116ZM487 115h60V56h68v170H487ZM599 139h43V80h78v159H599Z" fill="url(#windows)" opacity=".8"/>
+  <path d="M27 83h35m84 32h27m331-37h34m94 25h42" stroke="#7f9590" stroke-width="5" opacity=".45"/>
+  <path d="M0 242q65-14 139-1 70-20 137-4 87-18 169 0 76-22 147-3 73-13 128 3v83H0Z" fill="#343e48"/>
+  <path d="M188 251V154l45-17h254l45 17v97Z" fill="url(#front)" stroke="#283039" stroke-width="10" stroke-linejoin="round"/>
+  <path d="M181 158h358v23H181z" fill="#313c46" stroke="#283039" stroke-width="8"/>
+  <path d="M241 124h238v34H241z" fill="#4c555d" stroke="#283039" stroke-width="8"/>
+  <path d="M252 132h216v18H252z" fill="#c45c4f"/><path d="M264 141h81m30 0h81" stroke="#ffe2a0" stroke-width="5" stroke-linecap="round"/>
+  <path d="M215 192h76v59h-76zM428 192h77v59h-77z" fill="#38444e" stroke="#283039" stroke-width="7"/>
+  <path d="M226 202h54v23h-54zM440 202h54v23h-54z" fill="#9db4a5"/><path d="M227 202h53m160 0h54" stroke="#e2b782" stroke-width="5"/>
+  <path d="M309 250v-65h102v65Z" fill="#2a333d" stroke="#252d35" stroke-width="8"/>
+  <path d="M322 191h76v58h-76z" fill="#566671"/><path d="M360 191v58" stroke="#293640" stroke-width="7"/>
+  <path d="M170 247h380v24H170z" fill="#555e63" stroke="#283039" stroke-width="8"/>
+  <path d="M141 269h438v22H141z" fill="#75746d" stroke="#2e3339" stroke-width="7"/>
+  <path d="m147 277 24-8h39l-24 22h-39m77-22h37l-24 22h-37m75-22h38l-24 22h-38m77-22h38l-24 22h-38m77-22h38l-24 22h-38m77-22h38l-24 22h-38" fill="#ecaa55"/>
+  <path d="M65 267v-53h35v53M619 267v-53h35v53" fill="#697982" stroke="#283039" stroke-width="8"/>
+  <path d="M62 215h40m514 0h40" stroke="#d6ad69" stroke-width="8"/>
+  <path d="M0 298h720" stroke="#c9ae75" stroke-width="6" opacity=".5"/><path d="M39 309h92m458 0h92" stroke="#e4bc74" stroke-width="6" opacity=".5"/>
+  </g>
+</svg>

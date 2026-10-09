@@ -27,5 +27,9 @@
 .arcade-tool[data-game-theme="fruit"] .arcade-emblem { width:82px; height:82px; border-radius:50%; background:#fff5d9; color:#24583e; box-shadow:0 8px 0 rgba(18,62,41,.45); }
 .arcade-tool[data-game-theme="fruit"] .arcade-emblem i,.arcade-tool[data-game-theme="fruit"] .arcade-emblem::before { border-radius:50%; transform:none; border-color:rgba(47,125,74,.32); }
 .arcade-tool[data-game-theme="fruit"] .arcade-launch { color:#233327; }
+.arcade-tool[data-game-theme="star-isle"] { --arcade-accent:#f7d26c; --arcade-deep:#245b83; --arcade-soft:#d9efff; }
+.arcade-tool[data-game-theme="star-isle"] .arcade-intro { background:linear-gradient(155deg,#245b83 0%,#397dac 58%,#5fa99a 100%); }
+.arcade-tool[data-game-theme="star-isle"] .arcade-emblem { border-radius:24px; background:#fff2c7; color:#286783; box-shadow:0 7px 0 rgba(20,65,88,.28); }
+.arcade-tool[data-game-theme="star-isle"] .arcade-launch { color:#283c45; }
 @media (min-width:700px) { .arcade-fullscreen iframe { width:min(100%,540px); margin:auto; box-shadow:0 0 80px rgba(0,0,0,.72); } }
 @media (prefers-reduced-motion:reduce) { .arcade-launch { transition:none; } }

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="灼风沙海遗迹">
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#9d5d56"/><stop offset=".63" stop-color="#e8a467"/><stop offset="1" stop-color="#f3cb79"/></linearGradient>
+    <linearGradient id="stone" x2="1" y2="1"><stop stop-color="#f9d28a"/><stop offset="1" stop-color="#ae764e"/></linearGradient>
+    <pattern id="sand" width="13" height="13" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r="1" fill="#fff0bf" opacity=".23"/></pattern>
+  </defs>
+  <rect width="400" height="400" fill="url(#sky)"/>
+  <rect y="310" width="400" height="90" fill="#b7794b"/>
+  <g transform="translate(-128 55) scale(.9)">
+  <rect width="720" height="320" fill="url(#sand)"/>
+  <path d="M0 177q92-42 188-4 65-26 145 0 86-41 164-10 94-31 223 5v152H0Z" fill="#cc855a"/>
+  <path d="M0 216q125-48 230-9 65-20 134 9 78-50 179-19 98-23 177 15v108H0Z" fill="#e4a65f"/>
+  <path d="M0 266q130-47 267-10 90-33 191-6 129-36 262 9v61H0Z" fill="#b7794b"/>
+  <path d="M193 264V140h334v124Z" fill="#8f5e48" stroke="#4b3e40" stroke-width="10"/>
+  <path d="M219 252V150h282v102Z" fill="url(#stone)" stroke="#755443" stroke-width="7"/>
+  <path d="M205 141h310l-20-29H225Z" fill="#f2bd74" stroke="#4b3e40" stroke-width="10" stroke-linejoin="round"/>
+  <path d="M245 105h230l-26-28H270Z" fill="#d89d63" stroke="#4b3e40" stroke-width="9" stroke-linejoin="round"/>
+  <path d="M280 74h160l-28-28H308Z" fill="#f4c47e" stroke="#4b3e40" stroke-width="8" stroke-linejoin="round"/>
+  <path d="M325 47h70l-12-18h-46Z" fill="#c18a59" stroke="#4b3e40" stroke-width="7"/>
+  <path d="M228 157h49v95h-49zM443 157h49v95h-49z" fill="#bb8457" stroke="#6a4c43" stroke-width="7"/>
+  <path d="M233 168h39m-39 28h39m-39 29h39m176-57h39m-39 28h39m-39 29h39" stroke="#efc381" stroke-width="5"/>
+  <path d="M299 252v-69q0-48 61-48t61 48v69Z" fill="#493e3f" stroke="#815b46" stroke-width="9"/>
+  <path d="M319 250v-65q0-33 41-33t41 33v65Z" fill="#3e383e"/>
+  <path d="M360 152v96" stroke="#97704e" stroke-width="5"/><path d="M354 178h12" stroke="#e0ad68" stroke-width="5"/>
+  <path d="M172 264h376v16H172z" fill="#d39b65" stroke="#4b3e40" stroke-width="7"/>
+  <path d="M210 281h300v13H210z" fill="#e3ad6b" stroke="#4b3e40" stroke-width="6"/>
+  <path d="M248 296h224v12H248z" fill="#efbd78" stroke="#4b3e40" stroke-width="5"/>
+  <path d="M118 268v-66h27v66M575 268v-74h28v74" fill="#a66d4d" stroke="#534141" stroke-width="7"/>
+  <path d="M110 198h43m414-8h44" stroke="#eac081" stroke-width="9"/>
+  <path d="m24 270 39-12 46 12m524 0 40-17 47 17" fill="none" stroke="#f4c47a" stroke-width="8" stroke-linecap="round"/>
+  <path d="m75 158 15-7m491-18 21-9m47 60 16-6" stroke="#ffe0a4" stroke-width="5" stroke-linecap="round" opacity=".8"/>
+  </g>
+</svg>

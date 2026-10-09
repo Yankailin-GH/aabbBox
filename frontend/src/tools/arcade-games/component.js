@@ -5,6 +5,15 @@
 
   const { computed, onBeforeUnmount, onMounted, ref } = global.Vue;
   const games = {
+    "star-isle-guard": {
+      src: "./src/star-isle-guard.html",
+      kicker: "单机 · 随机召唤 · 英雄合成",
+      title: "西游星球",
+      description: "召唤西游英雄、合成同阶角色，守住星球城门，迎战三波怪物。",
+      tags: ["七位西游英雄", "三波守城", "局内强化"],
+      launch: "守护星球",
+      theme: "star-isle",
+    },
     "fruit-puzzle": {
       src: "./src/fruit-puzzle.html",
       kicker: "亲子 · 果蔬认知 · 拖拽拼合",
