@@ -42,11 +42,11 @@
 
 ## 美术素材
 
-素材保存于[游戏素材目录](../../frontend/src/assets/garden/)。本轮使用内置image_gen生成原始PNG，保留透明alpha，再由游戏按源矩形绘制。
+素材保存于[游戏素材目录](../../frontend/素材库/花园防线/)。本轮使用内置image_gen生成原始PNG，保留透明alpha，再由游戏按源矩形绘制。
 
-- [怪物与地图提示词](../../design/garden-world-v1/prompts.json)
-- [三座新塔提示词](../../design/garden-towers-v1/prompts.json)
-- [三塔实际战斗画面](../../design/garden-towers-v1/combat-preview.png)
+- [怪物与地图提示词](../../frontend/素材库/花园防线/制作记录/garden-world-v1/prompts.json)
+- [三座新塔提示词](../../frontend/素材库/花园防线/制作记录/garden-towers-v1/prompts.json)
+- [三塔实际战斗画面](../../frontend/素材库/花园防线/制作记录/garden-towers-v1/combat-preview.png)
 
 后续新增或更新角色设计时先维护本目录，并同步配置、图鉴、素材锚点和有意义的规则验证。
 
@@ -56,3 +56,11 @@
 - [美术_素材与动作规范.md](美术_素材与动作规范.md)
 
 - [美术_紫晶连锁花雷电二版.md](美术_紫晶连锁花雷电二版.md)
+
+## 交互规则
+
+- [交互_设备识别与全屏.md](交互_设备识别与全屏.md)：设备识别、全屏行为与 PC / 窄窗口布局。
+
+## 素材目录
+
+- [按游戏归档的素材及使用情况](../../frontend/素材库/花园防线/README.md)

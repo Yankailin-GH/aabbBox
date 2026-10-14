@@ -216,7 +216,7 @@ test('codex renders all level attributes and assets, with bounded paging and cat
     querySelectorAll: selector => selector === '[data-kind]' ? tabs : arrows
   };
   const ids = { pulse: 't01-pulse-gatling', cryo: 't02-cryo-emitter', plasma: 't03-plasma-mortar', tesla: 't04-tesla-coil', buffer: 't05-quantum-buffer' };
-  const art = (type, level, kind) => `./assets/fyt01/runtime/${kind}/${ids[type]}-lv${level}@2x.png`;
+  const art = (type, level, kind) => `../素材库/花园防线/fyt01/runtime/${kind}/${ids[type]}-lv${level}@2x.png`;
   const code = source.slice(source.indexOf('  renderCodex() {'), source.indexOf('  // ==================== CONFIGURATION HUB MANAGER'));
   const render = new Function('document', 'TOWER_CONFIGS', 'TOWER_TYPES', 'ENEMY_TYPES', 'DefensiveTower', 'COMBAT_SPEED_MULTIPLIER', 'towerArtPath', 'SEED_CANNON_ART', 'ICE_STAR_ART', 'GARDEN_TOWER_ART',
     'return ({' + code + '}).renderCodex;')({ querySelector: () => content }, configs, Object.keys(ids), enemies, Tower, 0.7, art, { paintPreviews() {} }, { paintPreviews() {} }, { paintPreviews() {} });

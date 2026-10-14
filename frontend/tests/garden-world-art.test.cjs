@@ -10,10 +10,10 @@ const Enemy=new Function('ENEMY_TYPES','COMBAT_SPEED_MULTIPLIER','GARDEN_WORLD_A
 const game=()=>({currentMapIndex:0,wave:1,scaleRatio:1,particles:[],floatTexts:[],totalDamage:0,getStageBaseHp:()=>100,createParticleBurst(){},createFloatingText(){}});
 
 test('32 calibrated poses cover every shipped enemy without clipping source bounds',()=>{
- const metadata=JSON.parse(fs.readFileSync(path.join(root,'assets/garden/monsters/layout-v1.json'),'utf8'));
+ const metadata=JSON.parse(fs.readFileSync(path.join(root,'../素材库/花园防线/monsters/layout-v1.json'),'utf8'));
  assert.deepEqual(JSON.parse(JSON.stringify(art.layout)),metadata);assert.equal(Object.keys(metadata).length,8);
  for(const [key,entry] of Object.entries(metadata)) {
-  assert(config[key]);assert.equal(entry.frames.length,4);const png=fs.readFileSync(path.join(root,'assets/garden/monsters',entry.filename)),width=png.readUInt32BE(16),height=png.readUInt32BE(20);assert.equal(png[25],6,'transparent RGBA');
+  assert(config[key]);assert.equal(entry.frames.length,4);const png=fs.readFileSync(path.join(root,'../素材库/花园防线/monsters',entry.filename)),width=png.readUInt32BE(16),height=png.readUInt32BE(20);assert.equal(png[25],6,'transparent RGBA');
   for(const f of entry.frames){assert(f[0]>=0&&f[1]>=0&&f[0]+f[2]<=width&&f[1]+f[3]<=height);assert(f[4]>=f[0]&&f[4]<f[0]+f[2]);assert(f[5]>=f[1]&&f[5]<f[1]+f[3]);assert(f[6]>100);}
   for(const pose of ['idle','walkLeft','walkRight','hit']){calls.length=0;assert.equal(art.drawEnemy(ctx,key,pose,20),true);const args=calls[0],f=entry.frames[['idle','walkLeft','walkRight','hit'].indexOf(pose)];assert(Math.abs(args[7]-f[2]*40/entry.frames[0][6])<1e-10);assert(Math.abs(args[5]-(f[0]-f[4])*40/entry.frames[0][6])<1e-10);}
  }

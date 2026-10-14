@@ -3,7 +3,7 @@
 
   if (!global.Vue) return;
 
-  const { computed, onBeforeUnmount, onMounted, ref } = global.Vue;
+  const { computed, onBeforeUnmount, ref } = global.Vue;
   const games = {
     "star-isle-guard": {
       src: "./src/star-isle-guard.html",
@@ -110,34 +110,20 @@
       async function openGame() {
         loading.value = true;
         playing.value = true;
-        try {
-          if (document.documentElement.requestFullscreen) await document.documentElement.requestFullscreen();
-          if (global.screen.orientation && global.screen.orientation.lock) await global.screen.orientation.lock("portrait");
-        } catch (error) { /* Fixed overlay preserves play when fullscreen APIs are unavailable. */ }
+        await global.GameDisplay.requestFullscreen();
       }
 
       async function closeGame() {
         playing.value = false;
         loading.value = false;
-        try {
-          if (global.screen.orientation && global.screen.orientation.unlock) global.screen.orientation.unlock();
-          if (document.fullscreenElement && document.exitFullscreen) await document.exitFullscreen();
-        } catch (error) { /* Exiting the fixed overlay is sufficient. */ }
-      }
-
-      function handleFullscreen() {
-        if (!document.fullscreenElement) playing.value = false;
+        await global.GameDisplay.exitFullscreen();
       }
 
       function onFrameLoad() {
         loading.value = false;
       }
 
-      onMounted(() => document.addEventListener("fullscreenchange", handleFullscreen));
-      onBeforeUnmount(() => {
-        document.removeEventListener("fullscreenchange", handleFullscreen);
-        closeGame();
-      });
+      onBeforeUnmount(closeGame);
 
       return { closeGame, game, goHome, loading, onFrameLoad, openGame, playing };
     },

@@ -215,7 +215,7 @@ test('all 15 cannon poses and effect rectangles lie within shipped transparent P
   vm.runInNewContext(script, { window, Image });
   const runtime = window.SeedCannonArt;
   const check = (file, rectangles) => {
-    const png = fs.readFileSync(path.join(__dirname, '../src/assets/garden/seed-cannon', file));
+    const png = fs.readFileSync(path.join(__dirname, '../素材库/花园防线/seed-cannon', file));
     assert.equal(png[25], 6, 'RGBA PNG required');
     const width = png.readUInt32BE(16), height = png.readUInt32BE(20);
     for (const [x, y, w, h] of rectangles) assert(x >= 0 && y >= 0 && w > 0 && h > 0 && x + w <= width && y + h <= height);

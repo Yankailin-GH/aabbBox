@@ -20,23 +20,24 @@ html:has(#start.show),body:has(#start.show) { touch-action:pan-y; }
   display:block;
   text-align:left;
 }
-#start .start-topbar { width:100%; height:40px; display:flex; align-items:center; gap:9px; padding-right:84px; border:2px solid var(--setup-ink); border-radius:7px; background:#343d4b; color:var(--setup-paper); box-shadow:0 3px 0 #794821; }
+#start .start-topbar { width:100%; height:40px; display:flex; align-items:center; gap:9px; border:2px solid var(--setup-ink); border-radius:7px; background:#343d4b; color:var(--setup-paper); box-shadow:0 3px 0 #794821; }
 #start .campaign-mark { align-self:stretch; min-width:39px; display:grid; place-items:center; margin:-2px 0 -2px -2px; border:2px solid var(--setup-ink); border-radius:7px 3px 9px 9px; background:linear-gradient(#ffd957,#ef8a13); color:#fff; font-size:21px; font-weight:950; text-shadow:1px 2px #8d4c19; }
 #start .campaign-copy { display:flex; align-items:baseline; gap:7px; font-size:13px; font-weight:800; }
 #start .campaign-copy b { color:#ffdc80; font-size:10px; }
-#start .start-card>.game-navigation-button { position:absolute; top:calc(env(safe-area-inset-top,0px) + 8px); right:22px; width:78px; margin:0; padding:0 4px; background:transparent; border:0!important; color:var(--setup-paper); font-size:11px; box-shadow:none!important; }
+#start .start-card>.game-navigation-button { display:block; width:100%; min-height:48px!important; margin-top:14px; padding:8px 12px; border:3px solid var(--setup-ink)!important; border-radius:8px!important; background:linear-gradient(#e2e4e7,#b8bdc5); color:var(--setup-ink); font-size:18px; font-weight:900!important; box-shadow:0 4px 0 #777c84!important; }
 #start .start-heading { margin:6px 0; text-align:center; }
 #start h1 { color:#fffdf0; font-size:clamp(26px,7vw,32px); font-weight:950; line-height:1.18; letter-spacing:1px; -webkit-text-stroke:1px #302631; text-shadow:0 3px #352633,2px 5px #63330f38; }
-#start .subtitle { margin-top:3px; color:#6c411c; font-size:11px; font-weight:700; letter-spacing:.4px; }
-#start .mission-stage { position:relative; width:min(100%,280px); aspect-ratio:1; margin-inline:auto; overflow:hidden; border:3px solid var(--setup-ink); border-radius:12px; background:#25443d; box-shadow:0 6px 0 #a66321,0 9px 0 #63330f26; touch-action:pan-y; }
+#start #stage-number { font-variant-numeric:tabular-nums; }
+#start .mission-carousel { --mission-side:calc((100% - min(280px, calc(100% - 124px))) / 4); width:calc(100% + 28px); margin-inline:-14px; display:grid; grid-template-columns:var(--mission-side) minmax(0,1fr) var(--mission-side); align-items:center; gap:0; overflow-x:clip; }
+#start .mission-stage { position:relative; width:100%; aspect-ratio:1; overflow:hidden; border:3px solid var(--setup-ink); border-radius:12px; background:#25443d; box-shadow:0 6px 0 #a66321,0 9px 0 #63330f26; touch-action:pan-y; }
 #start .stage-art { position:absolute; inset:0; background-size:cover; background-position:center; }
-#start .mission-stage[data-scene="greenhouse"] .stage-art { background-image:url("./assets/core-breach/covers/greenhouse.svg"); }
-#start .mission-stage[data-scene="grassland"] .stage-art { background-image:url("./assets/core-breach/covers/grassland.svg"); }
-#start .mission-stage[data-scene="desert"] .stage-art { background-image:url("./assets/core-breach/covers/desert.svg"); }
-#start .mission-stage[data-scene="district"] .stage-art { background-image:url("./assets/core-breach/covers/district.svg"); }
-#start .stage-top { position:absolute; z-index:2; inset:10px 10px auto; display:flex; justify-content:space-between; align-items:center; gap:8px; }
-#start .stage-index,#start .stage-ready { padding:4px 8px; border:2px solid var(--setup-ink); border-radius:5px; background:var(--setup-paper); font-size:11px; font-weight:800; box-shadow:0 2px 0 #0003; }
-#start .stage-index b { color:#b44812; font-size:16px; font-variant-numeric:tabular-nums; }
+#start .mission-stage[data-scene="greenhouse"] .stage-art { background-image:url("../素材库/弹壳打工/covers/greenhouse.svg"); }
+#start .mission-stage[data-scene="grassland"] .stage-art { background-image:url("../素材库/弹壳打工/covers/grassland.svg"); }
+#start .mission-stage[data-scene="desert"] .stage-art { background-image:url("../素材库/弹壳打工/covers/desert.svg"); }
+#start .mission-stage[data-scene="district"] .stage-art { background-image:url("../素材库/弹壳打工/covers/district.svg"); }
+#start .mission-stage[data-scene="cave"] .stage-art { background-image:url("../素材库/弹壳打工/covers/cave.svg"); }
+#start .stage-top { position:absolute; z-index:2; inset:10px 10px auto; display:flex; justify-content:flex-end; align-items:center; gap:8px; }
+#start .stage-ready { padding:4px 8px; border:2px solid var(--setup-ink); border-radius:5px; font-size:11px; font-weight:800; box-shadow:0 2px 0 #0003; }
 #start .stage-ready { background:#bcee71; }
 #start .stage-caption { position:absolute; z-index:2; inset:auto 0 0; min-height:58px; display:flex; align-items:end; justify-content:space-between; gap:8px; padding:20px 13px 10px; background:linear-gradient(transparent,#172a2ef5 28%); color:var(--setup-paper); }
 #start .stage-caption div { display:grid; gap:3px; }
@@ -45,7 +46,7 @@ html:has(#start.show),body:has(#start.show) { touch-action:pan-y; }
 #start .stage-caption>span { font-size:11px; white-space:nowrap; }
 #start .select-arrow { position:absolute; z-index:3; top:calc(50% - 24px); width:44px; height:48px; display:grid; place-items:center; padding:0; border:2px solid var(--setup-ink)!important; border-radius:8px!important; background:linear-gradient(#fff5c6,#ffcf47); box-shadow:0 3px 0 #0005!important; }
 #start .select-arrow::before { content:""; width:12px; height:12px; border-top:4px solid var(--setup-ink); border-right:4px solid var(--setup-ink); transform:rotate(45deg) translate(-2px,2px); }
-#start .stage-prev { left:8px; } #start .stage-next { right:8px; }
+#start .mission-carousel>.select-arrow { position:static; justify-self:center; width:44px; height:48px; background:transparent!important; border:0!important; border-radius:0!important; box-shadow:none!important; }
 #start :is(.stage-prev,.weapon-prev)::before { transform:rotate(-135deg) translate(-2px,2px); }
 #start :is(.mission-stage,.weapon-feature):focus-visible { outline:3px solid #fff; outline-offset:4px; }
 #start .carousel-guide { min-height:25px; display:flex; justify-content:center; align-items:center; gap:12px; color:#70431e; font-size:10px; font-weight:700; margin-top:5px; }
@@ -64,22 +65,19 @@ html:has(#start.show),body:has(#start.show) { touch-action:pan-y; }
 #start .weapon-index { position:absolute; z-index:2; top:8px; left:0; right:0; text-align:center; color:#dcdecd; font-size:10px; font-weight:700; text-shadow:0 1px 2px rgba(0,0,0,.6); }
 #start .weapon-index b { color:#ffdc80; }
 #start .weapon-showcase { position:absolute; inset:24px 0 24px; display:grid; place-items:center; }
-#start .weapon-showcase .weapon-glyph { transform:scale(2.3) rotate(-15deg); filter:drop-shadow(0 3px 0 #0003); }
-#start .weapon-showcase .weapon-glyph.katana { transform:scale(2.5) rotate(-45deg); }
-#start .weapon-showcase .weapon-glyph.sword { transform:scale(2.5) rotate(-25deg); }
+#start #weapon-stage .weapon-showcase { inset-inline:30px; }
+#start .weapon-art { display:block; width:100%; height:100%; object-fit:contain; object-position:center; filter:drop-shadow(0 3px 3px rgba(0,0,0,.3)); }
+#start .weapon-feature[data-weapon="sword"] .weapon-art { width:118%; height:auto; transform:rotate(-55deg); }
 #start .weapon-name { position:absolute; inset:auto 0 0; padding:4px 2px 5px; background:#172a2ecc; text-align:center; font-size:13px; font-weight:850; letter-spacing:.3px; }
 #start .weapon-prev { left:2px; } #start .weapon-next { right:2px; }
-#start .weapon-feature .select-arrow { top:50%; transform:translateY(-50%); width:24px; height:38px; background:transparent!important; border:0!important; border-radius:4px!important; box-shadow:none!important; }
+#start .weapon-feature .select-arrow { top:calc(50% - 22px); width:44px; height:44px; background:transparent!important; border:0!important; border-radius:4px!important; box-shadow:none!important; }
 #start .weapon-feature .select-arrow:hover { background:rgba(255,255,255,.08)!important; }
-#start .weapon-feature .select-arrow:active { transform:translateY(-50%) scale(.86); }
-#start .weapon-feature .select-arrow::before { width:9px; height:9px; border-width:3px; border-top-color:#fff8db; border-right-color:#fff8db; filter:drop-shadow(0 1px 2px rgba(0,0,0,.85)) drop-shadow(0 0 1px #000); }
-#start .weapon-feature .select-arrow:hover::before { border-top-color:#ffffff; border-right-color:#ffffff; filter:drop-shadow(0 0 4px rgba(255,255,255,.9)) drop-shadow(0 1px 2px #000); }
-#start .weapon-stats { display:flex; flex-wrap:wrap; justify-content:space-between; min-height:25px; margin-top:5px; padding:2px 0; gap:3px 6px; border:0; background:none; color:#65421f; font-size:10px; white-space:nowrap; }
-#start .weapon-stats b { color:var(--setup-ink); font-size:11px; margin-left:2px; }
+#start .weapon-feature .select-arrow::before { content:none; }
+#start .weapon-feature .select-arrow svg { display:block; width:22px; height:22px; fill:none; stroke:#fff8db; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; filter:drop-shadow(0 1px 2px rgba(0,0,0,.85)); }
+#start .weapon-feature .select-arrow:hover svg { stroke:#fff; }
 #start .character-feature { background:radial-gradient(circle at 50% 40%,#5d6c86,#2e3848 76%); }
 #start .character-feature[data-character="xiao-han"] { background:radial-gradient(circle at 50% 40%,#689b91,#29484b 76%); }
 #start .character-showcase canvas { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; cursor:inherit; pointer-events:none; }
-#start .character-note { margin:7px 0 0; min-height:25px; color:#65421f; font-size:10px; line-height:1.5; }
 #start .difficulty-row { display:grid; gap:1px; }
 #start .difficulty-row output { color:var(--setup-ink); font-size:12px; }
 #start .difficulty { height:27px; margin:0; accent-color:#343d4b; }
@@ -90,14 +88,12 @@ html:has(#start.show),body:has(#start.show) { touch-action:pan-y; }
 .visually-hidden { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; border:0; }
 @media (max-width:360px) {
   #start .start-card { padding-inline:12px; }
-  #start .start-card>.game-navigation-button { right:16px; }
+  #start .mission-carousel { --mission-side:calc((100% - min(280px, calc(100% - 120px))) / 4); width:calc(100% + 24px); margin-inline:-12px; }
   #start .campaign-copy b { display:none; }
+  #start .stage-caption { padding-inline:8px; gap:4px; }
+  #start .stage-caption strong { font-size:16px; }
+  #start .stage-caption>span { font-size:10px; }
   #start .loadout-row { gap:12px; }
-  #start .weapon-stats { font-size:9px; }
-  #start .weapon-stats b { font-size:10px; }
-  #start .weapon-showcase .weapon-glyph { transform:scale(2.2) rotate(-15deg); }
-  #start .weapon-showcase .weapon-glyph.katana { transform:scale(2.4) rotate(-45deg); }
-  #start .weapon-showcase .weapon-glyph.sword { transform:scale(2.4) rotate(-25deg); }
 }
 @media (max-height:740px) {
   #start .start-heading { margin:10px 0; }

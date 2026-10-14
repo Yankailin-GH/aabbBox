@@ -2,7 +2,7 @@
   'use strict';
 
   // 用源矩形直接读取透明素材；避免整张设计板缩进一个炮塔图标。
-  const root = './assets/garden/seed-cannon/';
+  const root = '../素材库/花园防线/seed-cannon/';
   const effects = new Image();
   effects.src = root + 'effects-v1.png';
   const cannons = new Image();

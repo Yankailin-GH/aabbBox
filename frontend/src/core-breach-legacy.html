@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+  <link rel="icon" type="image/png" sizes="64x64" href="./assets/brand/favicon.ico?v=862ffdc862a1">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -2760,9 +2761,9 @@
     #game-app.orient-rot-270 {
       left: 0 !important;
       right: 0 !important;
-      width: min(100dvw, 540px) !important;
+      width: min(100dvw, var(--garden-app-max-width, 540px)) !important;
       min-width: 0 !important;
-      max-width: 540px !important;
+      max-width: var(--garden-app-max-width, 540px) !important;
       height: 100dvh !important;
       min-height: 0 !important;
       max-height: 100dvh !important;
@@ -3190,12 +3191,13 @@
   <link rel="stylesheet" href="./arcade/game-navigation.css">
   <link rel="stylesheet" href="./arcade/garden-controls.css">
   <link rel="stylesheet" href="./arcade/garden-test-stage.css?v=test0-1">
-  <link rel="stylesheet" href="./arcade/garden-world.css?v=world1">
+  <link rel="stylesheet" href="./arcade/garden-world.css?v=desktop2">
   <script src="./arcade/game-navigation.js" defer></script>
-  <script src="./arcade/seed-cannon-art.js?v=burst300-fragments2"></script>
-  <script src="./arcade/ice-star-art.js?v=ice2"></script>
-  <script src="./arcade/garden-tower-art.js?v=lightning-flower2"></script>
-  <script src="./arcade/garden-world-art.js?v=world1"></script>
+  <script src="./arcade/game-display.js?v=1"></script>
+  <script src="./arcade/seed-cannon-art.js?v=20261014-assets1"></script>
+  <script src="./arcade/ice-star-art.js?v=20261014-assets1"></script>
+  <script src="./arcade/garden-tower-art.js?v=20261014-assets1"></script>
+  <script src="./arcade/garden-world-art.js?v=20261014-assets1"></script>
 </head>
 <body>
 
@@ -3245,7 +3247,7 @@
     <aside id="tower-asset-menu" aria-label="防御塔塔体档案">
       <div class="taf-kicker"><span>TACTICAL ASSET</span><span id="taf-class">MK-I</span></div>
       <div class="taf-image-frame">
-        <img id="taf-image" src="./assets/towers/cryo-emitter.svg" alt="炮塔素材" style="display:none">
+        <img id="taf-image" src="../素材库/花园防线/towers/cryo-emitter.svg" alt="炮塔素材" style="display:none">
         <canvas id="taf-seed-image" width="512" height="512" data-seed-level="1" role="img" aria-label="豆荚种子炮塔体素材"></canvas>
       </div>
       <div class="taf-copy">
@@ -3859,19 +3861,19 @@
             <div><strong>豆荚种子炮</strong>：稳定单体输出，顶级后进行带短延时的二连发。</div>
           </div>
           <div class="codex-row">
-            <span class="t-icon-box cryo"><img src="./assets/towers/cryo-emitter.svg" alt=""></span>
+            <span class="t-icon-box cryo"><img src="../素材库/花园防线/towers/cryo-emitter.svg" alt=""></span>
             <div><strong>霜晶冰冻星</strong>：投掷雪球造成命中伤害，并留下冰面，经过冰面的怪物会减速。</div>
           </div>
           <div class="codex-row">
-            <span class="t-icon-box plasma"><img src="./assets/towers/plasma-mortar.svg" alt=""></span>
+            <span class="t-icon-box plasma"><img src="../素材库/花园防线/towers/plasma-mortar.svg" alt=""></span>
             <div><strong>焰籽喷火瓶</strong>：持续发射火焰光柱，锁定同一目标越久伤害越高，3 秒达到最大。</div>
           </div>
           <div class="codex-row">
-            <span class="t-icon-box tesla"><img src="./assets/towers/tesla-coil.svg" alt=""></span>
+            <span class="t-icon-box tesla"><img src="../素材库/花园防线/towers/tesla-coil.svg" alt=""></span>
             <div><strong>紫晶连锁花</strong>：闪电传递到附近怪物，升级增加伤害与命中数量、提高攻击频率，并提高邻格炮塔的攻击力。</div>
           </div>
           <div class="codex-row">
-            <span class="t-icon-box buffer"><img src="./assets/towers/quantum-buffer.svg" alt=""></span>
+            <span class="t-icon-box buffer"><img src="../素材库/花园防线/towers/quantum-buffer.svg" alt=""></span>
             <div><strong>日耀太阳花</strong>：周期性释放日耀脉冲，攻击范围内的所有敌人。</div>
           </div>
         </div>
@@ -4114,11 +4116,11 @@ const TOWER_ASSET_IDS = {
 };
 const TOWER_ART_REVISION = 'smooth-neck-3';
 function towerArtPath(type, level, kind = 'icons') {
-  if (type === 'pulse') return './assets/garden/seed-cannon/cannons-v1.png';
-  if (type === 'cryo') return './assets/garden/ice-star/towers-v1.png';
+  if (type === 'pulse') return '../素材库/花园防线/seed-cannon/cannons-v1.png';
+  if (type === 'cryo') return '../素材库/花园防线/ice-star/towers-v1.png';
   const gardenFolders = { tesla: 'crystal-flower', plasma: 'fire-bottle', buffer: 'sunflower' };
-  if (gardenFolders[type]) return `./assets/garden/${gardenFolders[type]}/${type === 'tesla' ? 'towers-v2.png' : 'towers-v1.png'}`;
-  return `./assets/fyt01/runtime/${kind}/${TOWER_ASSET_IDS[type]}-lv${level}@2x.png?v=${TOWER_ART_REVISION}`;
+  if (gardenFolders[type]) return `../素材库/花园防线/${gardenFolders[type]}/${type === 'tesla' ? 'towers-v2.png' : 'towers-v1.png'}`;
+  return `../素材库/花园防线/fyt01/runtime/${kind}/${TOWER_ASSET_IDS[type]}-lv${level}@2x.png?v=${TOWER_ART_REVISION}`;
 }
 // 不使用 Object.fromEntries：旧版 iOS Safari 在解析阶段就会因它而中断脚本。
 const TOWER_LEVEL_IMAGES = {};
@@ -4146,7 +4148,7 @@ const TOWER_ARCHIVE_META = {
 const TOWER_CONFIGS = {
   pulse: {
     name: '豆荚种子炮',
-    asset: './assets/garden/seed-cannon/cannons-v1.png',
+    asset: '../素材库/花园防线/seed-cannon/cannons-v1.png',
     icon: '籽',
     iconSvg: '<canvas class="tower-menu-icon" width="128" height="128" data-seed-level="1" role="img" aria-label="豆荚种子炮"></canvas>',
     cost: 100,
@@ -4165,9 +4167,9 @@ const TOWER_CONFIGS = {
   },
   cryo: {
     name: '霜晶冰冻星',
-    asset: './assets/towers/cryo-emitter.svg',
+    asset: '../素材库/花园防线/towers/cryo-emitter.svg',
     icon: '冰',
-    iconSvg: '<img class="tower-menu-icon" src="./assets/towers/cryo-emitter.svg" alt="">',
+    iconSvg: '<img class="tower-menu-icon" src="../素材库/花园防线/towers/cryo-emitter.svg" alt="">',
     cost: 150,
     upgradeCosts: [250, 400],
     range: 195,
@@ -4186,9 +4188,9 @@ const TOWER_CONFIGS = {
   },
   plasma: {
     name: '焰籽喷火瓶',
-    asset: './assets/towers/plasma-mortar.svg',
+    asset: '../素材库/花园防线/towers/plasma-mortar.svg',
     icon: '火',
-    iconSvg: '<img class="tower-menu-icon" src="./assets/towers/plasma-mortar.svg" alt="">',
+    iconSvg: '<img class="tower-menu-icon" src="../素材库/花园防线/towers/plasma-mortar.svg" alt="">',
     cost: 200,
     upgradeCosts: [320, 480],
     range: 185,
@@ -4208,9 +4210,9 @@ const TOWER_CONFIGS = {
   },
   tesla: {
     name: '紫晶连锁花',
-    asset: './assets/towers/tesla-coil.svg',
+    asset: '../素材库/花园防线/towers/tesla-coil.svg',
     icon: '雷',
-    iconSvg: '<img class="tower-menu-icon" src="./assets/towers/tesla-coil.svg" alt="">',
+    iconSvg: '<img class="tower-menu-icon" src="../素材库/花园防线/towers/tesla-coil.svg" alt="">',
     cost: 150,
     upgradeCosts: [250, 350],
     range: 180,
@@ -4229,9 +4231,9 @@ const TOWER_CONFIGS = {
   },
   buffer: {
     name: '日耀太阳花',
-    asset: './assets/towers/quantum-buffer.svg',
+    asset: '../素材库/花园防线/towers/quantum-buffer.svg',
     icon: '日',
-    iconSvg: '<img class="tower-menu-icon" src="./assets/towers/quantum-buffer.svg" alt="">',
+    iconSvg: '<img class="tower-menu-icon" src="../素材库/花园防线/towers/quantum-buffer.svg" alt="">',
     cost: 200,
     upgradeCosts: [300, 450],
     range: 125,
@@ -4488,6 +4490,7 @@ class QuantumTDGame {
     // High Scores / Stars
     this.savedProgress = JSON.parse(localStorage.getItem('quantum_td_progress') || '{"maps":[0,0,0],"highScore":0}');
 
+    this.isDesktopDevice = window.GameDisplay.isDesktop();
     this.isWechatWebview = /MicroMessenger/i.test(navigator.userAgent || '');
     this.currentRotationAngle = 0;
     this.sensorInverted = false;
@@ -4729,6 +4732,7 @@ class QuantumTDGame {
 
   startTestStage(setup = this.readTestStageSetup()) {
     this.testSetup = this.normalizeTestSetup(setup);
+    this.requestGameFullScreen();
     try { localStorage.setItem('garden_test_stage_setup_v1', JSON.stringify(this.testSetup)); } catch (e) {}
     if (this.alarmInterval) { clearInterval(this.alarmInterval); this.alarmInterval = null; }
     const alarm = document.getElementById('wave-alarm-overlay');
@@ -5087,6 +5091,7 @@ class QuantumTDGame {
   }
 
   requestGameFullScreen() {
+    if (this.isDesktopDevice) return;
     this.enterCssImmersiveMode();
 
     const doc = window.document;
@@ -5165,7 +5170,7 @@ class QuantumTDGame {
           this.showToast('已请求全屏');
         }
       }
-      if (window.screen && window.screen.orientation && window.screen.orientation.lock) {
+      if (!this.isDesktopDevice && window.screen && window.screen.orientation && window.screen.orientation.lock) {
         try {
           window.screen.orientation.lock('portrait').catch(() => {});
         } catch (e) {}

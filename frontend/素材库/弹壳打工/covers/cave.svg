@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="幽晶洞窟：青蓝晶簇环绕的地下矿场入口">
+  <defs>
+    <linearGradient id="rock" x2="0" y2="1"><stop stop-color="#68647d"/><stop offset="1" stop-color="#3c3a52"/></linearGradient>
+    <linearGradient id="depth" x2="0" y2="1"><stop stop-color="#171b2c"/><stop offset="1" stop-color="#304351"/></linearGradient>
+    <linearGradient id="crystal" x2="1" y2="1"><stop stop-color="#cbfff1"/><stop offset=".45" stop-color="#77ddd9"/><stop offset="1" stop-color="#3d8eae"/></linearGradient>
+    <linearGradient id="purple" x2="1" y2="1"><stop stop-color="#ddc4f4"/><stop offset="1" stop-color="#886ca9"/></linearGradient>
+    <radialGradient id="glow"><stop stop-color="#77ddd9" stop-opacity=".24"/><stop offset="1" stop-color="#77ddd9" stop-opacity="0"/></radialGradient>
+    <radialGradient id="lamp"><stop stop-color="#ffe5a6" stop-opacity=".45"/><stop offset="1" stop-color="#f2c376" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="400" height="400" fill="#242437"/>
+  <path d="M0 0h400v133l-39-18-29-64-68 8-33-24-60 17-33-12-53 39-21 46L0 144Z" fill="#3c3a52"/>
+  <path d="m0 0 59 66 18-16 39 3 32-33 26 18 62-22 18 19 66-9 35 39 45-65" fill="#504a66"/>
+  <path d="m42 73 18 84 24-41 7-50m207-30 17 74 16-45m-172-37 16 49 15-51" fill="#68647d"/>
+  <path d="M0 334 35 256 37 184 62 120 112 79 166 63 227 68 288 88 336 142 351 220 382 276 400 344Z" fill="url(#rock)" stroke="#191d2c" stroke-width="8" stroke-linejoin="round"/>
+  <path d="M92 322 94 178 113 128 156 102 203 95 252 115 284 153 300 211 310 322Z" fill="url(#depth)" stroke="#252437" stroke-width="8" stroke-linejoin="round"/>
+  <ellipse cx="205" cy="235" rx="112" ry="125" fill="url(#glow)"/>
+  <path d="m151 108 10 53 22-20 17 36 20-61 17 47 16-45M99 188l44 7-34 37m164-61-35 18 43 38" fill="#252d41"/>
+  <path d="m157 265 12-59 16-12 15 22 3 49Z" fill="#325465"/>
+  <path d="m175 263 10-80 12-17 15 20 8 77Z" fill="#77ddd9" opacity=".4"/>
+  <path d="M78 323V153l26-25h191l23 24v171" fill="none" stroke="#191d2c" stroke-width="20" stroke-linejoin="round"/>
+  <path d="M78 323V153l26-25h191l23 24v171" fill="none" stroke="#886647" stroke-width="12" stroke-linejoin="round"/>
+  <path d="M81 167h232m-223-4 33-27m156 0 29 27" fill="none" stroke="#ba9465" stroke-width="7"/>
+  <path d="M75 203h12m-12 66h12m225-66h12m-12 66h12" stroke="#302e3e" stroke-width="7"/>
+  <g fill="#dbbf87"><circle cx="105" cy="133" r="3"/><circle cx="288" cy="134" r="3"/><circle cx="78" cy="177" r="3"/><circle cx="318" cy="177" r="3"/></g>
+  <path d="M0 321q100-26 202-9 110-18 198 7v81H0Z" fill="#343448"/>
+  <path d="m174 275-40 125h144l-53-125Z" fill="#292d3e"/>
+  <path d="m178 289 40 0m-45 17h52m-59 23h69m-78 30h96m-104 26h122" stroke="#886647" stroke-width="7"/>
+  <path d="m179 278-37 122m78-122 48 122" stroke="#161d2c" stroke-width="10"/>
+  <path d="m179 278-37 122m78-122 48 122" stroke="#8f93a5" stroke-width="4"/>
+  <path d="m19 279 29-72 27-9 20 25-3 76Z" fill="#49445e" stroke="#252437" stroke-width="5"/>
+  <path d="m329 258 8-52 28-13 29 61-5 50Z" fill="#49445e" stroke="#252437" stroke-width="5"/>
+  <ellipse cx="70" cy="288" rx="65" ry="65" fill="url(#glow)"/>
+  <g stroke="#252437" stroke-width="4" stroke-linejoin="round">
+    <path d="m32 311-10-58 13-22 17 18 15 65Z" fill="url(#purple)"/>
+    <path d="m51 322 1-84 19-29 21 23-3 86Z" fill="url(#crystal)"/>
+    <path d="m80 323 18-63 22-16 10 24-18 61Z" fill="url(#crystal)"/>
+    <path d="m320 305-9-74 19-28 16 26 4 70Z" fill="url(#crystal)"/>
+    <path d="m342 309 14-54 19-16 9 23-13 48Z" fill="url(#purple)"/>
+  </g>
+  <path d="m71 213 0 102m-35-80 11 70m72-57-18 73m229-113 4 88m41-53-16 52" stroke="#e0fff9" stroke-width="3" opacity=".65"/>
+  <g transform="translate(273 292) rotate(8)">
+    <circle cx="-14" cy="17" r="7" fill="#151b2a" stroke="#77728a" stroke-width="3"/>
+    <circle cx="18" cy="17" r="7" fill="#151b2a" stroke="#77728a" stroke-width="3"/>
+    <path d="m-25-11 8 27h36l9-27Z" fill="#68647d" stroke="#242437" stroke-width="5" stroke-linejoin="round"/>
+    <path d="m-26-12 18-12 14 10 13-7 11 10Z" fill="#ab89dc"/>
+    <path d="M-26-11h53m-33 6v14m14-14v14" stroke="#a8a3b6" stroke-width="4"/>
+  </g>
+  <ellipse cx="104" cy="190" rx="44" ry="50" fill="url(#lamp)"/>
+  <path d="M104 146v28" stroke="#191d2c" stroke-width="3"/>
+  <rect x="97" y="174" width="14" height="19" rx="3" fill="#f2c376" stroke="#252437" stroke-width="4"/>
+  <path d="M98 178h12m-11 9h10" stroke="#fff3bf" stroke-width="2"/>
+  <path d="m20 356 24-8 23 7m251 0 20-12 24 12" fill="none" stroke="#68647d" stroke-width="4"/>
+  <g fill="#a7efdd" opacity=".7"><circle cx="140" cy="216" r="2"/><circle cx="249" cy="246" r="2"/><circle cx="215" cy="196" r="1.5"/><circle cx="133" cy="295" r="2"/></g>
+</svg>

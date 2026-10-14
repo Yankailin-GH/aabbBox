@@ -203,6 +203,20 @@
   gap: 8px;
 }
 
+.puzzle-fullscreen-button {
+  min-height: 44px;
+  padding: 0 10px;
+  border: 1px solid currentColor;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.puzzle-fullscreen-button:focus-visible { outline: 3px solid #f0b84f; outline-offset: 2px; }
+
 .puzzle-exit-button {
   position: relative;
 }

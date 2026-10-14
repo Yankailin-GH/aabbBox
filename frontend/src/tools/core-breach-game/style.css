@@ -8,9 +8,9 @@
 .survival-fullscreen { position:fixed; z-index:1000; inset:0; background:#000; display:flex; align-items:center; justify-content:center; }.survival-close { position:absolute; z-index:2; top:max(12px, env(safe-area-inset-top)); right:14px; width:44px; height:44px; border:1px solid rgba(245,255,233,.25); border-radius:12px; background:rgba(4,22,16,.72); color:#fff; font-size:25px; line-height:1; }.survival-close:active { background:#274b3b; }
 .legacy-intro { background:#e9f8d8; border-color:#a9d78c; color:#315a3e; box-shadow:0 14px 34px rgba(74,137,83,.16); }.legacy-intro::after { border-color:rgba(255,176,88,.42); border-radius:50%; transform:rotate(18deg); }.legacy-intro .survival-kicker { color:#508e52; }.legacy-intro h2 { color:#315a3e; }.legacy-intro > p:not(.survival-kicker) { color:#52735d; }.legacy-intro .survival-tags span { color:#44754c; border-color:#afd496; background:rgba(255,255,255,.5); }.legacy-launch { background:#f7ad58; color:#4d321a; }
 .legacy-fullscreen iframe { display:block; width:100%; height:100%; max-width:none; border:0; background:#edf8de; }
-.legacy-fullscreen { display:grid; grid-template-rows:56px minmax(0,1fr); justify-items:center; background:#edf8de; }
+.legacy-fullscreen { display:grid; grid-template-columns:minmax(0,1fr); grid-template-rows:56px minmax(0,1fr); justify-items:center; background:#edf8de; }
 .legacy-fullscreen .survival-close { position:static; align-self:center; justify-self:end; margin-right:14px; }
 .legacy-fullscreen iframe { grid-row:2; min-height:0; }
 @media (min-width:700px) { .survival-fullscreen iframe { width:100%; max-width:500px; height:100%; margin:auto; } }
-@media (min-width:700px) { .legacy-fullscreen iframe { width:min(100%,500px); max-width:500px; margin:auto; box-shadow:0 0 80px rgba(0,0,0,.72); } }
+@media (min-width:700px) { .legacy-fullscreen iframe { width:100%; max-width:1200px; margin:auto; box-shadow:0 0 40px rgba(74,128,71,.18); } }
 

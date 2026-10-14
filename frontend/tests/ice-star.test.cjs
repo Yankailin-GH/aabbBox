@@ -111,7 +111,7 @@ test('fifteen tower poses, preview canvases and effect source rectangles use shi
   const draws=[];const canvas={width:128,height:128,dataset:{iceLevel:'3'},getContext:()=>({...ctx(),clearRect(){},save(){},translate(){},restore(){},drawImage(...args){draws.push(args);}})};
   asset.paintPreview(canvas);assert.equal(draws.length,1);assert.equal(draws[0][1],asset.towerFrames[2][0][0]);
   for(const name of ['towers-v1.png','effects-v1.png']) {
-    const png=fs.readFileSync(path.join(__dirname,'../src/assets/garden/ice-star',name));
+    const png=fs.readFileSync(path.join(__dirname,'../素材库/花园防线/ice-star',name));
     assert.equal(png.readUInt32BE(16),1536);assert.equal(png.readUInt32BE(20),1024);assert.equal(png[25],6);
   }
 });

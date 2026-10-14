@@ -2,15 +2,16 @@
 <html lang="zh-CN">
 
 <head>
+  <link rel="icon" type="image/png" sizes="64x64" href="./src/assets/brand/favicon.ico?v=862ffdc862a1">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="theme-color" content="#f6f7fb" />
-  <title>工具箱</title>
+  <title>aabbBox</title>
   <link rel="stylesheet" href="./src/styles/base.css" />
   <link rel="stylesheet" href="./src/styles/components.css" />
-  <link rel="stylesheet" href="./src/styles/home.css" />
+  <link rel="stylesheet" href="./src/styles/home.css?v=usage2" />
   <link rel="stylesheet" href="./src/tools/scoreboard/style.css" />
   <link rel="stylesheet" href="./src/tools/lucky-wheel/style.css" />
   <link rel="stylesheet" href="./src/tools/json-format/style.css" />
@@ -19,7 +20,7 @@
   <link rel="stylesheet" href="./src/tools/sliding-puzzle/style.css" />
     <link rel="stylesheet" href="./src/tools/mini-tools/style.css" />
     <link rel="stylesheet" href="./src/tools/teleprompter/style.css" />
-    <link rel="stylesheet" href="./src/tools/core-breach-game/style.css" />
+    <link rel="stylesheet" href="./src/tools/core-breach-game/style.css?v=garden-desktop2" />
     <link rel="stylesheet" href="./src/tools/arcade-games/style.css" />
     <link rel="stylesheet" href="./src/arcade/ios-controls.css" />
 </head>
@@ -49,11 +50,11 @@
           </label>
         </header>
 
-        <section class="quick-row" aria-label="快捷入口">
-          <button v-for="action in quickActions" :key="action.label" class="quick-action" type="button"
-            @click="handleQuickAction(action)">
-            <span :class="['quick-icon', action.theme]">{{ action.icon }}</span>
-            <span>{{ action.label }}</span>
+        <section v-if="frequentTools.length" class="quick-row" aria-label="使用最多的四个工具">
+          <button v-for="tool in frequentTools" :key="tool.id" class="quick-action" type="button"
+            :title="tool.name" @click="openTool(tool)">
+            <span :class="['quick-icon', tool.theme]">{{ tool.icon }}</span>
+            <span>{{ tool.name }}</span>
           </button>
         </section>
 
@@ -75,6 +76,7 @@
             <span class="tool-name">{{ tool.name }}</span>
             <span class="tool-desc">{{ tool.desc }}</span>
             <span v-if="tool.badge" class="tool-badge">{{ tool.badge }}</span>
+            <span class="tool-open-count">{{ getOpenCount(tool.id) }}</span>
           </button>
 
           <div v-if="filteredTools.length === 0" class="empty-state">
@@ -83,19 +85,6 @@
           </div>
         </section>
 
-        <section class="section-header recent-title">
-          <h2>最近使用</h2>
-          <button type="button" @click="clearRecent">清空</button>
-        </section>
-
-        <section class="recent-list">
-          <button v-for="tool in recentTools" :key="tool.id" class="recent-item" type="button" @click="openTool(tool)">
-            <span :class="['mini-icon', tool.theme]">{{ tool.icon }}</span>
-            <span>{{ tool.name }}</span>
-            <span class="chevron" aria-hidden="true"></span>
-          </button>
-          <p v-if="recentTools.length === 0" class="recent-empty">暂无记录</p>
-        </section>
       </template>
 
       <component v-else-if="currentPage === 'tool'" :is="currentToolComponent" :tool="activeTool" @go-home="goHome">
@@ -136,7 +125,7 @@
           <button :class="['settings-item', 'danger', { confirming: cacheConfirming }]" type="button"
             @click="clearAllCache">
             <span>{{ cacheConfirming ? '再次点击确认' : '清理全部缓存' }}</span>
-            <small>最近使用、工具配置和本地数据</small>
+            <small>打开次数、工具配置和本地数据</small>
           </button>
         </section>
       </div>
@@ -144,6 +133,7 @@
   </div>
 
   <script src="./src/vendor/vue/vue.global.prod.js"></script>
+  <script src="./src/arcade/game-display.js?v=1"></script>
   <script src="./src/tools/scoreboard/component.js"></script>
   <script src="./src/tools/lucky-wheel/component.js"></script>
   <script src="./src/tools/json-format/component.js"></script>
@@ -155,7 +145,7 @@
     <script src="./src/tools/core-breach-game/component.js"></script>
     <script src="./src/tools/arcade-games/component.js"></script>
     <script src="./src/tools/index.js"></script>
-  <script src="./src/main.js"></script>
+  <script src="./src/main.js?v=usage2"></script>
 </body>
 
 </html>

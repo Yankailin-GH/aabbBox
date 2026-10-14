@@ -4,7 +4,7 @@
   "description": "选工地、搭装备，自动清怪，撑过三分钟下班",
   "start_url": "./core-breach-game.html",
   "display": "standalone",
-  "display_override": ["fullscreen", "standalone"],
+  "display_override": ["standalone"],
   "orientation": "portrait",
   "background_color": "#071914",
   "theme_color": "#071914",

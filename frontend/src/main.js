@@ -9,7 +9,7 @@
 
   const { createApp, computed, onBeforeUnmount, onMounted, ref } = global.Vue;
   const tools = global.ToolboxTools || [];
-  const recentStorageKey = "aabb-toolbox-recent";
+  const openCountsStorageKey = "aabb-toolbox-open-counts";
 
   createApp({
     setup() {
@@ -17,7 +17,7 @@
       const selectedCategory = ref("全部");
       const toast = ref("");
       const route = ref(getRoute());
-      const recentIds = ref(loadRecentIds());
+      const openCounts = ref(loadOpenCounts());
       const settingsOpen = ref(false);
       const cacheConfirming = ref(false);
       let toastTimer = 0;
@@ -51,10 +51,18 @@
         return ["全部", ...new Set(names)];
       });
 
+      const sortedTools = computed(() =>
+        [...tools].sort((a, b) => getOpenCount(b.id) - getOpenCount(a.id))
+      );
+
+      const frequentTools = computed(() =>
+        sortedTools.value.filter((tool) => tool.enabled).slice(0, 4)
+      );
+
       const filteredTools = computed(() => {
         const query = keyword.value.toLowerCase();
 
-        return tools.filter((tool) => {
+        return sortedTools.value.filter((tool) => {
           const matchesCategory =
             selectedCategory.value === "全部" || tool.category === selectedCategory.value;
           const matchesKeyword =
@@ -64,10 +72,6 @@
           return matchesCategory && matchesKeyword;
         });
       });
-
-      const recentTools = computed(() =>
-        recentIds.value.map((id) => tools.find((tool) => tool.id === id)).filter(Boolean)
-      );
 
       const placeholderTool = computed(
         () =>
@@ -79,45 +83,15 @@
           }
       );
 
-      const quickActions = computed(() => [
-        {
-          label: "最新",
-          icon: "★",
-          theme: "theme-blue",
-          run: () => {
-            const latest = tools.find((tool) => tool.badge === "New") || tools[0];
-            openTool(latest);
-          },
-        },
-        {
-          label: "开发",
-          icon: "</>",
-          theme: "theme-green",
-          run: () => setCategory("开发"),
-        },
-        {
-          label: "设计",
-          icon: "◒",
-          theme: "theme-pink",
-          run: () => setCategory("设计"),
-        },
-        {
-          label: "效率",
-          icon: "✓",
-          theme: "theme-orange",
-          run: () => setCategory("效率"),
-        },
-      ]);
-
       function openTool(tool) {
         if (!tool) return;
-        pushRecent(tool.id);
 
         if (!tool.enabled) {
           showToast(`${tool.name} 即将上线`);
           return;
         }
 
+        recordOpen(tool);
         window.location.hash = tool.url;
         route.value = tool.url;
       }
@@ -127,18 +101,8 @@
         route.value = "#/";
       }
 
-      function handleQuickAction(action) {
-        action.run();
-      }
-
       function setCategory(category) {
         selectedCategory.value = category;
-      }
-
-      function clearRecent() {
-        recentIds.value = [];
-        localStorage.removeItem(recentStorageKey);
-        showToast("已清空最近使用");
       }
 
       function openSettings() {
@@ -172,23 +136,43 @@
           return;
         }
 
-        recentIds.value = [];
+        openCounts.value = {};
         keyword.value = "";
         selectedCategory.value = "全部";
         closeSettings();
         showToast("已清理全部缓存");
       }
 
-      function pushRecent(id) {
-        recentIds.value = [id, ...recentIds.value.filter((item) => item !== id)].slice(0, 4);
-        localStorage.setItem(recentStorageKey, JSON.stringify(recentIds.value));
+      function loadOpenCounts() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(openCountsStorageKey) || "{}");
+          if (!saved || typeof saved !== "object" || Array.isArray(saved)) return {};
+          return Object.fromEntries(tools
+            .filter((tool) => Number.isSafeInteger(saved[tool.id]) && saved[tool.id] >= 0)
+            .map((tool) => [tool.id, saved[tool.id]]));
+        } catch (error) {
+          return {};
+        }
       }
 
-      function loadRecentIds() {
+      function getOpenCount(id) {
+        return openCounts.value[id] || 0;
+      }
+
+      function recordOpen(tool) {
+        if (!tool || !tool.enabled) return;
+        openCounts.value = {
+          ...openCounts.value,
+          [tool.id]: Math.min(getOpenCount(tool.id) + 1, Number.MAX_SAFE_INTEGER),
+        };
         try {
-          return JSON.parse(localStorage.getItem(recentStorageKey) || "[]");
-        } catch (error) {
-          return [];
+          localStorage.setItem(openCountsStorageKey, JSON.stringify(openCounts.value));
+        } catch (error) { /* Keep counting in this session if persistence is unavailable. */ }
+      }
+
+      function syncOpenCounts(event) {
+        if (event.storageArea === localStorage && (event.key === openCountsStorageKey || event.key === null)) {
+          openCounts.value = loadOpenCounts();
         }
       }
 
@@ -201,15 +185,21 @@
       }
 
       function syncRoute() {
-        route.value = getRoute();
+        const nextRoute = getRoute();
+        if (nextRoute === route.value) return;
+        recordOpen(tools.find((tool) => tool.url === nextRoute));
+        route.value = nextRoute;
       }
 
       onMounted(() => {
         window.addEventListener("hashchange", syncRoute);
+        window.addEventListener("storage", syncOpenCounts);
+        recordOpen(activeTool.value);
       });
 
       onBeforeUnmount(() => {
         window.removeEventListener("hashchange", syncRoute);
+        window.removeEventListener("storage", syncOpenCounts);
         window.clearTimeout(cacheConfirmTimer);
       });
 
@@ -218,20 +208,18 @@
         cacheConfirming,
         categories,
         clearAllCache,
-        clearRecent,
         closeSettings,
         currentPage,
         currentToolComponent,
         filteredTools,
+        frequentTools,
+        getOpenCount,
         goHome,
         greeting,
-        handleQuickAction,
         keyword,
         openSettings,
         openTool,
         placeholderTool,
-        quickActions,
-        recentTools,
         selectedCategory,
         setCategory,
         settingsOpen,

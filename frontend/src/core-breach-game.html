@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
+  <link rel="icon" type="image/png" sizes="64x64" href="./assets/brand/favicon.ico?v=862ffdc862a1">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#071914">
@@ -22,13 +23,13 @@
     #game.in-start .external-panel { display:none !important; }
 
     /* 局内模式：严格竖屏，信息栏紧贴靠近500*500主战场核心视口，不置于视口最顶部与最底部 */
-    #game.in-game { display:flex; flex-direction:column; align-items:center; gap:8px; padding:max(8px, env(safe-area-inset-top)) 0 max(8px, env(safe-area-inset-bottom)); box-sizing:border-box; overflow-y:auto; -webkit-overflow-scrolling:touch; background:#000; }
+    #game.in-game { --panel-reserve:300px; display:flex; flex-direction:column; align-items:center; gap:8px; padding:max(8px, env(safe-area-inset-top)) 0 max(8px, env(safe-area-inset-bottom)); box-sizing:border-box; overflow-y:auto; -webkit-overflow-scrolling:touch; background:#000; }
     #game.in-game #stage-panel { margin-top:auto; }
     #game.in-game #equip-panel { margin-bottom:auto; }
-    #game.in-game .screen { position:relative; width:min(calc(100vw - 16px), calc(100dvh - 230px), 500px); height:min(calc(100vw - 16px), calc(100dvh - 230px), 500px); max-width:500px; max-height:500px; aspect-ratio:1; border-radius:10px; border:1px solid rgba(200,255,124,.24); box-shadow:0 14px 44px rgba(0,0,0,.85), 0 0 20px rgba(93,245,184,.14); overflow:hidden; flex-shrink:0; margin:0; }
+    #game.in-game .screen { position:relative; width:min(calc(100vw - 16px), calc(100dvh - var(--panel-reserve,300px)), 500px); height:min(calc(100vw - 16px), calc(100dvh - var(--panel-reserve,300px)), 500px); max-width:500px; max-height:500px; aspect-ratio:1; border-radius:10px; border:1px solid rgba(200,255,124,.24); box-shadow:0 14px 44px rgba(0,0,0,.85), 0 0 20px rgba(93,245,184,.14); overflow:hidden; flex-shrink:0; margin:0; }
     
     /* 外部黑屏区域信息面板通用（紧凑贴合在主战场视口上下方） */
-    .external-panel { width:min(calc(100vw - 16px), calc(100dvh - 230px), 500px); border:1px solid rgba(205,255,184,.16); border-radius:10px; background:rgba(6,22,17,.92); backdrop-filter:blur(10px); box-shadow:0 6px 20px rgba(0,0,0,.5); color:var(--paper); flex-shrink:0; margin:0; z-index:5; }
+    .external-panel { width:min(calc(100vw - 16px), calc(100dvh - var(--panel-reserve,300px)), 500px); border:1px solid rgba(205,255,184,.16); border-radius:10px; background:rgba(6,22,17,.92); backdrop-filter:blur(10px); box-shadow:0 6px 20px rgba(0,0,0,.5); color:var(--paper); flex-shrink:0; margin:0; z-index:5; }
     .info-badge { display:inline-flex; align-items:center; padding:2px 6px; border-radius:4px; font-size:10px; font-weight:800; line-height:1.2; letter-spacing:.3px; }
     .stage-badge { background:rgba(200,255,124,.15); color:var(--leaf); border:1px solid rgba(200,255,124,.32); }
     .region-badge { background:rgba(109,241,192,.12); color:var(--mint); border:1px solid rgba(109,241,192,.28); }
@@ -77,7 +78,8 @@
     .chip-item { flex-shrink:0; padding:2px 6px; border-radius:4px; font-size:9.5px; border:1px solid rgba(205,255,184,.18); background:rgba(20,55,42,.45); color:var(--paper); display:flex; align-items:center; gap:3px; }
     .chip-item.special { border-color:rgba(116,201,255,.38); background:rgba(17,62,73,.5); color:#a3e4ff; }
     .chip-empty { font-size:10px; color:rgba(168,197,179,.6); }
-    .hud { position:absolute; inset:0 0 auto; z-index:10; display:grid; grid-template-columns:44px 1fr 44px; gap:8px; align-items:center; padding:10px 12px 0; pointer-events:none; }
+    .hud { display:grid; grid-template-columns:44px minmax(0,1fr); gap:8px; align-items:center; padding:7px 12px; }
+    .radar-slot { position:absolute; top:10px; right:12px; width:48px; height:48px; pointer-events:none; }
     .hud button { pointer-events:auto; width:44px; height:44px; display:grid; place-items:center; border:1px solid var(--line); border-radius:12px; background:var(--panel); box-shadow:0 5px 18px rgba(0,0,0,.22); }
     .hud button:active,.icon-btn:active { background:#234d3d; transform:scale(.96); }
     .pause-bars { display:flex; gap:4px; } .pause-bars i { width:4px; height:15px; background:var(--paper); border-radius:2px; }
@@ -114,6 +116,7 @@
     .difficulty { width:100%; height:28px; accent-color:var(--leaf); cursor:ew-resize; touch-action:pan-x; } .difficulty:focus-visible { outline:3px solid #fff6b0; outline-offset:2px; } .range-scale { display:flex; justify-content:space-between; margin-top:-7px; color:rgba(168,197,179,.7); font-size:9px; }
     .primary { width:100%; min-height:48px; border-radius:10px; background:var(--leaf); color:#122015; font-size:16px; font-weight:900; letter-spacing:1px; box-shadow:0 7px 0 #659e42,0 14px 27px rgba(0,0,0,.25); transition:transform .16s ease-out,filter .16s; } .primary:active { transform:translateY(4px); box-shadow:0 3px 0 #659e42,0 7px 15px rgba(0,0,0,.25); } .secondary { margin-top:16px; min-height:42px; background:transparent; color:var(--muted); font-size:13px; font-weight:700; }
     .pause-panel { width:min(100%,320px); border:1px solid var(--line); border-radius:14px; background:#0b261e; padding:20px 18px; text-align:center; box-shadow:0 22px 65px rgba(0,0,0,.46); } .pause-panel h2 { font-size:24px; } .pause-panel p { margin:8px 0 18px; color:var(--muted); font-size:13px; }
+    .pause-panel .sound-toggle { width:100%; min-height:44px; margin-top:16px; border:1px solid var(--line); border-radius:10px; background:#17382b; color:var(--paper); font-size:14px; font-weight:700; }
     .upgrade { align-content:center; justify-content:center; background:rgba(3,17,13,.88); overflow-y:hidden!important; scrollbar-width:none!important; padding:12px 16px; }
     .upgrade::-webkit-scrollbar { display:none!important; width:0!important; height:0!important; }
     .upgrade-head { display:none!important; }
@@ -151,21 +154,30 @@
     .choice.special:active::before, .choice.limitbreak-card:active::before {
       opacity:0.36; transform:translateY(-50%) scale(1.05);
     }
-    .choice.weapon-sword::before { background-image:url('./assets/core-breach/weapons/sword.png'); filter:drop-shadow(0 0 10px rgba(93,245,184,.45)); }
-    .choice.weapon-dart::before { background-image:url('./assets/core-breach/weapons/dart.svg'); filter:drop-shadow(0 0 10px rgba(255,112,87,.45)); }
-    .choice.weapon-blaster::before { background-image:url('./assets/core-breach/weapons/blaster.svg'); filter:drop-shadow(0 0 10px rgba(116,201,255,.45)); }
-    .choice.weapon-katana::before { background-image:url('./assets/core-breach/weapons/katana.svg'); filter:drop-shadow(0 0 10px rgba(255,210,31,.45)); }
-    .choice.weapon-ak47::before { background-image:url('./assets/core-breach/weapons/ak47.svg'); filter:drop-shadow(0 0 10px rgba(217,110,50,.45)); }
+    .choice.weapon-sword::before { background-image:url('../素材库/弹壳打工/weapons/sword.png'); filter:drop-shadow(0 0 10px rgba(93,245,184,.45)); }
+    .choice.weapon-dart::before { background-image:url('../素材库/弹壳打工/weapons/dart.svg'); filter:drop-shadow(0 0 10px rgba(255,112,87,.45)); }
+    .choice.weapon-blaster::before { background-image:url('../素材库/弹壳打工/weapons/blaster.svg'); filter:drop-shadow(0 0 10px rgba(116,201,255,.45)); }
+    .choice.weapon-katana::before { background-image:url('../素材库/弹壳打工/weapons/katana.svg'); filter:drop-shadow(0 0 10px rgba(255,210,31,.45)); }
+    .choice.weapon-ak47::before { background-image:url('../素材库/弹壳打工/weapons/ak47.svg'); filter:drop-shadow(0 0 10px rgba(217,110,50,.45)); }
     .choice.limitbreak-card::before { opacity:0.32; filter:drop-shadow(0 0 14px rgba(255,216,107,.7)) brightness(1.25); }
     .banner { position:absolute; z-index:20; left:50%; top:32%; transform:translate(-50%,-50%) scale(.86); opacity:0; white-space:nowrap; color:var(--hot); font-size:22px; font-weight:900; letter-spacing:2px; text-shadow:0 2px 0 #4e1c1a,0 0 16px rgba(255,112,87,.64); pointer-events:none; } .banner.show { animation:banner .9s ease-out forwards; } @keyframes banner { 15%{opacity:1;transform:translate(-50%,-50%) scale(1.05)} 75%{opacity:1;transform:translate(-50%,-50%) scale(1)} 100%{opacity:0;transform:translate(-50%,-60%) scale(1)} }
     .result-stats { width:100%; display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:22px 0; } .result-stats div { padding:10px 2px; border:1px solid var(--line); border-radius:9px; background:rgba(9,38,29,.7); } .result-stats b,.result-stats small { display:block; } .result-stats b { color:var(--leaf); font-size:17px; } .result-stats small { margin-top:4px; color:var(--muted); font-size:10px; }
+    @media (max-width:360px) {
+      #game.in-game { --panel-reserve:350px; }
+      .stage-panel-top { flex-wrap:wrap; row-gap:4px; }
+      .info-badge { white-space:nowrap; }
+      .equip-panel-head { flex-wrap:wrap; gap:6px; }
+      .equip-identity { width:100%; }
+      .limitbreak-indicator { max-width:100%; }
+    }
     @media (min-width:620px) { .screen { border:1px solid rgba(200,255,124,.18); box-shadow:0 0 70px rgba(0,0,0,.6); } }
     @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms!important; transition-duration:.01ms!important; } }
   </style>
   <link rel="stylesheet" href="./arcade/game-navigation.css">
-  <script src="./arcade/game-navigation.js" defer></script>
+  <script src="./arcade/game-display.js?v=1"></script>
+  <script src="./arcade/game-navigation.js?v=20261014-pause-order-1" defer></script>
   <link rel="stylesheet" href="./arcade/ios-controls.css">
-  <link rel="stylesheet" href="./core-breach-start.css?v=20261013-arrow-1">
+  <link rel="stylesheet" href="./core-breach-start.css?v=20261014-assets1">
 </head>
 <body class="ios-game-controls">
   <main id="game" class="in-start" aria-label="弹壳打工单机生存游戏">
@@ -186,18 +198,22 @@
       </div>
       <div class="stage-sub-info">
         <span id="ext-stage-wave">第 1 波 · 抵抗孢子潮</span>
-        <span>怪物血量 <b id="ext-stage-diff">100%</b> · 击杀 <b id="ext-stage-kills">0</b></span>
+        <span>基础血量 <b id="ext-stage-diff">100%</b> · 击杀 <b id="ext-stage-kills">0</b></span>
       </div>
     </header>
 
+    <section id="combat-panel" class="external-panel hud" aria-label="战斗状态">
+      <button id="pause" aria-label="暂停游戏"><span class="pause-bars"><i></i><i></i></span></button>
+      <div class="vitals">
+        <div class="topline"><b class="level-chip" id="level">Lv. 1</b><b class="time" id="timer">00:00</b><b class="seed">◈ <span id="seeds">0</span></b></div>
+        <div class="hp"><span id="health"></span></div>
+        <div class="xp-wrap" aria-hidden="true"><span id="xp"></span></div>
+      </div>
+    </section>
+
     <section class="screen">
       <canvas id="field" aria-label="游戏战场"></canvas>
-      <section class="hud" aria-label="战斗状态">
-        <button id="pause" aria-label="暂停游戏"><span class="pause-bars"><i></i><i></i></span></button>
-        <div class="vitals"><div class="topline"><b class="level-chip" id="level">Lv. 1</b><b class="time" id="timer">00:00</b><b class="seed">◈ <span id="seeds">0</span></b></div><div class="hp"><span id="health"></span></div></div>
-        <button id="sound" aria-label="切换音效">◌</button>
-      </section>
-      <div class="xp-wrap" aria-hidden="true"><span id="xp"></span></div>
+      <div class="radar-slot" role="img" aria-label="小地图：显示玩家、敌人和掉落道具位置"></div>
       <p class="objective" id="objective" aria-live="polite" aria-atomic="true">抵抗孢子潮 · 自动射击</p>
       <button id="skill" class="skill" aria-label="释放裂解脉冲" data-cd=""><small>裂解脉冲</small></button>
       <div id="joystick" class="joystick" aria-hidden="true"><span id="stick" class="stick"></span></div>
@@ -207,51 +223,49 @@
         <div class="start-card">
           <div class="start-topbar"><span class="campaign-mark">工</span><span class="campaign-copy">弹壳打工 <b>今日开工</b></span></div>
           <header class="start-heading">
-            <h1 id="scene-name">荧光温室</h1>
-            <p id="scene-subtitle" class="subtitle">温室夜班 · 清理孢子</p>
+            <h1><span id="stage-number">1</span> <span id="scene-name">荧光温室</span></h1>
           </header>
-          <div id="scene-stage" class="mission-stage" data-scene="greenhouse" role="region" aria-roledescription="轮播" aria-label="选择关卡" tabindex="0">
-            <div class="stage-top"><span class="stage-index">第 <b id="stage-number">1</b> / 4 关</span><span class="stage-ready">已解锁</span></div>
-            <div class="stage-art" aria-hidden="true"></div>
+          <div class="mission-carousel">
             <button id="prev-scene" class="select-arrow stage-prev" type="button" aria-label="上一关卡"></button>
+            <div id="scene-stage" class="mission-stage" data-scene="greenhouse" role="region" aria-roledescription="轮播" aria-label="选择关卡" tabindex="0">
+              <div class="stage-top"><span class="stage-ready">已解锁</span></div>
+              <div class="stage-art" aria-hidden="true"></div>
+              <div class="stage-caption"><div><small>本班目标</small><strong>存活 03:00</strong></div><span>区域 · <b id="region-name">城墙内环</b></span></div>
+            </div>
             <button id="next-scene" class="select-arrow stage-next" type="button" aria-label="下一关卡"></button>
-            <div class="stage-caption"><div><small>本班目标</small><strong>存活 03:00</strong></div><span>区域 · <b id="region-name">城墙内环</b></span></div>
           </div>
-          <div class="carousel-guide"><span id="scene-dots" class="carousel-dots" aria-hidden="true"></span><span>左右滑动切换关卡</span></div>
+          <div class="carousel-guide"><span id="scene-dots" class="carousel-dots" aria-hidden="true"></span></div>
           <p id="selection-status" class="visually-hidden" aria-live="polite" aria-atomic="true"></p>
           <div class="setup">
             <div class="loadout-row">
               <section class="weapon-panel" aria-label="初始装备">
-                <div class="setup-label"><span>选择武器</span><small>左右切换</small></div>
                 <div id="weapon-stage" class="weapon-feature" data-weapon="sword" role="region" aria-roledescription="轮播" aria-label="选择武器" tabindex="0">
                   <span class="weapon-index"><b id="weapon-number">5</b> / 5</span>
-                  <div class="weapon-showcase"><i id="featured-weapon" class="weapon-glyph sword" aria-hidden="true"><b></b></i></div>
-                  <button id="prev-weapon" class="select-arrow weapon-prev" type="button" aria-label="上一把武器"></button>
-                  <button id="next-weapon" class="select-arrow weapon-next" type="button" aria-label="下一把武器"></button>
+                  <div class="weapon-showcase"><img id="featured-weapon" class="weapon-art" src="../素材库/弹壳打工/weapons/sword.png" alt="" decoding="async"></div>
+                  <button id="prev-weapon" class="select-arrow weapon-prev" type="button" aria-label="上一把武器"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 6 9 12 15 18"/></svg></button>
+                  <button id="next-weapon" class="select-arrow weapon-next" type="button" aria-label="下一把武器"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6 15 12 9 18"/></svg></button>
                   <strong id="loadout-name" class="weapon-name">青玉剑</strong>
                 </div>
-                <div class="weapon-stats"><span>伤害 <b id="weapon-damage">10</b></span><span>攻速 <b id="weapon-rate">3.33 次/秒</b></span><span>距离 <b id="weapon-range">190</b></span></div>
               </section>
               <section class="character-panel" aria-label="出战角色">
-                <div class="setup-label"><span>选择角色</span><small>左右切换</small></div>
                 <div id="character-stage" class="weapon-feature character-feature" data-character="xiao-han" role="region" aria-roledescription="轮播" aria-label="选择角色" tabindex="0">
                   <span class="weapon-index"><b id="character-number">2</b> / 2</span>
                   <div class="weapon-showcase character-showcase"><canvas id="character-portrait" width="240" height="240" aria-hidden="true"></canvas></div>
-                  <button id="prev-character" class="select-arrow weapon-prev" type="button" aria-label="上一位角色"></button>
-                  <button id="next-character" class="select-arrow weapon-next" type="button" aria-label="下一位角色"></button>
+                  <button id="prev-character" class="select-arrow weapon-prev" type="button" aria-label="上一位角色"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 6 9 12 15 18"/></svg></button>
+                  <button id="next-character" class="select-arrow weapon-next" type="button" aria-label="下一位角色"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6 15 12 9 18"/></svg></button>
                   <strong id="character-name" class="weapon-name">小韩</strong>
                 </div>
-                <p id="character-note" class="character-note">青袍游侠 · 初始 4 把飞剑环绕护体，御剑出击自动回鞘。</p>
               </section>
             </div>
             <div class="difficulty-row"><label class="setup-label" for="difficulty"><span>怪物生命</span><output id="difficulty-value" for="difficulty">100%</output></label><input id="difficulty" class="difficulty" type="range" min="50" max="200" step="10" value="100"><div class="range-scale" aria-hidden="true"><span>50%</span><span>100%</span><span>150%</span><span>200%</span></div></div>
           </div>
           <button id="start-btn" class="primary">开始打工</button>
+          <button type="button" class="game-navigation-button" data-game-exit>结束打工</button>
           <button id="help-btn" class="secondary">拖动走位 · 自动攻击 · 升级强化</button>
         </div>
       </section>
       <section id="upgrade" class="overlay upgrade" aria-hidden="true" inert><div class="upgrade-head"><h2>选择本次升级</h2><p>选好一项强化，再继续打工。</p></div><div id="choices" class="choices"></div></section>
-      <section id="paused" class="overlay" aria-hidden="true" inert><div class="pause-panel"><h2>休息一下</h2><p>这班先暂停，继续打工后接着清怪。</p><button id="resume" class="primary">继续打工</button><button id="quit" class="secondary">结束本班</button></div></section>
+      <section id="paused" class="overlay" aria-hidden="true" inert><div class="pause-panel"><h2>休息一下</h2><p>这班先暂停，继续打工后接着清怪。</p><button id="resume" class="primary">继续打工</button><button id="sound" class="sound-toggle" type="button" aria-pressed="true">关闭音效</button><button id="quit" class="game-navigation-button" type="button" data-pause-penultimate>结束本班</button></div></section>
       <section id="result" class="overlay" aria-hidden="true" inert><div class="result-card"><div class="crest" aria-hidden="true"></div><h1 id="result-title">提前收工</h1><p id="result-sub" class="subtitle">孢子潮太猛，这班没撑到下班。</p><div id="result-stats" class="result-stats"></div><button id="retry" class="primary">开始打工</button><button id="result-quit" class="secondary">返回准备页</button></div></section>
     </section>
 
@@ -293,25 +307,34 @@
   <script>
   (() => {
     const canvas = document.querySelector('#field'), ctx = canvas.getContext('2d');
-    const ui = Object.fromEntries(['level','timer','seeds','health','xp','objective','start','upgrade','paused','result','banner','skill','choices','result-title','result-sub','result-stats','difficulty','difficulty-value','loadout-name','weapon-damage','weapon-rate','weapon-range','scene-subtitle','scene-name','region-name','start-btn','character-name','character-note','character-stage','character-number','character-portrait','scene-stage','stage-number','scene-dots','weapon-stage','weapon-number','featured-weapon','selection-status'].map(id=>[id,document.getElementById(id)]));
+    const ui = Object.fromEntries(['level','timer','seeds','health','xp','objective','start','upgrade','paused','result','banner','skill','choices','result-title','result-sub','result-stats','difficulty','difficulty-value','loadout-name','scene-name','region-name','start-btn','character-name','character-stage','character-number','character-portrait','scene-stage','stage-number','scene-dots','weapon-stage','weapon-number','featured-weapon','selection-status'].map(id=>[id,document.getElementById(id)]));
     const screen = document.querySelector('.screen');
     const MAP_W=1000,MAP_H=1000,MODEL_SCALE=.6,WALL=20,WEAPONS={dart:{name:'回旋飞刃',damage:14,rate:.46,range:350,speed:520,muzzle:24,pierce:1,action:.2},blaster:{name:'脉冲炮',damage:24,rate:.78,range:330,speed:0,muzzle:28,pierce:0,action:.14},katana:{name:'弧光太刀',damage:34,rate:.62,range:86,speed:0,muzzle:0,pierce:0,action:.23},ak47:{name:'AK47',damage:8,rate:.15,range:360,speed:760,muzzle:39,pierce:0,action:.1},sword:{name:'青玉剑',damage:10,rate:0.3,range:190,speed:500,muzzle:26,pierce:0,action:0,projectiles:4,hits:2}};
     const SCENES={
       greenhouse:{name:'荧光温室',short:'温室',subtitle:'温室夜班 · 清理孢子',region:'城墙内环',opening:'抵抗孢子潮 · 自动射击',wave:'孢子浓度上升 · 寻找突破口',final:'母巢苏醒 · 坚持到底',elite:'母巢花冠逼近',eliteDefeated:'母巢花冠已净化',win:'温室清理完毕，这班顺利下班。',fail:'孢子潮太猛，这班没撑到下班。',mix:{tank:.17,fast:.40},enemies:{spore:'漂浮孢子',crawler:'紫晶爬兽',bulwark:'菌甲重兽',elite:'母巢花冠'},wall:{base:'#172a27',a:'#324b45',b:'#3a554d',line:'#6e9182',glow:'rgba(200,255,124,.46)',post:'#55756a'}},
       grassland:{name:'风痕草原',short:'草原',subtitle:'草原巡班 · 守住牧场',region:'牧场石垒',opening:'清理兽群 · 自动射击',wave:'兽群狂奔 · 守住石垒',final:'古木震动 · 坚持到底',elite:'古木巨角正在冲锋',eliteDefeated:'古木巨角已击溃',win:'牧场防线守住了，这班顺利下班。',fail:'兽群冲破防线，换套装备再来一班。',mix:{tank:.13,fast:.50},enemies:{spore:'割风蜂',crawler:'荆棘野豕',bulwark:'苔甲角兽',elite:'古木巨角'},wall:{base:'#24382b',a:'#546a43',b:'#64794b',line:'#93a873',glow:'rgba(176,224,103,.5)',post:'#7c8c5d'}},
       desert:{name:'灼风沙海',short:'沙漠',subtitle:'沙海出勤 · 守护信标',region:'砂岩关隘',opening:'清剿沙巢 · 自动射击',wave:'沙暴逼近 · 稳住阵地',final:'遗迹震荡 · 坚持到底',elite:'日蚀沙王钻出地表',eliteDefeated:'日蚀沙王已崩解',win:'沙海信标守住了，这班顺利下班。',fail:'沙暴吞没信标，这班只能提前收工。',mix:{tank:.22,fast:.39},enemies:{spore:'赤翅沙蜂',crawler:'裂尾砂蝎',bulwark:'玄甲圣甲虫',elite:'日蚀沙王'},wall:{base:'#394943',a:'#8d6b3e',b:'#607a69',line:'#d1a762',glow:'rgba(255,201,92,.52)',post:'#71897a'}},
-      district:{name:'零号街区',short:'末日街区',subtitle:'街区值班 · 清理感染体',region:'防暴路障',opening:'清扫感染体 · 自动射击',wave:'警报升级 · 封锁路口',final:'巢群破墙 · 坚持到底',elite:'重装融合体突破封锁',eliteDefeated:'重装融合体已清除',win:'街区恢复联络，这班顺利下班。',fail:'感染群占了路口，整顿装备再来一班。',mix:{tank:.18,fast:.34},enemies:{spore:'裂口猎犬',crawler:'感染暴徒',bulwark:'防暴畸变体',elite:'重装融合体'},wall:{base:'#252c2e',a:'#4b5455',b:'#60696a',line:'#929e9e',glow:'rgba(255,118,95,.52)',post:'#778182'}}
+      district:{name:'零号街区',short:'末日街区',subtitle:'街区值班 · 清理感染体',region:'防暴路障',opening:'清扫感染体 · 自动射击',wave:'警报升级 · 封锁路口',final:'巢群破墙 · 坚持到底',elite:'重装融合体突破封锁',eliteDefeated:'重装融合体已清除',win:'街区恢复联络，这班顺利下班。',fail:'感染群占了路口，整顿装备再来一班。',mix:{tank:.18,fast:.34},enemies:{spore:'裂口猎犬',crawler:'感染暴徒',bulwark:'防暴畸变体',elite:'重装融合体'},wall:{base:'#252c2e',a:'#4b5455',b:'#60696a',line:'#929e9e',glow:'rgba(255,118,95,.52)',post:'#778182'}},
+      cave:{name:'幽晶洞窟',short:'洞窟',subtitle:'矿洞夜班 · 守住晶脉',region:'地下矿场',opening:'清理洞窟生物 · 自动射击',wave:'晶甲虫群涌出 · 沿矿轨周旋',final:'深层晶脉震动 · 坚持到底',elite:'晶脉岩王苏醒',eliteDefeated:'晶脉岩王已击碎',win:'地下矿场恢复安宁，这班顺利下班。',fail:'洞窟生物围住了矿轨，换套装备再来一班。',mix:{tank:.24,fast:.52},enemies:{spore:'蓝翼洞蝠',crawler:'穴居蛛',bulwark:'晶甲虫',elite:'晶脉岩王'},wall:{base:'#242437',a:'#3c3a52',b:'#49445e',line:'#68647d',glow:'rgba(119,221,217,.48)',post:'#817697'}}
     };
+    const CAVE_PALETTE={rock:'#242437',ridge:'#3c3a52',slate:'#68647d',crystal:'#77ddd9',amethyst:'#ab89dc',lamp:'#f2c376'};
+    const CAMPAIGN={totalStages:100,hpGrowth:1.2};
+    function getStageConfig(stage){
+      const order=Object.keys(SCENES),number=Math.min(CAMPAIGN.totalStages,Math.max(1,Math.trunc(Number(stage)||1)));
+      const cycleIndex=Math.floor((number-1)/order.length);
+      return {number,scene:order[(number-1)%order.length],cycle:cycleIndex+1,hpScale:CAMPAIGN.hpGrowth**cycleIndex};
+    }
+    function formatHpPercent(scale){return Number((scale*100).toFixed(2))+'%'}
     const CHARACTERS={
       ranger:{name:'巡游者',note:'温室巡游者，携带战术护目镜与轻型战衣。'},
       'xiao-han':{name:'小韩',note:'青袍游侠 · 初始 4 把飞剑环绕护体，御剑出击自动回鞘。'}
     };
     const xiaoHanSprite=new Image();
     const swordBulletSprite=new Image();
-    swordBulletSprite.src='./assets/core-breach/xiao-han/weapon-sword-bullet-glow.png';
-    let width=0,height=0,dpr=1,last=0,raf=0,audioOn=true,selectedWeapon='sword',selectedScene='greenhouse',selectedCharacter='xiao-han',enemyHpPercent=100;
+    swordBulletSprite.src='../素材库/弹壳打工/xiao-han/weapon-sword-bullet-glow.png';
+    let width=0,height=0,dpr=1,last=0,raf=0,audioOn=true,selectedWeapon='sword',selectedScene='greenhouse',selectedStage=1,selectedCharacter='xiao-han',enemyHpPercent=100;
     const input={x:0,y:0,active:false}, keys={};
-    const G={ state:'start', character:'xiao-han', scene:'greenhouse', time:0, seed:0, kills:0, level:1, exp:0, nextExp:8, spawn:0, shot:0, skill:0, eliteDone:false, camX:250, camY:250, shake:0, weapon:'sword', enemyHpScale:1, player:null, enemies:[], bolts:[], beams:[], slashes:[], drops:[], items:[], magnetDropCd:0, medkitDropCd:0, particles:[], texts:[], ripples:[], decor:[], swords:[], swordFormations:[], swordAttackCount:0, chosenUpgrades:[], stats:null };
+    const G={ state:'start', character:'xiao-han', scene:'greenhouse', stage:1,stageHpScale:1,won:false,time:0, seed:0, kills:0, level:1, exp:0, nextExp:8, spawn:0, shot:0, skill:0, eliteDone:false, camX:250, camY:250, shake:0, weapon:'sword', enemyHpScale:1, player:null, enemies:[], bolts:[], beams:[], slashes:[], drops:[], items:[], magnetDropCd:0, medkitDropCd:0, particles:[], texts:[], ripples:[], decor:[], swords:[], swordFormations:[], swordAttackCount:0, chosenUpgrades:[], stats:null };
     const rand=(a,b)=>a+Math.random()*(b-a),clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y),angleDiff=(a,b)=>Math.abs(Math.atan2(Math.sin(a-b),Math.cos(a-b)));
     function resize(){const r=screen.getBoundingClientRect();width=r.width;height=r.height;dpr=Math.min(devicePixelRatio||1,2);canvas.width=width*dpr;canvas.height=height*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);if(G.player){G.camX=clamp(G.player.x-width*.5,0,Math.max(0,MAP_W-width));G.camY=clamp(G.player.y-height*.5,0,Math.max(0,MAP_H-height));}buildSceneDecor();}
     function updateLayoutMode(){
@@ -339,10 +362,10 @@
     function reset(){
       WEAPONS.sword.damage=10;
       WEAPONS.sword.speed=500;
-      const w=WEAPONS[selectedWeapon];
+      const w=WEAPONS[selectedWeapon],stage=getStageConfig(selectedStage);
       const startX=MAP_W*.5, startY=MAP_H*.5;
       Object.assign(G,{
-        state:'playing',character:selectedCharacter,scene:selectedScene,time:0,seed:0,kills:0,level:1,exp:0,nextExp:8,spawn:.4,shot:0,skill:0,eliteDone:false,
+        state:'playing',character:selectedCharacter,scene:stage.scene,stage:stage.number,stageHpScale:stage.hpScale,won:false,time:0,seed:0,kills:0,level:1,exp:0,nextExp:8,spawn:.4,shot:0,skill:0,eliteDone:false,
         camX:clamp(startX-width*.5,0,Math.max(0,MAP_W-width)),
         camY:clamp(startY-height*.5,0,Math.max(0,MAP_H-height)),
         shake:0,weapon:selectedWeapon,enemyHpScale:enemyHpPercent/100,enemies:[],bolts:[],beams:[],slashes:[],drops:[],items:[],magnetDropCd:0,medkitDropCd:0,particles:[],texts:[],ripples:[],swords:[],swordFormations:[],swordAttackCount:0,swordLaunchIndex:0,chosenUpgrades:[],
@@ -356,7 +379,19 @@
     function toggle(id,on){ui[id].classList.toggle('show',on);ui[id].setAttribute('aria-hidden',String(!on));ui[id].inert=!on;}
     function start(){ unlockAudio();reset();G.state='playing';updateLayoutMode();toggle('start',false);toggle('result',false);last=performance.now();cancelAnimationFrame(raf);raf=requestAnimationFrame(loop); }
     function pause(){if(G.state!=='playing')return;G.state='paused';toggle('paused',true)} function resume(){if(G.state!=='paused')return;G.state='playing';toggle('paused',false);last=performance.now();raf=requestAnimationFrame(loop)}
-    function finish(win=false){const scene=SCENES[G.scene];G.state='result';cancelAnimationFrame(raf);toggle('upgrade',false);toggle('paused',false);toggle('result',true);ui['result-title'].textContent=win?'打工完成':'提前收工';ui['result-sub'].textContent=win?scene.win:scene.fail;ui['result-stats'].innerHTML=`<div><b>${formatTime(G.time)}</b><small>打工时长</small></div><div><b>${G.kills}</b><small>清怪数量</small></div><div><b>${G.level}</b><small>最终等级</small></div>`;}
+    function finish(win=false){
+      const scene=SCENES[G.scene],complete=win&&G.stage===CAMPAIGN.totalStages;
+      G.state='result';G.won=win;cancelAnimationFrame(raf);
+      toggle('upgrade',false);toggle('paused',false);toggle('result',true);
+      ui['result-title'].textContent=complete?'百关完成':win?'第 '+G.stage+' 关完成':'提前收工';
+      ui['result-sub'].textContent=complete?'100 关全部走完，今天的打工之旅圆满收工！':win?scene.win:scene.fail;
+      ui['result-stats'].innerHTML=`<div><b>${formatTime(G.time)}</b><small>打工时长</small></div><div><b>${G.kills}</b><small>清怪数量</small></div><div><b>${G.level}</b><small>最终等级</small></div>`;
+      document.getElementById('retry').textContent=win&&!complete?'下一关 · 第 '+(G.stage+1)+' 关':'重试第 '+G.stage+' 关';
+    }
+    function retryOrAdvance(){
+      selectStage(G.won&&G.stage<CAMPAIGN.totalStages?G.stage+1:G.stage,0,false);
+      start();
+    }
     function formatTime(t){const m=Math.floor(t/60),s=Math.floor(t%60);return String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')}
     function updateUi(){
       if(!G.stats)return;
@@ -375,18 +410,16 @@
     function updateExternalPanels(){
       if(!G.stats)return;
       const scene=SCENES[G.scene]||SCENES.greenhouse;
-      const sOrder=(typeof sceneOrder!=='undefined'?sceneOrder:Object.keys(SCENES));
-      const sceneIdx=sOrder.indexOf(G.scene)+1;
       const w=WEAPONS[G.weapon];
       const char=(typeof CHARACTERS!=='undefined'&&CHARACTERS[G.character])?CHARACTERS[G.character]:(CHARACTERS['xiao-han']||{name:'小韩',note:''});
 
-      const stageNum=document.getElementById('ext-stage-num');if(stageNum)stageNum.textContent=sceneIdx||1;
+      const stageNum=document.getElementById('ext-stage-num');if(stageNum)stageNum.textContent=G.stage+' / '+CAMPAIGN.totalStages;
       const stageName=document.getElementById('ext-stage-name');if(stageName)stageName.textContent=scene.name;
       const stageRegion=document.getElementById('ext-stage-region');if(stageRegion)stageRegion.textContent=scene.region;
       const stageTarget=document.getElementById('ext-stage-target');if(stageTarget)stageTarget.textContent='存活 03:00';
       const stageProg=document.getElementById('ext-stage-progress');if(stageProg)stageProg.style.width=clamp((G.time/180)*100,0,100)+'%';
       const stageWave=document.getElementById('ext-stage-wave');if(stageWave)stageWave.textContent=G.time<60?('第 1 波 · '+scene.opening.split(' · ')[0]):G.time<120?('第 2 波 · '+scene.wave):('决战波次 · '+scene.final);
-      const stageDiff=document.getElementById('ext-stage-diff');if(stageDiff)stageDiff.textContent=Math.round(enemyHpPercent)+'%';
+      const stageDiff=document.getElementById('ext-stage-diff');if(stageDiff)stageDiff.textContent=formatHpPercent(G.stageHpScale*G.enemyHpScale);
       const stageKills=document.getElementById('ext-stage-kills');if(stageKills)stageKills.textContent=G.kills;
 
       const extGlyph=document.getElementById('ext-weapon-glyph');if(extGlyph)extGlyph.className='weapon-glyph '+G.weapon;
@@ -456,7 +489,7 @@
       else if(side===1){x=vRight;y=rand(vTop,vBottom)}
       else if(side===2){x=rand(vLeft,vRight);y=vBottom}
       else{x=vLeft;y=rand(vTop,vBottom)}
-      const scale=1+G.time/220,roll=Math.random(),scene=SCENES[G.scene],mix=scene.mix;let kind=type;
+      const scale=(1+G.time/220)*G.stageHpScale,roll=Math.random(),scene=SCENES[G.scene],mix=scene.mix;let kind=type;
       if(!kind)kind=G.time>20&&roll<mix.tank?'bulwark':roll<(G.time>20?mix.fast:.24)?'spore':'crawler';
       const configs={
         spore:{r:8.4,hp:22*scale*G.enemyHpScale,speed:84+G.time*.08,damage:8,color:'#ef75aa',value:2},
@@ -519,8 +552,8 @@
     function spawnSwordFormation(x,y,s){
       if(!G.swordFormations)G.swordFormations=[];
       G.swordFormations.push({
-        x,y,r:38,life:2.0,maxLife:2.0,angle:G.time*2.4,spinSpeed:2.4,
-        damage:Math.max(1,Math.round((s.damage||10)*0.6)),tickTimer:0,interval:0.5,swordsCount:6
+        x,y,r:48,life:2.0,maxLife:2.0,angle:G.time*2.4,spinSpeed:2.4,
+        damage:Math.max(1,Math.round((s.damage||10)*0.6)),tickTimer:0,interval:0.5,swordsCount:18
       });
       spark(x,y,'#5df5b8',8,90);
     }
@@ -943,65 +976,88 @@
       const alpha=Math.min(fadeIn,fadeOut);
       if(alpha<=0.001)return;
 
-      const r=f.r||38;
-      const count=f.swordsCount||6;
+      const baseR=f.r||48;
       const size=G.stats?.projectileSize||1;
       const sw=19.2*size,sh=sw*(193/393);
 
       ctx.save();
       ctx.translate(f.x,f.y);
 
-      // 阵底灵能光环与灵轨
-      ctx.strokeStyle=`rgba(93,245,184,${alpha*0.38})`;
-      ctx.lineWidth=1.5;
-      ctx.beginPath();
-      ctx.arc(0,0,r,0,6.283);
-      ctx.stroke();
+      // 三圈飞剑交叉分布配置：外圈(48px·6柄)、中圈(33px·6柄·交叉错位30°)、内圈(18px·6柄·层次对正)
+      const rings=[
+        {r:baseR,count:6,offset:0,scale:1.0,breathSpeed:3.2},
+        {r:baseR*0.68,count:6,offset:Math.PI/6,scale:0.92,breathSpeed:3.8},
+        {r:baseR*0.38,count:6,offset:0,scale:0.82,breathSpeed:4.4}
+      ];
 
-      // 内层微光虚线辅助阵环
+      // 阵底三重灵能光环阵轨
+      for(let ri=0;ri<rings.length;ri++){
+        const ring=rings[ri];
+        ctx.strokeStyle=`rgba(93,245,184,${alpha*(0.34-ri*0.06)})`;
+        ctx.lineWidth=1.3-ri*0.2;
+        ctx.beginPath();
+        ctx.arc(0,0,ring.r,0,6.283);
+        ctx.stroke();
+      }
+
+      // 中层旋转微光虚线辅助阵轨
       ctx.strokeStyle=`rgba(164,255,228,${alpha*0.22})`;
       ctx.lineWidth=1;
       ctx.setLineDash([4,8]);
-      ctx.lineDashOffset=-f.angle*12;
+      ctx.lineDashOffset=-f.angle*14;
       ctx.beginPath();
-      ctx.arc(0,0,r-6,0,6.283);
+      ctx.arc(0,0,rings[1].r,0,6.283);
       ctx.stroke();
       ctx.setLineDash([]);
 
-      // 类似角色周边的环绕飞剑：环绕中心点旋转，剑尖朝外对称发散，剑柄朝向中心
-      for(let i=0;i<count;i++){
-        const a=f.angle+(i/count)*6.283;
-        const breath=Math.sin(G.time*3.5+i*1.25)*1.5;
-        const orbitR=r+breath;
-        const sx=Math.cos(a)*orbitR,sy=Math.sin(a)*orbitR;
-        const swordSpin=a; // 与角色身周环绕飞剑完全一致：剑柄朝内，剑尖朝外
+      // 阵心微光聚灵核
+      ctx.fillStyle=`rgba(93,245,184,${alpha*0.22})`;
+      ctx.beginPath();
+      ctx.arc(0,0,7,0,6.283);
+      ctx.fill();
 
-        ctx.save();
-        ctx.translate(sx,sy);
-        ctx.rotate(swordSpin);
-        ctx.globalAlpha=alpha;
+      // 三圈飞剑绘制：类似角色身周飞剑，环绕中心旋转，剑尖朝外对称发散，层层交叉分布
+      for(let ri=0;ri<rings.length;ri++){
+        const ring=rings[ri];
+        const r=ring.r;
+        const count=ring.count;
+        const curSw=sw*ring.scale;
+        const curSh=sh*ring.scale;
 
-        if(swordBulletSprite.complete&&swordBulletSprite.naturalWidth){
-          ctx.shadowColor='#5df5b8';
-          ctx.shadowBlur=7*alpha;
-          ctx.drawImage(swordBulletSprite,-sw*.5,-sh*.5,sw,sh);
-          ctx.shadowBlur=0;
-        }else{
-          ctx.shadowColor='#5df5b8';
-          ctx.shadowBlur=6*alpha;
-          ctx.fillStyle='#3da67a';
-          ctx.fillRect(-sw*.5,-sh*.5,sw,sh);
-          ctx.shadowBlur=0;
+        for(let i=0;i<count;i++){
+          const a=f.angle+ring.offset+(i/count)*6.283;
+          const breath=Math.sin(G.time*ring.breathSpeed+i*1.25+ri*1.6)*1.4;
+          const orbitR=r+breath;
+          const sx=Math.cos(a)*orbitR,sy=Math.sin(a)*orbitR;
+          const swordSpin=a; // 剑尖朝外，剑柄朝向中心
+
+          ctx.save();
+          ctx.translate(sx,sy);
+          ctx.rotate(swordSpin);
+          ctx.globalAlpha=alpha;
+
+          if(swordBulletSprite.complete&&swordBulletSprite.naturalWidth){
+            ctx.shadowColor='#5df5b8';
+            ctx.shadowBlur=(ri===0?7:ri===1?5.5:4.5)*alpha;
+            ctx.drawImage(swordBulletSprite,-curSw*.5,-curSh*.5,curSw,curSh);
+            ctx.shadowBlur=0;
+          }else{
+            ctx.shadowColor='#5df5b8';
+            ctx.shadowBlur=6*alpha;
+            ctx.fillStyle='#3da67a';
+            ctx.fillRect(-curSw*.5,-curSh*.5,curSw,curSh);
+            ctx.shadowBlur=0;
+          }
+          ctx.restore();
         }
-        ctx.restore();
       }
 
       ctx.restore();
     }
     function drawRadar(){
       const radarSize=48;
-      const rx=width-radarSize-10;
-      const ry=58;
+      const rx=width-radarSize-12;
+      const ry=10;
       const scale=radarSize/MAP_W;
       ctx.save();
       ctx.fillStyle='rgba(6,22,18,.75)';
@@ -1026,6 +1082,35 @@
         ctx.fillRect(ex-ew*.5,ey-ew*.5,ew,ew);
       }
 
+      // 掉落道具标记：小地图上如果出现掉落道具，显示金色小五角星标记
+      if(G.items&&G.items.length){
+        const starOuter=3.5+Math.sin(G.time*5)*.35;
+        const starInner=starOuter*0.44;
+        ctx.fillStyle='#ffd86b';
+        ctx.strokeStyle='#261a06';
+        ctx.lineWidth=0.7;
+        ctx.shadowColor='#ffd86b';
+        ctx.shadowBlur=4;
+        for(let i=0;i<G.items.length;i++){
+          const it=G.items[i];
+          const ix=clamp(rx+it.x*scale,rx+2,rx+radarSize-2);
+          const iy=clamp(ry+it.y*scale,ry+2,ry+radarSize-2);
+          let rot=-Math.PI/2;
+          const step=Math.PI/5;
+          ctx.beginPath();
+          for(let k=0;k<5;k++){
+            ctx.lineTo(ix+Math.cos(rot)*starOuter,iy+Math.sin(rot)*starOuter);
+            rot+=step;
+            ctx.lineTo(ix+Math.cos(rot)*starInner,iy+Math.sin(rot)*starInner);
+            rot+=step;
+          }
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+        }
+        ctx.shadowBlur=0;
+      }
+
       if(G.player){
         const px=rx+G.player.x*scale, py=ry+G.player.y*scale;
         ctx.fillStyle='#6df1c0';
@@ -1037,7 +1122,7 @@
       ctx.restore();
     }
     function buildSceneDecor(){
-      const scene=G.scene||selectedScene,count=scene==='greenhouse'?150:scene==='grassland'?130:scene==='desert'?90:110;
+      const scene=G.scene||selectedScene,count=scene==='greenhouse'?150:scene==='grassland'?130:scene==='desert'?90:scene==='cave'?100:110;
       G.decor=Array.from({length:count},(_,i)=>({x:rand(WALL+10,MAP_W-WALL-10),y:rand(WALL+10,MAP_H-WALL-10),r:rand(3,13),a:rand(0,6.28),variant:i%4,tone:Math.random()}));
     }
     function drawAttackRange(p,s){
@@ -1070,8 +1155,8 @@
     }
     function drawGround(){
       const scene=G.scene||selectedScene;
-      if(scene==='grassland')drawGrasslandGround();else if(scene==='desert')drawDesertGround();else if(scene==='district')drawDistrictGround();else drawGreenhouseGround();
-      const light=scene==='desert'?'255,210,115':scene==='district'?'255,118,95':scene==='grassland'?'189,236,112':'133,255,160',px=G.player?.x||MAP_W*.5,py=G.player?.y||MAP_H*.5,grad=ctx.createRadialGradient(px,py,10,px,py,320);grad.addColorStop(0,`rgba(${light},.1)`);grad.addColorStop(1,`rgba(${light},0)`);ctx.fillStyle=grad;ctx.fillRect(0,0,MAP_W,MAP_H);
+      if(scene==='grassland')drawGrasslandGround();else if(scene==='desert')drawDesertGround();else if(scene==='district')drawDistrictGround();else if(scene==='cave')drawCaveGround();else drawGreenhouseGround();
+      const light=scene==='cave'?'119,221,217':scene==='desert'?'255,210,115':scene==='district'?'255,118,95':scene==='grassland'?'189,236,112':'133,255,160',px=G.player?.x||MAP_W*.5,py=G.player?.y||MAP_H*.5,grad=ctx.createRadialGradient(px,py,10,px,py,320);grad.addColorStop(0,`rgba(${light},.1)`);grad.addColorStop(1,`rgba(${light},0)`);ctx.fillStyle=grad;ctx.fillRect(0,0,MAP_W,MAP_H);
     }
     function drawGreenhouseGround(){
       ctx.fillStyle='#0a251d';ctx.fillRect(0,0,MAP_W,MAP_H);const cell=38,shift=(G.time*8)%cell;ctx.strokeStyle='rgba(132,227,145,.045)';ctx.lineWidth=1;for(let x=-cell;x<MAP_W+cell;x+=cell){ctx.beginPath();ctx.moveTo(x+shift,0);ctx.lineTo(x+shift,MAP_H);ctx.stroke()}for(let y=-cell;y<MAP_H+cell;y+=cell){ctx.beginPath();ctx.moveTo(0,y+shift*.4);ctx.lineTo(MAP_W,y+shift*.4);ctx.stroke()}for(const p of G.decor){ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.a+G.time*.08);ctx.fillStyle=p.tone>.45?'#215543':'#153c31';ctx.globalAlpha=.6;ctx.beginPath();ctx.ellipse(0,0,p.r,p.r*.42,0,0,6.28);ctx.fill();ctx.restore()}ctx.globalAlpha=1;
@@ -1084,6 +1169,51 @@
     }
     function drawDistrictGround(){
       ctx.fillStyle='#303738';ctx.fillRect(0,0,MAP_W,MAP_H);const roadX=MAP_W*.5-67,crossY=MAP_H*.5-55;ctx.fillStyle='#222829';ctx.fillRect(roadX,WALL,134,MAP_H-WALL*2);ctx.fillRect(WALL,crossY,MAP_W-WALL*2,110);ctx.strokeStyle='rgba(158,173,172,.17)';ctx.lineWidth=2;ctx.strokeRect(roadX-4,WALL,142,MAP_H-WALL*2);ctx.strokeRect(WALL,crossY-4,MAP_W-WALL*2,118);ctx.fillStyle='rgba(224,193,77,.34)';for(let y=WALL+12;y<MAP_H-WALL;y+=42)ctx.fillRect(MAP_W*.5-2,y,4,20);ctx.fillStyle='rgba(224,226,211,.24)';for(let x=WALL+24;x<MAP_W-WALL;x+=38){ctx.fillRect(x,crossY+18,21,4);ctx.fillRect(x,crossY+88,21,4)}for(const p of G.decor){ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.a);if(p.variant===0){ctx.strokeStyle='#171c1d';ctx.lineWidth=1.3;ctx.beginPath();ctx.moveTo(-p.r,0);ctx.lineTo(0,0);ctx.lineTo(p.r*.5,-p.r*.7);ctx.moveTo(0,0);ctx.lineTo(p.r*.75,p.r*.45);ctx.stroke()}else if(p.variant===1){ctx.fillStyle=p.tone>.5?'#8d4d3e':'#596467';ctx.globalAlpha=.66;ctx.fillRect(-p.r*.7,-p.r*.35,p.r*1.4,p.r*.7)}else if(p.variant===2){ctx.fillStyle='#1b2021';ctx.globalAlpha=.6;ctx.beginPath();ctx.ellipse(0,0,p.r,p.r*.28,0,0,6.28);ctx.fill()}else{ctx.strokeStyle='rgba(226,199,88,.38)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-p.r,2);ctx.lineTo(p.r,-2);ctx.stroke()}ctx.restore()}ctx.globalAlpha=1;
+    }
+    function drawCaveCrystal(x,y,size,color=CAVE_PALETTE.crystal){
+      ctx.save();ctx.translate(x,y);
+      ctx.fillStyle='#181d2c';ctx.beginPath();ctx.ellipse(0,3,size*.85,size*.27,0,0,Math.PI*2);ctx.fill();
+      for(const [dx,h,lean] of [[-size*.42,.65,-.24],[0,1,.08],[size*.43,.72,.3]]){
+        ctx.save();ctx.translate(dx,0);ctx.rotate(lean);
+        ctx.fillStyle=color;ctx.beginPath();ctx.moveTo(-size*.22,0);ctx.lineTo(-size*.22,-size*h*.7);ctx.lineTo(0,-size*h);ctx.lineTo(size*.22,-size*h*.7);ctx.lineTo(size*.22,0);ctx.closePath();ctx.fill();
+        ctx.fillStyle='rgba(244,255,255,.38)';ctx.beginPath();ctx.moveTo(0,-size*h);ctx.lineTo(size*.22,-size*h*.7);ctx.lineTo(size*.22,0);ctx.lineTo(0,-size*.1);ctx.closePath();ctx.fill();
+        ctx.restore();
+      }
+      ctx.restore();
+    }
+    function drawCaveGround(){
+      const c=CAVE_PALETTE;
+      ctx.fillStyle=c.rock;ctx.fillRect(0,0,MAP_W,MAP_H);
+      // 宽阔可通行的采掘大厅；矿轨、积水与晶簇都是地面装饰。
+      ctx.fillStyle='#2e2d42';ctx.beginPath();ctx.ellipse(500,510,390,345,-.2,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle='rgba(104,100,125,.18)';ctx.lineWidth=2;
+      for(let y=75;y<MAP_H;y+=95){ctx.beginPath();ctx.moveTo(25,y);ctx.lineTo(170,y-18);ctx.lineTo(330,y+22);ctx.lineTo(610,y-12);ctx.lineTo(810,y+14);ctx.lineTo(975,y-5);ctx.stroke()}
+      for(const [x,y,rx,ry] of [[280,410,65,30],[755,700,78,34]]){
+        ctx.fillStyle='#1d3440';ctx.beginPath();ctx.ellipse(x,y,rx,ry,-.25,0,Math.PI*2);ctx.fill();
+        ctx.strokeStyle='rgba(119,221,217,.22)';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(x,y,rx*.78,ry*.65,-.25,.25,2.8);ctx.stroke();
+      }
+      // 断裂支线连接主轨道，让洞窟在俯视视口里有可识别的方向。
+      ctx.strokeStyle='#695343';ctx.lineWidth=7;
+      for(let y=65;y<935;y+=27){ctx.beginPath();ctx.moveTo(476,y);ctx.lineTo(524,y);ctx.stroke()}
+      for(let x=530;x<865;x+=27){ctx.beginPath();ctx.moveTo(x,354);ctx.lineTo(x,394);ctx.stroke()}
+      ctx.strokeStyle=c.slate;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(482,45);ctx.lineTo(482,955);ctx.moveTo(518,45);ctx.lineTo(518,955);ctx.moveTo(518,362);ctx.lineTo(858,362);ctx.moveTo(518,386);ctx.lineTo(858,386);ctx.stroke();
+      for(const p of G.decor){
+        ctx.save();ctx.translate(p.x,p.y);
+        if(p.variant===0){drawCaveCrystal(0,0,p.r*.95,p.tone>.5?c.crystal:c.amethyst)}
+        else if(p.variant===1){ctx.rotate(p.a);ctx.fillStyle=c.ridge;ctx.beginPath();ctx.moveTo(-p.r,1);ctx.lineTo(-p.r*.45,-p.r*.55);ctx.lineTo(p.r*.55,-p.r*.4);ctx.lineTo(p.r,4);ctx.closePath();ctx.fill();ctx.strokeStyle=c.slate;ctx.lineWidth=1;ctx.stroke()}
+        else if(p.variant===2){ctx.rotate(p.a);ctx.strokeStyle='#161824';ctx.lineWidth=1.3;ctx.beginPath();ctx.moveTo(-p.r,0);ctx.lineTo(0,0);ctx.lineTo(p.r*.7,-p.r*.5);ctx.moveTo(0,0);ctx.lineTo(p.r*.35,p.r*.65);ctx.stroke()}
+        else{ctx.fillStyle='rgba(119,221,217,.24)';ctx.fillRect(-1,-1,2,2)}
+        ctx.restore();
+      }
+      for(const [x,y] of [[90,135],[825,165],[125,825],[870,855]]){
+        ctx.fillStyle=c.ridge;ctx.beginPath();ctx.moveTo(x-40,y+13);ctx.lineTo(x-27,y-20);ctx.lineTo(x-5,y-45);ctx.lineTo(x+23,y-28);ctx.lineTo(x+42,y+14);ctx.closePath();ctx.fill();
+        ctx.strokeStyle=c.slate;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x-5,y-43);ctx.lineTo(x-10,y+10);ctx.lineTo(x+39,y+13);ctx.stroke();
+        drawCaveCrystal(x+17,y+11,30,c.crystal);
+      }
+      for(const [x,y] of [[442,235],[558,610],[775,325]]){
+        const glow=ctx.createRadialGradient(x,y,1,x,y,45);glow.addColorStop(0,'rgba(242,195,118,.14)');glow.addColorStop(1,'rgba(242,195,118,0)');ctx.fillStyle=glow;ctx.fillRect(x-45,y-45,90,90);
+        ctx.fillStyle='#695343';ctx.fillRect(x-3,y-9,6,21);ctx.fillStyle='#171b28';ctx.fillRect(x-7,y-7,14,12);ctx.fillStyle=c.lamp;ctx.fillRect(x-4,y-5,8,7);
+      }
     }
     function drawArenaWalls(){
       ctx.save();const scene=G.scene||selectedScene,p=SCENES[scene].wall;
@@ -1217,7 +1347,7 @@
 	    function enemyTone(e,color){return e.hit?'#fff7df':color}
 	    function drawEnemy(e){
 	      ctx.save();ctx.translate(e.x,e.y);ctx.rotate(e.face);ctx.scale(MODEL_SCALE,MODEL_SCALE);
-	      if(G.scene==='grassland')drawGrasslandEnemy(e);else if(G.scene==='desert')drawDesertEnemy(e);else if(G.scene==='district')drawDistrictEnemy(e);else if(e.kind==='spore')drawSpore(e);else if(e.kind==='bulwark')drawBulwark(e);else if(e.kind==='elite')drawElite(e);else drawCrawler(e);
+	      if(G.scene==='grassland')drawGrasslandEnemy(e);else if(G.scene==='desert')drawDesertEnemy(e);else if(G.scene==='district')drawDistrictEnemy(e);else if(G.scene==='cave')drawCaveEnemy(e);else if(e.kind==='spore')drawSpore(e);else if(e.kind==='bulwark')drawBulwark(e);else if(e.kind==='elite')drawElite(e);else drawCrawler(e);
 	      ctx.restore();drawEnemyHealth(e);
 	    }
 	    function drawSpore(e){
@@ -1296,7 +1426,69 @@
 	    function drawFusionElite(e){
 	      const pulse=1+Math.sin(e.phase)*.05;ctx.scale(pulse,pulse);ctx.strokeStyle=enemyTone(e,'#272d30');ctx.lineWidth=9;ctx.lineCap='round';for(let i=-1;i<=1;i+=2){ctx.beginPath();ctx.moveTo(-9,i*10);ctx.lineTo(-18,i*27);ctx.moveTo(8,i*10);ctx.lineTo(19,i*28);ctx.moveTo(2,i*8);ctx.lineTo(31,i*17);ctx.stroke()}ctx.fillStyle=enemyTone(e,'#4b5558');ctx.beginPath();ctx.ellipse(-3,0,30,23,0,0,6.28);ctx.fill();ctx.fillStyle=enemyTone(e,'#733d3e');ctx.beginPath();ctx.moveTo(-19,-15);ctx.lineTo(4,-20);ctx.lineTo(21,-10);ctx.lineTo(22,12);ctx.lineTo(2,21);ctx.lineTo(-20,13);ctx.closePath();ctx.fill();ctx.strokeStyle=enemyTone(e,'#a7b0ae');ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(-13,-10);ctx.lineTo(13,11);ctx.moveTo(-12,11);ctx.lineTo(13,-9);ctx.stroke();ctx.fillStyle=enemyTone(e,'#25292b');ctx.beginPath();ctx.arc(23,0,13,0,6.28);ctx.fill();ctx.fillStyle='#ff6758';ctx.shadowColor='#ff6758';ctx.shadowBlur=15;ctx.beginPath();ctx.arc(2,0,8,0,6.28);ctx.fill();ctx.fillStyle='#fff0cf';ctx.beginPath();ctx.arc(4,-2,3,0,6.28);ctx.fill();ctx.shadowBlur=0;
 	    }
-	    function drawEnemyHealth(e){if(e.hp>=e.maxHp)return;const w=e.r*2.15,y=e.y+e.r+5,tank={greenhouse:'#6df1c0',grassland:'#a8dc68',desert:'#e0a852',district:'#9ca9aa'}[G.scene];ctx.fillStyle='rgba(4,12,10,.72)';ctx.fillRect(e.x-w/2,y,w,3);ctx.fillStyle=e.kind==='bulwark'?tank:e.kind==='elite'?'#ffd86b':'#ff7057';ctx.fillRect(e.x-w/2,y,w*clamp(e.hp/e.maxHp,0,1),3)}
+    function drawCaveEnemy(e){
+      if(e.kind==='spore')drawCaveBat(e);
+      else if(e.kind==='bulwark')drawCrystalBeetle(e);
+      else if(e.kind==='elite')drawCrystalGolem(e);
+      else drawCaveSpider(e);
+    }
+    function drawCaveBat(e){
+      const flap=Math.sin(e.phase*1.7)*5,c=CAVE_PALETTE;
+      ctx.strokeStyle=enemyTone(e,c.slate);ctx.lineWidth=2;
+      for(const side of [-1,1]){
+        ctx.fillStyle=enemyTone(e,e.variant===1?c.amethyst:'#657e9e');
+        ctx.beginPath();ctx.moveTo(-7,side*4);ctx.lineTo(-14,side*(23+flap));ctx.lineTo(3,side*(16+flap));ctx.lineTo(9,side*23);ctx.lineTo(14,side*7);ctx.closePath();ctx.fill();ctx.stroke();
+        ctx.strokeStyle=enemyTone(e,c.crystal);ctx.beginPath();ctx.moveTo(9,side*6);ctx.lineTo(-9,side*(18+flap));ctx.stroke();
+      }
+      ctx.fillStyle=enemyTone(e,'#343347');ctx.beginPath();ctx.ellipse(0,0,13,7,0,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle=enemyTone(e,'#7c87a4');ctx.beginPath();ctx.arc(11,0,7,0,Math.PI*2);ctx.fill();
+      ctx.beginPath();ctx.moveTo(8,-5);ctx.lineTo(7,-13);ctx.lineTo(14,-6);ctx.moveTo(8,5);ctx.lineTo(7,13);ctx.lineTo(14,6);ctx.fill();
+      ctx.fillStyle=c.crystal;ctx.beginPath();ctx.arc(14,-3,1.8,0,Math.PI*2);ctx.arc(14,3,1.8,0,Math.PI*2);ctx.fill();
+    }
+    function drawCaveSpider(e){
+      const gait=Math.sin(e.phase)*3,c=CAVE_PALETTE;
+      ctx.strokeStyle=enemyTone(e,'#9b8cae');ctx.lineWidth=3;ctx.lineCap='round';
+      for(const side of [-1,1])for(let i=0;i<4;i++){
+        const x=-12+i*7,step=gait*(i%2?1:-1);
+        ctx.beginPath();ctx.moveTo(x,side*5);ctx.lineTo(x-5+step,side*13);ctx.lineTo(x+1+step,side*(21-i%2*3));ctx.stroke();
+      }
+      ctx.fillStyle=enemyTone(e,e.variant===2?'#716080':'#554762');ctx.beginPath();ctx.ellipse(-6,0,15,11,0,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle=enemyTone(e,c.amethyst);ctx.beginPath();ctx.moveTo(-14,0);ctx.lineTo(-5,-6);ctx.lineTo(3,0);ctx.lineTo(-5,6);ctx.closePath();ctx.fill();
+      ctx.fillStyle=enemyTone(e,'#303042');ctx.beginPath();ctx.ellipse(12,0,9,8,0,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle=enemyTone(e,'#d0c5dc');ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(18,-4);ctx.lineTo(24,-6);ctx.lineTo(22,-1);ctx.moveTo(18,4);ctx.lineTo(24,6);ctx.lineTo(22,1);ctx.stroke();
+      ctx.fillStyle=c.crystal;for(const y of [-4,0,4]){ctx.beginPath();ctx.arc(16,y,1.4,0,Math.PI*2);ctx.fill()}
+    }
+    function drawCrystalBeetle(e){
+      const gait=Math.sin(e.phase)*2,c=CAVE_PALETTE;
+      ctx.strokeStyle=enemyTone(e,c.slate);ctx.lineWidth=5;ctx.lineCap='round';
+      for(const side of [-1,1])for(let i=0;i<3;i++){
+        const x=-13+i*11;ctx.beginPath();ctx.moveTo(x,side*9);ctx.lineTo(x-4,side*(20+gait*(i%2?1:-1)));ctx.stroke();
+      }
+      ctx.fillStyle=enemyTone(e,'#1c2933');ctx.beginPath();ctx.ellipse(0,0,23,16,0,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle=enemyTone(e,e.variant===1?'#7696a2':'#596779');ctx.beginPath();ctx.moveTo(-22,0);ctx.lineTo(-13,-14);ctx.lineTo(9,-14);ctx.lineTo(20,0);ctx.lineTo(9,14);ctx.lineTo(-13,14);ctx.closePath();ctx.fill();
+      ctx.strokeStyle=enemyTone(e,c.crystal);ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-20,0);ctx.lineTo(17,0);ctx.moveTo(-7,-13);ctx.lineTo(-2,0);ctx.lineTo(-7,13);ctx.stroke();
+      ctx.save();ctx.rotate(Math.PI*.5);drawCaveCrystal(0,0,15,enemyTone(e,c.crystal));ctx.restore();
+      ctx.fillStyle=enemyTone(e,'#2a3040');ctx.beginPath();ctx.arc(20,0,8,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle=enemyTone(e,c.amethyst);ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(23,-4);ctx.lineTo(31,-7);ctx.lineTo(29,-1);ctx.moveTo(23,4);ctx.lineTo(31,7);ctx.lineTo(29,1);ctx.stroke();
+      ctx.fillStyle=c.lamp;ctx.beginPath();ctx.arc(23,-3,1.8,0,Math.PI*2);ctx.fill();
+    }
+    function drawCrystalGolem(e){
+      const step=Math.sin(e.phase)*3,c=CAVE_PALETTE;
+      for(const side of [-1,1]){
+        ctx.strokeStyle=enemyTone(e,c.slate);ctx.lineWidth=11;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(-10,side*13);ctx.lineTo(-23+side*step,side*22);ctx.moveTo(7,side*13);ctx.lineTo(16-side*step,side*29);ctx.stroke();
+        ctx.fillStyle=enemyTone(e,c.ridge);ctx.beginPath();ctx.roundRect(8-side*step,side*29-7,17,14,3);ctx.fill();
+      }
+      ctx.fillStyle=enemyTone(e,c.slate);ctx.beginPath();ctx.moveTo(-29,-8);ctx.lineTo(-17,-24);ctx.lineTo(9,-23);ctx.lineTo(24,-10);ctx.lineTo(22,13);ctx.lineTo(4,24);ctx.lineTo(-21,20);ctx.closePath();ctx.fill();
+      ctx.fillStyle=enemyTone(e,'#8b809c');ctx.beginPath();ctx.moveTo(-27,-7);ctx.lineTo(-15,-20);ctx.lineTo(2,-17);ctx.lineTo(-6,-3);ctx.closePath();ctx.fill();
+      ctx.strokeStyle=enemyTone(e,c.crystal);ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-18,13);ctx.lineTo(-5,3);ctx.lineTo(6,8);ctx.lineTo(17,-8);ctx.moveTo(-5,3);ctx.lineTo(-12,-12);ctx.stroke();
+      ctx.save();ctx.translate(-11,-10);ctx.rotate(-.6);drawCaveCrystal(0,0,24,enemyTone(e,c.amethyst));ctx.restore();
+      ctx.fillStyle=enemyTone(e,c.ridge);ctx.beginPath();ctx.roundRect(15,-11,20,22,5);ctx.fill();
+      ctx.fillStyle=c.crystal;ctx.fillRect(24,-6,8,3);ctx.fillRect(24,3,8,3);
+      ctx.fillStyle='#162b35';ctx.beginPath();ctx.arc(2,0,9,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle=c.crystal;ctx.beginPath();ctx.moveTo(2,-7);ctx.lineTo(8,0);ctx.lineTo(2,7);ctx.lineTo(-4,0);ctx.closePath();ctx.fill();
+      ctx.fillStyle='#e4fff7';ctx.beginPath();ctx.arc(3,-2,2,0,Math.PI*2);ctx.fill();
+    }
+	    function drawEnemyHealth(e){if(e.hp>=e.maxHp)return;const w=e.r*2.15,y=e.y+e.r+5,tank={greenhouse:'#6df1c0',grassland:'#a8dc68',desert:'#e0a852',district:'#9ca9aa',cave:CAVE_PALETTE.crystal}[G.scene];ctx.fillStyle='rgba(4,12,10,.72)';ctx.fillRect(e.x-w/2,y,w,3);ctx.fillStyle=e.kind==='bulwark'?tank:e.kind==='elite'?'#ffd86b':'#ff7057';ctx.fillRect(e.x-w/2,y,w*clamp(e.hp/e.maxHp,0,1),3)}
     function drawBeam(b){const a=clamp(b.life/b.maxLife,0,1),head=1-a;ctx.save();ctx.globalCompositeOperation='lighter';ctx.lineCap='round';ctx.globalAlpha=a*.34;ctx.strokeStyle='#4a65ff';ctx.shadowColor='#5ac8ff';ctx.shadowBlur=18;ctx.lineWidth=b.width*3.4+7;ctx.beginPath();ctx.moveTo(b.x1,b.y1);ctx.lineTo(b.x2,b.y2);ctx.stroke();ctx.globalAlpha=a*.82;ctx.strokeStyle='#68d7ff';ctx.lineWidth=b.width+3;ctx.beginPath();ctx.moveTo(b.x1,b.y1);ctx.lineTo(b.x2,b.y2);ctx.stroke();ctx.globalAlpha=a;ctx.strokeStyle='#f4fdff';ctx.lineWidth=Math.max(2,b.width*.34);ctx.beginPath();ctx.moveTo(b.x1,b.y1);ctx.lineTo(b.x2,b.y2);ctx.stroke();ctx.shadowBlur=0;ctx.setLineDash([3,11]);ctx.lineDashOffset=-head*26-b.phase;ctx.strokeStyle='#d8f8ff';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(b.x1,b.y1);ctx.lineTo(b.x2,b.y2);ctx.stroke();ctx.setLineDash([]);ctx.restore()}
     function drawSlash(s){
       const a=clamp(s.life/s.maxLife,0,1),r=s.reach*(1-a*.13),arc=s.arc||.92;
@@ -1367,7 +1559,7 @@
     function moveAnywhere(e){if(!input.active||e.pointerId!==input.pointerId)return;const x=e.clientX-input.originX,y=e.clientY-input.originY,d=Math.hypot(x,y),m=Math.min(31,d),nx=x/(d||1)*m,ny=y/(d||1)*m;input.x=nx/31;input.y=ny/31;stick.style.transform=`translate(${nx}px,${ny}px)`;e.preventDefault()}
     function resetMove(e){if(e&&input.pointerId!==e.pointerId)return;input.x=0;input.y=0;input.active=false;input.pointerId=null;stick.style.transform='translate(0,0)';joy.classList.remove('active');joy.style.left='';joy.style.top='';joy.style.bottom=''}
     canvas.addEventListener('pointerdown',beginMove);canvas.addEventListener('pointermove',moveAnywhere);canvas.addEventListener('pointerup',resetMove);canvas.addEventListener('pointercancel',resetMove);canvas.addEventListener('lostpointercapture',resetMove);
-    const sceneOrder=Object.keys(SCENES),weaponOrder=Object.keys(WEAPONS),characterOrder=Object.keys(CHARACTERS);
+    const sceneOrder=Object.keys(SCENES),stageOrder=Array.from({length:CAMPAIGN.totalStages},(_,i)=>i+1),weaponOrder=Object.keys(WEAPONS),characterOrder=Object.keys(CHARACTERS);
     function selectCharacter(character,direction=0,announce=true){
       if(!CHARACTERS[character])return;
       const index=characterOrder.indexOf(character);
@@ -1376,7 +1568,6 @@
       ui['character-stage'].setAttribute('aria-label',`选择角色，第 ${index+1} 位，共 ${characterOrder.length} 位，${CHARACTERS[character].name}`);
       ui['character-number'].textContent=index+1;
       ui['character-name'].textContent=CHARACTERS[character].name;
-      ui['character-note'].textContent=CHARACTERS[character].note;
       drawCharacterPortraits();
       if(character==='xiao-han'){
         selectWeapon('sword',0,false);
@@ -1389,16 +1580,15 @@
     xiaoHanSprite.onload=()=>{
       document.getElementById('prev-character').disabled=false;
       document.getElementById('next-character').disabled=false;
-      ui['character-note'].textContent=CHARACTERS[selectedCharacter].note;
       drawCharacterPortraits();
       if(G.state!=='playing')draw();
     };
     xiaoHanSprite.onerror=()=>{
-      ui['character-note'].textContent='小韩素材载入失败，请刷新重试。巡游者可正常出战。';
-      ui['selection-status'].textContent=ui['character-note'].textContent;
+      ui['selection-status'].textContent='小韩素材载入失败，请刷新重试。巡游者可正常出战。';
     };
-    xiaoHanSprite.src='./assets/core-breach/xiao-han/character-sprite.png';
+    xiaoHanSprite.src='../素材库/弹壳打工/xiao-han/character-sprite.png';
     const weaponStyles={dart:'贯穿回旋',blaster:'远程脉冲',katana:'近身横扫',ak47:'高速连射',sword:'飞剑环身'};
+    const weaponArtSources={dart:'../素材库/弹壳打工/weapons/dart.svg',blaster:'../素材库/弹壳打工/weapons/blaster.svg',katana:'../素材库/弹壳打工/weapons/katana.svg',ak47:'../素材库/弹壳打工/weapons/ak47.svg',sword:'../素材库/弹壳打工/weapons/sword.png'};
     function animateSelection(element,direction){
       if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
       element.getAnimations().forEach(animation=>animation.cancel());
@@ -1411,30 +1601,29 @@
       ui['weapon-stage'].dataset.weapon=weapon;
       ui['weapon-stage'].setAttribute('aria-label',`选择武器，第 ${index+1} 把，共 ${weaponOrder.length} 把，${w.name}`);
       ui['weapon-number'].textContent=index+1;
-      ui['featured-weapon'].className='weapon-glyph '+weapon;
+      ui['featured-weapon'].src=weaponArtSources[weapon];
       ui['loadout-name'].textContent=w.name;
-      ui['weapon-damage'].textContent=w.damage;
-      ui['weapon-rate'].textContent=(1/w.rate).toFixed(2)+' 次/秒';
-      if(ui['weapon-range'])ui['weapon-range'].textContent=w.range;
       if(announce)ui['selection-status'].textContent=`已装备${w.name}，${weaponStyles[weapon]}，伤害 ${w.damage}，攻速 ${(1/w.rate).toFixed(2)} 次每秒，距离 ${w.range}`;
       if(direction)animateSelection(ui['weapon-stage'].querySelector('.weapon-showcase'),direction);
     }
-    function selectScene(scene,direction=0,announce=true){
-      if(!SCENES[scene])return;
-      const s=SCENES[scene],index=sceneOrder.indexOf(scene);
-      selectedScene=scene;G.scene=scene;
+    function selectStage(number,direction=0,announce=true){
+      const stage=getStageConfig(number),scene=stage.scene,s=SCENES[scene],index=sceneOrder.indexOf(scene);
+      selectedStage=stage.number;selectedScene=scene;G.scene=scene;
+      G.stage=stage.number;G.stageHpScale=stage.hpScale;
       ui['scene-stage'].dataset.scene=scene;
-      ui['scene-stage'].setAttribute('aria-label',`选择关卡，第 ${index+1} 关，共 ${sceneOrder.length} 关，${s.name}`);
-      ui['stage-number'].textContent=index+1;
+      ui['scene-stage'].setAttribute('aria-label',`选择关卡，第 ${stage.number} 关，共 ${CAMPAIGN.totalStages} 关，第 ${stage.cycle} 轮，${s.name}`);
+      ui['stage-number'].textContent=stage.number;
+      document.getElementById('prev-scene').disabled=stage.number===1;
+      document.getElementById('next-scene').disabled=stage.number===CAMPAIGN.totalStages;
       ui['scene-dots'].innerHTML=sceneOrder.map((key,i)=>`<i class="${i===index?'active':''}"></i>`).join('');
-      ui['scene-name'].textContent=s.name;ui['scene-subtitle'].textContent=s.subtitle;
+      ui['scene-name'].textContent=s.name;
       ui['region-name'].textContent=s.region;ui['start-btn'].textContent='开始打工';
       ui.objective.textContent=s.opening;
-      if(announce)ui['selection-status'].textContent=`第 ${index+1} 关，${s.name}，区域${s.region}，本班目标存活三分钟`;
+      if(announce)ui['selection-status'].textContent=`第 ${stage.number} 关，第 ${stage.cycle} 轮，${s.name}，基础血量 ${formatHpPercent(stage.hpScale)}，本班目标存活三分钟`;
       if(direction)animateSelection(ui['scene-stage'].querySelector('.stage-art'),direction);
       buildSceneDecor();draw();
     }
-    function cycleScene(direction){selectScene(sceneOrder[(sceneOrder.indexOf(selectedScene)+direction+sceneOrder.length)%sceneOrder.length],direction)}
+    function cycleScene(direction){selectStage(selectedStage+direction,direction)}
     function cycleWeapon(direction){selectWeapon(weaponOrder[(weaponOrder.indexOf(selectedWeapon)+direction+weaponOrder.length)%weaponOrder.length],direction)}
     function cycleCharacter(direction){selectCharacter(characterOrder[(characterOrder.indexOf(selectedCharacter)+direction+characterOrder.length)%characterOrder.length],direction)}
     // 方形卡片共用按钮、键盘与拖动切换；纵向手势留给准备页滚动。
@@ -1468,11 +1657,11 @@
     document.getElementById('prev-character').onclick=()=>cycleCharacter(-1);
     document.getElementById('next-character').onclick=()=>cycleCharacter(1);
     bindCarousel(ui['character-stage'],cycleCharacter,characterOrder,selectCharacter);
-    bindCarousel(ui['scene-stage'],cycleScene,sceneOrder,selectScene);
+    bindCarousel(ui['scene-stage'],cycleScene,stageOrder,selectStage);
     bindCarousel(ui['weapon-stage'],cycleWeapon,weaponOrder,selectWeapon);
     ui.difficulty.oninput=()=>{enemyHpPercent=Number(ui.difficulty.value);ui['difficulty-value'].textContent=enemyHpPercent+'%'};
-    ui['start-btn'].onclick=start;document.getElementById('retry').onclick=start;document.getElementById('pause').onclick=pause;document.getElementById('resume').onclick=resume;document.getElementById('quit').onclick=()=>{resetMove();toggle('paused',false);toggle('start',true);G.state='start';updateLayoutMode();};document.getElementById('result-quit').onclick=()=>{resetMove();toggle('result',false);toggle('start',true);G.state='start';updateLayoutMode();};document.getElementById('skill').onclick=useSkill;document.getElementById('sound').onclick=e=>{audioOn=!audioOn;if(audioOn)unlockAudio();e.currentTarget.textContent=audioOn?'◌':'×';e.currentTarget.setAttribute('aria-label',audioOn?'关闭音效':'开启音效')};document.getElementById('help-btn').onclick=()=>{ui.objective.textContent='战场任意位置拖动，右下释放范围技能';setTimeout(()=>{if(G.state==='start')ui.objective.textContent=SCENES[selectedScene].opening},2200)};window.addEventListener('keydown',e=>{keys[e.key]=true;if(e.key===' ')useSkill();if(e.key==='Escape')G.state==='paused'?resume():pause()});window.addEventListener('keyup',e=>keys[e.key]=false);window.addEventListener('blur',resetMove);window.addEventListener('resize',resize);
-    updateLayoutMode();selectScene(selectedScene,0,false);selectWeapon(selectedWeapon,0,false);selectCharacter(selectedCharacter,0,false);
+    ui['start-btn'].onclick=start;document.getElementById('retry').onclick=retryOrAdvance;document.getElementById('pause').onclick=pause;document.getElementById('resume').onclick=resume;document.getElementById('quit').onclick=()=>{resetMove();toggle('paused',false);toggle('start',true);G.state='start';updateLayoutMode();};document.getElementById('result-quit').onclick=()=>{resetMove();toggle('result',false);toggle('start',true);G.state='start';updateLayoutMode();};document.getElementById('skill').onclick=useSkill;document.getElementById('sound').onclick=e=>{audioOn=!audioOn;if(audioOn)unlockAudio();e.currentTarget.textContent=audioOn?'关闭音效':'开启音效';e.currentTarget.setAttribute('aria-pressed',String(audioOn))};document.getElementById('help-btn').onclick=()=>{ui.objective.textContent='战场任意位置拖动，右下释放范围技能';setTimeout(()=>{if(G.state==='start')ui.objective.textContent=SCENES[selectedScene].opening},2200)};window.addEventListener('keydown',e=>{keys[e.key]=true;if(e.key===' ')useSkill();if(e.key==='Escape')G.state==='paused'?resume():pause()});window.addEventListener('keyup',e=>keys[e.key]=false);window.addEventListener('blur',resetMove);window.addEventListener('resize',resize);
+    updateLayoutMode();selectStage(selectedStage,0,false);selectWeapon(selectedWeapon,0,false);selectCharacter(selectedCharacter,0,false);
   })();
   </script>
 </body>

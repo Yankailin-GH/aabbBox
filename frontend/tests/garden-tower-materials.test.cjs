@@ -95,7 +95,7 @@ test('six shipped transparent atlases, 45 frames, source rectangles and muzzle c
  for(const [type,data] of Object.entries(api.layout)) {
   assert.equal(data.towerFrames.flat().length,15);
   for(const f of [...data.towerFrames.flat(),...Object.values(data.effectFrames)]){const[x,y,w,h]=f;assert(x>=0&&y>=0&&w>0&&h>0&&x+w<=1536&&y+h<=1024);}
-  for(const kind of ['towers','effects']){const filename=data[kind==='towers'?'towerFile':'effectFile']||kind+'-v1.png';const png=fs.readFileSync(path.join(__dirname,'../src/assets/garden',data.folder,filename));assert.equal(png[25],6);assert.equal(png.readUInt32BE(16),1536);assert.equal(png.readUInt32BE(20),1024);}
+  for(const kind of ['towers','effects']){const filename=data[kind==='towers'?'towerFile':'effectFile']||kind+'-v1.png';const png=fs.readFileSync(path.join(__dirname,'../素材库/花园防线',data.folder,filename));assert.equal(png[25],6);assert.equal(png.readUInt32BE(16),1536);assert.equal(png.readUInt32BE(20),1024);}
   calls.length=0;api.drawTower({drawImage(...args){calls.push(args);}},type,3,'release',50);assert.equal(calls.length,1);
  }
  assert.equal(api.layout.tesla.towerFile,'towers-v2.png');assert.equal(api.layout.tesla.effectFile,'effects-v2.png');

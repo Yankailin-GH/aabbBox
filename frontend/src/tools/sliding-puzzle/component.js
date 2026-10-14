@@ -53,6 +53,7 @@
                 <strong>{{ hasSelectedSize ? '第 ' + (size - 2) + ' 关 · ' + size + ' × ' + size : '选择关卡' }}</strong>
               </div>
               <div class="puzzle-game-actions">
+                <button class="puzzle-fullscreen-button" type="button" @click="toggleFullscreen">全屏</button>
                 <button
                   v-if="hasSelectedSize"
                   class="puzzle-reset-button"
@@ -249,13 +250,7 @@
         playing.value = true;
         liveMessage.value = "请选择挑战关卡";
 
-        try {
-          if (document.documentElement.requestFullscreen) {
-            await document.documentElement.requestFullscreen();
-          }
-        } catch (error) {
-          // The fixed game layer remains available when fullscreen is blocked.
-        }
+        await global.GameDisplay.requestFullscreen();
 
         await nextTick();
         if (levelHeading.value) levelHeading.value.focus();
@@ -268,13 +263,7 @@
         hasSelectedSize.value = false;
         playing.value = false;
 
-        try {
-          if (document.fullscreenElement && document.exitFullscreen) {
-            await document.exitFullscreen();
-          }
-        } catch (error) {
-          // Closing the fixed game layer is sufficient when fullscreen exit fails.
-        }
+        await global.GameDisplay.exitFullscreen();
       }
 
       function createSolvedTiles(boardSize) {
@@ -502,6 +491,7 @@
       });
 
       return {
+        toggleFullscreen: global.GameDisplay.toggleFullscreen,
         bestLabel,
         boardAriaLabel,
         boardSizeClass,

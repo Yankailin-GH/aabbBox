@@ -1,7 +1,7 @@
 (function (global) {
   if (!global.Vue) return;
 
-  const { computed, onBeforeUnmount, onMounted, ref } = global.Vue;
+  const { onBeforeUnmount, onMounted, ref } = global.Vue;
   const gameSrc = "./src/core-breach-game.html";
 
   global.CoreBreachGameTool = {
@@ -20,7 +20,7 @@
           <p class="survival-kicker">单机 · 竖屏 · 自动攻击</p>
           <h2>弹壳打工</h2>
           <p>选好工地、角色和武器，拖动走位，自动清怪。升级时挑一项强化，撑过三分钟就能下班。</p>
-          <div class="survival-tags"><span>四种工地</span><span>自动清怪</span><span>随机强化</span></div>
+          <div class="survival-tags"><span>五种工地 · 100关</span><span>每轮生命 +20%</span><span>随机强化</span></div>
           <button type="button" class="survival-launch" @click="openGame">开始打工</button>
         </section>
         <section v-if="playing" class="survival-fullscreen">
@@ -31,19 +31,16 @@
     `,
     setup(props, { emit }) {
       const playing = ref(false);
-      const canFullscreen = computed(() => Boolean(document.documentElement.requestFullscreen));
       function goHome() { closeGame(); emit("go-home"); }
       async function openGame() {
         playing.value = true;
-        try { if (canFullscreen.value) await document.documentElement.requestFullscreen(); } catch (error) { /* Fixed overlay is the fallback. */ }
+        await global.GameDisplay.requestFullscreen();
       }
       async function closeGame() {
         playing.value = false;
-        try { if (document.fullscreenElement && document.exitFullscreen) await document.exitFullscreen(); } catch (error) { /* No action needed. */ }
+        await global.GameDisplay.exitFullscreen();
       }
-      function handleFullscreen() { if (!document.fullscreenElement) playing.value = false; }
-      onMounted(() => document.addEventListener("fullscreenchange", handleFullscreen));
-      onBeforeUnmount(() => { document.removeEventListener("fullscreenchange", handleFullscreen); closeGame(); });
+      onBeforeUnmount(closeGame);
       return { closeGame, gameSrc, goHome, openGame, playing };
     },
   };
@@ -85,33 +82,22 @@
 
       async function openGame() {
         playing.value = true;
-        try {
-          if (document.documentElement.requestFullscreen) await document.documentElement.requestFullscreen();
-          if (global.screen.orientation && global.screen.orientation.lock) await global.screen.orientation.lock("portrait");
-        } catch (error) { /* Fullscreen and orientation lock are optional. */ }
+        await global.GameDisplay.requestFullscreen();
       }
 
       async function closeGame() {
         playing.value = false;
-        try {
-          if (global.screen.orientation && global.screen.orientation.unlock) global.screen.orientation.unlock();
-          if (document.fullscreenElement && document.exitFullscreen) await document.exitFullscreen();
-        } catch (error) { /* No action needed. */ }
+        await global.GameDisplay.exitFullscreen();
       }
 
-      function handleFullscreen() { if (!document.fullscreenElement) playing.value = false; }
       function handleMessage(event) {
         if (event.origin !== global.location.origin || !event.data || event.data.type !== "core-breach:exit") return;
         event.source.postMessage({ type: "core-breach:exit-ack" }, event.origin);
         goHome();
       }
 
-      onMounted(() => {
-        document.addEventListener("fullscreenchange", handleFullscreen);
-        global.addEventListener("message", handleMessage);
-      });
+      onMounted(() => global.addEventListener("message", handleMessage));
       onBeforeUnmount(() => {
-        document.removeEventListener("fullscreenchange", handleFullscreen);
         global.removeEventListener("message", handleMessage);
         closeGame();
       });

@@ -1,11 +1,13 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
+  <link rel="icon" type="image/png" sizes="64x64" href="./assets/brand/favicon.ico?v=862ffdc862a1">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#2b80ad">
   <title>西游星球</title>
   <link rel="stylesheet" href="./arcade/game-navigation.css">
+  <script src="./arcade/game-display.js?v=1"></script>
   <script src="./arcade/game-navigation.js" defer></script>
   <style>
     :root{font-family:ui-rounded,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;color:#25465a;background:#144d72}
@@ -31,13 +33,13 @@
     <div class="field"><canvas id="battle" aria-label="战场，点击英雄选中，再点击同类同阶英雄合成"></canvas><div id="hint" class="hint">召唤英雄，抵挡怪物！</div></div>
     <footer class="bottom"><div class="resource"><div class="coins"><span class="coin">✦</span><span id="gold">80</span></div><span id="wall-note" class="wave-text">城墙 6 格 · 合成 0 次</span><span id="wave-note" class="wave-text">点击英雄查看攻击范围</span></div><div class="actions"><button id="summon" class="action" type="button"><strong>随机召唤</strong><small>消耗 <span id="cost">20</span> 星币</small></button><button id="merge" class="action merge" type="button"><strong>一键合成</strong><small>同类同阶</small></button><button id="recycle" class="action recycle" type="button"><strong>回收</strong><small>选中后 +10</small></button></div><p id="tip" class="tip">城墙满格或每 3 次合成扩建</p></footer>
     <section id="start" class="cover"><div class="panel"><div class="panel-head"><p class="eyebrow">JOURNEY PLANET DEFENSE</p><h1>西游星球</h1><p>召唤西游英雄，合成升阶，抵挡三波来袭怪物。</p></div><div class="panel-body"><p class="roster-title">西游守卫 · 7 位</p><div class="roster">
-      <div class="unit-card"><img class="portrait-img" src="./assets/star-isle-guard/characters/wukong.png" alt="孙悟空"><span><strong>孙悟空</strong><small>近战爆发 · 如意棒横扫</small></span></div>
-      <div class="unit-card"><img class="portrait-img" src="./assets/star-isle-guard/characters/bajie.png" alt="猪八戒"><span><strong>猪八戒</strong><small>范围控制 · 九齿钉耙</small></span></div>
-      <div class="unit-card"><img class="portrait-img" src="./assets/star-isle-guard/characters/tangseng.png" alt="唐僧"><span><strong>唐僧</strong><small>净化支援 · 修复城门</small></span></div>
-      <div class="unit-card"><img class="portrait-img" src="./assets/star-isle-guard/characters/shaseng.png" alt="沙僧"><span><strong>沙僧</strong><small>沉稳输出 · 月牙铲</small></span></div>
-      <div class="unit-card"><img class="portrait-img" src="./assets/star-isle-guard/characters/bailongma.png" alt="白龙马"><span><strong>白龙马</strong><small>冰霜弹 · 龙珠减速</small></span></div>
-      <div class="unit-card"><img class="portrait-img" src="./assets/star-isle-guard/characters/zixia.png" alt="紫霞仙子"><span><strong>紫霞仙子</strong><small>星芒连射 · 灵巧快速</small></span></div>
-      <div class="unit-card"><img class="portrait-img" src="./assets/star-isle-guard/characters/wujiguo-queen.png" alt="乌鸡国国王"><span><strong>乌鸡国国王</strong><small>王印法球 · 范围雷击</small></span></div>
+      <div class="unit-card"><img class="portrait-img" src="../素材库/西游星球/characters/wukong.png" alt="孙悟空"><span><strong>孙悟空</strong><small>近战爆发 · 如意棒横扫</small></span></div>
+      <div class="unit-card"><img class="portrait-img" src="../素材库/西游星球/characters/bajie.png" alt="猪八戒"><span><strong>猪八戒</strong><small>范围控制 · 九齿钉耙</small></span></div>
+      <div class="unit-card"><img class="portrait-img" src="../素材库/西游星球/characters/tangseng.png" alt="唐僧"><span><strong>唐僧</strong><small>净化支援 · 修复城门</small></span></div>
+      <div class="unit-card"><img class="portrait-img" src="../素材库/西游星球/characters/shaseng.png" alt="沙僧"><span><strong>沙僧</strong><small>沉稳输出 · 月牙铲</small></span></div>
+      <div class="unit-card"><img class="portrait-img" src="../素材库/西游星球/characters/bailongma.png" alt="白龙马"><span><strong>白龙马</strong><small>冰霜弹 · 龙珠减速</small></span></div>
+      <div class="unit-card"><img class="portrait-img" src="../素材库/西游星球/characters/zixia.png" alt="紫霞仙子"><span><strong>紫霞仙子</strong><small>星芒连射 · 灵巧快速</small></span></div>
+      <div class="unit-card"><img class="portrait-img" src="../素材库/西游星球/characters/wujiguo-queen.png" alt="乌鸡国国王"><span><strong>乌鸡国国王</strong><small>王印法球 · 范围雷击</small></span></div>
     </div><div class="enemy-row"><span>泡泡史莱姆 · 普通</span><span>岩壳兽 · 高血</span><span>影翼蝠 · 快速</span><span>独眼巨怪 · 首领</span></div><p class="instructions">每次随机召唤一位英雄；点击英雄可查看攻击范围，点击两位同类、同星级英雄即可合成升级。城墙从底部 6 格开始，满格或累计 3 次合成会随机扩建。每波结束后选择一项强化。</p><button id="start-button" class="primary" type="button">开始守卫</button></div></div></section>
     <section id="upgrade" class="cover" hidden><div class="panel"><div class="panel-head"><p class="eyebrow">WAVE CLEAR</p><h1>暂时守住了！</h1><p>选择一项补给，迎接下一波。</p></div><div class="panel-body"><div class="choice-grid"><button class="choice" data-upgrade="power" type="button"><strong>锋芒祝福</strong><small>全体英雄伤害 +25%</small></button><button class="choice" data-upgrade="gold" type="button"><strong>星币补给</strong><small>立刻获得 100 星币</small></button><button class="choice" data-upgrade="heal" type="button"><strong>城门修缮</strong><small>恢复 35 点城门生命</small></button></div></div></div></section>
     <section id="paused" class="cover" hidden><div class="panel"><div class="panel-head"><p class="eyebrow">PAUSED</p><h1>战斗暂停</h1><p>守卫们在等你的指令。</p></div><div class="panel-body"><button id="resume" class="primary" type="button">继续战斗</button><button id="restart-paused" class="secondary" type="button">重新开始</button></div></div></section>
@@ -55,20 +57,20 @@
       phantomSwing:new Image(),
       sparkStrip:new Image()
     };
-    WUKONG_FX.ultStaff.src='./assets/star-isle-guard/attacks/wukong-ult-staff.svg';
-    WUKONG_FX.shockwave.src='./assets/star-isle-guard/attacks/wukong-shockwave.svg';
-    WUKONG_FX.stunStar.src='./assets/star-isle-guard/attacks/wukong-stun-star.svg';
-    WUKONG_FX.phantomSwing.src='./assets/star-isle-guard/attacks/wukong-phantom-swing.png';
-    WUKONG_FX.sparkStrip.src='./assets/star-isle-guard/attacks/wukong-spark-strip.png';
+    WUKONG_FX.ultStaff.src='../素材库/西游星球/attacks/wukong-ult-staff.svg';
+    WUKONG_FX.shockwave.src='../素材库/西游星球/attacks/wukong-shockwave.svg';
+    WUKONG_FX.stunStar.src='../素材库/西游星球/attacks/wukong-stun-star.svg';
+    WUKONG_FX.phantomSwing.src='../素材库/西游星球/attacks/wukong-phantom-swing.png';
+    WUKONG_FX.sparkStrip.src='../素材库/西游星球/attacks/wukong-spark-strip.png';
 
     const HEROES=[
-      {id:'wukong',name:'孙悟空',sprite:'./assets/star-isle-guard/characters/wukong.png',color:'#e87959',dark:'#a94738',rate:.72,damage:19,rangeRatio:.38,bullet:'#ffb35d',ultInitial:18,ultCooldown:24},
-      {id:'bajie',name:'猪八戒',sprite:'./assets/star-isle-guard/characters/bajie.png',color:'#53b2b6',dark:'#267b80',rate:1.05,damage:16,rangeRatio:.4,bullet:'#70d8f1',ultInitial:20,ultCooldown:26},
-      {id:'tangseng',name:'唐僧',sprite:'./assets/star-isle-guard/characters/tangseng.png',color:'#d84e4b',dark:'#9d3037',rate:1.24,damage:10,rangeRatio:.6,bullet:'#fff0a3',ultInitial:26,ultCooldown:30},
-      {id:'shaseng',name:'沙僧',sprite:'./assets/star-isle-guard/characters/shaseng.png',color:'#4fa6a2',dark:'#2e6c70',rate:.92,damage:14,rangeRatio:.4,bullet:'#c7f1df',ultInitial:22,ultCooldown:28},
-      {id:'bailongma',name:'白龙马',sprite:'./assets/star-isle-guard/characters/bailongma.png',color:'#35c6d0',dark:'#168b9b',rate:1.02,damage:12,rangeRatio:.85,bullet:'#9df9ff',ultInitial:17,ultCooldown:22},
-      {id:'zixia',name:'紫霞仙子',sprite:'./assets/star-isle-guard/characters/zixia.png',color:'#b47ad6',dark:'#7650a0',rate:.62,damage:11,rangeRatio:.6,bullet:'#f0baff',ultInitial:19,ultCooldown:24},
-      {id:'wujiguo',name:'乌鸡国国王',sprite:'./assets/star-isle-guard/characters/wujiguo-queen.png',color:'#446cbd',dark:'#2e477e',rate:1.02,damage:15,rangeRatio:.6,bullet:'#9db8ff',ultInitial:21,ultCooldown:26}
+      {id:'wukong',name:'孙悟空',sprite:'../素材库/西游星球/characters/wukong.png',color:'#e87959',dark:'#a94738',rate:.72,damage:19,rangeRatio:.38,bullet:'#ffb35d',ultInitial:18,ultCooldown:24},
+      {id:'bajie',name:'猪八戒',sprite:'../素材库/西游星球/characters/bajie.png',color:'#53b2b6',dark:'#267b80',rate:1.05,damage:16,rangeRatio:.4,bullet:'#70d8f1',ultInitial:20,ultCooldown:26},
+      {id:'tangseng',name:'唐僧',sprite:'../素材库/西游星球/characters/tangseng.png',color:'#d84e4b',dark:'#9d3037',rate:1.24,damage:10,rangeRatio:.6,bullet:'#fff0a3',ultInitial:26,ultCooldown:30},
+      {id:'shaseng',name:'沙僧',sprite:'../素材库/西游星球/characters/shaseng.png',color:'#4fa6a2',dark:'#2e6c70',rate:.92,damage:14,rangeRatio:.4,bullet:'#c7f1df',ultInitial:22,ultCooldown:28},
+      {id:'bailongma',name:'白龙马',sprite:'../素材库/西游星球/characters/bailongma.png',color:'#35c6d0',dark:'#168b9b',rate:1.02,damage:12,rangeRatio:.85,bullet:'#9df9ff',ultInitial:17,ultCooldown:22},
+      {id:'zixia',name:'紫霞仙子',sprite:'../素材库/西游星球/characters/zixia.png',color:'#b47ad6',dark:'#7650a0',rate:.62,damage:11,rangeRatio:.6,bullet:'#f0baff',ultInitial:19,ultCooldown:24},
+      {id:'wujiguo',name:'乌鸡国国王',sprite:'../素材库/西游星球/characters/wujiguo-queen.png',color:'#446cbd',dark:'#2e477e',rate:1.02,damage:15,rangeRatio:.6,bullet:'#9db8ff',ultInitial:21,ultCooldown:26}
     ];
     const HERO_SPRITES=HEROES.map(hero=>{const image=typeof Image==='function'?new Image():null;if(image)image.src=hero.sprite;return image});
     const ENEMIES={slime:{name:'泡泡史莱姆',hp:37,speed:41,damage:8,gold:12,r:16},rock:{name:'岩壳兽',hp:105,speed:26,damage:15,gold:25,r:21},bat:{name:'影翼蝠',hp:53,speed:67,damage:10,gold:17,r:17},boss:{name:'独眼巨怪',hp:580,speed:18,damage:35,gold:80,r:30}};

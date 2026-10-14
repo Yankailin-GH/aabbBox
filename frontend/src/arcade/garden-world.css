@@ -23,3 +23,15 @@
 .taf-image-frame { background:#e9f2d7; border-color:#d6dfb8; }
 .tfm-title, .taf-name, .taf-copy p { color:#315e42; }
 @media(max-width:420px) { #hud-stats-group .stat-badge { padding:2px 5px; } #hud-stats-group .stat-badge .value { font-size:12px; } .controls-group { margin-left:5px; gap:4px; } }
+
+/* The host iframe and standalone game share the same wide-window layout. */
+@media (min-width:700px) {
+  :root { --garden-app-max-width:1200px; }
+  .game-screen-home { padding:24px; }
+  .home-topbar { gap:16px; padding:12px 16px; }
+  .home-main-content { width:100%; max-width:1100px; margin:0 auto; padding:32px 0 16px; }
+  .stage-select-grid { max-width:none; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; }
+  .stage-card { min-width:0; min-height:190px; padding:18px; }
+  .modal-card { max-width:680px; }
+  .briefing-card { max-width:760px; }
+}

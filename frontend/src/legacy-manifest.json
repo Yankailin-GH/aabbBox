@@ -4,7 +4,7 @@
   "description": "明亮卡通花园塔防策略游戏",
   "start_url": "./core-breach-legacy.html",
   "display": "standalone",
-  "display_override": ["fullscreen", "standalone"],
+  "display_override": ["standalone"],
   "orientation": "portrait",
   "background_color": "#edf8de",
   "theme_color": "#6fa957",

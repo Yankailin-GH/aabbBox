@@ -1,7 +1,7 @@
 (function (global) {
   'use strict';
   const script = document.currentScript;
-  const root = script ? new URL('../assets/garden/ice-star/', script.src).href : './assets/garden/ice-star/';
+  const root = script ? new URL('../../素材库/花园防线/ice-star/', script.src).href : '../素材库/花园防线/ice-star/';
   const towers = new Image(), effects = new Image();
   towers.src = root + 'towers-v1.png'; effects.src = root + 'effects-v1.png';
   const poses = ['idle', 'charge', 'release', 'recoil', 'recover'];
