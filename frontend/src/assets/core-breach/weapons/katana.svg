@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120" fill="none">
+  <defs>
+    <linearGradient id="thermalBlade" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff4512"/>
+      <stop offset="35%" stop-color="#ff7418"/>
+      <stop offset="70%" stop-color="#ffd21f"/>
+      <stop offset="95%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#fffbe0"/>
+    </linearGradient>
+    <linearGradient id="katanaHilt" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#737b86"/>
+      <stop offset="50%" stop-color="#2d333b"/>
+      <stop offset="100%" stop-color="#14181d"/>
+    </linearGradient>
+    <filter id="bladeGlow">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <g transform="translate(120,60) rotate(-14) scale(1.1)">
+    <!-- Blade Spine Dark Carbon -->
+    <path d="M-40,-4 C10,-12 60,-22 105,-28 L108,-22 C65,-15 15,-5 -38,1 Z" fill="#2d3138" stroke="#101a18" stroke-width="1.5"/>
+    <!-- Superheated Thermal Edge -->
+    <path d="M-38,1 C15,-5 65,-15 108,-22 C105,-20 90,-10 60,-2 C25,6 -20,12 -36,6 Z" fill="url(#thermalBlade)" filter="url(#bladeGlow)"/>
+    <!-- Blade Tip Arc -->
+    <path d="M105,-28 Q115,-27 108,-22 Z" fill="#ffffff" filter="url(#bladeGlow)"/>
+    <!-- Tsuba (Guard) -->
+    <rect x="-44" y="-12" width="7" height="24" rx="2" fill="#d4af37" stroke="#101a18" stroke-width="2"/>
+    <circle cx="-40.5" cy="0" r="2.5" fill="#101a18"/>
+    <!-- Tsuka (Hilt) -->
+    <path d="M-44,-3 L-100,-3 C-104,-3 -106,5 -100,5 L-44,5 Z" fill="url(#katanaHilt)" stroke="#101a18" stroke-width="2"/>
+    <!-- Wrapping Patterns -->
+    <line x1="-54" y1="-3" x2="-49" y2="5" stroke="#ff7418" stroke-width="2"/>
+    <line x1="-66" y1="-3" x2="-61" y2="5" stroke="#ff7418" stroke-width="2"/>
+    <line x1="-78" y1="-3" x2="-73" y2="5" stroke="#ff7418" stroke-width="2"/>
+    <line x1="-90" y1="-3" x2="-85" y2="5" stroke="#ff7418" stroke-width="2"/>
+  </g>
+</svg>

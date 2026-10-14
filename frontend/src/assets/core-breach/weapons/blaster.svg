@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120" fill="none">
+  <defs>
+    <linearGradient id="blasterMetal" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#b6c2d1"/>
+      <stop offset="45%" stop-color="#556475"/>
+      <stop offset="100%" stop-color="#242e39"/>
+    </linearGradient>
+    <linearGradient id="plasmaCore" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4938a8"/>
+      <stop offset="40%" stop-color="#7865db"/>
+      <stop offset="80%" stop-color="#6df1c0"/>
+      <stop offset="100%" stop-color="#ffffff"/>
+    </linearGradient>
+    <filter id="plasmaGlow">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <g transform="translate(115,62) rotate(-8) scale(1.05)">
+    <!-- Cannon Stock & Receiver -->
+    <path d="M-85,15 L-65,-12 L20,-12 L65,-4 L65,12 L35,18 L-20,18 L-55,26 Z" fill="url(#blasterMetal)" stroke="#101918" stroke-width="2.5"/>
+    <!-- Plasma Chamber Coils -->
+    <rect x="-30" y="-8" width="55" height="18" rx="4" fill="#1b1c31" stroke="#4a5a70" stroke-width="2"/>
+    <rect x="-24" y="-4" width="43" height="10" rx="3" fill="url(#plasmaCore)" filter="url(#plasmaGlow)"/>
+    <line x1="-12" y1="-7" x2="-12" y2="9" stroke="#ffffff" stroke-width="2.2"/>
+    <line x1="2" y1="-7" x2="2" y2="9" stroke="#ffffff" stroke-width="2.2"/>
+    <!-- Long Emitter Barrel -->
+    <path d="M65,-3 L95,-3 L95,8 L65,8 Z" fill="#2d3744" stroke="#101918" stroke-width="2"/>
+    <path d="M95,-6 L104,-6 L104,11 L95,11 Z" fill="#7865db" stroke="#ffffff" stroke-width="1.5" filter="url(#plasmaGlow)"/>
+    <!-- Heavy Grip & Trigger Guard -->
+    <path d="M-35,18 L-45,45 L-28,45 L-20,18 Z" fill="#1b242e" stroke="#101918" stroke-width="2"/>
+    <path d="M-20,18 C-10,18 -10,32 -20,32" stroke="#101918" stroke-width="2.5" fill="none"/>
+  </g>
+</svg>

@@ -3182,11 +3182,20 @@
     #hud-stats-group .stat-badge .label { display: none; }
     #hud-stats-group .stat-badge .value { font-size: 14px; font-weight: 800; }
     #hud-stats-group .stat-badge.energy .value { color: #b86a24; }
+    #modal-help .archive-level-art canvas { width: 64px; height: 64px; }
+    #taf-seed-image { width: 100%; max-width: 240px; height: auto; }
+    .t-icon-box canvas { width: 28px; height: 28px; display: block; }
   </style>
 
   <link rel="stylesheet" href="./arcade/game-navigation.css">
   <link rel="stylesheet" href="./arcade/garden-controls.css">
+  <link rel="stylesheet" href="./arcade/garden-test-stage.css?v=test0-1">
+  <link rel="stylesheet" href="./arcade/garden-world.css?v=world1">
   <script src="./arcade/game-navigation.js" defer></script>
+  <script src="./arcade/seed-cannon-art.js?v=burst300-fragments2"></script>
+  <script src="./arcade/ice-star-art.js?v=ice2"></script>
+  <script src="./arcade/garden-tower-art.js?v=lightning-flower2"></script>
+  <script src="./arcade/garden-world-art.js?v=world1"></script>
 </head>
 <body>
 
@@ -3236,11 +3245,12 @@
     <aside id="tower-asset-menu" aria-label="防御塔塔体档案">
       <div class="taf-kicker"><span>TACTICAL ASSET</span><span id="taf-class">MK-I</span></div>
       <div class="taf-image-frame">
-        <img id="taf-image" src="./assets/towers/pulse-gatling.svg" alt="瓶子炮塔体素材">
+        <img id="taf-image" src="./assets/towers/cryo-emitter.svg" alt="炮塔素材" style="display:none">
+        <canvas id="taf-seed-image" width="512" height="512" data-seed-level="1" role="img" aria-label="豆荚种子炮塔体素材"></canvas>
       </div>
       <div class="taf-copy">
-        <div class="taf-name" id="taf-name">瓶子炮</div>
-        <p id="taf-desc">轻巧稳定的单体炮塔。升到顶级后，每次攻击会追加一枚能量弹。</p>
+        <div class="taf-name" id="taf-name">豆荚种子炮</div>
+        <p id="taf-desc">轻巧稳定的单体炮塔。升到顶级后，每次攻击会延迟射出第二枚小种子。</p>
       </div>
       <div class="taf-specs">
         <div><span>模块</span><strong id="taf-role">基础单体</strong></div>
@@ -3255,7 +3265,7 @@
         <div class="tfm-header-info">
           <span class="t-icon-badge" id="tfm-icon"></span>
           <div>
-            <div class="tfm-title" id="tfm-name">瓶子炮</div>
+            <div class="tfm-title" id="tfm-name">豆荚种子炮</div>
             <span class="tfm-level" id="tfm-level">Lv.1</span>
           </div>
         </div>
@@ -3269,7 +3279,7 @@
         <div class="tfm-stat-card"><span class="tfm-stat-label">范围</span><strong class="tfm-stat-val" id="tfm-stat-rng">165</strong></div>
       </div>
 
-      <div class="tfm-trait" id="tfm-trait">顶级追加攻击</div>
+      <div class="tfm-trait" id="tfm-trait">顶级二连发</div>
 
       <button class="tfm-btn upgrade" id="tfm-btn-upgrade">
         <span id="tfm-upgrade-label">升级到 Lv.2</span>
@@ -3304,6 +3314,16 @@
       <div class="alarm-number" id="alarm-number">3</div>
     </div>
 
+    <section id="test-stage-controls" aria-label="第0关测试控制">
+      <div class="test-stage-summary" id="test-stage-summary"></div>
+      <div class="test-stage-actions">
+        <button class="test-stage-button" id="btn-test-reset">重置测试</button>
+        <button class="test-stage-button" id="btn-test-respawn">重新补怪</button>
+        <button class="test-stage-button" id="btn-test-slow" aria-pressed="false">慢放</button>
+        <button class="test-stage-button" id="btn-test-config">更换配置</button>
+      </div>
+    </section>
+
     <!-- Notification Toast -->
     <div class="toast-notice" id="toast" role="status" aria-live="polite">资源不足</div>
   </main>
@@ -3332,6 +3352,14 @@
       </div>
 
       <div class="stage-select-grid" id="home-stage-grid">
+        <div class="stage-card test-stage-card" data-stage="-1">
+          <div>
+            <div class="stage-card-header"><span class="stage-num-badge">第 0 关</span><span class="stage-stars">单怪 × 单塔</span></div>
+            <div class="stage-title">测试花圃</div>
+            <div class="stage-desc">自由选择怪物与防御塔，单独观察弹道、命中与升级效果。</div>
+          </div>
+            <button class="stage-enter-btn" id="btn-home-test-stage" data-stage="-1">配置测试</button>
+        </div>
         <!-- Garden 01 -->
         <div class="stage-card" data-stage="0">
           <div>
@@ -3389,6 +3417,32 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-test-stage">
+    <div class="modal-card test-config-card" role="dialog" aria-modal="true" aria-labelledby="test-config-title">
+      <div class="test-config-heading"><h2 id="test-config-title">第 0 关 · 测试花圃</h2><button class="insp-close" id="btn-test-close" aria-label="关闭测试配置">←</button></div>
+      <p class="test-config-note">选一只怪物与一座防御塔，自动布置后开始测试。</p>
+      <div class="test-selection-grid">
+        <div class="test-selection-card">
+          <label for="test-enemy-type">唯一怪物</label>
+          <div class="test-art-preview"><canvas id="test-enemy-preview" width="256" height="256" role="img" aria-label="所选怪物"></canvas></div>
+          <select id="test-enemy-type"></select>
+        </div>
+        <div class="test-selection-card">
+          <label for="test-tower-type">唯一防御塔</label>
+          <div class="test-art-preview"><canvas id="test-tower-preview" width="256" height="256" role="img" aria-label="所选防御塔"></canvas></div>
+          <select id="test-tower-type"></select>
+        </div>
+      </div>
+      <div class="test-option-grid">
+        <div><label for="test-tower-level">防御塔等级</label><select id="test-tower-level"><option value="1">Lv.1 · 初始</option><option value="2">Lv.2 · 进化</option><option value="3">Lv.3 · 顶级</option></select></div>
+        <div><label for="test-enemy-hp">目标生命</label><input id="test-enemy-hp" type="number" min="1" max="1000000" step="1" inputmode="numeric" value="300"></div>
+      </div>
+      <label class="test-moving-option"><input type="checkbox" id="test-enemy-moving">怪物沿直线路径移动</label>
+      <p class="test-config-note">击败后自动补一只，不结算星级。怪物保持显形、不分裂，便于单独观察攻击。</p>
+      <button class="btn-modal primary" id="btn-test-start">开始测试</button>
     </div>
   </div>
 
@@ -3495,7 +3549,7 @@
           <!-- Pulse -->
           <div class="cfg-card">
             <div class="cfg-card-header">
-              <div class="cfg-card-title"><span class="t-icon-box pulse">瓶</span> 瓶子炮</div>
+              <div class="cfg-card-title"><span class="t-icon-box pulse">籽</span> 豆荚种子炮</div>
               <span class="cfg-tag" style="background:rgba(125,227,109,0.15);color:#9aef8e;">基础单体</span>
             </div>
             <div class="cfg-fields-grid">
@@ -3521,7 +3575,7 @@
           <!-- Cryo -->
           <div class="cfg-card">
             <div class="cfg-card-header">
-              <div class="cfg-card-title"><span class="t-icon-box cryo">冰</span> 冰冻星</div>
+              <div class="cfg-card-title"><span class="t-icon-box cryo">冰</span> 霜晶冰冻星</div>
               <span class="cfg-tag" style="background:rgba(104,216,244,0.15);color:#8eeaff;">小范围减速</span>
             </div>
             <div class="cfg-fields-grid">
@@ -3551,7 +3605,7 @@
           <!-- Plasma -->
           <div class="cfg-card">
             <div class="cfg-card-header">
-              <div class="cfg-card-title"><span class="t-icon-box plasma">火</span> 火瓶子</div>
+              <div class="cfg-card-title"><span class="t-icon-box plasma">火</span> 焰籽喷火瓶</div>
               <span class="cfg-tag" style="background:rgba(255,138,87,0.15);color:#ffad79;">持续锁定增伤</span>
             </div>
             <div class="cfg-fields-grid">
@@ -3581,7 +3635,7 @@
           <!-- Tesla -->
           <div class="cfg-card">
             <div class="cfg-card-header">
-              <div class="cfg-card-title"><span class="t-icon-box tesla">晶</span> 水晶花</div>
+              <div class="cfg-card-title"><span class="t-icon-box tesla">晶</span> 紫晶连锁花</div>
               <span class="cfg-tag" style="background:rgba(189,120,239,0.15);color:#dca8ff;">连锁闪电 · 邻格辅助</span>
             </div>
             <div class="cfg-fields-grid">
@@ -3611,7 +3665,7 @@
           <!-- Buffer -->
           <div class="cfg-card">
             <div class="cfg-card-header">
-              <div class="cfg-card-title"><span class="t-icon-box buffer">日</span> 太阳花</div>
+              <div class="cfg-card-title"><span class="t-icon-box buffer">日</span> 日耀太阳花</div>
               <span class="cfg-tag" style="background:rgba(255,196,79,0.15);color:#ffd766;">范围全体攻击</span>
             </div>
             <div class="cfg-fields-grid">
@@ -3642,7 +3696,7 @@
           <!-- Crawler -->
           <div class="cfg-card">
             <div class="cfg-card-header">
-              <div class="cfg-card-title">■ 种子小方 (Seed Block)</div>
+              <div class="cfg-card-title">■ 绿芽小方 (Seed Block)</div>
               <span class="cfg-tag" style="background:rgba(5,255,161,0.15);color:#05ffa1;">轻装集群</span>
             </div>
             <div class="cfg-fields-grid">
@@ -3657,7 +3711,7 @@
           <!-- Scout -->
           <div class="cfg-card">
             <div class="cfg-card-header">
-              <div class="cfg-card-title">■ 风铃小方 (Bell Block)</div>
+              <div class="cfg-card-title">■ 风叶斥候 (Bell Block)</div>
               <span class="cfg-tag" style="background:rgba(0,243,255,0.15);color:var(--cyan);">疾速高闪避</span>
             </div>
             <div class="cfg-fields-grid">
@@ -3801,24 +3855,24 @@
         <div class="codex-section">
           <h3>防御塔特性与三级升级</h3>
           <div class="codex-row">
-            <span class="t-icon-box pulse"><img src="./assets/towers/pulse-gatling.svg" alt=""></span>
-            <div><strong>瓶子炮</strong>：稳定单体输出，顶级后每次攻击追加一枚能量弹。</div>
+            <span class="t-icon-box pulse"><canvas width="128" height="128" data-seed-level="1" role="img" aria-label="豆荚种子炮"></canvas></span>
+            <div><strong>豆荚种子炮</strong>：稳定单体输出，顶级后进行带短延时的二连发。</div>
           </div>
           <div class="codex-row">
             <span class="t-icon-box cryo"><img src="./assets/towers/cryo-emitter.svg" alt=""></span>
-            <div><strong>冰冻星</strong>：投掷雪球造成命中伤害，并留下冰面，经过冰面的怪物会减速。</div>
+            <div><strong>霜晶冰冻星</strong>：投掷雪球造成命中伤害，并留下冰面，经过冰面的怪物会减速。</div>
           </div>
           <div class="codex-row">
             <span class="t-icon-box plasma"><img src="./assets/towers/plasma-mortar.svg" alt=""></span>
-            <div><strong>火瓶子</strong>：持续发射火焰光柱，锁定同一目标越久伤害越高，3 秒达到最大。</div>
+            <div><strong>焰籽喷火瓶</strong>：持续发射火焰光柱，锁定同一目标越久伤害越高，3 秒达到最大。</div>
           </div>
           <div class="codex-row">
             <span class="t-icon-box tesla"><img src="./assets/towers/tesla-coil.svg" alt=""></span>
-            <div><strong>水晶花</strong>：闪电传递到附近怪物，升级增加伤害与命中数量、提高攻击频率，并提高邻格炮塔的攻击力。</div>
+            <div><strong>紫晶连锁花</strong>：闪电传递到附近怪物，升级增加伤害与命中数量、提高攻击频率，并提高邻格炮塔的攻击力。</div>
           </div>
           <div class="codex-row">
             <span class="t-icon-box buffer"><img src="./assets/towers/quantum-buffer.svg" alt=""></span>
-            <div><strong>太阳花</strong>：周期性释放日耀脉冲，攻击范围内的所有敌人。</div>
+            <div><strong>日耀太阳花</strong>：周期性释放日耀脉冲，攻击范围内的所有敌人。</div>
           </div>
         </div>
 
@@ -3826,11 +3880,11 @@
           <h3>方块情报</h3>
           <div class="codex-row">
             <span class="codex-icon">🛡️</span>
-            <div><strong>护花骑士 & 南瓜骑士</strong>：带有花瓣护盾与厚重盔甲，适合用火瓶子持续锁定或太阳花协同清理。</div>
+            <div><strong>护花骑士 & 南瓜骑士</strong>：带有花瓣护盾与厚重盔甲，适合用焰籽喷火瓶持续锁定或日耀太阳花协同清理。</div>
           </div>
           <div class="codex-row">
             <span class="codex-icon">👻</span>
-            <div><strong>隐形幽灵体</strong>：只有被冰冻星冰霜击中或受到 EMP 冲击后才会显形。</div>
+            <div><strong>隐形幽灵体</strong>：只有被霜晶冰冻星冰霜击中或受到 EMP 冲击后才会显形。</div>
           </div>
         </div>
       </div>
@@ -3881,6 +3935,45 @@ class SoundManager {
       osc.start(now);
       osc.stop(now + 0.12);
     } catch(e) {}
+  }
+
+  playSeedShot() {
+    if (!this.enabled || !this.ctx) return;
+    const now = this.ctx.currentTime;
+    if (now - (this.lastSeedShot === undefined ? -1 : this.lastSeedShot) < 0.025) return;
+    this.lastSeedShot = now;
+    try {
+      const osc = this.ctx.createOscillator(), gain = this.ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(460, now);
+      osc.frequency.exponentialRampToValueAtTime(135, now + 0.075);
+      gain.gain.setValueAtTime(0.001, now);
+      gain.gain.linearRampToValueAtTime(0.11, now + 0.006);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.085);
+      osc.connect(gain); gain.connect(this.ctx.destination);
+      osc.start(now); osc.stop(now + 0.09);
+    } catch (e) {}
+  }
+
+  playSeedImpact(isCrit) {
+    if (!this.enabled || !this.ctx) return;
+    const now = this.ctx.currentTime;
+    if (now - (this.lastSeedImpact === undefined ? -1 : this.lastSeedImpact) < 0.035) return;
+    this.lastSeedImpact = now;
+    try {
+      if (!this.seedNoise) {
+        this.seedNoise = this.ctx.createBuffer(1, Math.ceil(this.ctx.sampleRate * 0.075), this.ctx.sampleRate);
+        const samples = this.seedNoise.getChannelData(0);
+        for (let i = 0; i < samples.length; i++) samples[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / samples.length, 2);
+      }
+      const source = this.ctx.createBufferSource(), filter = this.ctx.createBiquadFilter(), gain = this.ctx.createGain();
+      source.buffer = this.seedNoise;
+      filter.type = 'bandpass'; filter.frequency.value = isCrit ? 1700 : 1100; filter.Q.value = 0.7;
+      gain.gain.setValueAtTime(isCrit ? 0.12 : 0.075, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.065);
+      source.connect(filter); filter.connect(gain); gain.connect(this.ctx.destination);
+      source.start(now); source.stop(now + 0.075);
+    } catch (e) {}
   }
 
   playExplosion(heavy = false) {
@@ -4003,6 +4096,16 @@ const sounds = new SoundManager();
 // ==================== 2. TOWER & ENEMY DATA DEFINITIONS ====================
 const BUILD_HOLD_DURATION_MS = 1000;
 const COMBAT_SPEED_MULTIPLIER = 0.7;
+const SEED_CANNON_ART = window.SeedCannonArt;
+const ICE_STAR_ART = window.IceStarArt;
+const GARDEN_TOWER_ART = window.GardenTowerArt;
+const GARDEN_WORLD_ART = window.GardenWorldArt;
+function towerIconHtml(type, level = 1) {
+  return type === 'pulse'
+    ? `<canvas class="tower-menu-icon" width="128" height="128" data-seed-level="${level}" role="img" aria-label="豆荚种子炮 ${level}级"></canvas>`
+    : type === 'cryo' ? `<canvas class="tower-menu-icon" width="128" height="128" data-ice-level="${level}" role="img" aria-label="霜晶冰冻星 ${level}级"></canvas>`
+    : `<canvas class="tower-menu-icon" width="128" height="128" data-garden-tower="${type}" data-garden-level="${level}" role="img" aria-label="${({tesla: '紫晶连锁花', plasma: '焰籽喷火瓶', buffer: '日耀太阳花'})[type]} ${level}级"></canvas>`;
+}
 const TOWER_TYPES = ['pulse', 'cryo', 'tesla', 'plasma', 'buffer'];
 // 五塔共用等级素材，战场和检视面板保持一致。
 const TOWER_ASSET_IDS = {
@@ -4011,7 +4114,10 @@ const TOWER_ASSET_IDS = {
 };
 const TOWER_ART_REVISION = 'smooth-neck-3';
 function towerArtPath(type, level, kind = 'icons') {
-  if (type === 'plasma') return `./assets/towers/fire-bottle-lv${level}.svg?v=smooth-neck-2`;
+  if (type === 'pulse') return './assets/garden/seed-cannon/cannons-v1.png';
+  if (type === 'cryo') return './assets/garden/ice-star/towers-v1.png';
+  const gardenFolders = { tesla: 'crystal-flower', plasma: 'fire-bottle', buffer: 'sunflower' };
+  if (gardenFolders[type]) return `./assets/garden/${gardenFolders[type]}/${type === 'tesla' ? 'towers-v2.png' : 'towers-v1.png'}`;
   return `./assets/fyt01/runtime/${kind}/${TOWER_ASSET_IDS[type]}-lv${level}@2x.png?v=${TOWER_ART_REVISION}`;
 }
 // 不使用 Object.fromEntries：旧版 iOS Safari 在解析阶段就会因它而中断脚本。
@@ -4024,54 +4130,41 @@ TOWER_TYPES.forEach(type => {
     return image;
   });
 });
-const PULSE_SPRITE_FACING_OFFSET = 0;
-const PULSE_SPRITE_SIZE_RATIO = 1.16;
-const PULSE_SPRITE_ANIMATIONS = {
-  idle: { row: 0, frames: 6, frameMs: 120, loop: true },
-  attack: { row: 2, frames: 6, frameMs: 80, loop: false },
-  'attack-post': { row: 3, frames: 4, frameMs: 100, loop: false }
-};
-const PULSE_SPRITE_ATLASES = [null, 1, 2, 3].map(level => {
-  if (!level) return null;
-  const image = new Image();
-  image.src = towerArtPath('pulse', level, 'atlases');
-  return image;
-});
 const COMMANDER_SKILLS = {
   emp: { label: '轨道 EMP', glyph: 'EMP' },
   overdrive: { label: '量子超频', glyph: 'UP' },
   mine: { label: '反物质地雷', glyph: 'MINE' }
 };
 const TOWER_ARCHIVE_META = {
-  pulse: { role: '基础单体', core: '双脉冲瓶芯', classCode: 'T-01 / LIME' },
+  pulse: { role: '快速单体', core: '琥珀种子荚', classCode: 'T-01 / SEED' },
   cryo: { role: '小范围减速', core: '冰晶星核', classCode: 'T-02 / FROST' },
-  tesla: { role: '连锁辅助', core: '增幅晶核', classCode: 'T-03 / GEM' },
+  tesla: { role: '连锁辅助', core: '雷纹紫晶核', classCode: 'T-03 / LIGHTNING' },
   plasma: { role: '持续增伤', core: '灼热瓶芯', classCode: 'T-04 / FLAME' },
   buffer: { role: '范围群攻', core: '日耀花芯', classCode: 'T-05 / SUN' }
 };
 
 const TOWER_CONFIGS = {
   pulse: {
-    name: '瓶子炮',
-    asset: './assets/fyt01/runtime/detail/t01-pulse-gatling-lv1@2x.png',
-    icon: '瓶',
-    iconSvg: '<img class="tower-menu-icon" src="./assets/fyt01/runtime/icons/t01-pulse-gatling-lv1@2x.png" alt="">',
+    name: '豆荚种子炮',
+    asset: './assets/garden/seed-cannon/cannons-v1.png',
+    icon: '籽',
+    iconSvg: '<canvas class="tower-menu-icon" width="128" height="128" data-seed-level="1" role="img" aria-label="豆荚种子炮"></canvas>',
     cost: 100,
     upgradeCosts: [180, 260],
     range: 165,
     damage: 39,
     fireRate: 2.5,
-    color: '#63df3f',
+    color: '#79c851',
     bulletSpeed: 680,
     type: 'pulse',
-    desc: '轻巧稳定的单体炮塔。升到顶级后，每次攻击会追加一枚能量弹。',
-    trait: '顶级追加攻击',
+    desc: '豆荚压缩后弹出硬壳种子，快速打击单个目标。三级进行二连发，固定间隔 300ms，第二发造成首发 80% 的伤害。',
+    trait: '顶级二连发',
     levelDamage: [1, 1.6, 2.56],
     levelRate: [1, 1.3, 1.69],
     levelRange: [1, 1.3, 1.69]
   },
   cryo: {
-    name: '冰冻星',
+    name: '霜晶冰冻星',
     asset: './assets/towers/cryo-emitter.svg',
     icon: '冰',
     iconSvg: '<img class="tower-menu-icon" src="./assets/towers/cryo-emitter.svg" alt="">',
@@ -4092,7 +4185,7 @@ const TOWER_CONFIGS = {
     levelRange: [1, 1.3, 1.69]
   },
   plasma: {
-    name: '火瓶子',
+    name: '焰籽喷火瓶',
     asset: './assets/towers/plasma-mortar.svg',
     icon: '火',
     iconSvg: '<img class="tower-menu-icon" src="./assets/towers/plasma-mortar.svg" alt="">',
@@ -4114,9 +4207,9 @@ const TOWER_CONFIGS = {
     levelRange: [1, 1.3, 1.69]
   },
   tesla: {
-    name: '水晶花',
+    name: '紫晶连锁花',
     asset: './assets/towers/tesla-coil.svg',
-    icon: '晶',
+    icon: '雷',
     iconSvg: '<img class="tower-menu-icon" src="./assets/towers/tesla-coil.svg" alt="">',
     cost: 150,
     upgradeCosts: [250, 350],
@@ -4135,7 +4228,7 @@ const TOWER_CONFIGS = {
     levelRange: [1, 1.3, 1.69]
   },
   buffer: {
-    name: '太阳花',
+    name: '日耀太阳花',
     asset: './assets/towers/quantum-buffer.svg',
     icon: '日',
     iconSvg: '<img class="tower-menu-icon" src="./assets/towers/quantum-buffer.svg" alt="">',
@@ -4156,14 +4249,14 @@ const TOWER_CONFIGS = {
 
 TOWER_TYPES.forEach(type => {
   TOWER_CONFIGS[type].asset = towerArtPath(type, 1, 'detail');
-  TOWER_CONFIGS[type].iconSvg = `<img class="tower-menu-icon" src="${towerArtPath(type, 1)}" alt="">`;
+  TOWER_CONFIGS[type].iconSvg = towerIconHtml(type, 1);
 });
 
 // All garden raiders share this rounded-block chassis. New variants only add a
 // palette plus outfit, accessory, weapon, wings, and headwear tokens.
 const ENEMY_TYPES = {
-  crawler: { name: '种子小方', hpMultiplier: 0.85, defense: 0.0, speed: 65, reward: 12, score: 10, radius: 16, color: '#78bc60', icon: '■', visual: { body: '#a7dd7e', trim: '#589b49', outfit: 'overalls', headwear: 'leaf' } },
-  scout: { name: '风铃小方', hpMultiplier: 0.55, defense: 0.05, speed: 115, reward: 10, score: 15, radius: 13, color: '#62b9d1', evasion: 0.25, icon: '■', visual: { body: '#91ddec', trim: '#438ca6', outfit: 'scarf', wings: true, headwear: 'sprout' } },
+  crawler: { name: '绿芽小方', hpMultiplier: 0.85, defense: 0.0, speed: 65, reward: 12, score: 10, radius: 16, color: '#78bc60', icon: '■', visual: { body: '#a7dd7e', trim: '#589b49', outfit: 'overalls', headwear: 'leaf' } },
+  scout: { name: '风叶斥候', hpMultiplier: 0.55, defense: 0.05, speed: 115, reward: 10, score: 15, radius: 13, color: '#62b9d1', evasion: 0.25, icon: '■', visual: { body: '#91ddec', trim: '#438ca6', outfit: 'scarf', wings: true, headwear: 'sprout' } },
   phantom: { name: '薄荷忍者', hpMultiplier: 1.15, defense: 0.15, speed: 70, reward: 22, score: 25, radius: 17, stealth: true, color: '#ab93d6', icon: '■', visual: { body: '#c8b5ed', trim: '#806aaa', outfit: 'hood', weapon: 'wand' } },
   replicator: { name: '泡泡园丁', hpMultiplier: 1.60, defense: 0.20, speed: 50, reward: 25, score: 30, radius: 22, splits: 3, color: '#ef8eae', icon: '■', visual: { body: '#f7bad0', trim: '#c9698e', outfit: 'apron', accessory: 'bubbles', headwear: 'bow' } },
   shielder: { name: '护花骑士', hpMultiplier: 1.85, defense: 0.25, speed: 45, reward: 28, score: 30, radius: 20, shieldAura: true, color: '#7f9bd5', icon: '■', visual: { body: '#aec3ed', trim: '#5e77ad', outfit: 'tabard', accessory: 'shield', headwear: 'helmet' } },
@@ -4209,6 +4302,21 @@ function loadAndApplyCustomConfig() {
     }
   } catch (e) {
     console.warn('Failed to load custom config:', e);
+  } finally {
+    // 数量类参数统一向上取整；频率、时间和倍率保留计算精度。
+    TOWER_TYPES.forEach(type => {
+      const c = TOWER_CONFIGS[type];
+      ['damage', 'range', 'cost', 'bulletSpeed', 'splashRadius', 'chainRange'].forEach(key => {
+        if (typeof c[key] === 'number') c[key] = Math.ceil(c[key]);
+      });
+      c.upgradeCosts = c.upgradeCosts.map(Math.ceil);
+    });
+    Object.keys(ENEMY_TYPES).forEach(type => {
+      const c = ENEMY_TYPES[type];
+      ['speed', 'reward', 'score', 'radius', 'splits'].forEach(key => {
+        if (typeof c[key] === 'number') c[key] = Math.ceil(c[key]);
+      });
+    });
   }
 }
 loadAndApplyCustomConfig();
@@ -4250,37 +4358,43 @@ const MAP_DEFINITIONS = [
       // Inner core tunnel.
       [ {x: 5, y: 0}, {x: 5, y: 4}, {x: 2, y: 4}, {x: 2, y: 7}, {x: 4, y: 7}, {x: 4, y: 11} ]
     ]
+  },
+  {
+    name: '第 0 关：测试花圃', testStage: true,
+    cols: 7, rows: 12, maxTowers: 1,
+    paths: [[{ x: 3, y: 0 }, { x: 3, y: 11 }]]
   }
 ];
 
+const TEST_MAP_INDEX = MAP_DEFINITIONS.length - 1;
 const BASE_GAME_SPEED = 0.5;
 
 const STAGE_MONSTER_INTEL = [
   {
     title: '花圃 01：郁金香双径',
-    desc: '两条碎石小径绕过花圃，捣蛋方块会从不同入口穿过花园。建议在交叉路口布置瓶子炮与冰冻星。',
+    desc: '两条碎石小径绕过花圃，捣蛋方块会从不同入口穿过花园。建议在交叉路口布置豆荚种子炮与霜晶冰冻星。',
     monsters: [
-      { enemyType: 'crawler', name: '种子小方', speed: '快速 (65)', trait: '数量庞大、集群冲锋', weak: '瓶子炮 / 太阳花' },
-      { enemyType: 'scout', name: '风铃小方', speed: '疾速 (115)', trait: '有翅膀，容易漏过花径', weak: '冰冻星减速集火' },
-      { enemyType: 'replicator', name: '泡泡园丁', speed: '中速 (50)', trait: '被击破后分出3个小方', weak: '太阳花范围攻击' }
+      { enemyType: 'crawler', name: '绿芽小方', speed: '快速 (65)', trait: '数量庞大、集群冲锋', weak: '豆荚种子炮 / 日耀太阳花' },
+      { enemyType: 'scout', name: '风叶斥候', speed: '疾速 (115)', trait: '有翅膀，容易漏过花径', weak: '霜晶冰冻星减速集火' },
+      { enemyType: 'replicator', name: '泡泡园丁', speed: '中速 (50)', trait: '被击破后分出3个小方', weak: '日耀太阳花范围攻击' }
     ]
   },
   {
     title: '花圃 02：雏菊十字路',
     desc: '花径在中央交汇，适合成片种植守卫。注意护花骑士与薄荷忍者会从花丛侧边出现。',
     monsters: [
-      { enemyType: 'phantom', name: '薄荷忍者', speed: '快速 (70)', trait: '隐身突袭，不受普通塔瞄准', weak: '冰冻星冰霜 / EMP显形' },
-      { enemyType: 'shielder', name: '护花骑士', speed: '慢速 (45)', trait: '带有花瓣护盾吸收伤害', weak: '水晶花激光 / EMP破盾' },
-      { enemyType: 'titan', name: '南瓜骑士', speed: '极慢 (38)', trait: '重装甲减伤、超高体魄', weak: '火瓶子持续锁定' }
+      { enemyType: 'phantom', name: '薄荷忍者', speed: '快速 (70)', trait: '隐身突袭，不受普通塔瞄准', weak: '霜晶冰冻星冰霜 / EMP显形' },
+      { enemyType: 'shielder', name: '护花骑士', speed: '慢速 (45)', trait: '带有花瓣护盾吸收伤害', weak: '紫晶连锁花 / EMP破盾' },
+      { enemyType: 'titan', name: '南瓜骑士', speed: '极慢 (38)', trait: '重装甲减伤、超高体魄', weak: '焰籽喷火瓶持续锁定' }
     ]
   },
   {
     title: '花圃 03：月光玫瑰园',
     desc: '玫瑰小径在温室深处盘旋，两位花园首领会带着精锐方块军团发动突袭。',
     monsters: [
-      { enemyType: 'boss_overlord', name: '荆棘女王 (Boss)', speed: '首领级', trait: '极高生命、花粉脉冲干扰防线', weak: '超频急火' },
-      { enemyType: 'boss_devourer', name: '夜莓伯爵 (Boss)', speed: '终极首领', trait: '翅膀跃迁与超强护盾', weak: '地雷陷阱 / 极限超频' },
-      { enemyType: 'shielder', name: '复合护花骑士', speed: '强袭级', trait: '护盾与重甲复合抗性', weak: '火瓶子持续锁定' }
+      { enemyType: 'boss_overlord', name: '荆棘女王', speed: '首领级', trait: '高生命、30%减伤；干扰技能预留', weak: '超频急火' },
+      { enemyType: 'boss_devourer', name: '夜莓伯爵', speed: '终极首领', trait: '高生命、40%减伤；跃迁技能预留', weak: '地雷陷阱 / 极限超频' },
+      { enemyType: 'shielder', name: '护花骑士', speed: '强袭级', trait: '护盾与重甲复合抗性', weak: '焰籽喷火瓶持续锁定' }
     ]
   }
 ];
@@ -4351,6 +4465,11 @@ class QuantumTDGame {
     this.waveInProgress = false;
     this.waveQueue = [];
     this.spawnTimer = 0;
+    this.testSetup = this.normalizeTestSetup({});
+    this.testRespawnTimer = 0;
+    try {
+      this.testSetup = this.normalizeTestSetup(JSON.parse(localStorage.getItem('garden_test_stage_setup_v1') || '{}'));
+    } catch (e) {}
 
     // Visual & Combat Timers
     this.screenShake = 0;
@@ -4406,22 +4525,19 @@ class QuantumTDGame {
     }
 
 
-    // Restore active game session if page was refreshed, otherwise show Home Screen
-    if (!this.restoreGameState()) {
-      this.loadMap(0);
-      this.showHomeScreen();
-    } else {
-      this.hideHomeScreen();
-    }
+    // 每次打开或刷新都先选关，旧战况不自动进入战场。
+    this.loadMap(0);
+    this.showHomeScreen();
 
     this.updateHUD();
     this.animate(0);
   }
 
   getStageBaseHp(mapIndex = 0) {
+    if (MAP_DEFINITIONS[mapIndex] && MAP_DEFINITIONS[mapIndex].testStage) return 100;
     const BASE_STAGE_HP = 100;
     // 关卡基础血量设定为100，后续关卡比上一关增加10%
-    return Math.round(BASE_STAGE_HP * Math.pow(1.10, mapIndex));
+    return Math.ceil(BASE_STAGE_HP * Math.pow(1.10, mapIndex) - 1e-9);
   }
 
   triggerBaseDamageFlash() {
@@ -4438,7 +4554,7 @@ class QuantumTDGame {
   }
 
   saveGameState() {
-    if (this.gameOver) return;
+    if (this.gameOver || this.isTestStage) return;
     try {
       const towerData = this.towers.map(t => ({
         gx: t.gx,
@@ -4476,19 +4592,19 @@ class QuantumTDGame {
       const raw = localStorage.getItem('quantum_td_active_session_portrait_v1');
       if (!raw) return false;
       const session = JSON.parse(raw);
-      if (!session || typeof session.mapIndex !== 'number' || session.mapIndex < 0 || session.mapIndex >= MAP_DEFINITIONS.length) {
+      if (!session || typeof session.mapIndex !== 'number' || session.mapIndex < 0 || session.mapIndex >= MAP_DEFINITIONS.length || MAP_DEFINITIONS[session.mapIndex].testStage) {
         return false;
       }
 
       this.loadMap(session.mapIndex, false);
-      this.hp = typeof session.hp === 'number' ? session.hp : 20;
-      this.maxHp = typeof session.maxHp === 'number' ? session.maxHp : 20;
-      this.energy = typeof session.energy === 'number' ? session.energy : 400;
-      this.wave = typeof session.wave === 'number' ? session.wave : 0;
-      this.score = typeof session.score === 'number' ? session.score : 0;
-      this.kills = typeof session.kills === 'number' ? session.kills : 0;
+      this.hp = typeof session.hp === 'number' ? Math.ceil(session.hp) : 20;
+      this.maxHp = typeof session.maxHp === 'number' ? Math.ceil(session.maxHp) : 20;
+      this.energy = typeof session.energy === 'number' ? Math.ceil(session.energy) : 400;
+      this.wave = typeof session.wave === 'number' ? Math.ceil(session.wave) : 0;
+      this.score = typeof session.score === 'number' ? Math.ceil(session.score) : 0;
+      this.kills = typeof session.kills === 'number' ? Math.ceil(session.kills) : 0;
       this.gameTime = typeof session.gameTime === 'number' ? session.gameTime : 0;
-      this.totalDamage = typeof session.totalDamage === 'number' ? session.totalDamage : 0;
+      this.totalDamage = typeof session.totalDamage === 'number' ? Math.ceil(session.totalDamage) : 0;
       this.speedMult = session.speedMult || 1.0;
       this.isAutoWave = !!session.isAutoWave;
       if (COMMANDER_SKILLS[session.selectedCommanderSkill]) {
@@ -4504,7 +4620,7 @@ class QuantumTDGame {
             const t = new DefensiveTower(td.gx, td.gy, td.type, this);
             const legacyLevel = td.level || (typeof td.totalUpgrades === 'number' ? td.totalUpgrades + 1 : 1);
             t.level = Math.max(1, Math.min(3, legacyLevel));
-            t.totalDamageDealt = td.totalDamageDealt || 0;
+            t.totalDamageDealt = Math.ceil(td.totalDamageDealt || 0);
             t.investedEnergy = t.getInvestedEnergyForLevel();
             this.towers.push(t);
           }
@@ -4524,6 +4640,158 @@ class QuantumTDGame {
   get scaleRatio() {
     // Reference base cell size = 50px on a standard portrait phone.
     return this.cellSize ? (this.cellSize / 50) : 1.0;
+  }
+
+  get isTestStage() {
+    return !!(MAP_DEFINITIONS[this.currentMapIndex] && MAP_DEFINITIONS[this.currentMapIndex].testStage);
+  }
+
+  normalizeTestSetup(setup) {
+    setup = setup || {};
+    const level = Number(setup.level), hp = Number(setup.hp);
+    return {
+      enemy: Object.prototype.hasOwnProperty.call(ENEMY_TYPES, setup.enemy) ? setup.enemy : 'crawler',
+      tower: TOWER_TYPES.includes(setup.tower) ? setup.tower : 'pulse',
+      level: Number.isFinite(level) ? Math.max(1, Math.min(3, Math.ceil(level))) : 3,
+      hp: Number.isFinite(hp) ? Math.max(1, Math.min(1000000, Math.ceil(hp))) : 300,
+      moving: setup.moving === true
+    };
+  }
+
+  readTestStageSetup() {
+    return this.normalizeTestSetup({
+      enemy: document.getElementById('test-enemy-type').value,
+      tower: document.getElementById('test-tower-type').value,
+      level: document.getElementById('test-tower-level').value,
+      hp: document.getElementById('test-enemy-hp').value,
+      moving: document.getElementById('test-enemy-moving').checked
+    });
+  }
+
+  openTestStageSetup() {
+    this.testConfigWasPaused = this.isPaused;
+    this.isPaused = true;
+    const setup = this.normalizeTestSetup(this.testSetup);
+    const enemySelect = document.getElementById('test-enemy-type');
+    const towerSelect = document.getElementById('test-tower-type');
+    enemySelect.innerHTML = Object.keys(ENEMY_TYPES).map(key => `<option value="${key}">${ENEMY_TYPES[key].name}</option>`).join('');
+    towerSelect.innerHTML = TOWER_TYPES.map(key => `<option value="${key}">${TOWER_CONFIGS[key].name}</option>`).join('');
+    enemySelect.value = setup.enemy; towerSelect.value = setup.tower;
+    document.getElementById('test-tower-level').value = setup.level;
+    document.getElementById('test-enemy-hp').value = setup.hp;
+    document.getElementById('test-enemy-moving').checked = setup.moving;
+    this.openModal('modal-test-stage');
+    this.renderTestSelection();
+    this.updateHUD();
+    enemySelect.focus?.();
+  }
+
+  closeTestStageSetup() {
+    this.closeModal('modal-test-stage');
+    this.isPaused = !!this.testConfigWasPaused;
+    this.updateHUD();
+    document.getElementById(this.isInBattle ? 'btn-test-config' : 'btn-home-test-stage')?.focus?.();
+  }
+
+  renderTestSelection() {
+    const setup = this.readTestStageSetup();
+    const enemyCanvas = document.getElementById('test-enemy-preview');
+    enemyCanvas.dataset.enemy = setup.enemy;
+    enemyCanvas.setAttribute('aria-label', ENEMY_TYPES[setup.enemy].name);
+    this.renderEnemyThumbnail(enemyCanvas);
+    const canvas = document.getElementById('test-tower-preview');
+    canvas.setAttribute('aria-label', `${TOWER_CONFIGS[setup.tower].name} Lv.${setup.level}`);
+    delete canvas.dataset.seedLevel; delete canvas.dataset.iceLevel;
+    delete canvas.dataset.gardenTower; delete canvas.dataset.gardenLevel;
+    if (GARDEN_TOWER_ART.hasType(setup.tower)) {
+      canvas.dataset.gardenTower = setup.tower; canvas.dataset.gardenLevel = setup.level;
+      GARDEN_TOWER_ART.paintPreview(canvas);
+    } else if (setup.tower === 'cryo') {
+      canvas.dataset.iceLevel = setup.level;
+      ICE_STAR_ART.paintPreview(canvas);
+    } else if (setup.tower === 'pulse') {
+      canvas.dataset.seedLevel = setup.level;
+      SEED_CANNON_ART.paintPreview(canvas);
+    } else {
+      delete canvas.dataset.seedLevel;
+      const image = TOWER_LEVEL_IMAGES[setup.tower][setup.level];
+      const paint = () => {
+        const selected = this.readTestStageSetup();
+        if (selected.tower !== setup.tower || selected.level !== setup.level) return;
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (image.complete && image.naturalWidth) ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+      };
+      paint();
+      if (!image.complete) image.addEventListener('load', paint, { once: true });
+    }
+  }
+
+  startTestStage(setup = this.readTestStageSetup()) {
+    this.testSetup = this.normalizeTestSetup(setup);
+    try { localStorage.setItem('garden_test_stage_setup_v1', JSON.stringify(this.testSetup)); } catch (e) {}
+    if (this.alarmInterval) { clearInterval(this.alarmInterval); this.alarmInterval = null; }
+    const alarm = document.getElementById('wave-alarm-overlay');
+    if (alarm) alarm.style.display = 'none';
+    this.closeModal('modal-test-stage');
+    this.closeModal('modal-restart-confirm');
+    this.closeModal('modal-gameover');
+    this.hideHomeScreen();
+    this.initCanvasSize();
+    this.loadMap(TEST_MAP_INDEX, true);
+    this.selectedStageIndex = TEST_MAP_INDEX;
+    this.energy = 1000000;
+    this.speedMult = 1;
+    this.isPaused = false;
+    this.isWaveCountdownActive = false;
+    this.waveInProgress = false;
+    this.waveQueue = [];
+    this.testRespawnTimer = 0;
+    this.setCommanderSkill('overdrive');
+    const tower = new DefensiveTower(1, 5, this.testSetup.tower, this);
+    tower.level = this.testSetup.level;
+    tower.investedEnergy = tower.getInvestedEnergyForLevel();
+    this.towers = [tower];
+    this.spawnTestEnemy();
+    this.updateHUD();
+    this.showToast('第 0 关 · 测试开始');
+  }
+
+  spawnTestEnemy() {
+    if (!this.isTestStage || this.enemies.length) return false;
+    const enemy = new CreepEnemy(this.testSetup.enemy, 1, this.waypoints, this);
+    enemy.config = Object.assign({}, enemy.config, { splits: 0 });
+    enemy.hp = enemy.maxHp = this.testSetup.hp;
+    enemy.x = this.offsetX + 3.5 * this.cellSize;
+    enemy.y = this.offsetY + 5.5 * this.cellSize;
+    enemy.lateralOffset = 0;
+    enemy.distanceTraveled = 5 * this.cellSize;
+    enemy.stealthRevealed = 1000000;
+    if (!this.testSetup.moving) enemy.speed = 0;
+    this.enemies.push(enemy);
+    return true;
+  }
+
+  updateTestStageSpawn(dt) {
+    if (!this.isTestStage || this.enemies.length) return;
+    this.testRespawnTimer -= dt;
+    if (this.testRespawnTimer <= 0) this.spawnTestEnemy();
+  }
+
+  respawnTestEnemy() {
+    if (!this.isTestStage) return;
+    this.enemies = []; this.projectiles = []; this.particles = []; this.floatTexts = [];
+    this.icePatches = []; this.groundZones = []; this.mines = [];
+    this.towers.forEach(tower => {
+      tower.targetEnemy = null; tower.lockedTarget = null; tower.lockStacks = 0; tower.lockDuration = 0;
+      tower.pulseBursts = []; tower.pulseShotPending = false; tower.cooldown = 0;
+      tower.pulseSpriteState = 'idle'; tower.pulseSpriteElapsed = 320;
+      tower.cryoShotPending = false; tower.cryoSpriteElapsed = 420; tower.cryoSpriteState = 'idle';
+      tower.overdriveTimer = 0; tower.chargeLevel = 0; tower.muzzleFlash = 0; tower.recoil = 0;
+      tower.gardenSpriteElapsed = 320;
+    });
+    this.spawnTestEnemy();
+    this.updateHUD();
   }
 
   initCanvasSize() {
@@ -4711,7 +4979,7 @@ class QuantumTDGame {
 
     // 4. Smoothly re-project all active creeps along their current waypoint paths
     this.enemies.forEach(e => {
-      if (e.waypoints && e.waypoints.length > 0) {
+      if (!this.isTestStage && e.waypoints && e.waypoints.length > 0) {
         const rIdx = this.routes.findIndex(r => r.length === e.waypoints.length && r[0].gx === e.waypoints[0].gx);
         const newRoute = rIdx >= 0 ? this.routes[rIdx] : this.waypoints;
         e.waypoints = newRoute;
@@ -4725,8 +4993,16 @@ class QuantumTDGame {
         }
       }
       // Update scale ratio dependent attributes
-      e.radius = e.config.radius * this.scaleRatio;
-      e.speed = e.config.speed * this.scaleRatio;
+      e.radius = (e.isBoss ? e.config.radius : 18) * this.scaleRatio;
+      e.speed = this.isTestStage
+        ? (this.testSetup.moving ? Math.ceil(e.config.speed * COMBAT_SPEED_MULTIPLIER) * this.scaleRatio : 0)
+        : Math.ceil(e.config.speed * COMBAT_SPEED_MULTIPLIER) * this.scaleRatio;
+      if (this.isTestStage) {
+        e.waypoints = this.waypoints;
+        e.x = this.offsetX + (e.x - prevOffsetX) / prevCellSize * this.cellSize;
+        e.y = this.offsetY + (e.y - prevOffsetY) / prevCellSize * this.cellSize;
+        e.distanceTraveled *= this.cellSize / prevCellSize;
+      }
     });
   }
 
@@ -4926,6 +5202,8 @@ class QuantumTDGame {
     this.isPaused = true;
     const homeEl = document.getElementById('screen-home');
     if (homeEl) homeEl.style.display = 'flex';
+    const testControls = document.getElementById('test-stage-controls');
+    if (testControls) testControls.style.display = 'none';
     this.updateHomeStageStars();
     this.updateFullscreenButtons();
   }
@@ -5173,6 +5451,7 @@ class QuantumTDGame {
   }
 
   startNextWave() {
+    if (this.isTestStage) return;
     if (this.waveInProgress || this.gameOver) return;
     this.wave++;
     if (this.wave > this.maxWaves) return;
@@ -5184,6 +5463,7 @@ class QuantumTDGame {
   }
 
   restartLevel() {
+    if (this.isTestStage) { this.startTestStage(this.testSetup); return; }
     this.closeModal('modal-gameover');
     this.closeModal('modal-restart-confirm');
     localStorage.removeItem('quantum_td_active_session_portrait_v1');
@@ -5212,9 +5492,9 @@ class QuantumTDGame {
     const hpEl = document.getElementById('val-hp');
     if (hpEl) hpEl.textContent = `${Math.max(0, this.hp)}/${this.maxHp}`;
     const energyEl = document.getElementById('val-energy');
-    if (energyEl) energyEl.textContent = Math.floor(this.energy);
+    if (energyEl) energyEl.textContent = this.isTestStage ? '∞' : Math.ceil(this.energy);
     const waveEl = document.getElementById('val-wave');
-    if (waveEl) waveEl.textContent = `${this.wave}/${this.maxWaves}`;
+    if (waveEl) waveEl.textContent = this.isTestStage ? '测试' : `${this.wave}/${this.maxWaves}`;
     const scoreEl = document.getElementById('val-score');
     if (scoreEl) scoreEl.textContent = this.score;
 
@@ -5240,6 +5520,14 @@ class QuantumTDGame {
     }
     const pauseToggleBtn = document.getElementById('btn-toggle-pause');
     if (pauseToggleBtn) pauseToggleBtn.textContent = this.isPaused ? '已暂停' : '进行中';
+    const testControls = document.getElementById('test-stage-controls');
+    if (testControls) testControls.style.display = this.isTestStage && this.isInBattle ? 'block' : 'none';
+    if (this.isTestStage) {
+      const summary = document.getElementById('test-stage-summary');
+      if (summary) summary.textContent = `第 0 关 · ${ENEMY_TYPES[this.testSetup.enemy].name} × ${TOWER_CONFIGS[this.testSetup.tower].name} Lv.${this.towers[0] ? this.towers[0].level : this.testSetup.level} · 生命 ${this.testSetup.hp}`;
+      const slow = document.getElementById('btn-test-slow');
+      if (slow) { slow.setAttribute('aria-pressed', String(this.speedMult === 0.25)); slow.textContent = this.speedMult === 0.25 ? '慢放中' : '慢放'; }
+    }
   }
 
   showToast(msg) {
@@ -5484,6 +5772,18 @@ class QuantumTDGame {
     bindActionButton('skill-selected', () => this.triggerSelectedCommanderSkill());
 
     bindActionButton('btn-home-codex', () => this.openModal('modal-help'));
+    bindActionButton('btn-test-start', () => this.startTestStage());
+    bindActionButton('btn-test-close', () => this.closeTestStageSetup());
+    bindActionButton('btn-test-reset', () => this.startTestStage(this.testSetup));
+    bindActionButton('btn-test-respawn', () => this.respawnTestEnemy());
+    bindActionButton('btn-test-config', () => this.openTestStageSetup());
+    bindActionButton('btn-test-slow', () => {
+      this.speedMult = this.speedMult === 0.25 ? 1 : 0.25;
+      this.updateHUD();
+    });
+    ['test-enemy-type', 'test-tower-type', 'test-tower-level'].forEach(id => {
+      document.getElementById(id).addEventListener('change', () => this.renderTestSelection());
+    });
 
     // Speed Button
     const btnSpeed = document.getElementById('btn-speed');
@@ -5586,7 +5886,8 @@ class QuantumTDGame {
       sounds.init();
       const stageCard = el.closest('.stage-card') || el;
       const stageIdx = parseInt(stageCard.dataset.stage || '0', 10);
-      this.openStageBriefing(stageIdx);
+      if (stageIdx === -1) this.openTestStageSetup();
+      else this.openStageBriefing(stageIdx);
     };
 
     document.querySelectorAll('.stage-card, .stage-enter-btn').forEach(el => {
@@ -5720,6 +6021,18 @@ class QuantumTDGame {
 
     // Keyboard Shortcuts
     window.addEventListener('keydown', (e) => {
+      const testModal = document.getElementById('modal-test-stage');
+      if (testModal.style.display === 'grid') {
+        if (e.key === 'Escape') this.closeTestStageSetup();
+        if (e.key === 'Tab') {
+          const controls = [...testModal.querySelectorAll('button, select, input')];
+          const first = controls[0], last = controls[controls.length - 1];
+          if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+          else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+        }
+        return;
+      }
+      if (e.target?.closest?.('input, select, textarea')) return;
       if (e.key === 'b' || e.key === 'B' || e.key === '1') {
         if (this.hoverGrid.x >= 0 && this.hoverGrid.y >= 0) {
           this.tryBuildRandomTower(this.hoverGrid.x, this.hoverGrid.y);
@@ -5779,10 +6092,11 @@ class QuantumTDGame {
     if (this.codexResizeObserver) this.codexResizeObserver.disconnect();
     const content = document.querySelector('#modal-help .codex-content');
     const fmt = value => Number(value.toFixed(2));
+    const integer = value => Math.ceil(value - 1e-9);
     const stat = (label, value, ratio = 0, color = '#78b665') =>
       `<div class="archive-stat"><span>${label}</span><strong>${value}</strong>${ratio ? `<meter min="0" max="1" value="${Math.min(1, ratio)}" style="--stat-color:${color}"></meter>` : ''}</div>`;
     const tips = {
-      pulse: '优先覆盖长直路段，三级追加一枚 48% 伤害的子弹。',
+      pulse: '优先覆盖长直路段，三级二连发，第二发延迟 300ms、造成首发 80% 伤害，锁定同一目标；目标死亡后仍展示命中特效。',
       cryo: '在交汇处铺设冰面，重叠冰面叠加减速，最低保留 20% 移速。',
       plasma: '锁定高生命怪物持续灼烧，3 秒达到峰值，切换目标重新蓄力。',
       tesla: '靠近密集路线布置，让闪电逐个传递，同时强化相邻炮塔。',
@@ -5798,15 +6112,15 @@ class QuantumTDGame {
         const damage = tower.getEffectiveDamage();
         const range = tower.getEffectiveRange();
         let special = '';
-        if (type === 'pulse') special = level === 3 ? '每次追加 48% 伤害子弹' : '单体子弹';
-        if (type === 'cryo') special = `减速 ${fmt(tower.getEffectiveSlowRate() * 100)}% · 冰面 ${fmt(Math.max(0.5, c.slowDuration || 2.5) * tower.getAttributeGrowth())} 秒 · 半径 ${fmt(c.splashRadius * tower.getAttributeGrowth())}`;
-        if (type === 'tesla') special = `最多命中 ${c.chainTargets[level - 1]} 个目标 · 传递距离 ${fmt(c.chainRange * tower.getAttributeGrowth())} · 邻格增伤 ${fmt(tower.getCrystalBuffDamage() * 100)}%`;
-        if (type === 'plasma') special = `持续伤害 ${fmt(damage * rate)} / 秒 → ${fmt(damage * rate * (1 + c.rampPerHit * c.maxRampStacks * tower.getAttributeGrowth()))} / 秒 · 3 秒满蓄力`;
+        if (type === 'pulse') special = level === 3 ? '二连发 · 固定 300ms 间隔 · 第二发 80% 伤害' : '快速单体种子弹';
+        if (type === 'cryo') special = `减速 ${integer(tower.getEffectiveSlowRate() * 100)}% · 冰面 ${fmt(Math.max(0.5, c.slowDuration || 2.5) * tower.getAttributeGrowth())} 秒 · 半径 ${integer(c.splashRadius * tower.getAttributeGrowth())}`;
+        if (type === 'tesla') special = `最多命中 ${c.chainTargets[level - 1]} 个目标 · 传递距离 ${integer(c.chainRange * tower.getAttributeGrowth())} · 邻格增伤 ${integer(tower.getCrystalBuffDamage() * 100)}%`;
+        if (type === 'plasma') special = `持续伤害 ${integer(damage * rate)} / 秒 → ${integer(damage * rate * (1 + c.rampPerHit * c.maxRampStacks * tower.getAttributeGrowth()))} / 秒 · 3 秒满蓄力`;
         if (type === 'buffer') special = '范围内所有目标受到脉冲伤害';
         return `<section class="archive-level">
-          <div class="archive-level-art"><img src="${towerArtPath(type, level, 'detail')}" alt="${c.name} ${level}级" loading="lazy"><span>Lv.${level}</span></div>
+          <div class="archive-level-art">${type === 'pulse' ? `<canvas width="512" height="512" data-seed-level="${level}" role="img" aria-label="${c.name} ${level}级"></canvas>` : type === 'cryo' ? `<canvas width="512" height="512" data-ice-level="${level}" role="img" aria-label="${c.name} ${level}级"></canvas>` : `<canvas width="512" height="512" data-garden-tower="${type}" data-garden-level="${level}" role="img" aria-label="${c.name} ${level}级"></canvas>`}<span>Lv.${level}</span></div>
           <div class="archive-level-info"><h4>${['初始形态', '二级进化', '顶级形态'][level - 1]}</h4>
-          <div class="archive-stats">${stat(type === 'plasma' ? '基础伤害' : '单次伤害', fmt(damage), damage / 150, '#e57e83')}${stat('攻击间隔', fmt(1 / rate) + ' 秒', rate / 3, '#58b8cd')}${stat('攻击射程', fmt(range), range / 300, '#e9b44d')}${stat(level === 1 ? '建造价格' : '本次升级', level === 1 ? c.cost : c.upgradeCosts[level - 2])}${stat('出售返还', tower.getRefundValue())}</div>
+          <div class="archive-stats">${stat(type === 'plasma' ? '基础伤害' : '单次伤害', integer(damage), damage / 150, '#e57e83')}${stat('攻击间隔', fmt(1 / rate) + ' 秒', rate / 3, '#58b8cd')}${stat('攻击射程', integer(range), range / 300, '#e9b44d')}${stat(level === 1 ? '建造价格' : '本次升级', level === 1 ? c.cost : c.upgradeCosts[level - 2])}${stat('出售返还', tower.getRefundValue())}</div>
           <p class="archive-ability">${special}</p></div></section>`;
       }).join('');
       return `<article class="archive-sheet"><header class="archive-heading"><h3>${c.name}</h3><span>${c.trait}</span></header>
@@ -5819,13 +6133,13 @@ class QuantumTDGame {
       if (c.stealth) traits.push('隐身');
       if (c.shieldAura) traits.push('初始护盾 120');
       if (c.splits) traits.push(`分裂 ${c.splits} 个小方`);
-      if (c.evasion) traits.push(`闪避 ${fmt(c.evasion * 100)}%`);
-      if (c.bossSkill === 'emp') traits.push('脉冲干扰');
-      if (c.bossSkill === 'shieldShift') traits.push('护盾跃迁');
+      if (c.evasion) traits.push(`闪避 ${integer(c.evasion * 100)}%（预留）`);
+      if (c.bossSkill === 'emp') traits.push('脉冲干扰（预留）');
+      if (c.bossSkill === 'shieldShift') traits.push('护盾跃迁（预留）');
       return `<article class="archive-sheet"><header class="archive-heading"><h3>${c.name}</h3><span>${c.isBoss ? '首领' : '普通怪物'}</span></header>
         <div class="archive-enemy-art"><canvas width="512" height="512" data-enemy="${key}" aria-label="${c.name}"></canvas></div>
         <h4>怪物特性</h4><p>${traits.join(' · ')}</p>
-        <div class="archive-stats">${stat('生命倍率', c.hpMultiplier + ' 倍')}${stat('实际移速', fmt(c.speed * COMBAT_SPEED_MULTIPLIER), c.speed / 150, '#58b8cd')}${stat('伤害减免', fmt(c.defense * 100) + '%', c.defense, '#e57e83')}${stat('击败奖励', c.reward)}${stat('积分', c.score)}</div></article>`;
+        <div class="archive-stats">${stat('生命倍率', c.hpMultiplier + ' 倍')}${stat('实际移速', integer(c.speed * COMBAT_SPEED_MULTIPLIER), c.speed / 150, '#58b8cd')}${stat('伤害减免', integer(c.defense * 100) + '%', c.defense, '#e57e83')}${stat('击败奖励', c.reward)}${stat('积分', c.score)}</div></article>`;
     };
     content.innerHTML = '<div class="codex-tabs" role="tablist" aria-label="图鉴分类"><button type="button" role="tab" aria-selected="true" data-kind="towers">防御塔</button><button type="button" role="tab" aria-selected="false" data-kind="enemies">怪物</button></div><div class="codex-paging"><button type="button" data-step="-1" title="上一张" aria-label="上一张">↑</button><span aria-live="polite"></span></div><div class="codex-posters" role="tabpanel" tabindex="0" aria-label="防御塔图鉴"></div><div class="codex-paging"><button type="button" data-step="1" title="下一张" aria-label="下一张">↓</button></div>';
     const posters = content.querySelector('.codex-posters');
@@ -5859,6 +6173,9 @@ class QuantumTDGame {
       posters.querySelectorAll('canvas[data-enemy]').forEach(canvas => {
         this.renderEnemyThumbnail(canvas);
       });
+      SEED_CANNON_ART.paintPreviews(posters);
+      ICE_STAR_ART.paintPreviews(posters);
+      GARDEN_TOWER_ART.paintPreviews(posters);
     };
     const select = button => {
       kind = button.dataset.kind; current = 0;
@@ -5888,7 +6205,7 @@ class QuantumTDGame {
   populateConfigInputs() {
     const setVal = (id, val) => {
       const el = document.getElementById(id);
-      if (el && val !== undefined && val !== null) el.value = val;
+      if (el && val !== undefined && val !== null) el.value = /-(damage|range|cost|speed|reward|score|splits|defense|evasion|slowRate|buffDmg|rampPercent)$/.test(id) ? Math.ceil(val) : val;
     };
 
     // 1. Towers
@@ -5901,7 +6218,7 @@ class QuantumTDGame {
     if (TOWER_CONFIGS.cryo) {
       setVal('cfg-t-cryo-damage', TOWER_CONFIGS.cryo.damage);
       setVal('cfg-t-cryo-range', TOWER_CONFIGS.cryo.range);
-      setVal('cfg-t-cryo-slowRate', Math.round((TOWER_CONFIGS.cryo.slowRate || 0.45) * 100));
+      setVal('cfg-t-cryo-slowRate', Math.ceil((TOWER_CONFIGS.cryo.slowRate || 0.45) * 100));
       setVal('cfg-t-cryo-slowDuration', TOWER_CONFIGS.cryo.slowDuration);
       setVal('cfg-t-cryo-cost', TOWER_CONFIGS.cryo.cost);
     }
@@ -5909,14 +6226,14 @@ class QuantumTDGame {
       setVal('cfg-t-plasma-damage', TOWER_CONFIGS.plasma.damage);
       setVal('cfg-t-plasma-fireRate', TOWER_CONFIGS.plasma.fireRate);
       setVal('cfg-t-plasma-range', TOWER_CONFIGS.plasma.range);
-      setVal('cfg-t-plasma-rampPercent', Math.round((TOWER_CONFIGS.plasma.rampPerHit ?? 0.18) * TOWER_CONFIGS.plasma.maxRampStacks * 100));
+      setVal('cfg-t-plasma-rampPercent', Math.ceil((TOWER_CONFIGS.plasma.rampPerHit ?? 0.18) * TOWER_CONFIGS.plasma.maxRampStacks * 100));
       setVal('cfg-t-plasma-cost', TOWER_CONFIGS.plasma.cost);
     }
     if (TOWER_CONFIGS.tesla) {
       setVal('cfg-t-tesla-damage', TOWER_CONFIGS.tesla.damage);
       setVal('cfg-t-tesla-fireRate', TOWER_CONFIGS.tesla.fireRate);
       setVal('cfg-t-tesla-range', TOWER_CONFIGS.tesla.range);
-      setVal('cfg-t-tesla-buffDmg', Math.round((TOWER_CONFIGS.tesla.buffDmg || 0.18) * 100));
+      setVal('cfg-t-tesla-buffDmg', Math.ceil((TOWER_CONFIGS.tesla.buffDmg || 0.18) * 100));
       setVal('cfg-t-tesla-cost', TOWER_CONFIGS.tesla.cost);
     }
     if (TOWER_CONFIGS.buffer) {
@@ -5933,21 +6250,21 @@ class QuantumTDGame {
       setVal('cfg-e-crawler-speed', em.crawler.speed);
       setVal('cfg-e-crawler-reward', em.crawler.reward);
       setVal('cfg-e-crawler-score', em.crawler.score);
-      setVal('cfg-e-crawler-defense', Math.round((em.crawler.defense || 0) * 100));
+      setVal('cfg-e-crawler-defense', Math.ceil((em.crawler.defense || 0) * 100));
     }
     if (em.scout) {
       setVal('cfg-e-scout-hpMultiplier', em.scout.hpMultiplier);
       setVal('cfg-e-scout-speed', em.scout.speed);
       setVal('cfg-e-scout-reward', em.scout.reward);
       setVal('cfg-e-scout-score', em.scout.score);
-      setVal('cfg-e-scout-evasion', Math.round((em.scout.evasion || 0.25) * 100));
+      setVal('cfg-e-scout-evasion', Math.ceil((em.scout.evasion || 0.25) * 100));
     }
     if (em.phantom) {
       setVal('cfg-e-phantom-hpMultiplier', em.phantom.hpMultiplier);
       setVal('cfg-e-phantom-speed', em.phantom.speed);
       setVal('cfg-e-phantom-reward', em.phantom.reward);
       setVal('cfg-e-phantom-score', em.phantom.score);
-      setVal('cfg-e-phantom-defense', Math.round((em.phantom.defense || 0.15) * 100));
+      setVal('cfg-e-phantom-defense', Math.ceil((em.phantom.defense || 0.15) * 100));
     }
     if (em.replicator) {
       setVal('cfg-e-replicator-hpMultiplier', em.replicator.hpMultiplier);
@@ -5961,28 +6278,28 @@ class QuantumTDGame {
       setVal('cfg-e-shielder-speed', em.shielder.speed);
       setVal('cfg-e-shielder-reward', em.shielder.reward);
       setVal('cfg-e-shielder-score', em.shielder.score);
-      setVal('cfg-e-shielder-defense', Math.round((em.shielder.defense || 0.25) * 100));
+      setVal('cfg-e-shielder-defense', Math.ceil((em.shielder.defense || 0.25) * 100));
     }
     if (em.titan) {
       setVal('cfg-e-titan-hpMultiplier', em.titan.hpMultiplier);
       setVal('cfg-e-titan-speed', em.titan.speed);
       setVal('cfg-e-titan-reward', em.titan.reward);
       setVal('cfg-e-titan-score', em.titan.score);
-      setVal('cfg-e-titan-defense', Math.round((em.titan.defense || 0.45) * 100));
+      setVal('cfg-e-titan-defense', Math.ceil((em.titan.defense || 0.45) * 100));
     }
     if (em.boss_overlord) {
       setVal('cfg-e-boss_overlord-hpMultiplier', em.boss_overlord.hpMultiplier);
       setVal('cfg-e-boss_overlord-speed', em.boss_overlord.speed);
       setVal('cfg-e-boss_overlord-reward', em.boss_overlord.reward);
       setVal('cfg-e-boss_overlord-score', em.boss_overlord.score);
-      setVal('cfg-e-boss_overlord-defense', Math.round((em.boss_overlord.defense || 0.30) * 100));
+      setVal('cfg-e-boss_overlord-defense', Math.ceil((em.boss_overlord.defense || 0.30) * 100));
     }
     if (em.boss_devourer) {
       setVal('cfg-e-boss_devourer-hpMultiplier', em.boss_devourer.hpMultiplier);
       setVal('cfg-e-boss_devourer-speed', em.boss_devourer.speed);
       setVal('cfg-e-boss_devourer-reward', em.boss_devourer.reward);
       setVal('cfg-e-boss_devourer-score', em.boss_devourer.score);
-      setVal('cfg-e-boss_devourer-defense', Math.round((em.boss_devourer.defense || 0.40) * 100));
+      setVal('cfg-e-boss_devourer-defense', Math.ceil((em.boss_devourer.defense || 0.40) * 100));
     }
   }
 
@@ -5991,7 +6308,7 @@ class QuantumTDGame {
       const el = document.getElementById(id);
       if (!el) return fallback;
       const v = parseFloat(el.value);
-      return (!isNaN(v) && v >= 0) ? v : fallback;
+      return (!isNaN(v) && v >= 0) ? (/-(damage|range|cost|speed|reward|score|splits)$/.test(id) ? Math.ceil(v) : v) : fallback;
     };
 
     const towers = {
@@ -6035,57 +6352,57 @@ class QuantumTDGame {
       crawler: {
         hpMultiplier: getNum('cfg-e-crawler-hpMultiplier', 0.85),
         speed: getNum('cfg-e-crawler-speed', 65),
-        reward: Math.round(getNum('cfg-e-crawler-reward', 12)),
-        score: Math.round(getNum('cfg-e-crawler-score', 10)),
+        reward: Math.ceil(getNum('cfg-e-crawler-reward', 12)),
+        score: Math.ceil(getNum('cfg-e-crawler-score', 10)),
         defense: getNum('cfg-e-crawler-defense', 0) / 100
       },
       scout: {
         hpMultiplier: getNum('cfg-e-scout-hpMultiplier', 0.55),
         speed: getNum('cfg-e-scout-speed', 115),
-        reward: Math.round(getNum('cfg-e-scout-reward', 10)),
-        score: Math.round(getNum('cfg-e-scout-score', 15)),
+        reward: Math.ceil(getNum('cfg-e-scout-reward', 10)),
+        score: Math.ceil(getNum('cfg-e-scout-score', 15)),
         evasion: getNum('cfg-e-scout-evasion', 25) / 100
       },
       phantom: {
         hpMultiplier: getNum('cfg-e-phantom-hpMultiplier', 1.15),
         speed: getNum('cfg-e-phantom-speed', 70),
-        reward: Math.round(getNum('cfg-e-phantom-reward', 22)),
-        score: Math.round(getNum('cfg-e-phantom-score', 25)),
+        reward: Math.ceil(getNum('cfg-e-phantom-reward', 22)),
+        score: Math.ceil(getNum('cfg-e-phantom-score', 25)),
         defense: getNum('cfg-e-phantom-defense', 15) / 100
       },
       replicator: {
         hpMultiplier: getNum('cfg-e-replicator-hpMultiplier', 1.60),
         speed: getNum('cfg-e-replicator-speed', 50),
-        reward: Math.round(getNum('cfg-e-replicator-reward', 25)),
-        score: Math.round(getNum('cfg-e-replicator-score', 30)),
-        splits: Math.round(getNum('cfg-e-replicator-splits', 3))
+        reward: Math.ceil(getNum('cfg-e-replicator-reward', 25)),
+        score: Math.ceil(getNum('cfg-e-replicator-score', 30)),
+        splits: Math.ceil(getNum('cfg-e-replicator-splits', 3))
       },
       shielder: {
         hpMultiplier: getNum('cfg-e-shielder-hpMultiplier', 1.85),
         speed: getNum('cfg-e-shielder-speed', 45),
-        reward: Math.round(getNum('cfg-e-shielder-reward', 28)),
-        score: Math.round(getNum('cfg-e-shielder-score', 30)),
+        reward: Math.ceil(getNum('cfg-e-shielder-reward', 28)),
+        score: Math.ceil(getNum('cfg-e-shielder-score', 30)),
         defense: getNum('cfg-e-shielder-defense', 25) / 100
       },
       titan: {
         hpMultiplier: getNum('cfg-e-titan-hpMultiplier', 3.40),
         speed: getNum('cfg-e-titan-speed', 38),
-        reward: Math.round(getNum('cfg-e-titan-reward', 30)),
-        score: Math.round(getNum('cfg-e-titan-score', 35)),
+        reward: Math.ceil(getNum('cfg-e-titan-reward', 30)),
+        score: Math.ceil(getNum('cfg-e-titan-score', 35)),
         defense: getNum('cfg-e-titan-defense', 45) / 100
       },
       boss_overlord: {
         hpMultiplier: getNum('cfg-e-boss_overlord-hpMultiplier', 25.0),
         speed: getNum('cfg-e-boss_overlord-speed', 28),
-        reward: Math.round(getNum('cfg-e-boss_overlord-reward', 250)),
-        score: Math.round(getNum('cfg-e-boss_overlord-score', 500)),
+        reward: Math.ceil(getNum('cfg-e-boss_overlord-reward', 250)),
+        score: Math.ceil(getNum('cfg-e-boss_overlord-score', 500)),
         defense: getNum('cfg-e-boss_overlord-defense', 30) / 100
       },
       boss_devourer: {
         hpMultiplier: getNum('cfg-e-boss_devourer-hpMultiplier', 50.0),
         speed: getNum('cfg-e-boss_devourer-speed', 24),
-        reward: Math.round(getNum('cfg-e-boss_devourer-reward', 500)),
-        score: Math.round(getNum('cfg-e-boss_devourer-score', 1000)),
+        reward: Math.ceil(getNum('cfg-e-boss_devourer-reward', 500)),
+        score: Math.ceil(getNum('cfg-e-boss_devourer-score', 1000)),
         defense: getNum('cfg-e-boss_devourer-defense', 40) / 100
       }
     };
@@ -6147,7 +6464,8 @@ class QuantumTDGame {
       return false;
     }
 
-    const affordableTypes = TOWER_TYPES.filter(type => this.energy >= TOWER_CONFIGS[type].cost);
+    const affordableTypes = this.isTestStage ? [this.testSetup.tower]
+      : TOWER_TYPES.filter(type => this.energy >= TOWER_CONFIGS[type].cost);
     if (affordableTypes.length === 0) {
       const minCost = Math.min(...TOWER_TYPES.map(type => TOWER_CONFIGS[type].cost));
       sounds.playUI('error');
@@ -6157,16 +6475,20 @@ class QuantumTDGame {
     // Random selection among tower types the current energy can afford.
     const randomType = affordableTypes[Math.floor(Math.random() * affordableTypes.length)];
     const cfg = TOWER_CONFIGS[randomType];
-    this.energy -= cfg.cost;
+    if (!this.isTestStage) this.energy -= cfg.cost;
 
     const newTower = new DefensiveTower(gx, gy, randomType, this);
+    if (this.isTestStage) {
+      newTower.level = this.testSetup.level;
+      newTower.investedEnergy = newTower.getInvestedEnergyForLevel();
+    }
     this.towers.push(newTower);
     this.selectedTowerType = null;
     this.hoveredTower = null;
 
     // Quantum Construction Holographic Effect & Shockwave
     this.createBuildSummonEffect(newTower.x, newTower.y, cfg);
-    this.createFloatingText(newTower.x, newTower.y - 30, `建造 ${cfg.name} -${cfg.cost}`, cfg.color, true);
+    this.createFloatingText(newTower.x, newTower.y - 30, this.isTestStage ? `测试 ${cfg.name}` : `建造 ${cfg.name} -${cfg.cost}`, cfg.color, true);
     sounds.playUI('upgrade');
 
     this.updateHUD();
@@ -6255,8 +6577,19 @@ class QuantumTDGame {
       const archive = TOWER_ARCHIVE_META[tower.type] || TOWER_ARCHIVE_META.pulse;
       const assetImage = document.getElementById('taf-image');
       if (assetImage) {
+        assetImage.style.display = TOWER_TYPES.includes(tower.type) ? 'none' : 'block';
         assetImage.src = towerArtPath(tower.type, tower.level, 'detail');
         assetImage.alt = `${tower.config.name}塔体素材`;
+      }
+      const seedImage = document.getElementById('taf-seed-image');
+      if (seedImage) {
+        seedImage.style.display = TOWER_TYPES.includes(tower.type) ? 'block' : 'none';
+        delete seedImage.dataset.seedLevel; delete seedImage.dataset.iceLevel;
+        delete seedImage.dataset.gardenTower; delete seedImage.dataset.gardenLevel;
+        seedImage.setAttribute('aria-label', `${tower.config.name} ${tower.level}级`);
+        if (tower.type === 'cryo') { seedImage.dataset.iceLevel = tower.level; ICE_STAR_ART.paintPreview(seedImage); }
+        else if (tower.type === 'pulse') { seedImage.dataset.seedLevel = tower.level; SEED_CANNON_ART.paintPreview(seedImage); }
+        else { seedImage.dataset.gardenTower = tower.type; seedImage.dataset.gardenLevel = tower.level; GARDEN_TOWER_ART.paintPreview(seedImage); }
       }
       const archiveName = document.getElementById('taf-name');
       if (archiveName) archiveName.textContent = tower.config.name;
@@ -6279,7 +6612,10 @@ class QuantumTDGame {
 
       const tfmIcon = document.getElementById('tfm-icon');
       if (tfmIcon) {
-        tfmIcon.innerHTML = `<img class="tower-menu-icon" src="${towerArtPath(tower.type, tower.level)}" alt="">`;
+        tfmIcon.innerHTML = towerIconHtml(tower.type, tower.level);
+        SEED_CANNON_ART.paintPreviews(tfmIcon);
+        ICE_STAR_ART.paintPreviews(tfmIcon);
+        GARDEN_TOWER_ART.paintPreviews(tfmIcon);
       }
       const tfmName = document.getElementById('tfm-name');
       if (tfmName) tfmName.textContent = tower.config.name;
@@ -6291,9 +6627,9 @@ class QuantumTDGame {
       const statSpd = document.getElementById('tfm-stat-spd');
       const statRng = document.getElementById('tfm-stat-rng');
 
-      const effDmg = Math.round(tower.getEffectiveDamage(this));
+      const effDmg = Math.ceil(tower.getEffectiveDamage(this));
       const effFr = tower.getEffectiveFireRate(this);
-      const effRng = Math.round(tower.getEffectiveRange(this));
+      const effRng = Math.ceil(tower.getEffectiveRange(this));
 
       if (statDmg) statDmg.textContent = effDmg;
       if (statSpd) statSpd.textContent = `${effFr.toFixed(1)}/s`;
@@ -6301,9 +6637,9 @@ class QuantumTDGame {
       const trait = document.getElementById('tfm-trait');
       if (trait) {
         const extra = tower.type === 'cryo'
-          ? ` · 减速 ${Math.round(tower.getEffectiveSlowRate() * 100)}%`
+          ? ` · 减速 ${Math.ceil(tower.getEffectiveSlowRate() * 100)}%`
           : tower.type === 'tesla'
-            ? ` · 邻格增伤 ${Math.round(tower.getCrystalBuffDamage() * 100)}%`
+            ? ` · 邻格增伤 ${Math.ceil(tower.getCrystalBuffDamage() * 100)}%`
             : '';
         const prices = [tower.config.cost, ...tower.config.upgradeCosts].join(' / ');
         trait.textContent = `${tower.config.trait}${extra} · 费用 ${prices}`;
@@ -6406,6 +6742,7 @@ class QuantumTDGame {
 
   // ==================== 7. WAVES & ENEMIES SPAWNING ====================
   triggerNextWave() {
+    if (this.isTestStage) { this.respawnTestEnemy(); return; }
     if (this.waveInProgress || this.gameOver) return;
     this.isWaveCountdownActive = false;
     const banner = document.getElementById('wave-countdown-banner');
@@ -6503,7 +6840,7 @@ class QuantumTDGame {
     }
 
     // Silent 5s Wave Countdown before 3s Alarm
-    if (this.isWaveCountdownActive && !this.gameOver) {
+    if (!this.isTestStage && this.isWaveCountdownActive && !this.gameOver) {
       this.waveCountdown -= dt;
       if (this.waveCountdown <= 0) {
         this.isWaveCountdownActive = false;
@@ -6525,7 +6862,7 @@ class QuantumTDGame {
     }
 
     // Multi-Batch Wave Spawner (concurrent mixed monster types & varied intervals)
-    if (this.waveInProgress && this.waveQueue.length > 0) {
+    if (!this.isTestStage && this.waveInProgress && this.waveQueue.length > 0) {
       for (let b = this.waveQueue.length - 1; b >= 0; b--) {
         const batch = this.waveQueue[b];
         batch.timer = (batch.timer !== undefined ? batch.timer : 0) - dt;
@@ -6544,7 +6881,7 @@ class QuantumTDGame {
           }
         }
       }
-    } else if (this.waveInProgress && this.waveQueue.length === 0 && this.enemies.length === 0) {
+    } else if (!this.isTestStage && this.waveInProgress && this.waveQueue.length === 0 && this.enemies.length === 0) {
       // Wave Completed!
       this.waveInProgress = false;
       const waveReward = 60 + this.wave * 10;
@@ -6564,11 +6901,16 @@ class QuantumTDGame {
       }
     }
 
+    this.updateTestStageSpawn(dt);
+
     // Update Towers
     this.towers.forEach(t => t.update(dt, this));
 
     // Update Enemies
-    this.icePatches = this.icePatches.filter(patch => (patch.life -= dt) > 0);
+    this.icePatches = this.icePatches.filter(patch => {
+      patch.age = (patch.age || 0) + dt;
+      return (patch.life -= dt) > 0;
+    });
     for (let i = this.enemies.length - 1; i >= 0; i--) {
       const e = this.enemies[i];
       e.iceSlowFactor = this.icePatches.reduce((factor, patch) =>
@@ -6576,6 +6918,13 @@ class QuantumTDGame {
           ? Math.max(0.2, factor * patch.slowFactor) : factor, 1);
       e.update(dt, this);
       if (e.reachedEnd) {
+        if (this.isTestStage) {
+          e.dead = true;
+          e.seedDeathPosition = e.getRenderPosition();
+          this.enemies.splice(i, 1);
+          this.testRespawnTimer = 0.8;
+          continue;
+        }
         this.hp -= e.isBoss ? 5 : 1;
         this.triggerBaseDamageFlash();
         sounds.playExplosion(true);
@@ -6587,6 +6936,7 @@ class QuantumTDGame {
         }
       } else if (e.dead) {
         this.enemies.splice(i, 1);
+        if (this.isTestStage) this.testRespawnTimer = 0.8;
       }
     }
 
@@ -6685,6 +7035,7 @@ class QuantumTDGame {
   }
 
   handleVictory() {
+    if (this.isTestStage) return;
     this.gameOver = true;
     const card = document.getElementById('gameover-card');
     card.className = 'modal-card victory';
@@ -6695,7 +7046,7 @@ class QuantumTDGame {
     document.getElementById('go-desc').textContent = '捣蛋方块已经离开，花园里的花又能自在开放了。';
     document.getElementById('go-stat-wave').textContent = `${this.wave}/${this.maxWaves}`;
     document.getElementById('go-stat-kills').textContent = this.kills;
-    document.getElementById('go-stat-dmg').textContent = Math.round(this.totalDamage).toLocaleString();
+    document.getElementById('go-stat-dmg').textContent = Math.ceil(this.totalDamage).toLocaleString();
     document.getElementById('go-stat-score').textContent = this.score.toLocaleString();
 
     try {
@@ -6709,6 +7060,7 @@ class QuantumTDGame {
   }
 
   handleDefeat() {
+    if (this.isTestStage) return;
     this.gameOver = true;
     const card = document.getElementById('gameover-card');
     card.className = 'modal-card defeat';
@@ -6717,13 +7069,14 @@ class QuantumTDGame {
     document.getElementById('go-desc').textContent = '方块闯进了花圃，调整植物守卫后再试一次。';
     document.getElementById('go-stat-wave').textContent = `${this.wave}/${this.maxWaves}`;
     document.getElementById('go-stat-kills').textContent = this.kills;
-    document.getElementById('go-stat-dmg').textContent = Math.round(this.totalDamage).toLocaleString();
+    document.getElementById('go-stat-dmg').textContent = Math.ceil(this.totalDamage).toLocaleString();
     document.getElementById('go-stat-score').textContent = this.score.toLocaleString();
     this.openModal('modal-gameover');
   }
 
   // ==================== 9. CANVAS RENDERING ====================
   drawGardenPathTile(ctx, gx, gy, x, y) {
+    if (GARDEN_WORLD_ART.drawPath(ctx, gx, gy, x, y, this.cellSize, this.pathTiles)) return;
     ctx.save();
     ctx.translate(x, y);
     ctx.scale(this.cellSize, this.cellSize);
@@ -6835,6 +7188,7 @@ class QuantumTDGame {
         if (isPath) {
           this.drawGardenPathTile(ctx, gx, gy, x, y);
         } else {
+          if (GARDEN_WORLD_ART.drawTile(ctx, 'grass', gx, gy, x, y, this.cellSize)) continue;
           const tileTint = (gx + gy) % 2 === 0 ? 'rgba(244, 255, 216, 0.16)' : 'rgba(87, 154, 76, 0.09)';
           ctx.fillStyle = tileTint;
           ctx.fillRect(x + 1, y + 1, this.cellSize - 2, this.cellSize - 2);
@@ -6916,50 +7270,23 @@ class QuantumTDGame {
             ctx.save();
             ctx.translate(endWp.x, endWp.y);
 
-            // Rotating Cyber Base Core Shield Ring
-            const rot = this.time * 2.0;
-            ctx.save();
-            ctx.rotate(rot);
-            ctx.strokeStyle = this.hp <= 5 ? '#ff2a6d' : (this.hp <= 10 ? '#ffd02e' : '#00f3ff');
-            ctx.lineWidth = 2;
-            ctx.setLineDash([6, 6]);
-            ctx.beginPath();
-            ctx.arc(0, 0, 18, 0, Math.PI * 2);
-            ctx.stroke();
-            ctx.restore();
-
-            // Central Glowing Base Core Sphere
-            ctx.beginPath();
-            ctx.arc(0, 0, 9, 0, Math.PI * 2);
-            ctx.fillStyle = this.hp <= 5 ? '#ff2a6d' : (this.hp <= 10 ? '#ffd02e' : '#05ffa1');
-            ctx.shadowColor = ctx.fillStyle;
-            ctx.shadowBlur = 15;
-            ctx.fill();
-
-            // Draw Floating Holographic Digital Health Badge (e.g. 20/20) at the TOP BORDER of Endpoint Cell
-            const badgeW = 68;
-            const badgeH = 20;
-            const badgeY = -this.cellSize * 0.5 - 13;
-
-            ctx.save();
-            ctx.fillStyle = 'rgba(7, 12, 28, 0.94)';
-            ctx.strokeStyle = this.hp <= 5 ? '#ff2a6d' : (this.hp <= 10 ? '#ffd02e' : 'rgba(0, 243, 255, 0.7)');
-            ctx.lineWidth = 1.2;
-            ctx.shadowColor = ctx.strokeStyle;
-            ctx.shadowBlur = 8;
-            ctx.beginPath();
-            traceRoundRect(ctx, -badgeW / 2, badgeY, badgeW, badgeH, 5);
-            ctx.fill();
-            ctx.stroke();
-
-            // Clean Digital Health Text (e.g. 20/20)
-            ctx.fillStyle = this.hp <= 5 ? '#ff2a6d' : (this.hp <= 10 ? '#ffd02e' : '#05ffa1');
-            ctx.font = 'bold 11px Orbitron, sans-serif';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(`${Math.max(0, this.hp)} / ${this.maxHp}`, 0, badgeY + badgeH / 2);
-
-            ctx.restore();
+            // A flower on a small wooden gate marks the garden being protected.
+            const gate = this.cellSize * 0.68;
+            ctx.fillStyle = '#b5cf87';
+            ctx.beginPath();ctx.ellipse(0,gate*.24,gate*.58,gate*.22,0,0,Math.PI*2);ctx.fill();
+            ctx.strokeStyle='#aa8050';ctx.lineWidth=gate*.055;ctx.lineCap='round';
+            for (const at of [-.36,0,.36]) {
+              ctx.fillStyle='#fff0cd';ctx.beginPath();traceRoundRect(ctx,gate*(at-.075),-gate*.22,gate*.15,gate*.56,gate*.05);ctx.fill();ctx.stroke();
+            }
+            ctx.beginPath();ctx.moveTo(-gate*.46,gate*.08);ctx.lineTo(gate*.46,gate*.08);ctx.stroke();
+            ctx.save();ctx.translate(0,-gate*.17);
+            for(let p=0;p<6;p++) { const a=p*Math.PI/3;ctx.fillStyle=this.hp<=5?'#e69788':'#f8d77b';ctx.beginPath();ctx.ellipse(Math.cos(a)*gate*.14,Math.sin(a)*gate*.14,gate*.115,gate*.08,a,0,Math.PI*2);ctx.fill(); }
+            ctx.fillStyle='#dca653';ctx.beginPath();ctx.arc(0,0,gate*.095,0,Math.PI*2);ctx.fill();ctx.restore();
+            const badgeW=Math.min(64,this.cellSize*1.25),badgeH=20,badgeY=-this.cellSize*.5-13;
+            ctx.fillStyle='#fffbed';ctx.strokeStyle=this.hp<=5?'#cd765d':this.hp<=10?'#c39843':'#8aaa62';ctx.lineWidth=1.2;
+            ctx.beginPath();traceRoundRect(ctx,-badgeW/2,badgeY,badgeW,badgeH,10);ctx.fill();ctx.stroke();
+            ctx.fillStyle=this.hp<=5?'#b25441':'#446b3c';ctx.font='bold 11px system-ui,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+            ctx.fillText(`${Math.max(0,this.hp)} / ${this.maxHp}`,0,badgeY+badgeH/2);
 
             ctx.restore();
           }
@@ -6967,16 +7294,16 @@ class QuantumTDGame {
       });
     }
 
-    // Ice is clipped to walkable cells, below units and projectiles.
+    // 霜面按真实减速范围绘制，位于单位下方，不裁成道路条带。
     if (this.icePatches.length) {
       ctx.save();
-      ctx.beginPath();
-      this.pathTiles.forEach(key => {
-        const [gx, gy] = key.split(',').map(Number);
-        ctx.rect(this.offsetX + gx * this.cellSize, this.offsetY + gy * this.cellSize, this.cellSize, this.cellSize);
+      this.icePatches.forEach((patch, index) => {
+        // 完全覆盖的旧冰面只绘制最持久的一层；减速判定仍遍历所有冰面。
+        const covered = this.icePatches.some((other, otherIndex) => other !== patch
+          && Math.hypot(other.x - patch.x, other.y - patch.y) + patch.radius <= other.radius + 0.1
+          && (other.radius > patch.radius + 0.1 || other.life > patch.life || (other.life === patch.life && otherIndex < index)));
+        if (!covered) patch.draw(ctx);
       });
-      ctx.clip();
-      this.icePatches.forEach(patch => patch.draw(ctx));
       ctx.restore();
     }
 
@@ -7086,8 +7413,8 @@ class QuantumTDGame {
 
         ctx.save();
         // Tile highlight box
-        ctx.fillStyle = canAfford ? 'rgba(0, 243, 255, 0.12)' : 'rgba(255, 42, 109, 0.12)';
-        ctx.strokeStyle = canAfford ? '#00f3ff' : '#ff2a6d';
+        ctx.fillStyle = canAfford ? 'rgba(110, 153, 78, 0.12)' : 'rgba(205, 118, 93, 0.12)';
+        ctx.strokeStyle = canAfford ? '#6e994e' : '#cd765d';
         ctx.lineWidth = 1.5;
         ctx.setLineDash([4, 4]);
         ctx.strokeRect(x + 2, y + 2, this.cellSize - 4, this.cellSize - 4);
@@ -7107,8 +7434,8 @@ class QuantumTDGame {
         ctx.beginPath(); ctx.moveTo(x + this.cellSize - 2 - bSize, y + this.cellSize - 2); ctx.lineTo(x + this.cellSize - 2, y + this.cellSize - 2); ctx.lineTo(x + this.cellSize - 2, y + this.cellSize - 2 - bSize); ctx.stroke();
 
         // Summon Dice & Cost Preview
-        ctx.fillStyle = canAfford ? '#ffd02e' : '#ff2a6d';
-        ctx.font = 'bold 11px Orbitron, sans-serif';
+        ctx.fillStyle = canAfford ? '#446b3c' : '#b25441';
+        ctx.font = 'bold 11px system-ui, sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(canAfford ? `${minTowerCost} 起` : '', cx, cy);
@@ -7123,9 +7450,9 @@ class QuantumTDGame {
       // Range circle
       ctx.beginPath();
       ctx.arc(ht.x, ht.y, ht.getEffectiveRange(this), 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(0, 243, 255, 0.08)';
+      ctx.fillStyle = 'rgba(110, 153, 78, 0.08)';
       ctx.fill();
-      ctx.strokeStyle = '#00f3ff';
+      ctx.strokeStyle = '#6e994e';
       ctx.lineWidth = 2;
       ctx.setLineDash([4, 6]);
       ctx.stroke();
@@ -7135,20 +7462,20 @@ class QuantumTDGame {
       ctx.save();
       ctx.translate(ht.x, ht.y + this.cellSize * 0.5 + 14);
       const levelText = `Lv.${ht.level} ${'●'.repeat(ht.level)}${'○'.repeat(3 - ht.level)}`;
-      ctx.font = 'bold 11px Orbitron, sans-serif';
+      ctx.font = 'bold 11px system-ui, sans-serif';
       const textW = ctx.measureText(levelText).width;
 
-      ctx.fillStyle = 'rgba(7, 12, 28, 0.92)';
-      ctx.strokeStyle = ht.level >= 3 ? '#ffd02e' : '#7fe5cf';
+      ctx.fillStyle = '#fffbed';
+      ctx.strokeStyle = ht.level >= 3 ? '#d4ac57' : '#8aaa62';
       ctx.lineWidth = 1.5;
       ctx.shadowColor = ctx.strokeStyle;
-      ctx.shadowBlur = 10;
+      ctx.shadowBlur = 0;
       ctx.beginPath();
       traceRoundRect(ctx, -textW / 2 - 8, -10, textW + 16, 20, 5);
       ctx.fill();
       ctx.stroke();
 
-      ctx.fillStyle = ht.level >= 3 ? '#ffd02e' : '#7fe5cf';
+      ctx.fillStyle = ht.level >= 3 ? '#91651e' : '#446b3c';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText(levelText, 0, 1);
@@ -7470,6 +7797,7 @@ class DefensiveTower {
     this.cooldown = 0;
     this.rotation = 0;
     this.totalDamageDealt = 0;
+    this.continuousDamageRemainder = 0;
     this.targetEnemy = null;
     this.lockedTarget = null;
     this.lockStacks = 0;
@@ -7485,7 +7813,18 @@ class DefensiveTower {
     this.auraPulse = 0;   // For Buffer sonar rings
     this.coinAbsorbTimer = 0; // Flash when absorbing killed creep coins
     this.pulseSpriteState = 'idle';
-    this.pulseSpriteElapsed = Math.random() * PULSE_SPRITE_ANIMATIONS.idle.frameMs * PULSE_SPRITE_ANIMATIONS.idle.frames;
+    this.pulseSpriteElapsed = 320;
+    this.pulseAttackDuration = 0.32;
+    this.pulseShotPending = false;
+    this.pulseReleaseDelay = 0;
+    this.pulseBursts = [];
+    this.cryoSpriteState = 'idle';
+    this.cryoSpriteElapsed = 420;
+    this.cryoAttackDuration = 0.42;
+    this.cryoReleaseDelay = 0;
+    this.cryoShotPending = false;
+    this.gardenSpriteElapsed = 320;
+    this.gardenAttackDuration = 0.32;
   }
 
   getUpgradeCost() {
@@ -7505,15 +7844,16 @@ class DefensiveTower {
       return;
     }
     const cost = this.getUpgradeCost();
-    if (game.energy < cost) {
+    if (!game.isTestStage && game.energy < cost) {
       game.showToast('⚠️ 能量不足');
       sounds.playUI('error');
       return;
     }
 
-    game.energy -= cost;
+    if (!game.isTestStage) game.energy -= cost;
     this.investedEnergy += cost;
     this.level += 1;
+    if (game.isTestStage) game.testSetup.level = this.level;
     this.upgradeAnimation = 0.9;
     sounds.playUI('upgrade');
     game.createParticleBurst(this.x, this.y, this.config.color, 34);
@@ -7524,7 +7864,7 @@ class DefensiveTower {
   }
 
   getRefundValue() {
-    return Math.round(this.investedEnergy * 0.75);
+    return Math.ceil(this.investedEnergy * 0.75);
   }
 
   getEffectiveSlowRate() {
@@ -7558,20 +7898,20 @@ class DefensiveTower {
 
   getEffectiveDamage(game) {
     const levels = this.config.levelDamage || [1, 1.5, 2.1];
-    let dmg = this.config.damage * levels[Math.min(2, this.level - 1)];
+    let dmg = Math.ceil(this.config.damage * levels[Math.min(2, this.level - 1)] - 1e-9);
 
     const { maxBuffDmg } = this.getEffectiveBuffs(game);
     if (maxBuffDmg > 0) {
       dmg *= (1 + maxBuffDmg);
     }
-    return dmg;
+    return Math.ceil(dmg - 1e-9);
   }
 
   getEffectiveRange(game) {
     const scale = (game && typeof game.scaleRatio === 'number') ? game.scaleRatio : 1.0;
     const levels = this.config.levelRange || [1, 1.05, 1.1];
     const r = this.config.range * levels[Math.min(2, this.level - 1)];
-    return r * scale;
+    return Math.ceil(r) * scale;
   }
 
   getEffectiveFireRate(game) {
@@ -7599,14 +7939,21 @@ class DefensiveTower {
     }
 
     this.auraPulse = (this.auraPulse || 0) + dt;
-    if (this.type === 'pulse') this.updatePulseSprite(dt);
+    this.gardenSpriteElapsed = Math.min(320, this.gardenSpriteElapsed + dt * 320 / this.gardenAttackDuration);
+    if (this.type === 'pulse') {
+      // 固定 300ms 延时可能跨越下一轮首发；逐个结算，不覆盖待发子弹。
+      const secondReleased = this.updatePulseBurst(dt, game);
+      this.updatePulseSprite(dt, game, secondReleased);
+    }
 
+    if (this.type === 'cryo') this.updateCryoSprite(dt, game);
     this.cooldown -= dt;
     this.findTarget(game);
 
     if (this.targetEnemy) {
       // Rotate towards target with smoothing
-      const targetAngle = Math.atan2(this.targetEnemy.y - this.y, this.targetEnemy.x - this.x);
+      const aim = ['pulse','cryo'].includes(this.type) && this.targetEnemy.getRenderPosition ? this.targetEnemy.getRenderPosition() : this.targetEnemy;
+      const targetAngle = Math.atan2(aim.y - this.y, aim.x - this.x);
       let diff = targetAngle - this.rotation;
       while (diff < -Math.PI) diff += Math.PI * 2;
       while (diff > Math.PI) diff -= Math.PI * 2;
@@ -7618,8 +7965,12 @@ class DefensiveTower {
       if (this.type === 'plasma') {
         this.updateFlameBeam(dt, game);
       } else if (this.cooldown <= 0) {
-        this.fire(game);
-        this.cooldown = 1 / this.getEffectiveFireRate();
+        const interval = 1 / this.getEffectiveFireRate();
+        if (this.type === 'pulse') this.playPulseAttack(interval);
+        else if (this.type === 'cryo') this.playCryoAttack(interval);
+        else this.fire(game);
+        // 保留本帧超出的余量，避免不同刷新率改变持续输出频率。
+        this.cooldown = ['pulse','cryo'].includes(this.type) ? interval + Math.max(-interval * 0.5, this.cooldown) : interval;
       }
     } else {
       this.chargeLevel = Math.max(0, this.chargeLevel - dt * 2);
@@ -7643,22 +7994,92 @@ class DefensiveTower {
     }
   }
 
-  updatePulseSprite(dt) {
-    const animation = PULSE_SPRITE_ANIMATIONS[this.pulseSpriteState];
-    this.pulseSpriteElapsed += dt * 1000;
-    const totalMs = animation.frames * animation.frameMs;
-
-    if (!animation.loop && this.pulseSpriteElapsed >= totalMs) {
-      this.pulseSpriteState = this.pulseSpriteState === 'attack' ? 'attack-post' : 'idle';
-      this.pulseSpriteElapsed = 0;
-    } else if (animation.loop) {
-      this.pulseSpriteElapsed %= totalMs;
-    }
+  playCryoAttack(interval) {
+    this.cryoAttackDuration = Math.min(0.42, interval * 0.85);
+    this.cryoSpriteElapsed = 0;
+    this.cryoSpriteState = 'charge';
+    this.cryoReleaseDelay = this.cryoAttackDuration * 100 / 420;
+    this.cryoShotPending = true;
   }
 
-  playPulseAttack() {
-    this.pulseSpriteState = 'attack';
+  updateCryoSprite(dt, game) {
+    this.cryoSpriteElapsed = Math.min(420, this.cryoSpriteElapsed + dt * 420 / this.cryoAttackDuration);
+    if (this.cryoShotPending) {
+      this.cryoReleaseDelay -= dt;
+      if (this.cryoReleaseDelay <= 1e-9) {
+        this.cryoShotPending = false;
+        this.findTarget(game);
+        if (this.targetEnemy) this.fire(game);
+      }
+    }
+    const t = this.cryoSpriteElapsed;
+    this.cryoSpriteState = t < 100 ? 'charge' : t < 160 ? 'release' : t < 260 ? 'recoil' : t < 420 ? 'recover' : 'idle';
+  }
+
+  updatePulseSprite(dt, game, restartedVisual = false) {
+    if (this.pulseSpriteState !== 'idle' && !restartedVisual) {
+      this.pulseSpriteElapsed = Math.min(320, this.pulseSpriteElapsed + dt * 320 / this.pulseAttackDuration);
+    }
+    // 首发倒计时独立于后坐动画；第二发重新后坐不会提前触发下一轮首发。
+    if (this.pulseShotPending) this.pulseReleaseDelay -= dt;
+    if (this.pulseShotPending && this.pulseReleaseDelay <= 1e-9) {
+      this.pulseShotPending = false;
+      // 蓄力期间目标可能死亡或离场；按同一优先级重新选敌人。
+      this.findTarget(game);
+      if (this.targetEnemy) this.fire(game);
+    }
+    this.pulseSpriteState = this.pulseSpriteElapsed < 60 ? 'compress'
+      : this.pulseSpriteElapsed < 100 ? 'release'
+      : this.pulseSpriteElapsed < 190 ? 'recoil'
+      : this.pulseSpriteElapsed < 320 ? 'recover' : 'idle';
+  }
+
+  playPulseAttack(interval = 0.571) {
+    this.pulseAttackDuration = Math.min(0.32, interval * 0.85);
+    this.pulseSpriteState = 'compress';
     this.pulseSpriteElapsed = 0;
+    this.pulseShotPending = true;
+    this.pulseReleaseDelay = this.pulseAttackDuration * 60 / 320;
+  }
+
+  getPulseRecoil(size) {
+    const t = this.pulseSpriteElapsed;
+    if (t < 60 || t >= 320) return 0;
+    if (t < 100) return -size * 0.06 * (t - 60) / 40;
+    if (t < 190) return -size * 0.06 * Math.pow(1 - (t - 100) / 90, 2);
+    return size * 0.012 * Math.sin((t - 190) / 130 * Math.PI) * (1 - (t - 190) / 130);
+  }
+
+  updatePulseBurst(dt, game) {
+    let released = false;
+    const remaining = [];
+    this.pulseBursts.forEach(burst => {
+      burst.timer -= dt;
+      if (burst.timer > 1e-9) {
+        remaining.push(burst);
+      } else if (burst.target) {
+        // 第二发始终指向首发目标。死亡后保留对象与位置，只播放视觉命中。
+        this.emitSeed(game, burst.target, burst.damage, burst.speed, false, true);
+        released = true;
+      }
+    });
+    this.pulseBursts = remaining;
+    return released;
+  }
+
+  emitSeed(game, target, damage, speed, isCrit, secondary = false) {
+    const aim = target.seedDeathPosition || (target.getRenderPosition ? target.getRenderPosition() : target);
+    this.rotation = Math.atan2(aim.y - this.y, aim.x - this.x);
+    // 每一发都重新触发出膛、后坐和声音，二连发能看清两个独立动作。
+    this.pulseSpriteElapsed = 60;
+    this.pulseSpriteState = 'release';
+    this.muzzleFlash = 1;
+    sounds.playSeedShot();
+    const muzzleDistance = game.cellSize * 0.45;
+    const muzzleX = this.x + Math.cos(this.rotation) * muzzleDistance;
+    const muzzleY = this.y + Math.sin(this.rotation) * muzzleDistance;
+    game.projectiles.push(new Projectile(muzzleX, muzzleY, target, 'pulse', damage, speed,
+      secondary ? '#ffe56f' : '#e2ab4a', this, isCrit, game.cellSize, secondary));
   }
 
   findTarget(game) {
@@ -7692,33 +8113,29 @@ class DefensiveTower {
   fire(game) {
     const dmg = this.getEffectiveDamage(game);
     const isCrit = Math.random() < 0.15;
-    const finalDmg = isCrit ? dmg * 1.8 : dmg;
+    const finalDmg = Math.ceil(isCrit ? dmg * 1.8 : dmg);
     const bulletSpd = (this.config.bulletSpeed || 600) * (game && game.scaleRatio ? game.scaleRatio : 1.0);
 
     // Trigger visual muzzle effects & recoil
     this.muzzleFlash = 1.0;
 
     if (this.type === 'pulse') {
-      this.recoil = 4.5;
-      this.playPulseAttack();
-      sounds.playLaser();
-      const muzzleDistance = game.cellSize * PULSE_SPRITE_SIZE_RATIO * (0.91 - 0.5);
-      const muzzleX = this.x + Math.cos(this.rotation) * muzzleDistance;
-      const muzzleY = this.y + Math.sin(this.rotation) * muzzleDistance;
-      // Eject glowing shell casing to side
-      const sideAngle = this.rotation + Math.PI / 2 + (Math.random() - 0.5) * 0.3;
-      game.particles.push(new ShellCasing(this.x, this.y, Math.cos(sideAngle) * 60, Math.sin(sideAngle) * 60, '#ffd02e'));
-      game.projectiles.push(new Projectile(muzzleX, muzzleY, this.targetEnemy, 'pulse', finalDmg, bulletSpd, this.config.color, this, isCrit));
+      if (!this.targetEnemy || this.targetEnemy.dead || this.targetEnemy.reachedEnd) return;
+      this.pulseShotPending = false;
+      this.emitSeed(game, this.targetEnemy, finalDmg, bulletSpd, isCrit);
       if (this.level >= 3) {
-        const secondary = game.enemies
-          .filter(e => !e.dead && e !== this.targetEnemy && Math.hypot(e.x - this.x, e.y - this.y) <= this.getEffectiveRange(game))
-          .sort((a, b) => b.distanceTraveled - a.distanceTraveled)[0] || this.targetEnemy;
-        game.projectiles.push(new Projectile(muzzleX, muzzleY, secondary, 'pulse', finalDmg * 0.48, bulletSpd * 0.92, '#ffe56f', this, false));
+        this.pulseBursts.push({ target: this.targetEnemy, damage: Math.ceil(finalDmg * 0.8), speed: Math.ceil(this.config.bulletSpeed * 0.92) * (game.scaleRatio || 1),
+          timer: 0.3 });
       }
     } else if (this.type === 'cryo') {
+      if (!this.targetEnemy || this.targetEnemy.dead || this.targetEnemy.reachedEnd) return;
+      this.cryoShotPending = false;
       this.recoil = 3.0;
       sounds.playFreeze();
-      game.projectiles.push(new Projectile(this.x, this.y, this.targetEnemy, 'cryo', finalDmg, 300 * (game.scaleRatio || 1), '#d9faff', this, isCrit));
+      const size = game.cellSize || 48;
+      const angle = Math.atan2(this.targetEnemy.y - this.y, this.targetEnemy.x - this.x);
+      this.rotation = angle;
+      game.projectiles.push(new Projectile(this.x + Math.cos(angle) * size * 0.4, this.y + Math.sin(angle) * size * 0.4, this.targetEnemy, 'cryo', finalDmg, 300 * (game.scaleRatio || 1), '#d9faff', this, isCrit, size));
     } else if (this.type === 'plasma') {
       // Continuous flame damage is handled by updateFlameBeam.
     } else if (this.type === 'tesla') {
@@ -7745,67 +8162,85 @@ class DefensiveTower {
     const rampArea = (previous + this.lockDuration) * 0.5 * rampTime / 3 + (dt - rampTime);
     const damage = this.getEffectiveDamage(game) * this.getEffectiveFireRate() * (dt + bonus * rampArea);
     this.targetEnemy.takeDamage(damage, 'fire', game, false, this);
-    this.totalDamageDealt += damage;
+    const pendingDamage = damage + this.continuousDamageRemainder;
+    const countedDamage = Math.max(0, Math.ceil(pendingDamage - 1e-9));
+    this.continuousDamageRemainder = pendingDamage - countedDamage;
+    this.totalDamageDealt += countedDamage;
     this.muzzleFlash = 1;
     if (this.cooldown <= 0) {
       sounds.playLaser();
-      game.createParticleBurst(this.targetEnemy.x, this.targetEnemy.y, '#ffad55', 4);
+      const at = this.targetEnemy.seedDeathPosition || (this.targetEnemy.getRenderPosition ? this.targetEnemy.getRenderPosition() : this.targetEnemy);
+      const angle = Math.atan2(at.y - this.y, at.x - this.x);
+      game.particles.push(new GardenImpact('plasma', at.x - Math.cos(angle) * (this.targetEnemy.radius || 12) * 0.8, at.y - Math.sin(angle) * (this.targetEnemy.radius || 12) * 0.8, angle, game.cellSize || 48));
       this.cooldown = 0.16;
     }
   }
 
   drawFlameBeam(ctx, game) {
     if (this.type !== 'plasma' || !this.targetEnemy || this.targetEnemy.dead || this.lockDuration <= 0) return;
-    const heat = this.lockDuration / 3;
-    const angle = Math.atan2(this.targetEnemy.y - this.y, this.targetEnemy.x - this.x);
-    const muzzle = game.cellSize * 0.36;
-    ctx.save();
-    ctx.lineCap = 'round';
-    const width = (4 + heat * 7) * (game.scaleRatio || 1);
-    for (const [color, scale] of [['rgba(255,109,42,0.25)', 2.4], ['#ff963c', 1.2], ['#ffe59a', 0.65], ['#fff9de', 0.25]]) {
-      ctx.strokeStyle = color;
-      ctx.lineWidth = width * scale;
-      ctx.beginPath();
-      ctx.moveTo(this.x + Math.cos(angle) * muzzle, this.y + Math.sin(angle) * muzzle);
-      ctx.lineTo(this.targetEnemy.x, this.targetEnemy.y);
-      ctx.stroke();
+    const heat = this.lockDuration / 3, size = game.cellSize || 48;
+    const at = this.targetEnemy.getRenderPosition ? this.targetEnemy.getRenderPosition() : this.targetEnemy;
+    const angle = Math.atan2(at.y - this.y, at.x - this.x);
+    const muzzle = GARDEN_TOWER_ART.getMuzzleOffset(this.level, this.getGardenPose(), size), distance = Math.max(0, Math.hypot(at.x - this.x, at.y - this.y) - muzzle);
+    const width = size * (0.13 + heat * 0.18);
+    ctx.save(); ctx.translate(this.x, this.y); ctx.rotate(angle); ctx.translate(muzzle, 0);
+    ctx.beginPath(); ctx.rect(0, -width, distance, width * 2); ctx.clip();
+    const segment = size * 0.85;
+    let painted = false;
+    ctx.globalAlpha = 0.88;
+    for (let x = 0; x < distance; x += segment * 0.8) {
+      painted = GARDEN_TOWER_ART.drawEffect(ctx, 'plasma', 'beam', x, 0, segment, width, 0, 0.5) || painted;
+    }
+    if (!painted) {
+      ctx.strokeStyle = '#ff963c'; ctx.lineWidth = width; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(distance, 0); ctx.stroke();
     }
     ctx.restore();
   }
 
+  playGardenRelease() {
+    this.gardenAttackDuration = Math.min(0.32, 0.85 / this.getEffectiveFireRate());
+    this.gardenSpriteElapsed = 0;
+  }
+
   fireTesla(game, dmg, isCrit) {
+    this.playGardenRelease();
     const scale = game.scaleRatio || 1;
     const hit = new Set();
     let target = this.targetEnemy;
     let origin = { x: this.x, y: this.y };
     const limit = this.config.chainTargets[this.level - 1];
     while (target && !target.dead && hit.size < limit) {
-      const endpoint = { x: target.x, y: target.y };
+      const at = target.getRenderPosition ? target.getRenderPosition() : target;
+      const endpoint = { x: at.x, y: at.y };
       hit.add(target);
       target.takeDamage(dmg, 'tesla', game, isCrit, this);
       this.totalDamageDealt += dmg;
       game.particles.push(new LightningArc(origin.x, origin.y, endpoint.x, endpoint.y, scale));
-      game.particles.push(new ShockwaveRing(endpoint.x, endpoint.y, 18 * scale, '#efc9ff', 0.28));
-      game.createParticleBurst(endpoint.x, endpoint.y, this.config.color, 8);
+      game.particles.push(new GardenImpact('tesla', endpoint.x, endpoint.y, Math.atan2(endpoint.y - origin.y, endpoint.x - origin.x), game.cellSize || 48, isCrit));
+      const chainOrigin = { x: target.x, y: target.y };
       origin = endpoint;
       target = game.enemies.filter(e => !e.dead && !e.reachedEnd && !hit.has(e)
-        && Math.hypot(e.x - origin.x, e.y - origin.y) <= this.config.chainRange * this.getAttributeGrowth() * scale)
-        .sort((a, b) => Math.hypot(a.x - origin.x, a.y - origin.y) - Math.hypot(b.x - origin.x, b.y - origin.y))[0];
+        && Math.hypot(e.x - chainOrigin.x, e.y - chainOrigin.y) <= Math.ceil(this.config.chainRange * this.getAttributeGrowth() - 1e-9) * scale)
+        .sort((a, b) => Math.hypot(a.x - chainOrigin.x, a.y - chainOrigin.y) - Math.hypot(b.x - chainOrigin.x, b.y - chainOrigin.y))[0];
     }
   }
 
   fireSunPulse(game, dmg, isCrit) {
+    this.playGardenRelease();
     const range = this.getEffectiveRange(game);
     let hitCount = 0;
     game.enemies.forEach(enemy => {
       if (!enemy.dead && Math.hypot(enemy.x - this.x, enemy.y - this.y) <= range) {
         enemy.takeDamage(dmg, 'pulse', game, isCrit && hitCount === 0, this);
         this.totalDamageDealt += dmg;
+        const at = enemy.seedDeathPosition || (enemy.getRenderPosition ? enemy.getRenderPosition() : enemy);
+        game.particles.push(new GardenImpact('buffer', at.x, at.y, Math.atan2(at.y - this.y, at.x - this.x), game.cellSize || 48, isCrit && hitCount === 0));
         hitCount += 1;
       }
     });
     game.particles.push(new SolarFlameWave(this.x, this.y, range, this.level));
-    game.createParticleBurst(this.x, this.y, '#ffbd4a', 16);
+    // 花瓣、种屑与花粉由独立命中素材绘制，避免重复通用圆点。
   }
 
   draw(ctx, game) {
@@ -7875,21 +8310,23 @@ class DefensiveTower {
     ctx.save();
     const idleBob = Math.sin(this.idleTimer * 2.2) * 0.65;
     const fireSquash = Math.min(0.08, this.recoil * 0.007);
-    ctx.translate(0, idleBob + fireSquash * 10);
-    if (this.upgradeAnimation > 0) {
+    if (!['pulse','cryo','tesla','plasma','buffer'].includes(this.type)) ctx.translate(0, idleBob + fireSquash * 10);
+    if (this.upgradeAnimation > 0 && !['pulse','cryo','tesla','plasma','buffer'].includes(this.type)) {
       const lift = Math.sin((1 - this.upgradeAnimation / 0.9) * Math.PI);
       ctx.translate(0, -lift * 7);
       ctx.scale(1 + lift * 0.14, 1 + lift * 0.14);
     }
-    ctx.scale(1.12 * (1 + fireSquash), 1.12 * (1 - fireSquash));
+    if (!['pulse','cryo','tesla','plasma','buffer'].includes(this.type)) ctx.scale(1.12 * (1 + fireSquash), 1.12 * (1 - fireSquash));
 
     // Render Specific Tower Types
     if (this.type === 'pulse') {
       this.drawPulseGatling(ctx, cellSize, baseColor);
+    } else if (this.type === 'cryo') {
+      this.drawIceStar(ctx, cellSize, baseColor);
+    } else if (GARDEN_TOWER_ART.hasType(this.type)) {
+      this.drawGardenTower(ctx, cellSize, baseColor);
     } else if (this.drawLevelArtwork(ctx, cellSize)) {
       // 已绘制当前等级的塔体。
-    } else if (this.type === 'cryo') {
-      this.drawCryoEmitter(ctx, cellSize, baseColor);
     } else if (this.type === 'plasma') {
       this.drawPlasmaMortar(ctx, cellSize, baseColor);
     } else if (this.type === 'tesla') {
@@ -7902,6 +8339,9 @@ class DefensiveTower {
     // Crystal adjacency boost marker.
     const { isBuffed } = this.getEffectiveBuffs(game);
     if (isBuffed) {
+      ctx.save(); ctx.globalAlpha = 0.28;
+      GARDEN_TOWER_ART.drawEffect(ctx, 'tesla', 'ring', 0, 0, cellSize * 0.98, cellSize * 0.98);
+      ctx.restore();
       // Ambient golden buff ring at tower base
       ctx.save();
       ctx.beginPath();
@@ -7946,7 +8386,7 @@ class DefensiveTower {
       ctx.font = 'bold 9px Orbitron, sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText('⚡', 0, 0);
+      if (!GARDEN_TOWER_ART.drawEffect(ctx, 'tesla', 'ray', 0, 0, 12, 12)) ctx.fillText('⚡', 0, 0);
 
       ctx.restore();
     }
@@ -7979,6 +8419,41 @@ class DefensiveTower {
     ctx.restore();
   }
 
+  getGardenPose() {
+    if (GARDEN_TOWER_ART.reducedMotion) return 'idle';
+    const t = this.gardenSpriteElapsed;
+    if (this.type === 'plasma') return this.targetEnemy && this.lockDuration > 0
+      ? (this.lockDuration < 0.35 ? 'charge' : Math.sin(this.idleTimer * 20) > -0.25 ? 'release' : 'recoil') : 'idle';
+    return this.targetEnemy && this.cooldown > 0 && this.cooldown < 0.08 ? 'charge'
+      : t < 70 ? 'release' : t < 170 ? 'recoil' : t < 320 ? 'recover' : 'idle';
+  }
+
+  drawGardenTower(ctx, size, color) {
+    const reduced = GARDEN_TOWER_ART.reducedMotion, t = this.gardenSpriteElapsed, pose = this.getGardenPose();
+    drawUnitShadow(ctx, size * 0.72, size * 0.25, size * 0.12, 0.18);
+    ctx.save();
+    if (this.type === 'plasma') ctx.rotate(this.rotation);
+    else if (!reduced) ctx.rotate(Math.sin(this.idleTimer * 1.4) * 0.025);
+    if (!reduced && this.type !== 'plasma' && t < 320) {
+      const pulse = Math.sin(Math.min(1, t / 320) * Math.PI);
+      ctx.scale(1 + pulse * 0.035, 1 - pulse * 0.02);
+    }
+    if (!GARDEN_TOWER_ART.drawTower(ctx, this.type, this.level, pose, size)) {
+      // 载入时使用简洁轮廓，不能把整张15帧图集当作单个塔体。
+      ctx.fillStyle = color; ctx.strokeStyle = '#315d43'; ctx.lineWidth = size * 0.035;
+      ctx.beginPath(); ctx.ellipse(0, 0, size * 0.35, size * 0.28, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#ffe1a0'; ctx.beginPath(); ctx.arc(0, 0, size * 0.09, 0, Math.PI * 2); ctx.fill();
+    }
+    const active = this.type === 'plasma' ? this.targetEnemy && this.lockDuration > 0 : t < 110;
+    if (active) {
+      ctx.save(); ctx.globalAlpha = this.type === 'plasma' ? 0.85 : (1 - t / 110) * 0.75;
+      GARDEN_TOWER_ART.drawEffect(ctx, this.type, 'muzzle', this.type === 'plasma' ? GARDEN_TOWER_ART.getMuzzleOffset(this.level, pose, size) : 0, 0,
+        size * (this.type === 'plasma' ? 0.3 : 0.5), size * 0.4, this.type === 'plasma' ? 0.1 : 0.5, 0.5);
+      ctx.restore();
+    }
+    ctx.restore();
+  }
+
   drawLevelArtwork(ctx, size) {
     const image = TOWER_LEVEL_IMAGES[this.type][this.level];
     if (!image || !image.complete || !image.naturalWidth) return false;
@@ -7998,105 +8473,60 @@ class DefensiveTower {
     return true;
   }
 
-  // 1. 瓶子炮: production sprite atlas with idle and attack frame playback.
+  // 豆荚炮：等级与姿态共用固定锚点，出膛特效独立于炮体图集。
   drawPulseGatling(ctx, size, color) {
-    const image = PULSE_SPRITE_ATLASES[this.level];
-    if (image && image.complete && image.naturalWidth > 0) {
-      const animation = PULSE_SPRITE_ANIMATIONS[this.pulseSpriteState];
-      const frameIndex = Math.min(
-        animation.frames - 1,
-        Math.floor(this.pulseSpriteElapsed / animation.frameMs)
-      );
-      const drawSize = size * PULSE_SPRITE_SIZE_RATIO;
-      const sourceSize = 128;
-
-      ctx.save();
-      ctx.rotate(this.rotation + PULSE_SPRITE_FACING_OFFSET);
-      ctx.drawImage(
-        image,
-        frameIndex * sourceSize,
-        animation.row * sourceSize,
-        sourceSize,
-        sourceSize,
-        -drawSize * 0.5,
-        -drawSize * 0.5,
-        drawSize,
-        drawSize
-      );
-      ctx.restore();
-      return;
-    }
-
-    // Keep the vector fallback during asset loading or if the atlas is unavailable.
-    drawMacaronTowerShadow(ctx, size);
+    drawUnitShadow(ctx, size * 0.69, size * 0.25, size * 0.07, 0.18);
     ctx.save();
     ctx.rotate(this.rotation);
-    ctx.translate(-this.recoil, 0);
-
-    const neck = ctx.createLinearGradient(10, -10, 30, 10);
-    neck.addColorStop(0, '#9bf054');
-    neck.addColorStop(1, '#35bd3e');
-    ctx.beginPath();
-    traceRoundRect(ctx, 10, -9, 24, 18, 9);
-    ctx.fillStyle = neck;
-    ctx.fill();
-    ctx.strokeStyle = '#209f43';
-    ctx.lineWidth = 2.4;
-    ctx.stroke();
-
-    const body = ctx.createRadialGradient(-12, -12, 2, -1, 2, 29);
-    body.addColorStop(0, '#e6ff80');
-    body.addColorStop(0.42, '#84ed45');
-    body.addColorStop(0.78, '#43ca39');
-    body.addColorStop(1, '#1fa547');
-    ctx.beginPath();
-    ctx.arc(-3, 1, 24, 0, Math.PI * 2);
-    ctx.fillStyle = body;
-    ctx.fill();
-    ctx.strokeStyle = '#209f43';
-    ctx.lineWidth = 2.7;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.ellipse(-11, -11, 7, 4, -0.45, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(255,255,255,0.62)';
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.moveTo(-7, -14);
-    ctx.lineTo(1, -14);
-    ctx.lineTo(0, -7);
-    ctx.lineTo(0, -3);
-    ctx.bezierCurveTo(0, 0, 6, 4, 7, 9);
-    ctx.bezierCurveTo(9, 16, 3, 20, -4, 20);
-    ctx.bezierCurveTo(-11, 20, -15, 15, -14, 9);
-    ctx.bezierCurveTo(-13, 4, -7, 0, -7, -4);
-    ctx.lineTo(-7, -14);
-    ctx.closePath();
-    ctx.fillStyle = '#ffec45';
-    ctx.fill();
-    ctx.strokeStyle = '#d5aa25';
-    ctx.lineWidth = 1.2;
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(-11, 10);
-    ctx.quadraticCurveTo(-3, 6, 5, 10);
-    ctx.strokeStyle = 'rgba(255,255,180,0.62)';
-    ctx.lineWidth = 1.5;
-    ctx.lineCap = 'round';
-    ctx.stroke();
-
-    if (this.muzzleFlash > 0) {
-      ctx.globalAlpha = this.muzzleFlash;
-      ctx.beginPath();
-      ctx.arc(35, 0, 7, 0, Math.PI * 2);
-      ctx.fillStyle = '#fff7ae';
-      ctx.fill();
+    const reduced = SEED_CANNON_ART.reducedMotion;
+    ctx.translate(reduced ? 0 : this.getPulseRecoil(size), 0);
+    const t = this.pulseSpriteElapsed;
+    const compression = !reduced && t < 60 ? Math.sin(t / 60 * Math.PI) * 0.055 : 0;
+    ctx.save();
+    ctx.scale(1 - compression, 1 + compression * 0.65);
+    if (!SEED_CANNON_ART.drawTower(ctx, this.level, reduced ? 'idle' : this.pulseSpriteState, size)) {
+      // 图像载入期间仍显示同样轮廓，避免出现空炮塔。
+      ctx.fillStyle = color; ctx.strokeStyle = '#286247'; ctx.lineWidth = size * 0.035;
+      ctx.beginPath(); ctx.ellipse(-size * 0.03, 0, size * 0.38, size * 0.23, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#fff3c2';
+      ctx.beginPath(); ctx.ellipse(size * 0.39, 0, size * 0.065, size * 0.13, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#286247';
+      ctx.beginPath(); ctx.ellipse(size * 0.405, 0, size * 0.027, size * 0.08, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#e2ab4a';
+      ctx.beginPath(); ctx.ellipse(-size * 0.08, 0, size * 0.11, size * 0.075, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    }
+    ctx.restore();
+    if (t >= 60 && t < 100 && this.muzzleFlash > 0) {
+      const progress = (t - 60) / 40;
+      ctx.globalAlpha = (1 - progress) * 0.9;
+      if (!SEED_CANNON_ART.drawEffect(ctx, 'muzzle', size * 0.45, 0,
+        size * (0.28 + progress * 0.08), size * 0.25, 0.18, 0.5)) {
+        ctx.fillStyle = '#fff3c2'; ctx.beginPath();
+        ctx.ellipse(size * 0.51, 0, size * 0.1, size * 0.06, 0, 0, Math.PI * 2); ctx.fill();
+      }
     }
     ctx.restore();
   }
 
-  // 2. 冰冻星: thick candy-like star with a bright ice facet.
+  drawIceStar(ctx, size, color) {
+    drawUnitShadow(ctx, size * 0.72, size * 0.25, size * 0.12, 0.18);
+    const t = this.cryoSpriteElapsed, reduced = ICE_STAR_ART.reducedMotion;
+    ctx.save(); ctx.rotate(this.rotation);
+    const recoil = !reduced && t >= 160 && t < 420 ? -Math.sin((t - 160) / 260 * Math.PI) * size * 0.04 : 0;
+    ctx.save(); ctx.translate(recoil, 0); ctx.rotate(Math.PI / 10);
+    if (!ICE_STAR_ART.drawTower(ctx, this.level, reduced ? 'idle' : this.cryoSpriteState, size)) {
+      ctx.restore(); ctx.restore(); this.drawCryoEmitter(ctx, size, color); return;
+    }
+    ctx.restore();
+    if (t >= 100 && t < 160 && this.muzzleFlash > 0) {
+      const progress = (t - 100) / 60;
+      ctx.globalAlpha = 0.9 * (1 - progress);
+      ICE_STAR_ART.drawEffect(ctx, 'muzzle', size * 0.42, 0, size * 0.34, size * 0.32, 0.1, 0.5);
+    }
+    ctx.restore();
+  }
+
+  // 2. 霜晶冰冻星: thick candy-like star with a bright ice facet.
   drawCryoEmitter(ctx, size, color) {
     drawMacaronTowerShadow(ctx, size);
     ctx.save();
@@ -8148,7 +8578,7 @@ class DefensiveTower {
     ctx.restore();
   }
 
-  // 3. 火瓶子: diagonal glossy capsule with a rounded bottle neck.
+  // 3. 焰籽喷火瓶: diagonal glossy capsule with a rounded bottle neck.
   drawPlasmaMortar(ctx, size, color) {
     drawMacaronTowerShadow(ctx, size);
     ctx.save();
@@ -8226,7 +8656,7 @@ class DefensiveTower {
     ctx.restore();
   }
 
-  // 4. 水晶花: three nested pentagonal crystal shells.
+  // 4. 紫晶连锁花: three nested pentagonal crystal shells.
   drawTeslaCoil(ctx, size, color) {
     drawMacaronTowerShadow(ctx, size);
     ctx.save();
@@ -8300,7 +8730,7 @@ class DefensiveTower {
     ctx.restore();
   }
 
-  // 5. 太阳花: plump orange petals and a plain glazed center, without a face.
+  // 5. 日耀太阳花: plump orange petals and a plain glazed center, without a face.
   drawQuantumBuffer(ctx, size, color, game) {
     drawMacaronTowerShadow(ctx, size);
     ctx.save();
@@ -8362,14 +8792,14 @@ class CreepEnemy {
       : 100;
     const waveScale = Math.pow(1.12, (game && game.wave > 0 ? game.wave - 1 : 0));
     const hpMult = this.config.hpMultiplier || 1.0;
-    this.hp = Math.round(stageBaseHp * hpMult * waveScale * hpScale);
+    this.hp = Math.ceil(stageBaseHp * hpMult * waveScale * hpScale - 1e-9);
     this.maxHp = this.hp;
 
     // 怪物防御属性 (默认0，承受 1-0 倍率伤害；若为0.5则承受 1-0.5 倍率伤害)
     this.defense = typeof this.config.defense === 'number' ? this.config.defense : 0.0;
 
     const scale = (game && typeof game.scaleRatio === 'number') ? game.scaleRatio : 1.0;
-    this.speed = this.config.speed * scale * COMBAT_SPEED_MULTIPLIER;
+    this.speed = Math.ceil(this.config.speed * COMBAT_SPEED_MULTIPLIER) * scale;
     this.radius = (this.config.isBoss ? this.config.radius : 18) * scale;
     this.isBoss = !!this.config.isBoss;
 
@@ -8390,6 +8820,15 @@ class CreepEnemy {
     this.walkCycle = Math.random() * 100;
     this.moveAngle = 0;
     this.hitFlash = 0;
+    this.seedHitLife = 0;
+    this.seedHitFlash = 0;
+    this.iceHitFlash = 0;
+    this.gardenHitFlash = 0;
+    this.gardenPoseHitTime = 0;
+    this.damageRemainders = new Map();
+    this.gardenHitColor = '#fff1be';
+    this.seedHitX = 0;
+    this.seedHitY = 0;
     this.stepDustTimer = 0;
   }
 
@@ -8397,7 +8836,10 @@ class CreepEnemy {
     if (this.dead) return;
 
     this.stealthRevealed = 2.5;
-    this.hitFlash = 0.18;
+    const seedHit = type === 'pulse' && sourceTower && sourceTower.type === 'pulse';
+    const iceHit = type === 'cryo' && sourceTower && sourceTower.type === 'cryo';
+    const gardenHit = sourceTower && ['tesla','plasma','buffer'].includes(sourceTower.type);
+    if (!seedHit && !iceHit && !gardenHit) this.hitFlash = 0.18;
 
     let actualDmg = amount;
 
@@ -8410,15 +8852,25 @@ class CreepEnemy {
       }
     }
 
+    // 持续伤害按累计值向上取整，保留余量，避免每帧取整放大输出。
+    if (type === 'fire') {
+      const key = sourceTower || type;
+      const pending = actualDmg + (this.damageRemainders.get(key) || 0);
+      actualDmg = Math.max(0, Math.ceil(pending - 1e-9));
+      this.damageRemainders.set(key, pending - actualDmg);
+    } else {
+      actualDmg = Math.ceil(actualDmg);
+    }
+
     // Weapon-specific hit particle bursts
     if (game && typeof game.createParticleBurst === 'function') {
-      if (type === 'pulse') {
+      if (type === 'pulse' && !seedHit && !gardenHit) {
         game.createParticleBurst(this.x, this.y, '#ffd02e', isCrit ? 8 : 4);
-      } else if (type === 'cryo') {
+      } else if (type === 'cryo' && !iceHit) {
         game.createParticleBurst(this.x, this.y, '#4deeea', 5);
-      } else if (type === 'plasma') {
+      } else if (type === 'plasma' && !gardenHit) {
         game.createParticleBurst(this.x, this.y, '#ff2a6d', 9);
-      } else if (type === 'tesla') {
+      } else if (type === 'tesla' && !gardenHit) {
         game.createParticleBurst(this.x, this.y, '#bc13fe', 6);
       } else if (type === 'explosion') {
         game.createParticleBurst(this.x, this.y, '#ff7597', 8);
@@ -8436,7 +8888,26 @@ class CreepEnemy {
     }
 
     this.hp -= actualDmg;
+    if (actualDmg > 0) this.gardenPoseHitTime = 0.14;
     if (game) game.totalDamage += actualDmg;
+
+    if (iceHit && actualDmg > 0) this.iceHitFlash = 0.09;
+    if (gardenHit && actualDmg > 0) {
+      this.gardenHitFlash = 0.075;
+      this.gardenHitColor = sourceTower.type === 'tesla' ? '#efceff' : sourceTower.type === 'plasma' ? '#ffe2b4' : '#fff1be';
+    }
+    if (seedHit && actualDmg > 0) {
+      const angle = Math.atan2(this.y - sourceTower.y, this.x - sourceTower.x);
+      const offset = (game.cellSize || 48) * 0.025;
+      this.seedHitX = Math.cos(angle) * offset;
+      this.seedHitY = Math.sin(angle) * offset;
+      this.seedHitLife = 0.09;
+      this.seedHitFlash = 0.06;
+      if (game.floatTexts.length < 90) {
+        const at = this.getRenderPosition();
+        game.createFloatingText(at.x, at.y - this.radius, Math.ceil(actualDmg) + (isCrit ? '!' : ''), isCrit ? '#d58928' : '#456843', isCrit);
+      }
+    }
 
     if (this.hp <= 0) {
       this.die(game, sourceTower);
@@ -8444,8 +8915,14 @@ class CreepEnemy {
   }
 
   die(game, sourceTower = null) {
+    this.seedDeathPosition = this.getRenderPosition();
     this.dead = true;
     game.kills++;
+    if (game.isTestStage) {
+      game.testRespawnTimer = 0.8;
+      game.updateHUD();
+      return;
+    }
     game.score += this.config.score;
     sounds.playExplosion(this.isBoss);
     game.createParticleBurst(this.x, this.y, this.config.color, this.isBoss ? 50 : 20);
@@ -8468,6 +8945,12 @@ class CreepEnemy {
 
   update(dt, game) {
     this.walkCycle += dt * (this.speed * Math.min(this.slowFactor, this.iceSlowFactor || 1) * 0.12);
+    if (game.isTestStage) this.stealthRevealed = 1000000;
+    this.seedHitLife = Math.max(0, this.seedHitLife - dt);
+    this.seedHitFlash = Math.max(0, this.seedHitFlash - dt);
+    this.iceHitFlash = Math.max(0, this.iceHitFlash - dt);
+    this.gardenHitFlash = Math.max(0, this.gardenHitFlash - dt);
+    this.gardenPoseHitTime = Math.max(0, this.gardenPoseHitTime - dt);
 
     if (this.hitFlash > 0) {
       this.hitFlash = Math.max(0, this.hitFlash - dt * 5);
@@ -8520,13 +9003,37 @@ class CreepEnemy {
     this.distanceTraveled += moveStep;
   }
 
+  getRenderPosition(includeBounce = true) {
+    const normAngle = this.moveAngle + Math.PI / 2;
+    const airborne = this.typeKey === 'scout' || this.typeKey === 'phantom' || this.typeKey === 'shielder';
+    const gait = Math.sin(this.walkCycle * 2.2);
+    const bounce = typeof GARDEN_WORLD_ART !== 'undefined' && GARDEN_WORLD_ART.reducedMotion ? 0
+      : airborne ? Math.sin(this.walkCycle * 2.8) * 2.2 : -Math.abs(gait) * (this.isBoss ? 1.2 : 2.1);
+    const kick = SEED_CANNON_ART.reducedMotion ? 0 : Math.sin((1 - this.seedHitLife / 0.09) * Math.PI);
+    return {
+      x: this.x + Math.cos(normAngle) * this.lateralOffset + (this.seedHitLife > 0 ? this.seedHitX * kick : 0),
+      y: this.y + Math.sin(normAngle) * this.lateralOffset + (this.seedHitLife > 0 ? this.seedHitY * kick : 0) + (includeBounce ? bounce * 0.8 : 0)
+    };
+  }
+
+  getGardenBodyHalfSize() {
+    const visual = this.config.visual || {};
+    const size = Math.max(11, Math.min(25, this.radius * 0.8));
+    const extent = Math.max(1, visual.wings ? 1.5 : 1, visual.weapon ? 1.45 : 1,
+      visual.headwear ? 1.5 : 1, visual.accessory === 'shield' ? 1.5 : 1,
+      visual.accessory === 'bubbles' ? 1.33 : 1);
+    return size * (this.isBoss ? 1 : 1.5 / extent);
+  }
+
+  getSeedHitRadius() {
+    return this.getGardenBodyHalfSize() * 0.8 * (this.isBoss ? 1.08 : 1.3);
+  }
+
   draw(ctx, game) {
     ctx.save();
     // Lateral layered offset perpendicular to movement direction
-    const normAngle = this.moveAngle + Math.PI / 2;
-    const ox = Math.cos(normAngle) * this.lateralOffset;
-    const oy = Math.sin(normAngle) * this.lateralOffset;
-    ctx.translate(this.x + ox, this.y + oy);
+    const position = this.getRenderPosition(false);
+    ctx.translate(position.x, position.y);
     ctx.scale(0.8, 0.8);
 
     const isVisible = !this.stealth || this.stealthRevealed > 0;
@@ -8543,7 +9050,7 @@ class CreepEnemy {
     );
 
     const gait = Math.sin(this.walkCycle * 2.2);
-    const bounce = isAirborne
+    const bounce = typeof GARDEN_WORLD_ART !== 'undefined' && GARDEN_WORLD_ART.reducedMotion ? 0 : isAirborne
       ? Math.sin(this.walkCycle * 2.8) * 2.2
       : -Math.abs(gait) * (this.isBoss ? 1.2 : 2.1);
     ctx.translate(0, bounce);
@@ -8553,6 +9060,29 @@ class CreepEnemy {
     // One rounded-block base supports every monster. Their data-driven outer layers
     // are deliberately independent so future variants do not need another silhouette.
     this.drawGardenBlock(ctx);
+
+    if (this.seedHitFlash > 0) {
+      ctx.save();
+      ctx.globalAlpha *= this.seedHitFlash / 0.06 * 0.55;
+      const size = this.getGardenBodyHalfSize();
+      ctx.fillStyle = '#fff8d9'; ctx.beginPath();
+      traceRoundRect(ctx, -size, -size, size * 2, size * 2, size * 0.48);
+      ctx.fill(); ctx.restore();
+    }
+
+    if (this.iceHitFlash > 0) {
+      ctx.save(); ctx.globalAlpha *= this.iceHitFlash / 0.09 * 0.42;
+      const size = this.getGardenBodyHalfSize();
+      ctx.fillStyle = '#d9faff'; ctx.beginPath();
+      traceRoundRect(ctx, -size, -size, size * 2, size * 2, size * 0.48);
+      ctx.fill(); ctx.restore();
+    }
+
+    if (this.gardenHitFlash > 0) {
+      ctx.save(); ctx.globalAlpha *= this.gardenHitFlash / 0.075 * 0.36;
+      const size = this.getGardenBodyHalfSize(); ctx.fillStyle = this.gardenHitColor; ctx.beginPath();
+      traceRoundRect(ctx, -size, -size, size * 2, size * 2, size * 0.48); ctx.fill(); ctx.restore();
+    }
 
     // Hit Flash Overlay (White flash on taking damage)
     if (this.hitFlash > 0) {
@@ -8591,12 +9121,12 @@ class CreepEnemy {
       ctx.strokeStyle = '#4deeea';
       ctx.fillStyle = '#a5f3fc';
       for (let i = 0; i < 4; i++) {
-        const a = (i * Math.PI) / 2 + this.walkCycle * 0.5;
+        const a = (i * Math.PI) / 2 + (ICE_STAR_ART.reducedMotion ? 0 : this.walkCycle * 0.5);
         const cx = Math.cos(a) * (this.radius + 2.5);
         const cy = Math.sin(a) * (this.radius + 2.5);
-        ctx.beginPath();
-        ctx.arc(cx, cy, 1.8, 0, Math.PI * 2);
-        ctx.fill();
+        if (!ICE_STAR_ART.drawEffect(ctx, ['twinkle','twinkleLarge','twinkleSmall','twinkle'][i], cx, cy, this.radius * 0.35, this.radius * 0.35)) {
+          ctx.beginPath(); ctx.arc(cx, cy, 1.8, 0, Math.PI * 2); ctx.fill();
+        }
       }
       ctx.restore();
     }
@@ -8660,6 +9190,11 @@ class CreepEnemy {
   }
 
   drawGardenBlock(ctx) {
+    if (typeof GARDEN_WORLD_ART !== 'undefined') {
+      const pose = GARDEN_WORLD_ART.reducedMotion ? 'idle' : this.gardenPoseHitTime > 0 ? 'hit'
+        : this.speed > 0 && this.stunTimer <= 0 ? (Math.sin(this.walkCycle * 2.2) < 0 ? 'walkLeft' : 'walkRight') : 'idle';
+      if (GARDEN_WORLD_ART.drawEnemy(ctx, this.typeKey, pose, this.getGardenBodyHalfSize())) return;
+    }
     const visual = this.config.visual || {};
     const size = Math.max(11, Math.min(25, this.radius * 0.8));
     const body = visual.body || this.config.color;
@@ -9165,8 +9700,11 @@ class IcePatch {
   constructor(x, y, tower, game) {
     this.x = x;
     this.y = y;
-    this.radius = tower.config.splashRadius * tower.getAttributeGrowth() * (game.scaleRatio || 1);
+    this.radius = Math.ceil(tower.config.splashRadius * tower.getAttributeGrowth() - 1e-9) * (game.scaleRatio || 1);
     this.life = Math.max(0.5, tower.config.slowDuration || 2.5) * tower.getAttributeGrowth();
+    this.maxLife = this.life; this.age = 0;
+    this.birthDuration = (game.icePatches || []).some(patch => patch.life > 0.5
+      && Math.hypot(patch.x - x, patch.y - y) + this.radius <= patch.radius + 0.1) ? 0 : 0.22;
     this.slowFactor = Math.max(0.2, 1 - tower.getEffectiveSlowRate());
   }
 
@@ -9175,6 +9713,17 @@ class IcePatch {
   }
 
   draw(ctx) {
+    const reduced = ICE_STAR_ART.reducedMotion;
+    const growth = this.birthDuration && !reduced ? Math.min(1, this.age / this.birthDuration) : 1;
+    const radius = this.radius * (0.35 + growth * 0.65);
+    const name = growth < 1 ? 'patchBirth' : this.life < 0.5 ? 'patchFade' : 'patchActive';
+    ctx.save();
+    ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); ctx.clip();
+    ctx.globalAlpha = Math.min(1, this.life / 0.5) * 0.48;
+    if (ICE_STAR_ART.drawEffect(ctx, name, this.x, this.y, radius * 2, radius * 2)) {
+      ctx.restore(); return;
+    }
+    ctx.restore();
     ctx.save();
     ctx.translate(this.x, this.y);
     ctx.globalAlpha = Math.min(1, this.life / 0.5) * 0.8;
@@ -9201,28 +9750,39 @@ class IcePatch {
 }
 
 class Projectile {
-  constructor(x, y, target, type, damage, speed, color, sourceTower, isCrit = false) {
+  constructor(x, y, target, type, damage, speed, color, sourceTower, isCrit = false, cellSize = 48, secondary = false) {
     this.x = x;
     this.y = y;
     this.startX = x;
     this.startY = y;
     this.target = target;
-    this.targetPos = { x: target.x, y: target.y };
+    const at = ['pulse','cryo'].includes(type) ? target.seedDeathPosition || (target.getRenderPosition ? target.getRenderPosition() : target) : target;
+    this.targetPos = { x: at.x, y: at.y };
     this.type = type;
     this.damage = damage;
     this.speed = speed;
-    this.color = type === 'pulse' ? '#65df72' : color;
+    this.color = color;
     this.sourceTower = sourceTower;
     this.isCrit = isCrit;
     this.destroyed = false;
     this.trail = [];
-    this.rotation = 0;
+    this.rotation = Math.atan2(target.y - y, target.x - x);
+    this.cellSize = cellSize;
+    this.secondary = secondary;
+    this.travelledDistance = 0;
+    this.trailRemainder = 0;
     this.visualScale = type === 'pulse' && sourceTower
-      ? Math.pow(1.3, Math.min(2, Math.max(0, sourceTower.level - 1)))
+      ? Math.pow(1.1, Math.min(2, Math.max(0, sourceTower.level - 1)))
       : 1;
   }
 
   update(dt, game) {
+    if (this.destroyed) return;
+    if (this.type === 'pulse') {
+      this.updateSeed(dt, game);
+      return;
+    }
+    if (this.type === 'cryo') { this.updateSnowball(dt, game); return; }
     if (this.target && !this.target.dead) {
       this.targetPos = { x: this.target.x, y: this.target.y };
     }
@@ -9248,22 +9808,30 @@ class Projectile {
   }
 
   hit(game) {
+    if (this.destroyed) return;
     this.destroyed = true;
 
     if (this.type === 'pulse') {
-      if (this.target && !this.target.dead) {
+      let hadShield = false;
+      if (this.target && !this.target.dead && !this.target.reachedEnd) {
+        hadShield = this.target.shield > 0;
         this.target.takeDamage(this.damage, 'pulse', game, this.isCrit, this.sourceTower);
-        this.sourceTower.totalDamageDealt += this.damage;
+        if (this.sourceTower) this.sourceTower.totalDamageDealt += this.damage;
       }
-      game.createParticleBurst(this.x, this.y, this.color, 10);
+      // 死亡目标仍展示种子碎裂，不再次扣血、加伤害统计或触发击杀。
+      if (this.target) {
+        game.particles.push(new SeedImpact(this.x, this.y, this.rotation, this.cellSize, this.isCrit, hadShield, hadShield && this.target.shield <= 0));
+        sounds.playSeedImpact(this.isCrit);
+      }
     } else if (this.type === 'cryo') {
-      if (this.target && !this.target.dead) {
+      const hadShield = !!(this.target && this.target.shield > 0);
+      if (this.target && !this.target.dead && !this.target.reachedEnd) {
         this.target.takeDamage(this.damage, 'cryo', game, this.isCrit, this.sourceTower);
         this.sourceTower.totalDamageDealt += this.damage;
       }
-      game.icePatches.push(new IcePatch(this.x, this.y, this.sourceTower, game));
-      game.particles.push(new ShockwaveRing(this.x, this.y, this.sourceTower.config.splashRadius * this.sourceTower.getAttributeGrowth() * (game.scaleRatio || 1), '#c9f4ff', 0.3));
-      game.createParticleBurst(this.x, this.y, '#edfaff', 12);
+      const ground = this.target && !this.target.dead && !this.target.reachedEnd ? this.target : this.targetPos;
+      game.icePatches.push(new IcePatch(ground.x, ground.y, this.sourceTower, game));
+      game.particles.push(new IceImpact(this.x, this.y, this.rotation, this.cellSize, this.isCrit, hadShield));
     } else if (this.type === 'plasma') {
       if (this.target && !this.target.dead) {
         this.target.takeDamage(this.damage, 'plasma', game, this.isCrit, this.sourceTower);
@@ -9274,6 +9842,11 @@ class Projectile {
   }
 
   draw(ctx) {
+    if (this.type === 'pulse') {
+      this.drawSeed(ctx);
+      return;
+    }
+    if (this.type === 'cryo') { this.drawSnowball(ctx); return; }
     ctx.save();
 
     // Draw Glowing Tail Stream
@@ -9291,35 +9864,10 @@ class Projectile {
     }
 
     ctx.translate(this.x, this.y);
-    if (this.type === 'cryo') {
-      const total = Math.hypot(this.targetPos.x - this.startX, this.targetPos.y - this.startY);
-      const traveled = Math.hypot(this.x - this.startX, this.y - this.startY);
-      const progress = total > 0 ? Math.min(1, traveled / total) : 1;
-      ctx.translate(0, -Math.sin(progress * Math.PI) * 18);
-    }
     ctx.rotate(this.rotation);
     ctx.globalAlpha = 1.0;
 
-    if (this.type === 'pulse') {
-      // Sleek Tracer Kinetic Bolt
-      const boltLength = 12 * this.visualScale * 1.3;
-      const boltWidth = 4 * this.visualScale * 1.3;
-      ctx.fillStyle = '#65df72';
-      ctx.shadowColor = '#39b956';
-      ctx.shadowBlur = 10 * this.visualScale;
-      ctx.fillRect(-boltLength / 2, -boltWidth / 2, boltLength, boltWidth);
-    } else if (this.type === 'cryo') {
-      // A shaded snowball, with a bright snowy cap.
-      ctx.scale(2.1, 2.1);
-      ctx.fillStyle = '#d5eef7';
-      ctx.strokeStyle = '#82bdcf';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.arc(0, 0, 7, 0, Math.PI * 2);
-      ctx.fill(); ctx.stroke();
-      ctx.fillStyle = '#ffffff';
-      ctx.beginPath(); ctx.ellipse(-1.8, -2, 3.8, 2.6, -0.4, 0, Math.PI * 2); ctx.fill();
-    } else if (this.type === 'plasma') {
+    if (this.type === 'plasma') {
       // Plasma High Explosive Shell
       ctx.fillStyle = '#ff2a6d';
       ctx.shadowColor = '#ff2a6d';
@@ -9334,6 +9882,261 @@ class Projectile {
       ctx.fill();
     }
 
+    ctx.restore();
+  }
+
+  updateSnowball(dt, game) {
+    const previous = this.getSnowballPosition();
+    if (this.target && !this.target.dead && !this.target.reachedEnd) {
+      const at = this.target.getRenderPosition ? this.target.getRenderPosition() : this.target;
+      this.targetPos = { x: at.x, y: at.y };
+    } else if (this.target && this.target.seedDeathPosition) {
+      this.targetPos = { x: this.target.seedDeathPosition.x, y: this.target.seedDeathPosition.y };
+    }
+    const dx = this.targetPos.x - this.x, dy = this.targetPos.y - this.y;
+    const active = this.target && !this.target.dead && !this.target.reachedEnd;
+    this.contactRadius = active ? (this.target.getSeedHitRadius ? this.target.getSeedHitRadius() : (this.target.radius || 0) * 0.85) : 0;
+    const distance = Math.hypot(dx, dy), step = Math.min(Math.max(0, distance - this.contactRadius), this.speed * dt);
+    this.rotation = Math.atan2(dy, dx);
+    if (distance > 0) { this.x += dx / distance * step; this.y += dy / distance * step; }
+    this.travelledDistance += step;
+    const visual = this.getSnowballPosition();
+    this.visualRotation = Math.atan2(visual.y - previous.y, visual.x - previous.x);
+    if (distance <= this.speed * dt + this.contactRadius) this.hit(game);
+  }
+
+  getSnowballPosition() {
+    const remaining = Math.max(0, Math.hypot(this.targetPos.x - this.x, this.targetPos.y - this.y) - (this.contactRadius || 0));
+    const total = this.travelledDistance + remaining;
+    const progress = total > 0 ? this.travelledDistance / total : 1;
+    const lift = ICE_STAR_ART.reducedMotion ? 0 : Math.sin(progress * Math.PI) * Math.min(this.cellSize * 0.28, total * 0.16);
+    return { x: this.x, y: this.y - lift };
+  }
+
+  drawSnowball(ctx) {
+    if (this.destroyed) return;
+    const size = this.cellSize, at = this.getSnowballPosition(), diameter = size * 0.55;
+    ctx.save(); ctx.translate(this.x, this.y);
+    drawUnitShadow(ctx, diameter * 0.8, diameter * 0.23, 0, 0.12); ctx.restore();
+    ctx.save(); ctx.translate(at.x, at.y); ctx.rotate(this.visualRotation === undefined ? this.rotation : this.visualRotation);
+    const tail = Math.min(this.travelledDistance, size * 0.7);
+    if (tail > 0) {
+      ctx.globalAlpha = 0.72;
+      ICE_STAR_ART.drawEffect(ctx, 'trail', -diameter * 0.15, 0, tail, size * 0.23, 1, 0.5);
+    }
+    ctx.globalAlpha = 1;
+    if (!ICE_STAR_ART.drawEffect(ctx, 'snowball', 0, 0, diameter, diameter)) {
+      ctx.fillStyle = '#f8fffd'; ctx.strokeStyle = '#245e67'; ctx.lineWidth = size * 0.03;
+      ctx.beginPath(); ctx.arc(0, 0, diameter / 2, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  updateSeed(dt, game) {
+    const active = this.target && !this.target.dead && !this.target.reachedEnd;
+    if (active) {
+      const at = this.target.getRenderPosition ? this.target.getRenderPosition() : this.target;
+      this.targetPos = { x: at.x, y: at.y };
+    } else if (this.target && this.target.seedDeathPosition) {
+      this.targetPos = { x: this.target.seedDeathPosition.x, y: this.target.seedDeathPosition.y };
+    }
+    const dx = this.targetPos.x - this.x, dy = this.targetPos.y - this.y;
+    const distance = Math.hypot(dx, dy);
+    const radius = active ? (this.target.getSeedHitRadius ? this.target.getSeedHitRadius() : (this.target.radius || 0) * 0.85) : 0;
+    const step = this.speed * dt;
+    this.rotation = Math.atan2(dy, dx);
+    const move = Math.min(step, Math.max(0, distance - radius));
+    const startX = this.x, startY = this.y;
+    if (distance > 0) {
+      this.x += dx / distance * move;
+      this.y += dy / distance * move;
+    }
+    this.travelledDistance += move;
+    this.trail.forEach(point => { point.age += dt; });
+    const spacing = this.cellSize * 0.05;
+    // 按空间距离采样。30Hz 和 120Hz 的尾迹占用相同长度。
+    for (let d = spacing - this.trailRemainder; d <= move; d += spacing) {
+      const ratio = move > 0 ? d / move : 0;
+      this.trail.unshift({ x: startX + (this.x - startX) * ratio, y: startY + (this.y - startY) * ratio, age: dt * (1 - ratio) });
+    }
+    this.trailRemainder = (this.trailRemainder + move) % spacing;
+    this.trail = this.trail.filter(point => point.age < 0.09).slice(0, 12);
+    if (distance <= step + radius) this.hit(game);
+  }
+
+  drawSeed(ctx) {
+    if (this.destroyed) return;
+    const size = this.cellSize;
+    const length = size * 0.23 * this.visualScale * (this.secondary ? 0.72 : 1);
+    const tail = Math.min(this.travelledDistance, size * (this.secondary ? 0.36 : 0.5));
+    ctx.save(); ctx.translate(this.x, this.y); ctx.rotate(this.rotation);
+    // 弹头与尾迹整体放大，飞行位置和命中半径仍由原逻辑决定。
+    ctx.scale(2, 2);
+    if (tail > 0) {
+      ctx.globalAlpha = 0.7;
+      if (!SEED_CANNON_ART.drawEffect(ctx, 'trail', -length * 0.3, 0, tail, size * 0.075, 1, 0.5)) {
+        const gradient = ctx.createLinearGradient(-tail, 0, 0, 0);
+        gradient.addColorStop(0, 'rgba(255,243,194,0)'); gradient.addColorStop(1, '#fff3c2');
+        ctx.strokeStyle = gradient; ctx.lineWidth = size * 0.035;
+        ctx.beginPath(); ctx.moveTo(-tail, 0); ctx.lineTo(-length * 0.3, 0); ctx.stroke();
+      }
+    }
+    ctx.globalAlpha = 1;
+    if (!SEED_CANNON_ART.drawEffect(ctx, this.secondary ? 'secondary' : 'seed', 0, 0, length, length * 0.5)) {
+      ctx.fillStyle = '#e2ab4a'; ctx.strokeStyle = '#875735'; ctx.lineWidth = Math.max(0.8, size * 0.018);
+      ctx.beginPath(); ctx.ellipse(0, 0, length * 0.5, length * 0.25, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#fff3c2'; ctx.beginPath(); ctx.arc(length * 0.28, 0, length * 0.17, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.restore();
+  }
+}
+
+// 一个命中对象统一管理接触闪光、撞击星、种壳、叶屑和花粉。
+class GardenImpact {
+  constructor(type, x, y, angle, cellSize, isCrit = false) {
+    this.type = type; this.x = x; this.y = y; this.angle = angle; this.cellSize = cellSize;
+    this.life = this.maxLife = type === 'plasma' ? 0.32 : isCrit ? 0.5 : 0.44;
+    this.isCrit = isCrit;
+    this.fragments = ['fragmentA','fragmentB','leaf','spark','dust'].map((name, i) => {
+      const direction = angle + Math.PI + (i / 4 - 0.5) * 3.4;
+      const speed = cellSize * (0.85 + Math.random() * 0.8);
+      return { name, vx: Math.cos(direction) * speed, vy: Math.sin(direction) * speed,
+        rotation: Math.random() * Math.PI * 2, spin: (Math.random() - 0.5) * 5,
+        size: cellSize * (i < 2 ? 0.21 : i === 2 ? 0.16 : i === 3 ? 0.1 : 0.07) };
+    });
+  }
+  update(dt) { this.life -= dt; }
+  draw(ctx) {
+    if (this.life <= 0) return;
+    const age = this.maxLife - this.life, size = this.cellSize, art = GARDEN_TOWER_ART;
+    const reduced = art.reducedMotion;
+    ctx.save(); ctx.translate(this.x, this.y);
+    if (age < 0.09) {
+      ctx.globalAlpha = (1 - age / 0.09) * 0.95;
+      art.drawEffect(ctx, this.type, 'contact', 0, 0, size * 0.48, size * 0.48);
+    }
+    if (age > 0.02 && age < 0.17) {
+      ctx.globalAlpha = (1 - (age - 0.02) / 0.15) * 0.8;
+      art.drawEffect(ctx, this.type, 'impact', 0, 0, size * 0.58, size * 0.58);
+    }
+    if (age > 0.04) {
+      const travel = reduced ? 0.12 : age - 0.04;
+      ctx.globalAlpha = Math.min(1, this.life / 0.16);
+      this.fragments.forEach(fragment => {
+        ctx.save(); ctx.translate(fragment.vx * (travel + 0.03), fragment.vy * (travel + 0.03) + (reduced ? 0 : size * travel * travel * 0.6));
+        ctx.rotate(fragment.rotation + (reduced ? 0 : travel * fragment.spin));
+        art.drawEffect(ctx, this.type, fragment.name, 0, 0, fragment.size, fragment.size);
+        ctx.restore();
+      });
+    }
+    if (age > 0.1) {
+      ctx.globalAlpha = Math.min(0.42, this.life / this.maxLife * 0.6);
+      art.drawEffect(ctx, this.type, 'afterglow', 0, -size * 0.06, size * 0.4, size * 0.4);
+      if (this.type === 'plasma') {
+        art.drawEffect(ctx, this.type, 'ring', 0, 0, size * 0.32, size * 0.32);
+        art.drawEffect(ctx, this.type, 'ray', size * 0.06, -size * 0.08, size * 0.2, size * 0.28);
+      } else if (this.type === 'buffer') {
+        art.drawEffect(ctx, this.type, 'ring', size * 0.13, -size * 0.13, size * 0.16, size * 0.16);
+      }
+    }
+    ctx.restore();
+  }
+}
+
+class IceImpact {
+  constructor(x, y, angle, cellSize, isCrit = false, shield = false) {
+    this.x = x; this.y = y; this.angle = angle; this.cellSize = cellSize;
+    this.isCrit = isCrit; this.shield = shield; this.life = this.maxLife = isCrit ? 0.55 : 0.48;
+    const names = ['iceA','iceB','iceA','iceB','leafA','leafB','snowA','snowB','snowC','snowD','snowE'];
+    this.fragments = names.map((name, index) => {
+      const direction = angle + Math.PI + (index / (names.length - 1) - 0.5) * 3.3;
+      const speed = cellSize * (0.7 + Math.random() * 0.9);
+      return { name, vx: Math.cos(direction) * speed, vy: Math.sin(direction) * speed,
+        rotation: Math.random() * Math.PI * 2, spin: (Math.random() - 0.5) * 7,
+        size: cellSize * (index < 4 ? 0.19 : index < 6 ? 0.14 : 0.08) };
+    });
+  }
+  update(dt) { this.life -= dt; }
+  draw(ctx) {
+    if (this.life <= 0) return;
+    const age = this.maxLife - this.life, size = this.cellSize, reduced = ICE_STAR_ART.reducedMotion;
+    ctx.save(); ctx.translate(this.x, this.y);
+    if (age < 0.09) {
+      ctx.globalAlpha = (1 - age / 0.09) * 0.95;
+      ICE_STAR_ART.drawEffect(ctx, 'contact', 0, 0, size * 0.5, size * 0.5);
+    }
+    if (age >= 0.025 && age < 0.2) {
+      ctx.globalAlpha = (1 - (age - 0.025) / 0.175) * 0.9;
+      ICE_STAR_ART.drawEffect(ctx, 'impact', 0, 0, size * 0.65, size * 0.65);
+    }
+    if (age > 0.04) {
+      const travel = reduced ? 0.12 : age - 0.04;
+      ctx.globalAlpha = Math.min(1, this.life / 0.18);
+      this.fragments.forEach(fragment => {
+        ctx.save(); ctx.translate(fragment.vx * (travel + 0.03), fragment.vy * (travel + 0.03) + (reduced ? 0 : size * travel * travel * 0.6));
+        ctx.rotate(fragment.rotation + (reduced ? 0 : travel * fragment.spin));
+        ICE_STAR_ART.drawEffect(ctx, fragment.name, 0, 0, fragment.size, fragment.size * 1.15);
+        ctx.restore();
+      });
+    }
+    ctx.restore();
+  }
+}
+
+class SeedImpact {
+  constructor(x, y, rotation, cellSize, isCrit, shield = false, shieldBroken = false) {
+    this.x = x; this.y = y; this.rotation = rotation; this.size = cellSize;
+    this.isCrit = isCrit; this.shield = shield; this.shieldBroken = shieldBroken;
+    this.life = this.maxLife = shield && !shieldBroken ? 0.4 : isCrit ? 0.58 : 0.5;
+    this.fragments = (isCrit ? ['shellA','shellB','leafA','leafB','leafA','shellA','leafB'] : ['shellA','shellB','leafA','leafB','leafA']).map((name, i) => {
+      // 向接触点的外侧和上下散开，避免绿色叶片落在敌人的绿色身体上。
+      const angles = [Math.PI - 0.6, Math.PI + 0.6, -1.75, 1.75, Math.PI, -2.1, 2.1];
+      const angle = angles[i] + (Math.random() - 0.5) * 0.18;
+      const speed = cellSize * (0.7 + Math.random() * 0.4);
+      return { name, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
+        spin: (Math.random() - 0.5) * 9, angle, width: cellSize * (name.indexOf('shell') === 0 ? 0.21 : 0.16) };
+    });
+  }
+  update(dt) { this.life -= dt; }
+  draw(ctx) {
+    if (this.life <= 0) return;
+    const t = this.maxLife - this.life, size = this.size;
+    ctx.save(); ctx.translate(this.x, this.y); ctx.rotate(this.rotation);
+    // 命中闪光和碎片使用其他花园塔相同的尺寸基准，不整体放大扩散距离。
+    if (this.shield) {
+      ctx.globalAlpha = this.life / this.maxLife;
+      ctx.strokeStyle = this.shieldBroken ? '#fff3c2' : '#b7f3ed';
+      ctx.lineWidth = Math.max(1, size * 0.025);
+      ctx.beginPath(); ctx.arc(size * 0.1, 0, size * (0.15 + t * 0.28), Math.PI * 0.65, Math.PI * 1.35); ctx.stroke();
+    }
+    if (t < 0.06) {
+      ctx.globalAlpha = 1 - t / 0.06;
+      if (!SEED_CANNON_ART.drawEffect(ctx, 'contact', 0, 0, size * 0.48, size * 0.48)) {
+        ctx.fillStyle = '#fff3c2'; ctx.beginPath(); ctx.arc(0, 0, size * 0.07, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+    if ((!this.shield || this.shieldBroken) && t >= 0.025 && t < 0.14) {
+      ctx.globalAlpha = (1 - (t - 0.025) / 0.115) * 0.9;
+      SEED_CANNON_ART.drawEffect(ctx, 'impact', size * 0.02, 0, size * 0.58, size * 0.58);
+    }
+    if (t >= 0.035) {
+      const reduced = SEED_CANNON_ART.reducedMotion;
+      const age = reduced ? 0.14 : t - 0.035;
+      // 先保持实色，再淡出；减少动态时保留静态种壳和叶片，不省略素材。
+      ctx.globalAlpha = Math.min(1, this.life / 0.2);
+      this.fragments.forEach(fragment => {
+        ctx.save(); ctx.translate(fragment.vx * (age + 0.05), fragment.vy * (age + 0.05) + (reduced ? 0 : size * age * age * 0.4));
+        ctx.rotate(fragment.angle + (reduced ? 0 : age * fragment.spin));
+        SEED_CANNON_ART.drawEffect(ctx, fragment.name, 0, 0, fragment.width, fragment.width * 0.85);
+        ctx.restore();
+      });
+    }
+    if (!this.shield && t > 0.12) {
+      ctx.globalAlpha = Math.max(0, this.life / (this.maxLife - 0.12));
+      for (let i = 0; i < 3; i++) {
+        SEED_CANNON_ART.drawEffect(ctx, 'pollen', size * (0.08 + i * 0.05 + t * 0.2), size * (i - 1) * 0.09, size * 0.045, size * 0.045);
+      }
+    }
     ctx.restore();
   }
 }
@@ -9473,7 +10276,44 @@ class SolarFlameWave {
   draw(ctx) {
     const progress = Math.max(0, Math.min(1, 1 - this.life / this.maxLife));
     if (progress >= 1) return;
-    const radius = this.radius * (0.12 + progress * 0.88);
+    const art = typeof GARDEN_TOWER_ART !== 'undefined' ? GARDEN_TOWER_ART : null;
+    const radius = this.radius * (art && art.reducedMotion ? 1 : 0.12 + progress * 0.88);
+    // 黄色火焰覆盖扩散圈内部，随外圈一同扩张、消退。
+    ctx.save(); ctx.translate(this.x, this.y);
+    ctx.globalAlpha = Math.min(0.6, (1 - progress) * 1.35);
+    const innerFire = ctx.createRadialGradient(0, 0, 0, 0, 0, radius);
+    innerFire.addColorStop(0, 'rgba(255, 224, 96, 0.5)');
+    innerFire.addColorStop(0.52, 'rgba(255, 205, 62, 0.55)');
+    innerFire.addColorStop(0.86, 'rgba(255, 183, 45, 0.45)');
+    innerFire.addColorStop(1, 'rgba(255, 178, 48, 0.12)');
+    ctx.fillStyle = innerFire;
+    ctx.beginPath(); ctx.arc(0, 0, radius, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+    if (art) {
+      ctx.save(); ctx.translate(this.x, this.y); ctx.globalAlpha = Math.min(0.6, (1 - progress) * 1.35);
+      ctx.save(); ctx.beginPath();
+      ctx.arc(0, 0, radius, 0, Math.PI * 2);
+      ctx.arc(0, 0, radius * 0.68, 0, Math.PI * 2, true); ctx.clip('evenodd');
+      const painted = art.drawEffect(ctx, 'buffer', 'beam', 0, 0, radius * 2, radius * 2);
+      ctx.restore();
+      if (painted) {
+        ctx.save(); ctx.globalAlpha *= 0.42;
+        art.drawEffect(ctx, 'buffer', 'afterglow', 0, 0, radius * 1.5, radius * 1.5);
+        for (let i = 0; i < 6; i++) {
+          ctx.save(); ctx.rotate(i * Math.PI / 3 + (art.reducedMotion ? 0 : progress * 0.35));
+          ctx.translate(0, -radius * (i % 2 ? 0.54 : 0.34));
+          art.drawEffect(ctx, 'buffer', 'ray', 0, 0, this.radius * 0.075, this.radius * 0.11);
+          ctx.restore();
+        }
+        ctx.restore();
+        for (let i = 0; i < 12; i++) {
+          ctx.save(); ctx.rotate(i * Math.PI / 6); ctx.translate(0, -radius * 0.93);
+          art.drawEffect(ctx, 'buffer', 'ray', 0, 0, this.radius * 0.11, this.radius * 0.15);
+          ctx.restore();
+        }
+        ctx.restore(); return;
+      }
+      ctx.restore();
+    }
     const thickness = this.radius * 0.12;
     const fade = Math.min(0.42, (1 - progress) * 1.35);
     const palettes = [
@@ -9484,7 +10324,7 @@ class SolarFlameWave {
     const palette = palettes[Math.min(2, Math.max(0, this.level - 1))];
     ctx.save(); ctx.translate(this.x, this.y);
     ctx.globalAlpha = fade;
-    // A hollow, scalloped flame front leaves the battlefield visible behind it.
+    // 明亮火焰前沿与内部黄色光晕一起扩散。
     for (const [color, width] of [[palette[0], thickness * 1.8], [palette[1], thickness], [palette[2], thickness * 0.4]]) {
       ctx.strokeStyle = color; ctx.lineWidth = width;
       ctx.beginPath(); ctx.arc(0, 0, radius, 0, Math.PI * 2); ctx.stroke();
@@ -9552,6 +10392,16 @@ class LightningArc {
   }
   update(dt) { this.life -= dt; }
   draw(ctx) {
+    if (this.life <= 0) return;
+    const art = typeof GARDEN_TOWER_ART !== 'undefined' ? GARDEN_TOWER_ART : null;
+    if (art) {
+      const first = this.points[0], last = this.points[this.points.length - 1];
+      const distance = Math.hypot(last.x - first.x, last.y - first.y);
+      ctx.save(); ctx.translate(first.x, first.y); ctx.rotate(Math.atan2(last.y - first.y, last.x - first.x));
+      ctx.globalAlpha = Math.max(0, this.life / this.maxLife);
+      const painted = art.drawEffect(ctx, 'tesla', 'beam', 0, 0, distance, Math.min(distance * 0.3, 18 * this.scale), 0, 0.5);
+      ctx.restore(); if (painted) return;
+    }
     ctx.save();
     ctx.globalAlpha = Math.max(0, this.life / this.maxLife);
     ctx.lineJoin = 'round'; ctx.lineCap = 'round';

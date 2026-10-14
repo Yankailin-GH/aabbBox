@@ -1,0 +1,25 @@
+/* Warm garden materials, kept quiet around the illustrated battle. */
+#game-app { --garden-ink:#315e42; --garden-paper:#fffbed; background:#e9f2d7; }
+.hud-top { background:#fffbed!important; border-bottom:2px solid #adc784!important; box-shadow:0 3px 10px #46652f18!important; }
+.hud-top::before, .stats-group::before { display:none; }
+#hud-stats-group { background:#f1f4dc; border:1px solid #d6dfb8; clip-path:none; border-radius:16px; padding:4px 5px!important; }
+#hud-stats-group .stat-badge { clip-path:none; border-radius:10px; gap:0; }
+#hud-stats-group .stat-badge .label { display:block; font-size:9px; line-height:12px; color:#698056; }
+#hud-stats-group .stat-badge .value { color:#315e42; text-shadow:none; font-family:var(--font-body); line-height:18px; }
+#hud-stats-group .stat-badge.energy .value { color:#91651e; }
+#skill-selected .skill-glyph { color:#4c7144; text-shadow:none; filter:none; }
+#skill-selected .skill-cd-overlay { color:#4c7144; text-shadow:none; }
+.battlefield-wrap { background:#b8d58b; border-color:#adc784; }
+.boss-hud-bar { background:#fff4e6; border-color:#e3b294; color:#80573e; box-shadow:0 3px 10px #69452918; }
+#boss-title, #boss-hp-val { color:#80573e; text-shadow:none; }
+#boss-hp-fill { background:linear-gradient(90deg,#df967d,#edb098); box-shadow:none; }
+#wave-countdown-banner { background:#fff8dc; color:#705f35; border-color:#dfca8e; box-shadow:0 3px 10px #69452918; }
+.wcb-text, .wcb-sec { color:#705f35; text-shadow:none; }
+.wcb-pulse-dot { background:#c89343; box-shadow:none; }
+.tfm-header, .taf-kicker, .tfm-stat-card { background:#f1f4dc; border-color:#d6dfb8; }
+.taf-kicker, .tfm-level, .tfm-stat-label, .tfm-section-label, .taf-specs span { color:#6b805a; text-shadow:none; }
+.tfm-stat-val, .taf-specs strong { color:#315e42; text-shadow:none; }
+.tfm-trait, .upgrade-max-badge { background:#fff0c0; color:#7c642f; border-color:#e5d59e; }
+.taf-image-frame { background:#e9f2d7; border-color:#d6dfb8; }
+.tfm-title, .taf-name, .taf-copy p { color:#315e42; }
+@media(max-width:420px) { #hud-stats-group .stat-badge { padding:2px 5px; } #hud-stats-group .stat-badge .value { font-size:12px; } .controls-group { margin-left:5px; gap:4px; } }

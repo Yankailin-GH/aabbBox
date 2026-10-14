@@ -6,6 +6,16 @@
 
 直接用浏览器打开 `index.html` 即可预览。
 
+首页使用项目内的 Vue 文件，无需连接 CDN 或执行依赖构建。也可以在 `frontend/` 目录执行 `python3 -m http.server 8080`，然后访问 `http://localhost:8080/`。
+
+## Vue 本地依赖
+
+- 固定版本：Vue 3.5.44，使用包含模板编译器的生产版 `vue.global.prod.js`。
+- 文件路径：`src/vendor/vue/vue.global.prod.js`。
+- 来源：官方 npm 包 `https://registry.npmjs.org/vue/-/vue-3.5.44.tgz`，下载后校验 npm 包的 SHA-512 完整性。
+- 许可：MIT，原始许可保存在 `src/vendor/vue/LICENSE`。
+- 更新时从指定版本的官方 npm 包提取 `dist/vue.global.prod.js` 和 `LICENSE`，并同步更新这里的版本说明。部署脚本会随 `frontend/` 一起上传本地依赖。
+
 ## 目录结构
 
 ```text

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120" fill="none">
+  <defs>
+    <linearGradient id="akWood" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ea7a38"/>
+      <stop offset="50%" stop-color="#b8541c"/>
+      <stop offset="100%" stop-color="#69290a"/>
+    </linearGradient>
+    <linearGradient id="akSteel" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#8c9aa8"/>
+      <stop offset="50%" stop-color="#46525f"/>
+      <stop offset="100%" stop-color="#21272e"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(120,60) rotate(-6) scale(1.08)">
+    <!-- Wooden Stock -->
+    <path d="M-105,10 L-95,-8 L-45,-4 L-45,18 L-85,28 Z" fill="url(#akWood)" stroke="#101918" stroke-width="2.2"/>
+    <!-- Metal Receiver -->
+    <rect x="-45" y="-9" width="55" height="18" rx="2" fill="url(#akSteel)" stroke="#101918" stroke-width="2.2"/>
+    <rect x="-40" y="-12" width="46" height="4" fill="#303842" stroke="#101918" stroke-width="1.5"/>
+    <!-- Wooden Handguard & Foregrip -->
+    <path d="M10,-6 L52,-6 L50,11 L10,11 Z" fill="url(#akWood)" stroke="#101918" stroke-width="2"/>
+    <!-- Gas Tube & Long Barrel -->
+    <rect x="10" y="-11" width="58" height="5" fill="#46525f" stroke="#101918" stroke-width="1.8"/>
+    <rect x="52" y="-5" width="48" height="6" fill="#303842" stroke="#101918" stroke-width="1.8"/>
+    <!-- Muzzle Compensator -->
+    <path d="M100,-7 L108,-8 L108,3 L100,2 Z" fill="#21272e" stroke="#101918" stroke-width="1.5"/>
+    <!-- Curved Banana Magazine -->
+    <path d="M-15,9 C-10,25 2,42 16,50 L28,45 C15,36 6,22 1,9 Z" fill="url(#akSteel)" stroke="#101918" stroke-width="2.2"/>
+    <!-- Pistol Grip -->
+    <path d="M-36,9 L-44,35 L-30,35 L-24,9 Z" fill="url(#akWood)" stroke="#101918" stroke-width="2"/>
+  </g>
+</svg>

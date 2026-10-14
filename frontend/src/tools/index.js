@@ -62,7 +62,7 @@
     {
       id: "core-breach-game",
       name: "弹壳打工",
-      desc: "竖屏割草生存",
+      desc: "选工地、搭装备，撑过三分钟下班",
       category: "游戏",
       icon: "弹壳",
       theme: "theme-green",

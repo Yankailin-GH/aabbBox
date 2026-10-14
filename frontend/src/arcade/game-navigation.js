@@ -30,13 +30,6 @@
       const back = document.querySelector("#quit, #back-start");
       if (back) back.click();
     });
-    button(document.querySelector("#upgrade .upgrade-head"), "返回游戏首页", () => {
-      document.getElementById("quit").click();
-      const upgrade = document.getElementById("upgrade");
-      upgrade.classList.remove("show");
-      upgrade.setAttribute("aria-hidden", "true");
-      upgrade.inert = true;
-    });
     button(document.querySelector(".success-sheet"), "返回游戏首页", () => global.location.reload());
   });
 })(window);

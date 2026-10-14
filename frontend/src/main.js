@@ -2,7 +2,7 @@
   if (!global.Vue) {
     document.body.insertAdjacentHTML(
       "afterbegin",
-      '<p class="fallback-message">Vue 加载失败，请检查网络或改用本地依赖构建。</p>'
+      '<p class="fallback-message">Vue 本地依赖加载失败，请确认 src/vendor/vue/vue.global.prod.js 文件完整后刷新页面。</p>'
     );
     throw new Error("Vue is required to run the toolbox homepage.");
   }

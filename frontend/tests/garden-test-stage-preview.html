@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>第0关 · 测试花圃检视</title>
+<style>body{margin:0;background:#e9f4de;font-family:system-ui,sans-serif;color:#286247}main{width:390px;margin:12px auto}h1{font-size:18px;margin:0 0 10px}iframe{display:block;width:390px;height:700px;border:0;border-radius:14px}button{height:44px;margin-top:10px;padding:0 16px;background:#3e8058;color:white;border:0;border-radius:12px}</style>
+</head><body><main><h1>第0关 · 手机尺寸检视</h1><iframe src="../src/core-breach-legacy.html" title="测试花圃" allow="fullscreen"></iframe><button id="save">保存当前战场画面</button></main>
+<script>
+document.getElementById('save').addEventListener('click', async () => {
+  const doc = document.querySelector('iframe').contentDocument;
+  const board = doc.getElementById('gameCanvas');
+  const canvas = document.createElement('canvas');
+  const boardHeight = 780 * board.height / board.width;
+  canvas.width = 780; canvas.height = Math.ceil(boardHeight + 330);
+  const ctx = canvas.getContext('2d'); ctx.fillStyle = '#e9f4de'; ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = '#286247'; ctx.font = 'bold 34px system-ui'; ctx.fillText('第 0 关 · 测试花圃', 32, 58);
+  ctx.font = '22px system-ui'; ctx.fillText(doc.getElementById('test-stage-summary').textContent, 32, 100, 716);
+  ctx.drawImage(board, 0, 0, board.width, board.height, 0, 130, 780, boardHeight);
+  ctx.font = '24px system-ui'; ctx.fillText('单怪 × 单塔 · 击败自动补怪 · 免费建造与升级', 32, boardHeight + 190);
+  ctx.fillText('重置测试    重新补怪    慢放    更换配置', 32, boardHeight + 245);
+  const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+  const response = await fetch('/__test_stage_export__', { method: 'POST', body: blob });
+  document.getElementById('save').textContent = response.ok ? '画面已保存' : '保存失败';
+});
+</script></body></html>

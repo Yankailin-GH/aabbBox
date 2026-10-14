@@ -1,0 +1,24 @@
+.stage-card.test-stage-card { min-height: 118px !important; background: #fff4d6; border: 2px solid #d3a856; }
+.test-stage-card::before { background: #d3a856; }
+.test-stage-card .stage-num-badge { background: #ffdf99; border-color: #d3a856; color: #685024; }
+.test-stage-card .stage-title { color: #685024; }
+#modal-test-stage .test-config-card { max-width: 480px; overflow-y: auto; border-radius: 18px; }
+.test-config-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.test-config-heading h2 { margin: 0; font-size: 21px; }
+.test-config-note { margin: 10px 0 16px; font-size: 13px; line-height: 1.5; color: #617552; }
+.test-selection-grid, .test-option-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.test-selection-card { min-width: 0; margin: 0; padding: 12px; border: 1px solid #c6d9af; border-radius: 12px; background: #edf5dd; }
+.test-selection-card label, .test-option-grid label { display: block; font-weight: 700; font-size: 14px; color: #3e7049; }
+.test-art-preview { height: 80px; display: grid; place-items: center; margin: 4px 0; }
+.test-art-preview canvas { width: 96px; height: 80px; }
+#modal-test-stage select, #modal-test-stage input[type="number"] { width: 100%; min-width: 0; min-height: 44px; margin-top: 5px; padding: 9px 8px; border: 1px solid #98b479; border-radius: 8px; background: #fffdf4; color: #3e5e37; font: 14px system-ui,sans-serif; }
+.test-option-grid { margin-top: 16px; }
+.test-moving-option { display: flex; align-items: center; gap: 8px; min-height: 44px; margin: 10px 0; font-size: 14px; color: #3e5e37; }
+.test-moving-option input { width: 20px; height: 20px; accent-color: #52894d; }
+#btn-test-start { width: 100%; min-height: 48px; margin-top: 6px; font-size: 16px; }
+#modal-test-stage select:focus-visible, #modal-test-stage input:focus-visible, .test-stage-button:focus-visible { outline: 3px solid #d79e45; outline-offset: 3px; }
+#test-stage-controls { position: absolute; left: 8px; right: 8px; bottom: max(8px, env(safe-area-inset-bottom, 0px)); z-index: 35; display: none; padding: 10px; border: 1px solid #bdcc9b; border-radius: 12px; background: rgba(255,253,243,.96); color: #3e7049; box-shadow: 0 3px 12px rgba(45,85,35,.18); }
+.test-stage-summary { font-size: 12px; line-height: 1.4; margin-bottom: 8px; }
+.test-stage-actions { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 7px; }
+.test-stage-button { min-height: 44px; padding: 4px; border: 1px solid #9bb582; border-radius: 8px; background: #eaf2d8; color: #3e7049; font: 13px system-ui,sans-serif; cursor: pointer; }
+.test-stage-button[aria-pressed="true"] { background: #3e7049; color: #fff7d8; }

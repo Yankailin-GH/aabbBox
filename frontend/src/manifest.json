@@ -1,7 +1,7 @@
 {
-  "name": "裂隙远征",
-  "short_name": "裂隙远征",
-  "description": "竖屏单机割草生存游戏",
+  "name": "弹壳打工",
+  "short_name": "弹壳打工",
+  "description": "选工地、搭装备，自动清怪，撑过三分钟下班",
   "start_url": "./core-breach-game.html",
   "display": "standalone",
   "display_override": ["fullscreen", "standalone"],

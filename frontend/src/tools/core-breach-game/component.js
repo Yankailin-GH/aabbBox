@@ -17,15 +17,15 @@
           </section>
         </header>
         <section class="survival-intro">
-          <p class="survival-kicker">单机 · 竖屏 · 自动射击</p>
-          <h2>裂隙远征</h2>
-          <p>在荧光温室的战场任意位置拖动走位，武器会自动锁定敌群。每次升级选择一项变异，撑过三分钟。</p>
-          <div class="survival-tags"><span>移动构筑</span><span>精英波</span><span>随机变异</span></div>
-          <button type="button" class="survival-launch" @click="openGame">开始远征</button>
+          <p class="survival-kicker">单机 · 竖屏 · 自动攻击</p>
+          <h2>弹壳打工</h2>
+          <p>选好工地、角色和武器，拖动走位，自动清怪。升级时挑一项强化，撑过三分钟就能下班。</p>
+          <div class="survival-tags"><span>四种工地</span><span>自动清怪</span><span>随机强化</span></div>
+          <button type="button" class="survival-launch" @click="openGame">开始打工</button>
         </section>
         <section v-if="playing" class="survival-fullscreen">
           <button type="button" class="survival-close" aria-label="退出游戏，返回工具首页" @click="goHome">×</button>
-          <iframe :src="gameSrc" title="裂隙远征" allow="fullscreen"></iframe>
+          <iframe :src="gameSrc" title="弹壳打工" allow="fullscreen"></iframe>
         </section>
       </section>
     `,

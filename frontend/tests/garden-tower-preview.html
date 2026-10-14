@@ -1,0 +1,36 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base href="../src/"><title>花园防线 · 三塔素材检视</title>
+<style>*{box-sizing:border-box}body{margin:0;padding:20px;background:#e9f4de;color:#286247;font-family:system-ui,sans-serif}main{max-width:1060px;margin:auto}h1{font-size:26px;margin:0 0 8px}p{margin:0 0 16px}nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}button{min-height:44px;padding:8px 14px;font:inherit;color:#286247;border:1px solid #98b479;border-radius:12px;background:#fffdf4;cursor:pointer}button[aria-pressed=true]{background:#3e8058;color:white}button:focus-visible{outline:3px solid #e9b964;outline-offset:3px}canvas{display:block;width:100%;border:2px solid #759d66;border-radius:16px}footer{margin-top:12px;font-size:14px}@media(max-width:500px){body{padding:12px}}</style>
+<script src="./arcade/seed-cannon-art.js?v=burst300-fragments2"></script><script src="./arcade/ice-star-art.js?v=ice2"></script><script src="./arcade/garden-tower-art.js?v=lightning-flower2"></script><script src="./arcade/garden-world-art.js?v=world1"></script></head><body><main><h1>花园防线 · 三塔素材检视</h1><p>紫晶连锁花、焰籽喷火瓶、日耀太阳花三级素材；右侧直接运行游戏实际攻击代码。</p>
+<nav aria-label="检视控制"><button id="play" aria-pressed="true">连续攻击</button><button id="slow" aria-pressed="false">慢放</button><button id="boost" aria-pressed="false">超频</button><button id="move" aria-pressed="false">移动目标</button><button id="attack">查看攻击</button><button id="fragments">查看命中碎片</button><button id="save">保存当前画面</button></nav>
+<canvas id="stage" width="1040" height="840" role="img" aria-label="三座防御塔的三级素材与实际战斗效果"></canvas><footer id="status" aria-live="polite">正在载入…</footer>
+</main><script>
+(async()=>{
+ const html=await(await fetch('./core-breach-legacy.html')).text();const source=html.match(/<script>([\s\S]*?)<\/script>/)[1];
+ const {Tower,Enemy,Game,Wave}=new Function(source+';return {Tower:DefensiveTower,Enemy:CreepEnemy,Game:QuantumTDGame,Wave:SolarFlameWave};')();
+ const canvas=document.getElementById('stage'),ctx=canvas.getContext('2d'),art=window.GardenTowerArt;
+ const kinds=['tesla','plasma','buffer'],names=['紫晶连锁花','焰籽喷火瓶','日耀太阳花'],traits=['连锁电弧 · 邻格增伤','持续火焰 · 3秒增伤','日耀扩散 · 范围群攻'];
+ let games=[],playing=true,slow=false,boost=false,moving=false,last=0,time=0;
+ function reset(){games=[];time=0;kinds.forEach((type,i)=>{
+  const centerY=166+i*254;const game={offsetX:552.5,offsetY:centerY-27.5,cellSize:55,scaleRatio:1.1,enemies:[],towers:[],projectiles:[],particles:[],icePatches:[],floatTexts:[],flyingCoins:[],energy:0,score:0,kills:0,totalDamage:0,
+   getStageBaseHp(){return 10000},updateHUD(){},createParticleBurst:Game.prototype.createParticleBurst,createFloatingText:Game.prototype.createFloatingText};
+  const tower=new Tower(0,0,type,game);tower.level=3;tower.overdriveTimer=boost?100:0;game.towers=[tower];
+  const positions=type==='tesla'?[[740,centerY],[805,centerY-38],[871,centerY+24],[933,centerY-29]]:type==='buffer'?[[710,centerY-27],[694,centerY+45]]:[[750,centerY]];
+  positions.forEach(([x,y])=>{const enemy=new Enemy('crawler',1,[{x,y},{x:x-50,y}],game);enemy.lateralOffset=0;enemy.walkCycle=0;enemy.speed=moving?18:0;enemy.hp=enemy.maxHp=10000;game.enemies.push(enemy);});games.push(game);
+ });}
+ function update(dt){time+=dt;games.forEach(game=>{game.towers[0].update(dt,game);game.enemies.forEach(e=>{e.update(dt,game);if(e.reachedEnd){e.reachedEnd=false;e.currentWpIndex=0;e.x=e.waypoints[0].x;e.distanceTraveled=0;}});game.particles.forEach(p=>p.update(dt));game.particles=game.particles.filter(p=>p.life>0);});if(time>12)reset();}
+ function draw(){ctx.clearRect(0,0,1040,840);ctx.fillStyle='#edf5dd';ctx.fillRect(0,0,1040,840);ctx.fillStyle='#286247';ctx.font='bold 22px system-ui';ctx.fillText('三级塔体素材',26,38);ctx.fillText('实际攻击 · Lv.3',490,38);
+  kinds.forEach((type,i)=>{const top=66+i*254,game=games[i];ctx.fillStyle=['#f4e4f5','#f9e8d6','#fbf1d4'][i];ctx.fillRect(14,top,435,235);ctx.fillStyle='#286247';ctx.font='bold 22px system-ui';ctx.fillText(names[i],30,top+32);ctx.font='15px system-ui';ctx.fillText(traits[i],30,top+61);
+   for(let level=1;level<=3;level++){ctx.save();ctx.translate(83+(level-1)*139,top+137);art.drawTower(ctx,type,level,'idle',103);ctx.restore();ctx.font='16px system-ui';ctx.textAlign='center';ctx.fillStyle='#286247';ctx.fillText('Lv.'+level,83+(level-1)*139,top+214);}ctx.textAlign='left';
+   ctx.save();ctx.beginPath();ctx.rect(470,top,552,235);ctx.clip();for(let x=470;x<1022;x+=55)for(let y=top;y<top+235;y+=55){window.GardenWorldArt.drawTile(ctx,'grass',Math.floor((x-470)/55),Math.floor((y-top)/55),x,y,55);}for(let x=650;x<1022;x+=55)window.GardenWorldArt.drawTile(ctx,'path',Math.floor(x/55),i,x,game.enemies[0].waypoints[0].y-30,55);
+   const tower=game.towers[0];tower.drawFlameBeam(ctx,game);tower.draw(ctx,game);game.enemies.forEach(e=>e.draw(ctx,game));game.particles.forEach(p=>p.draw(ctx));ctx.restore();
+  });ctx.fillStyle='#286247';ctx.font='16px system-ui';ctx.fillText('实际晶片、火星、花瓣与叶片素材 · 原伤害、连锁与增伤规则',26,829);
+ }
+ function setPlaying(value){playing=value;document.getElementById('play').setAttribute('aria-pressed',String(value));document.getElementById('play').textContent=value?'连续攻击':'已暂停';}
+ document.getElementById('play').onclick=()=>setPlaying(!playing);
+ for(const id of ['slow','boost','move'])document.getElementById(id).onclick=()=>{if(id==='slow')slow=!slow;else if(id==='boost'){boost=!boost;reset();}else{moving=!moving;reset();}document.getElementById(id).setAttribute('aria-pressed',String(id==='slow'?slow:id==='boost'?boost:moving));};
+ function snapshot(age){reset();games.forEach(game=>{const tower=game.towers[0];tower.targetEnemy=game.enemies[0];if(tower.type==='plasma'){tower.lockDuration=3;tower.lockedTarget=tower.targetEnemy;tower.updateFlameBeam(.016,game);tower.gardenSpriteElapsed=0;}else tower.fire(game);game.particles.forEach(p=>p.update(p instanceof Wave?.2:age));game.enemies.forEach(e=>e.update(age,game));});setPlaying(false);draw();}
+ document.getElementById('attack').onclick=()=>snapshot(.06);document.getElementById('fragments').onclick=()=>snapshot(.16);
+ document.getElementById('save').onclick=async()=>{draw();const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));const response=await fetch('/__garden_towers_export__',{method:'POST',body:blob});document.getElementById('status').textContent=response.ok?'已保存 design/garden-towers-v1/combat-preview.png':'保存失败';};
+ reset();function frame(now){const dt=Math.min(.035,(now-last)/1000||0);last=now;if(playing)update(dt*(slow?.25:1));draw();requestAnimationFrame(frame);}requestAnimationFrame(frame);document.getElementById('status').textContent='已载入三套素材，连续攻击或慢放均使用游戏实际代码。';
+})();
+</script></body></html>

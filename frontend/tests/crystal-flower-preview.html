@@ -1,0 +1,33 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base href="../src/"><title>紫晶连锁花 · 雷电晶枝二版</title><style>*{box-sizing:border-box}body{margin:0;padding:20px;background:#e9f2d7;color:#315e42;font-family:system-ui,sans-serif}main{max-width:1060px;margin:auto}h1{font-size:26px;margin:0 0 10px}p{margin:0 0 15px}nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}button{min-height:44px;padding:8px 16px;border:1px solid #bcacd1;border-radius:14px;background:#fffbed;color:#553775;font:inherit;cursor:pointer}button[aria-pressed=true]{background:#78519b;color:white}button:focus-visible{outline:3px solid #efc764}canvas{display:block;width:100%;border:1px solid #b9aac8;border-radius:18px}</style><script src="./arcade/seed-cannon-art.js?v=burst300-fragments2"></script><script src="./arcade/ice-star-art.js?v=ice2"></script><script src="./arcade/garden-tower-art.js?v=lightning-flower2"></script><script src="./arcade/garden-world-art.js?v=world1"></script></head><body><main><h1>紫晶连锁花 · 雷电晶枝</h1><p>三级雷电造型、五种攻击姿态；与冰冻星的轮廓比较及实际四目标连锁。</p><nav><button id="attack">查看放电与碎片</button><button id="play" aria-pressed="false">连续放电</button><button id="save">保存设计画面</button></nav><canvas id="poster" width="1040" height="940" role="img" aria-label="紫晶连锁花三级雷电素材、五姿态、图标及实际连锁攻击"></canvas><p id="status" aria-live="polite">正在载入…</p></main><script>
+(async()=>{
+ const html=await(await fetch('./core-breach-legacy.html')).text(),source=html.match(/<script>([\s\S]*?)<\/script>/)[1];
+ const {Tower,Enemy}=new Function(source+';return {Tower:DefensiveTower,Enemy:CreepEnemy};')();
+ const canvas=document.getElementById('poster'),ctx=canvas.getContext('2d'),art=window.GardenTowerArt,ice=window.IceStarArt;
+ const poses=['idle','charge','release','recoil','recover'],poseNames=['待机','蓄力','放电','后坐','恢复'];
+ const icons=[1,2,3].map(level=>{const c=document.createElement('canvas');c.width=c.height=128;c.dataset.gardenTower='tesla';c.dataset.gardenLevel=level;return c;});
+ let game,tower,playing=false,last=0,age=0;
+ function reset(snapshot=true){age=0;game={offsetX:83,offsetY:782.5,cellSize:75,scaleRatio:1.5,currentMapIndex:0,wave:1,enemies:[],towers:[],particles:[],floatTexts:[],totalDamage:0,getStageBaseHp:()=>10000,createParticleBurst(){},createFloatingText(){}};
+  tower=new Tower(0,0,'tesla',game);tower.level=3;game.towers=[tower];
+  [[350,813],[550,790],[748,819],[939,791]].forEach(([x,y],i)=>{const enemy=new Enemy(['crawler','scout','shielder','titan'][i],1,[{x,y},{x:x+10,y}],game);enemy.lateralOffset=0;enemy.speed=0;enemy.hp=enemy.maxHp=10000;game.enemies.push(enemy);});tower.targetEnemy=game.enemies[0];tower.fire(game);
+  if(snapshot)advance(.13);
+ }
+ function advance(dt){age+=dt;tower.gardenSpriteElapsed=Math.min(320,age*1000);game.enemies.forEach(e=>e.update(dt,game));game.particles.forEach(p=>p.update(dt));game.particles=game.particles.filter(p=>p.life>0);}
+ function draw(){ctx.fillStyle='#fffbed';ctx.fillRect(0,0,1040,940);ctx.fillStyle='#4a286e';ctx.font='bold 28px system-ui';ctx.fillText('紫晶连锁花 · 雷电晶枝',26,43);ctx.font='16px system-ui';ctx.fillStyle='#6c597b';ctx.fillText('分叉晶角 · 金色闪电纹 · 锯齿电弧 · 雷纹晶片',26,76);
+  for(let level=1;level<=3;level++){const x=18+(level-1)*342;ctx.fillStyle='#f2e9f5';ctx.fillRect(x,98,326,174);ctx.fillStyle='#4a286e';ctx.font='bold 18px system-ui';ctx.fillText('Lv.'+level+'  ·  轮廓比较',x+14,122);
+   ctx.save();ctx.translate(x+77,184);ice.drawTower(ctx,level,'idle',75);ctx.restore();ctx.save();ctx.translate(x+221,194);art.drawTower(ctx,'tesla',level,'idle',85);ctx.restore();ctx.font='15px system-ui';ctx.textAlign='center';ctx.fillStyle='#4f7882';ctx.fillText('霜晶冰冻星',x+77,254);ctx.fillStyle='#694487';ctx.fillText('紫晶连锁花',x+221,254);ctx.textAlign='left';
+  }
+  ctx.font='bold 20px system-ui';ctx.fillStyle='#4a286e';ctx.fillText('三级塔体 · 五姿态',26,310);
+  poseNames.forEach((name,i)=>{ctx.font='16px system-ui';ctx.textAlign='center';ctx.fillStyle='#6c597b';ctx.fillText(name,165+i*181,342);});ctx.textAlign='left';
+  for(let level=1;level<=3;level++){const y=398+(level-1)*115;ctx.fillStyle='#f7f0f8';ctx.fillRect(18,y-37,1004,110);ctx.fillStyle='#694487';ctx.font='bold 18px system-ui';ctx.fillText('Lv.'+level,30,y+13);
+   poses.forEach((pose,i)=>{ctx.save();ctx.translate(165+i*181,y+15);art.drawTower(ctx,'tesla',level,pose,87);ctx.restore();});
+  }
+  ctx.font='bold 20px system-ui';ctx.fillStyle='#4a286e';ctx.fillText('32px 图标也能辨认',26,725);icons.forEach((icon,i)=>{art.paintPreview(icon);ctx.drawImage(icon,252+i*63,703,32,32);});ctx.font='16px system-ui';ctx.fillStyle='#6c597b';ctx.fillText('金白闪电连锁 · 实际晶片与电花',475,725);
+  ctx.save();ctx.beginPath();ctx.rect(18,745,1004,165);ctx.clip();for(let x=18;x<1022;x+=55)for(let y=745;y<910;y+=55)window.GardenWorldArt.drawTile(ctx,'grass',Math.floor(x/55),Math.floor(y/55),x,y,55);for(let x=280;x<1022;x+=55)window.GardenWorldArt.drawTile(ctx,'path',Math.floor(x/55),0,x,776,55);
+  tower.draw(ctx,game);game.enemies.forEach(e=>e.draw(ctx,game));game.particles.forEach(p=>p.draw(ctx));ctx.restore();ctx.font='15px system-ui';ctx.fillStyle='#6c597b';ctx.fillText('三级最多命中4个目标 · 原整数伤害、169传递距离与邻格增伤规则',26,932);
+ }
+ document.getElementById('attack').onclick=()=>{playing=false;document.getElementById('play').setAttribute('aria-pressed','false');reset(true);draw();};
+ document.getElementById('play').onclick=()=>{playing=!playing;document.getElementById('play').setAttribute('aria-pressed',String(playing));if(playing)reset(false);};
+ document.getElementById('save').onclick=async()=>{draw();const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));const response=await fetch('/__crystal_flower_export__',{method:'POST',body:blob});document.getElementById('status').textContent=response.ok?'已保存 design/crystal-flower-v2/combat-preview.png':'保存失败';};
+ reset(true);function frame(now){const dt=Math.min(.03,(now-last)/1000||0);last=now;if(playing){advance(dt);if(age>1.3)reset(false);}draw();requestAnimationFrame(frame);}requestAnimationFrame(frame);document.getElementById('status').textContent='已载入雷电二版塔体与特效，攻击使用游戏实际代码。';
+})();
+</script></body></html>

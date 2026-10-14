@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <base href="../src/">
+  <title>豆荚种子炮 · 动作检视</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#e9f4de;color:#286247;font-family:system-ui,sans-serif;padding:28px}
+    main{max-width:900px;margin:auto}h1{font-size:28px;margin:0 0 8px}p{margin:0 0 20px;color:#527b54}
+    nav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}button{font:inherit;min-height:44px;border:1px solid #7ba67a;background:#fff8dc;color:#286247;border-radius:10px;padding:10px 15px;cursor:pointer}
+    button:focus-visible{outline:3px solid #e2ab4a;outline-offset:3px}button[aria-pressed=true]{background:#286247;color:#fff8dc}
+    canvas{width:100%;height:auto;display:block;border:2px solid #759d66;border-radius:18px;background:#bbd88e}footer{margin-top:14px;font-size:14px}
+    @media(max-width:500px){body{padding:16px}h1{font-size:23px}}
+  </style>
+  <script src="./arcade/seed-cannon-art.js?v=burst300-fragments2"></script>
+  <script src="./arcade/ice-star-art.js?v=ice2"></script>
+<script src="./arcade/garden-tower-art.js?v=lightning-flower2"></script>
+<script src="./arcade/garden-world-art.js?v=world1"></script></head>
+<body><main>
+  <h1>豆荚种子炮 · 动作检视</h1><p>三级炮体、硬壳种子与命中反馈，使用花园防线实际战斗代码。</p>
+  <nav aria-label="预览控制">
+    <button id="play" aria-pressed="true">连续射击</button><button id="slow" aria-pressed="false">慢放</button>
+    <button id="boost" aria-pressed="false">超频</button><button id="move" aria-pressed="false">移动目标</button>
+    <button id="release">查看出膛</button><button id="burst">查看二连发</button><button id="impact">查看命中</button><button id="fragments">查看种壳与叶片</button><button id="dead">目标死亡后第二发</button>
+    <button id="save">保存当前画面</button>
+  </nav>
+  <canvas id="stage" width="900" height="500" role="img" aria-label="一级、二级、三级种子炮的攻击演示"></canvas>
+  <footer id="status" aria-live="polite">正在载入战斗素材…</footer>
+</main><script>
+(async function () {
+  const html = await (await fetch('./core-breach-legacy.html')).text();
+  const source = html.match(/<script>([\s\S]*?)<\/script>/)[1];
+  // 不实例化游戏主界面，不读写存档；直接验证同一套炮塔、敌人和弹丸类。
+  const { Tower, Enemy, Particle, FlyingCoin, FloatingText, Game } = new Function(source +
+    ';return {Tower:DefensiveTower,Enemy:CreepEnemy,Particle,FlyingCoin,FloatingText,Game:QuantumTDGame};')();
+  const canvas = document.getElementById('stage'), ctx = canvas.getContext('2d');
+  const game = { offsetX:64,offsetY:56,cellSize:72,scaleRatio:1.5,enemies:[],towers:[],projectiles:[],particles:[],floatTexts:[],flyingCoins:[],score:0,kills:0,totalDamage:0,energy:0,
+    getStageBaseHp(){return 1000},updateHUD(){},
+    createParticleBurst:Game.prototype.createParticleBurst,createFloatingText:Game.prototype.createFloatingText };
+  let playing=true,speed=1,boost=false,moving=false,last=0,time=0;
+  function reset() {
+    time=0;game.enemies=[];game.towers=[];game.projectiles=[];game.particles=[];game.floatTexts=[];game.flyingCoins=[];
+    for(let i=0;i<3;i++) {
+      const tower=new Tower(0,i*2,'pulse',game);tower.level=i+1;tower.overdriveTimer=boost?100:0;
+      game.towers.push(tower);
+      const enemy=new Enemy('crawler',1,[{x:330,y:tower.y},{x:220,y:tower.y}],game);
+      enemy.lateralOffset=0;enemy.walkCycle=0;enemy.speed=moving?35:0;enemy.hp=enemy.maxHp=10000;
+      game.enemies.push(enemy);
+    }
+  }
+  function update(dt) {
+    time+=dt;
+    game.towers.forEach((tower,i)=>{
+      const enemies=game.enemies;game.enemies=[enemies[i]];
+      tower.update(dt,game);game.enemies=enemies;
+    });
+    game.enemies.forEach(e=>{if(!e.dead)e.update(dt,game);if(e.reachedEnd){e.reachedEnd=false;e.currentWpIndex=0;e.x=330;e.distanceTraveled=0}});
+    game.projectiles.forEach(p=>p.update(dt,game));game.projectiles=game.projectiles.filter(p=>!p.destroyed);
+    game.particles.forEach(p=>p.update(dt));game.particles=game.particles.filter(p=>p.life>0);
+    game.floatTexts.forEach(p=>p.update(dt));game.floatTexts=game.floatTexts.filter(p=>p.life>0);
+    if(time>12)reset();
+  }
+  function draw() {
+    ctx.clearRect(0,0,900,500);
+    for(let x=0;x<900;x+=72)for(let y=0;y<500;y+=72){ctx.fillStyle=(x/72+y/72)%2?'#b8d78d':'#b1d285';ctx.fillRect(x,y,72,72)}
+    game.towers.forEach((tower,i)=>{
+      ctx.fillStyle='#f1dbaa';ctx.fillRect(232,tower.y-34,150,68);
+      ctx.fillStyle='#286247';ctx.font='bold 16px system-ui';ctx.fillText('Lv.'+(i+1),65,tower.y-42);
+      tower.draw(ctx,game);
+    });
+    game.enemies.filter(e=>!e.dead).forEach(e=>e.draw(ctx,game));game.projectiles.forEach(p=>p.draw(ctx));game.particles.forEach(p=>p.draw(ctx));game.floatTexts.forEach(p=>p.draw(ctx));
+    ctx.font='bold 18px system-ui';ctx.fillStyle='#286247';ctx.fillText('出膛 → 平射 → 接触 → 碎壳',435,66);
+    ctx.font='16px system-ui';['一级 · 单种子','二级 · 强化种子','三级 · 二连发（300ms / 80%）'].forEach((text,i)=>ctx.fillText(text,435,game.towers[i].y+5));
+    document.getElementById('status').textContent=(playing?'播放中':'定格')+' · '+(boost?'超频':'普通攻速')+' · 命中特效 '+game.particles.length;
+  }
+  function pose(seconds){playing=false;reset();for(let t=0;t<seconds;t+=0.005)update(Math.min(0.005,seconds-t));draw();document.getElementById('play').setAttribute('aria-pressed','false')}
+  document.getElementById('play').onclick=function(){playing=!playing;this.setAttribute('aria-pressed',String(playing))};
+  document.getElementById('slow').onclick=function(){speed=speed===1?0.25:1;this.setAttribute('aria-pressed',String(speed!==1))};
+  document.getElementById('boost').onclick=function(){boost=!boost;reset();this.setAttribute('aria-pressed',String(boost))};
+  document.getElementById('move').onclick=function(){moving=!moving;reset();this.setAttribute('aria-pressed',String(moving))};
+  document.getElementById('release').onclick=()=>pose(0.085);
+  document.getElementById('burst').onclick=()=>pose(0.405);
+  document.getElementById('impact').onclick=()=>pose(0.275);
+  document.getElementById('fragments').onclick=()=>pose(0.4);
+  document.getElementById('dead').onclick=()=>{
+    playing=false;reset();
+    for(const tower of game.towers)tower.cooldown=100;
+    const tower=game.towers[2],enemy=game.enemies[2];tower.targetEnemy=enemy;tower.fire(game);
+    for(let t=0;t<0.7;t+=0.005){
+      if(t>=0.21&&!enemy.dead){enemy.seedDeathPosition=enemy.getRenderPosition();enemy.dead=true;}
+      update(0.005);
+    }
+    draw();document.getElementById('play').setAttribute('aria-pressed','false');
+  };
+  document.getElementById('save').onclick=async()=>{
+    const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));
+    try {
+      const response=await fetch('/__seed_preview_export__',{method:'POST',body:blob});
+      if(response.ok){document.getElementById('save').textContent='画面已保存';return}
+    } catch(error) {}
+    const link=document.createElement('a');link.download='seed-cannon-combat-preview.png';link.href=URL.createObjectURL(blob);link.click();
+    setTimeout(()=>URL.revokeObjectURL(link.href),1000);
+  };
+  function frame(now){const dt=Math.min(0.05,(now-last)/1000)||0;last=now;if(playing)update(dt*speed);draw();requestAnimationFrame(frame)}
+  reset();requestAnimationFrame(frame);
+})().catch(error=>{document.getElementById('status').textContent=error.message;console.error(error)});
+</script></body></html>

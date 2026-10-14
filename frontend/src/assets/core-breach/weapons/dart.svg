@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120" fill="none">
+  <defs>
+    <linearGradient id="dartGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="30%" stop-color="#ffd86b"/>
+      <stop offset="70%" stop-color="#ff7057"/>
+      <stop offset="100%" stop-color="#b83226"/>
+    </linearGradient>
+    <linearGradient id="bladeEdge" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#d4e0ee"/>
+      <stop offset="50%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#8a9db0"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <g transform="translate(120,60) rotate(18) scale(1.15)">
+    <!-- Main Crescent Glaive Body -->
+    <path d="M-80,-20 C-40,-45 40,-45 80,-20 C50,-10 20,-5 0,-5 C-20,-5 -50,-10 -80,-20 Z" fill="url(#bladeEdge)" filter="url(#glow)"/>
+    <path d="M-80,-20 C-50,15 -10,35 0,40 C10,35 50,15 80,-20 C55,-5 25,12 0,14 C-25,12 -55,-5 -80,-20 Z" fill="url(#dartGlow)"/>
+    <!-- Central Power Core -->
+    <circle cx="0" cy="5" r="16" fill="#142124" stroke="#ff7057" stroke-width="3"/>
+    <circle cx="0" cy="5" r="9" fill="url(#dartGlow)" filter="url(#glow)"/>
+    <!-- Energy Vents -->
+    <line x1="-35" y1="-8" x2="-20" y2="4" stroke="#ffd86b" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="35" y1="-8" x2="20" y2="4" stroke="#ffd86b" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="-55" y1="-14" x2="-45" y2="-5" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+    <line x1="55" y1="-14" x2="45" y2="-5" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+  </g>
+</svg>

@@ -1,0 +1,14 @@
+{
+  "name": "小韩",
+  "id": "xiao-han",
+  "reference": "character-game-style.png",
+  "sprite": "character-sprite.png",
+  "styleComparison": "character-style-comparison.png",
+  "generationMode": "built-in image_gen",
+  "prompt": "Use case: stylized-concept. Asset type: single transparent 2D playable character sprite for a mobile top-down survival game. Input image 1 is the character identity reference (four poses of the same black-haired wuxia boy); input image 2 is the EXACT existing in-game art style reference, a tiny chunky green soldier drawn with flat shapes and very thick near-black outlines. Create ONE new character named Xiao Han, adapting the identity of image 1 to the SIMPLE art style and proportions of image 2. Preserve black high ponytail tied with a mint ribbon, center-part dark bangs, pale peach skin, two simple black dot eyes, dark teal crossover robe with pale inner collar, mint robe edge panels, simple gold belt, one round jade-green pendant at waist, black boots, and a dark sword case with gold bands visible behind the left shoulder. Simplify aggressively: large rounded-square head, very short chunky body, thick even dark outlines, a handful of clean flat colored shapes, no realistic detail or painterly texture, at most two tones per material. Approximately 2-head-tall silhouette. Neutral standing pose, facing forward slightly toward the right, arms down separated from torso, legs apart. No held weapon: runtime draws the weapon separately. Entire isolated full body centered in square canvas, generous equal transparent padding, character from top of ponytail to bottom of boots fills 80 percent of height. Actual transparent background. No text, labels, watermark, scenery, shadow or multiple poses. It must read clearly at just 30 pixels tall and belong next to the character in image 2.",
+  "weapon": "weapon-sword.png",
+  "projectile": "weapon-sword-bullet-glow.png",
+  "artDirection": "保留黑色高马尾、薄荷青发带、青袍、玉佩及剑匣，匹配巡游者的粗黑轮廓、圆方形大头、黑色圆眼和简化色块。专属武器为青玉竹剑/飞剑，兼具修仙与末日科幻气质。",
+  "runtime": "战场沿用原有角色比例与武器握持点；支持左右镜像、走动摇摆、上下起伏与受击闪烁。武器支持凌空御剑飞剑攻击，并拥有专属剑气拖尾与升级词条。",
+  "validation": "通过 2 个角色 × 5 种武器 × 4 个场景共 40 组引擎检查，覆盖青玉飞剑穿透弹道、双层剑气残影、打击爆裂与选角武器切换。"
+}

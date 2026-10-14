@@ -8,9 +8,10 @@ const configs = new Function(source.match(/const TOWER_CONFIGS = \{[\s\S]*?\n\};
 const enemies = new Function(source.match(/const ENEMY_TYPES = \{[\s\S]*?\n\};/)[0] + ';return ENEMY_TYPES;')();
 const LightningArc = new Function(source.slice(source.indexOf('class LightningArc {'), source.indexOf('class BeamLine {')) + ';return LightningArc;')();
 const SolarFlameWave = new Function(source.slice(source.indexOf('class SolarFlameWave {'), source.indexOf('class ShockwaveRing {')) + ';return SolarFlameWave;')();
-const Tower = new Function('TOWER_CONFIGS', 'PULSE_SPRITE_ANIMATIONS', 'COMBAT_SPEED_MULTIPLIER', 'LightningArc', 'ShockwaveRing', 'SolarFlameWave',
+const GardenImpact = new Function(source.slice(source.indexOf('class GardenImpact {'), source.indexOf('class IceImpact {')) + ';return GardenImpact;')();
+const Tower = new Function('TOWER_CONFIGS', 'PULSE_SPRITE_ANIMATIONS', 'COMBAT_SPEED_MULTIPLIER', 'LightningArc', 'ShockwaveRing', 'SolarFlameWave', 'GardenImpact',
   source.slice(source.indexOf('class DefensiveTower {'), source.indexOf('class CreepEnemy {')) + ';return DefensiveTower;'
-)(configs, { idle: { frameMs: 100, frames: 1 } }, 0.7, LightningArc, class {}, SolarFlameWave);
+)(configs, { idle: { frameMs: 100, frames: 1 } }, 0.7, LightningArc, class {}, SolarFlameWave, GardenImpact);
 const world = { offsetX: 0, offsetY: 0, cellSize: 48, scaleRatio: 1 };
 
 test('tower hold sells once; short tap upgrades; move, cancellation and blur abort', () => {
@@ -52,7 +53,7 @@ test('selling refunds invested cost once and clears the removed tower hover', ()
   const game = { towers: [tower], hoveredTower: tower, energy: 100,
     clearPendingBuildTile() {}, createParticleBurst() {}, createFloatingText() {}, closeInspector() {}, updateHUD() {}, saveGameState() { saves++; } };
   sell.call(game, tower); sell.call(game, tower);
-  assert.equal(game.energy, 100 + Math.round(tower.investedEnergy * 0.75));
+  assert.equal(game.energy, 100 + Math.ceil(tower.investedEnergy * 0.75));
   assert.equal(game.towers.length, 0); assert.equal(game.hoveredTower, null); assert.equal(saves, 1);
 });
 
@@ -89,11 +90,15 @@ test('sunflower emits expanding fire wave without changing damage or target radi
   const game = { ...world, enemies: [near, far], particles: [], createParticleBurst() {} };
   tower.fireSunPulse(game, 34, false);
   assert.equal(near.damage, 34); assert.equal(far.damage, 0);
-  const wave = game.particles[0];
+  const wave = game.particles.find(p => p instanceof SolarFlameWave);
   assert(wave instanceof SolarFlameWave);
   const calls = [];
-  const ctx = new Proxy({}, { get: (_, key) => (...args) => calls.push([key, ...args]), set: () => true });
+  const ctx = new Proxy({}, { get: (_, key) => (...args) => {
+    calls.push([key, ...args]);
+    if (key === 'createRadialGradient') return { addColorStop(...stop) { calls.push(['addColorStop', ...stop]); } };
+  }, set: () => true });
   wave.draw(ctx);
+  assert(calls.some(call => call[0] === 'createRadialGradient'));
   const initialRadius = calls.find(call => call[0] === 'arc')[3];
   calls.length = 0; wave.update(0.35); wave.draw(ctx);
   assert(calls.find(call => call[0] === 'arc')[3] > initialRadius);
@@ -171,17 +176,15 @@ test('lightning chains once per target, respects range and level cap', () => {
   }
 });
 
-test('all towers start at 150% damage and compound damage/range/rate per upgrade', () => {
-  const previousDamage = { pulse: 26, cryo: 18, plasma: 20, tesla: 42, buffer: 34 };
-  for (const [type, base] of Object.entries(previousDamage)) {
-    const tower = new Tower(0, 0, type, world);
-    assert.equal(tower.getEffectiveDamage(), base * 1.5);
-    let previous = [tower.getEffectiveDamage(), tower.getEffectiveRange(), tower.getEffectiveFireRate()];
-    for (const level of [2, 3]) {
-      tower.level = level;
-      const current = [tower.getEffectiveDamage(), tower.getEffectiveRange(), tower.getEffectiveFireRate()];
-      current.forEach((value, index) => assert(Math.abs(value / previous[index] - (index === 0 ? 1.6 : 1.3)) < 1e-9));
-      previous = current;
+test('tower growth rounds damage and range upward while preserving attack cadence', () => {
+  const expectedDamage={pulse:[39,63,100],cryo:[27,44,70],plasma:[30,48,77],tesla:[63,101,162],buffer:[51,82,131]};
+  const expectedRange={pulse:[165,215,279],cryo:[195,254,330],plasma:[185,241,313],tesla:[180,234,305],buffer:[125,163,212]};
+  for (const type of Object.keys(expectedDamage)) {
+    const tower = new Tower(0, 0, type, world),rate=tower.getEffectiveFireRate();
+    for (const level of [1,2,3]) {
+      tower.level=level;assert.equal(tower.getEffectiveDamage(),expectedDamage[type][level-1]);
+      assert.equal(tower.getEffectiveRange(),expectedRange[type][level-1]);
+      assert(Math.abs(tower.getEffectiveFireRate()-rate*1.3**(level-1))<1e-9);
     }
   }
 });
@@ -215,13 +218,22 @@ test('codex renders all level attributes and assets, with bounded paging and cat
   const ids = { pulse: 't01-pulse-gatling', cryo: 't02-cryo-emitter', plasma: 't03-plasma-mortar', tesla: 't04-tesla-coil', buffer: 't05-quantum-buffer' };
   const art = (type, level, kind) => `./assets/fyt01/runtime/${kind}/${ids[type]}-lv${level}@2x.png`;
   const code = source.slice(source.indexOf('  renderCodex() {'), source.indexOf('  // ==================== CONFIGURATION HUB MANAGER'));
-  const render = new Function('document', 'TOWER_CONFIGS', 'TOWER_TYPES', 'ENEMY_TYPES', 'DefensiveTower', 'COMBAT_SPEED_MULTIPLIER', 'towerArtPath',
-    'return ({' + code + '}).renderCodex;')({ querySelector: () => content }, configs, Object.keys(ids), enemies, Tower, 0.7, art);
+  const render = new Function('document', 'TOWER_CONFIGS', 'TOWER_TYPES', 'ENEMY_TYPES', 'DefensiveTower', 'COMBAT_SPEED_MULTIPLIER', 'towerArtPath', 'SEED_CANNON_ART', 'ICE_STAR_ART', 'GARDEN_TOWER_ART',
+    'return ({' + code + '}).renderCodex;')({ querySelector: () => content }, configs, Object.keys(ids), enemies, Tower, 0.7, art, { paintPreviews() {} }, { paintPreviews() {} }, { paintPreviews() {} });
   render.call(world);
   assert(arrows[0].disabled);
   for (let i = 0; i < 5; i++) {
     assert.equal((posters.innerHTML.match(/class="archive-level"/g) || []).length, 3);
     assert(!/NaN|undefined/.test(posters.innerHTML));
+    if (i === 0) {
+      assert.deepEqual([...posters.innerHTML.matchAll(/data-seed-level="(\d)"/g)].map(match => Number(match[1])), [1, 2, 3]);
+      assert(posters.innerHTML.includes('豆荚种子炮'));
+    }
+    if (i === 1) assert.deepEqual([...posters.innerHTML.matchAll(/data-ice-level="(\d)"/g)].map(match => Number(match[1])), [1, 2, 3]);
+    if (i >= 2) {
+      assert.equal((posters.innerHTML.match(/data-garden-tower=/g) || []).length, 3);
+      assert.deepEqual([...posters.innerHTML.matchAll(/data-garden-level="(\d)"/g)].map(match => Number(match[1])), [1, 2, 3]);
+    }
     for (const match of posters.innerHTML.matchAll(/src="([^"]+)"/g)) {
       assert(fs.existsSync(path.join(__dirname, '../src', match[1])));
     }
