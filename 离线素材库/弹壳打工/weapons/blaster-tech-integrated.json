@@ -1,0 +1,48 @@
+{
+  "name": "脉冲炮",
+  "code": "blaster",
+  "file": "blaster-tech-integrated.png",
+  "generated_on": "2026-10-15",
+  "source": "内置 imagegen 基于扳机立体稿编辑，exec-69aeba47-b804-480b-966f-208f3da10e2d.png",
+  "sha256": "39ac041ae087cdf80f161850fd49bfea8236bbb20ab301b53154bc39ea780840",
+  "width": 1536,
+  "height": 1024,
+  "format": "RGBA PNG",
+  "transparent": true,
+  "alpha_bounds_threshold": 8,
+  "alpha_bounds": {
+    "x": 15,
+    "y": 120,
+    "width": 1504,
+    "height": 781
+  },
+  "direction": "right",
+  "source_muzzle": {
+    "x": 1410,
+    "y": 430
+  },
+  "held_canvas_width_model_px": 56,
+  "held_muzzle_model_px": {
+    "x": 46.66666666666667,
+    "y": -2
+  },
+  "player_model_scale": 0.6,
+  "notes": "原图不裁切或重绘；Canvas绘制时使用炮口锚点定位，外层持枪坐标向下偏移2模型像素，抵消锚点y=-2。射线仍从玩家朝向28世界像素处发出，开火后坐力仅影响炮体绘制。",
+  "silhouette": "整体方形厚盒轮廓，无外置握把；连续底框包住内嵌扳机开孔与紫色弯扳机，保留顶部亮面、深色侧面和内凹方形炮口",
+  "canvas_aspect": "3:2，用户确认横向3、纵向2",
+  "held_hands_model_px": {
+    "rear": {
+      "x": 5,
+      "y": 9
+    },
+    "front": {
+      "x": 31,
+      "y": 15
+    }
+  },
+  "trigger_guard_transparency_sample": {
+    "x": 630,
+    "y": 700,
+    "alpha": 0
+  }
+}

@@ -1,2 +1,6 @@
 .idea/
 .DS_Store
+
+打包文件/
+__pycache__/
+*.pyc

@@ -44,9 +44,9 @@
 
 素材保存于[游戏素材目录](../../frontend/素材库/花园防线/)。本轮使用内置image_gen生成原始PNG，保留透明alpha，再由游戏按源矩形绘制。
 
-- [怪物与地图提示词](../../frontend/素材库/花园防线/制作记录/garden-world-v1/prompts.json)
-- [三座新塔提示词](../../frontend/素材库/花园防线/制作记录/garden-towers-v1/prompts.json)
-- [三塔实际战斗画面](../../frontend/素材库/花园防线/制作记录/garden-towers-v1/combat-preview.png)
+- [怪物与地图提示词](../../离线素材库/花园防线/制作记录/garden-world-v1/prompts.json)
+- [三座新塔提示词](../../离线素材库/花园防线/制作记录/garden-towers-v1/prompts.json)
+- [三塔实际战斗画面](../../离线素材库/花园防线/制作记录/garden-towers-v1/combat-preview.png)
 
 后续新增或更新角色设计时先维护本目录，并同步配置、图鉴、素材锚点和有意义的规则验证。
 

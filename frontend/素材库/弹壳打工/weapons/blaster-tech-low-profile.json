@@ -1,0 +1,50 @@
+{
+  "name": "零域脉冲炮",
+  "code": "blaster",
+  "file": "blaster-tech-low-profile.png",
+  "generated_on": "2026-10-15",
+  "source": "内置 imagegen 基于内嵌扳机稿编辑，exec-ca7d3316-d07f-4a53-aaa5-490013114562.png",
+  "sha256": "fd39b8a1606fe76e8cd1ac647cc222d233d3f837b55a83aea171030862979eb6",
+  "width": 1536,
+  "height": 1024,
+  "format": "RGBA PNG",
+  "transparent": true,
+  "alpha_bounds_threshold": 8,
+  "alpha_bounds": {
+    "x": 23,
+    "y": 196,
+    "width": 1490,
+    "height": 609
+  },
+  "direction": "right",
+  "source_muzzle": {
+    "x": 1410,
+    "y": 500
+  },
+  "held_canvas_width_model_px": 56,
+  "held_muzzle_model_px": {
+    "x": 46.66666666666667,
+    "y": -2
+  },
+  "player_model_scale": 0.6,
+  "notes": "原图不裁切或重绘；Canvas绘制时使用炮口锚点定位，外层持枪坐标向下偏移2模型像素，抵消锚点y=-2。射线仍从玩家朝向28世界像素处发出，开火后坐力仅影响炮体绘制。",
+  "silhouette": "低矮内嵌扳机浅横槽，底框压低，上下炮体横向等长并在前端齐平，无外置握把",
+  "canvas_aspect": "3:2，用户确认横向3、纵向2",
+  "held_hands_model_px": {
+    "rear": {
+      "x": 5,
+      "y": 5.5
+    },
+    "front": {
+      "x": 31,
+      "y": 10
+    }
+  },
+  "trigger_guard_transparency_sample": {
+    "x": 650,
+    "y": 700,
+    "alpha": 0
+  },
+  "alignment_interpretation": "用户已确认：上下两层横向等长，扳机区延伸到炮口，右侧齐平。",
+  "previous_name": "脉冲炮"
+}

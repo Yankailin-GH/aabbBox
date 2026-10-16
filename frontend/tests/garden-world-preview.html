@@ -20,7 +20,7 @@
   ctx.font='16px system-ui';ctx.fillStyle='#6b805a';ctx.fillText('全部角色与地面为已接入游戏的素材；地图由实际 Game.render 绘制。',28,1024);
  }
  for(const id of ['idle','walk','hit'])document.getElementById(id).onclick=()=>{pose=id;document.querySelectorAll('nav [aria-pressed]').forEach(b=>b.setAttribute('aria-pressed',String(b.id===id)));draw();};
- document.getElementById('save').onclick=async()=>{draw();const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));const r=await fetch('/__garden_world_export__',{method:'POST',body:blob});document.getElementById('status').textContent=r.ok?'已保存 frontend/素材库/花园防线/制作记录/garden-world-v1/world-preview.png':'保存失败';};
+ document.getElementById('save').onclick=async()=>{draw();const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));const r=await fetch('/__garden_world_export__',{method:'POST',body:blob});document.getElementById('status').textContent=r.ok?'已保存 离线素材库/花园防线/制作记录/garden-world-v1/world-preview.png':'保存失败';};
  function frame(){cycle+=.045;draw();requestAnimationFrame(frame);}requestAnimationFrame(frame);document.getElementById('status').textContent='已载入8种怪物与3张正式地图。';
 })();
 </script></body></html>

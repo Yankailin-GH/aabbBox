@@ -27,7 +27,7 @@
  }
  document.getElementById('attack').onclick=()=>{playing=false;document.getElementById('play').setAttribute('aria-pressed','false');reset(true);draw();};
  document.getElementById('play').onclick=()=>{playing=!playing;document.getElementById('play').setAttribute('aria-pressed',String(playing));if(playing)reset(false);};
- document.getElementById('save').onclick=async()=>{draw();const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));const response=await fetch('/__crystal_flower_export__',{method:'POST',body:blob});document.getElementById('status').textContent=response.ok?'已保存 frontend/素材库/花园防线/制作记录/crystal-flower-v2/combat-preview.png':'保存失败';};
+ document.getElementById('save').onclick=async()=>{draw();const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));const response=await fetch('/__crystal_flower_export__',{method:'POST',body:blob});document.getElementById('status').textContent=response.ok?'已保存 离线素材库/花园防线/制作记录/crystal-flower-v2/combat-preview.png':'保存失败';};
  reset(true);function frame(now){const dt=Math.min(.03,(now-last)/1000||0);last=now;if(playing){advance(dt);if(age>1.3)reset(false);}draw();requestAnimationFrame(frame);}requestAnimationFrame(frame);document.getElementById('status').textContent='已载入雷电二版塔体与特效，攻击使用游戏实际代码。';
 })();
 </script></body></html>

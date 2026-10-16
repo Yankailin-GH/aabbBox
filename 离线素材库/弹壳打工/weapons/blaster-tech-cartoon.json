@@ -1,0 +1,31 @@
+{
+  "name": "脉冲炮",
+  "code": "blaster",
+  "file": "blaster-tech-cartoon.png",
+  "generated_on": "2026-10-15",
+  "source": "内置 imagegen 原创生成，exec-e707b0cf-f852-43d3-a884-b2015445341a.png",
+  "sha256": "6e8a46ea6f0004aff3ddd2abd5561dd9b594c16e59ce7f23496ee9e15c25c971",
+  "width": 1860,
+  "height": 846,
+  "format": "RGBA PNG",
+  "transparent": true,
+  "alpha_bounds_threshold": 8,
+  "alpha_bounds": {
+    "x": 45,
+    "y": 49,
+    "width": 1767,
+    "height": 753
+  },
+  "direction": "right",
+  "source_muzzle": {
+    "x": 1810,
+    "y": 351
+  },
+  "held_canvas_width_model_px": 64,
+  "held_muzzle_model_px": {
+    "x": 46.66666666666667,
+    "y": -2
+  },
+  "player_model_scale": 0.6,
+  "notes": "原图不裁切或重绘；Canvas绘制时使用炮口锚点定位，外层持枪坐标向下偏移2模型像素，抵消锚点y=-2。射线仍从玩家朝向28世界像素处发出，开火后坐力仅影响炮体绘制。"
+}

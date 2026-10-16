@@ -1,0 +1,7 @@
+Use case: precise-object-edit
+Asset type: transparent 2D cartoon game weapon sprite, 幽月回刃.
+Edit target: the provided black double-crescent weapon with dark-red outer cutting edges, gray triangular tooth markings and eight rubies.
+Primary request: REMOVE ALL the gray triangular tooth / gear / sawtooth markings from the two dark-red outer cutting-edge bands. Restore a clean, continuous, smooth dark-crimson metallic cutting edge in those exact locations, with only simple tonal shading and a restrained crimson highlight. No triangles, chevrons, notches, teeth, gear decorations, repeated stripes, grooves or zigzag patterns on the edges. The red edge remains narrow and dark red.
+Preserve exactly: the broad BLACK/CHARCOAL main blade faces and their gray facet shading; both curved blade shapes and smooth S-shaped outline; all EIGHT ruby gemstones and their placements; graphite-black/gunmetal center ring and collars; central grip hole; centered rotation pivot; scale, composition, orientation, framing and square canvas. Do not recolor the broad faces red, do not remove the gray metal ring or the gray shading on the blade faces, and do not replace or remove the gemstones.
+Background: preserve genuine alpha transparency outside the full object and inside the center circular hole. One isolated full weapon.
+Avoid: new patterning, new ornaments, extra blades, protruding spikes, changing the silhouette, solid or checkerboard background, text, watermark, glow halo, shadows, particles, hands or characters. Keep the same crisp chunky cartoon art style.

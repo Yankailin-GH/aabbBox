@@ -1,0 +1,76 @@
+{
+  "date": "2026-10-15",
+  "assets": [
+    {
+      "file": "skill-time-stop.svg",
+      "sha256": "a99f43550dce5760fe52ed208bf49e11be401c761b17d4798fd59cccc3f1739f",
+      "width": 128,
+      "height": 128,
+      "viewBox": [
+        0,
+        0,
+        64,
+        64
+      ],
+      "source": "项目原创手写SVG",
+      "usedBy": "core-breach-game.html"
+    },
+    {
+      "file": "upgrade-crit.svg",
+      "sha256": "8e10b8f63c70a957b0cfc17daa3fed55008db125b28fcef715409595135f5791",
+      "width": 128,
+      "height": 128,
+      "viewBox": [
+        0,
+        0,
+        64,
+        64
+      ],
+      "source": "项目原创手写SVG",
+      "usedBy": "core-breach-game.html"
+    },
+    {
+      "file": "upgrade-damage.svg",
+      "sha256": "2892a2bb2f02d203f9af8ac1ee284cd0e6d6b702a3f5806f9a55239ebffa01ed",
+      "width": 128,
+      "height": 128,
+      "viewBox": [
+        0,
+        0,
+        64,
+        64
+      ],
+      "source": "项目原创手写SVG",
+      "usedBy": "core-breach-game.html"
+    },
+    {
+      "file": "upgrade-rate.svg",
+      "sha256": "1b5fb5a1246f742b762eca652cb80f3a66b6bc3a65503b48c28e27e8bf9c8689",
+      "width": 128,
+      "height": 128,
+      "viewBox": [
+        0,
+        0,
+        64,
+        64
+      ],
+      "source": "项目原创手写SVG",
+      "usedBy": "core-breach-game.html"
+    },
+    {
+      "file": "upgrade-speed.svg",
+      "sha256": "a0ab2291f4f634da08125f4b36dbe94abec05a8a6aed6c2f63701d4f0f7ace02",
+      "width": 128,
+      "height": 128,
+      "viewBox": [
+        0,
+        0,
+        64,
+        64
+      ],
+      "source": "项目原创手写SVG",
+      "usedBy": "core-breach-game.html"
+    }
+  ],
+  "design": "设计说明/弹壳打工/总体玩法.md；主动技能_时间停止.md"
+}

@@ -1,0 +1,28 @@
+{
+  "width": 1254,
+  "height": 1254,
+  "format": "RGBA PNG",
+  "frame": {
+    "x": 72,
+    "y": 54,
+    "width": 1113,
+    "height": 1112
+  },
+  "sha256": "c2b27e217a141d581b0a308714dcb14ea11452bba9afa3bb0e9e9562b099b052",
+  "source": "内置imagegen编辑生成，原图直接复制，未改色、未重新压缩",
+  "generatedSource": "exec-d9e7c552-0c20-427e-9643-e83c76541b15.png",
+  "reference": "../../../../离线素材库/弹壳打工/制作记录/脉冲炮/坍缩电浆用户参考.png",
+  "prompt": "../../../../离线素材库/弹壳打工/制作记录/脉冲炮/地面破坏坍缩素材提示词.txt",
+  "cornerAlpha": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "centerAlpha": 251,
+  "frameMethod": "alpha大于8的包围盒，仅作为运行时源矩形，不修改原PNG",
+  "usedBy": "frontend/src/core-breach-blaster.js::drawCollapse",
+  "gameplayRadius": "1.5 × (64 +16 × 磁场扩容等级)，纹理按2R绘制并裁切到R圆内",
+  "created": "2026-10-15",
+  "renderOpacity": 0.4
+}

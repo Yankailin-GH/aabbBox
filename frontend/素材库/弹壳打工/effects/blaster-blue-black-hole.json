@@ -1,0 +1,21 @@
+{
+  "name": "零域脉冲炮普通攻击蓝色黑洞",
+  "source": "exec-fdc64c87-ba01-4d06-9109-aec1f1d91572.png",
+  "tool": "built-in imagegen",
+  "width": 1254,
+  "height": 1254,
+  "frame": {
+    "x": 125,
+    "y": 116,
+    "width": 1005,
+    "height": 1011
+  },
+  "sha256": "e2d097e4c05d19335c36d83c29be6b91bced446228932ca33898e8a8a6d03998",
+  "cornerAlpha": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "centerAlpha": 251
+}

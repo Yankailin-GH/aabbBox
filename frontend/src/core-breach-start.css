@@ -58,7 +58,8 @@ html:has(#start.show),body:has(#start.show) { touch-action:pan-y; }
 #start .setup-label small,#start .setup-label>b { font-size:10px; color:#70431e; }
 #start .loadout-row { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:start; gap:16px; }
 #start .weapon-feature { position:relative; width:100%; aspect-ratio:1; max-width:156px; margin:5px auto 0; overflow:hidden; border:3px solid var(--setup-ink); border-radius:10px; background:radial-gradient(circle at 50% 40%,#5d6c86,#2e3848 76%); box-shadow:0 4px 0 #a66321; touch-action:pan-y; color:var(--setup-paper); }
-#start .weapon-feature[data-weapon="dart"] { background:radial-gradient(circle at 50% 40%,#689b91,#29484b 76%); }
+#start .weapon-feature[data-weapon="blaster"] { background:radial-gradient(circle at 50% 40%,#4c789c,#183653 76%); }
+#start .weapon-feature[data-weapon="dart"] { background:radial-gradient(circle at 50% 40%,#637179,#252d34 76%); }
 #start .weapon-feature[data-weapon="katana"] { background:radial-gradient(circle at 50% 40%,#a77738,#493322 76%); }
 #start .weapon-feature[data-weapon="ak47"] { background:radial-gradient(circle at 50% 40%,#8e8261,#494136 76%); }
 #start .weapon-feature[data-weapon="sword"] { background:radial-gradient(circle at 50% 40%,#356e5c,#16332a 76%); }

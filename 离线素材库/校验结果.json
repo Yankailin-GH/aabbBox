@@ -1,0 +1,30 @@
+{
+  "date": "2026-10-16",
+  "onlineFiles": 88,
+  "offlineFiles": 605,
+  "onlineBytes": 38016130,
+  "offlineBytes": 137734481,
+  "archive": "打包文件/aabbbox_frontend_20261016_124459.tar.gz",
+  "archiveBytes": 39194386,
+  "previousArchiveBytes": 172357161,
+  "reductionPercent": 77.26,
+  "archiveMatchesWorkspace": true,
+  "originalBinaryImagesPreserved": 540,
+  "assetWorkflowTests": {
+    "pass": 9,
+    "fail": 0
+  },
+  "existingGameTests": {
+    "pass": 125,
+    "preexistingFailures": 10,
+    "notes": "garden-session-entry 与 garden-test-stage 的 window/classList 模拟缺失；源游戏文件和这两个测试均与 HEAD 一致，未改动"
+  },
+  "browserQA": {
+    "pages": 10,
+    "assets": 88,
+    "gardenRenderCases": 107,
+    "scriptErrors": 0,
+    "missingAssets": 0,
+    "source": "实际压缩包解压后的独立目录"
+  }
+}

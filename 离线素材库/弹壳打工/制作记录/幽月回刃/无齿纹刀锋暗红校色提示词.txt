@@ -1,0 +1,5 @@
+Use case: precise-object-edit
+Edit target: the provided smooth-edge black double-crescent weapon with eight rubies.
+One correction ONLY: the outer cutting-edge bands currently look too bright scarlet. Darken ONLY those two smooth narrow red edge bands to DARK BURGUNDY / OXBLOOD: dominant #651D2D, shadow #3F101D, secondary dark red #7A2032, a thin restrained highlight #A34353. The overall edge must read as deep dark red, not bright scarlet or pink. Keep the red gemstones bright exactly as they are; this correction is only the cutting-edge strips.
+Preserve all other pixels and geometry as closely as possible: broad black/charcoal blade faces, gray face facets, black/gunmetal center ring, EIGHT ruby gems and locations, centered transparent hole, scale, framing, S silhouette, original square canvas and actual alpha transparency.
+The cutting-edge bands must remain CONTINUOUS AND SMOOTH, with NO tooth triangles, gear pattern, serrations, stripes, grooves or other repeated markings. No extra ornament, text, background, glow, shadow or particle effect.

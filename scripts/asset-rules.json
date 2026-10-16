@@ -1,0 +1,41 @@
+{
+  "dynamicReferences": [
+    {
+      "source": "frontend/src/arcade/seed-cannon-art.js",
+      "guard": "effects.src = root",
+      "assets": ["花园防线/seed-cannon/cannons-v1.png", "花园防线/seed-cannon/effects-v1.png"],
+      "reason": "普通塔体与特效通过 root 拼接加载"
+    },
+    {
+      "source": "frontend/src/arcade/ice-star-art.js",
+      "guard": "towers.src = root",
+      "assets": ["花园防线/ice-star/towers-v1.png", "花园防线/ice-star/effects-v1.png"],
+      "reason": "冰冻星塔体与特效通过 root 拼接加载"
+    },
+    {
+      "source": "frontend/src/arcade/garden-tower-art.js",
+      "guard": "layout[type].folder",
+      "assets": ["花园防线/crystal-flower/towers-v2.png", "花园防线/crystal-flower/effects-v2.png", "花园防线/fire-bottle/towers-v1.png", "花园防线/fire-bottle/effects-v1.png", "花园防线/sunflower/towers-v1.png", "花园防线/sunflower/effects-v1.png"],
+      "reason": "三塔文件夹和图集版本来自 layout 配置"
+    },
+    {
+      "source": "frontend/src/arcade/garden-world-art.js",
+      "guard": "image.src = root",
+      "assets": ["花园防线/monsters/creeps-v1.png", "花园防线/monsters/bosses-v2.png", "花园防线/terrain/tiles-v1.png"],
+      "reason": "普通怪、首领、地面纹理动态拼接"
+    },
+    {
+      "source": "frontend/src/core-breach-legacy.html",
+      "guard": "fyt01/runtime/",
+      "assets": ["花园防线/fyt01/runtime/icons/*.png", "花园防线/fyt01/runtime/detail/*.png"],
+      "reason": "保留 towerArtPath 已有 icons/detail 回退路径；母版、动画帧及未调用的 atlas 归入离线库"
+    }
+  ],
+  "associatedMetadata": [
+    {"asset": "花园防线/monsters/creeps-v1.png", "files": ["花园防线/monsters/layout-v1.json"]},
+    {"asset": "花园防线/ice-star/towers-v1.png", "files": ["花园防线/ice-star/atlas-layout-v1.json"]},
+    {"asset": "花园防线/crystal-flower/towers-v2.png", "files": ["花园防线/remaining-towers-layout-v2.json"]},
+    {"asset": "弹壳打工/xiao-han/character-sprite.png", "files": ["弹壳打工/xiao-han/character-design.json"]},
+    {"asset": "弹壳打工/icons/upgrade-speed.svg", "files": ["弹壳打工/icons/common-time-stop.json"]}
+  ]
+}
